@@ -1,0 +1,38 @@
+{
+	"compilerOptions": {
+		"target": "ESNEXT",
+		/* 将TS编译成目标版本js 'ES3' (默认), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+		"module": "commonjs", // 指定生成哪个模块系统代码
+		"moduleResolution": "node",
+		// /* 编译输出文件夹 */
+		"outDir": "./dist/",
+		// /* 项目源码文件夹 */
+		"rootDir": "./src/",
+
+		"strict": false,
+		"esModuleInterop": true,
+    "resolveJsonModule": true,
+		"downlevelIteration": true, // [...new Set([1,2,1])]
+		"forceConsistentCasingInFileNames": true, //在文件名中强制使用一致的大小写
+		"skipLibCheck": true, //跳过d.ts声明文件的类型检查。
+		// 模块基本目录路径，./ 表示当前文件根
+		"baseUrl": "./",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+		// 路径映射, 别名到基于baseUrl的路径，便于vscode之类IDE(集成开发环境)识别
+		"paths": {
+			"@/*": ["src/*"],
+			"~/*": ["src/*"]
+		}
+	},
+	// "ts-node": {
+	// 	"transpileOnly": true //只编译，报警告或者错误一样运行
+	// },
+	//  "include": [
+	//  	"src/**/*.ts ",
+	//  	"src/*.ts"
+	//  ],
+	// "exclude": [
+	// 	"./dist/**/*.*"
+	// ]
+}

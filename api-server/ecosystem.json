@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "doki-hub",
+      "env_production": {
+        "NODE_ENV": "production"
+      },
+      "exec_interpreter": "bash",
+      "script": "./start.sh",
+      "cwd": "./",
+      "error_file" : "./pm2/err.log",
+      "out_file" : "./pm2/out.log"
+    }
+  ]
+}

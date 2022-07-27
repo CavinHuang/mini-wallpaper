@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dirController = exports.dirCore = exports.dirConfig = exports.dirSrc = exports.dirPublic = exports.dirLogs = exports.dirProject = exports.isProd = exports.isDev = void 0;
+const path_1 = require("path");
+exports.isDev = process.env.NODE_ENV === 'development';
+exports.isProd = !exports.isDev;
+exports.dirProject = (0, path_1.resolve)(__dirname, '..', '..');
+exports.dirLogs = (0, path_1.resolve)(exports.dirProject, 'logs');
+exports.dirPublic = (0, path_1.resolve)(exports.dirProject, 'public');
+exports.dirSrc = (0, path_1.resolve)(exports.dirProject, exports.isDev ? 'src' : 'dist');
+exports.dirConfig = (0, path_1.resolve)(exports.dirSrc, 'config');
+exports.dirCore = (0, path_1.resolve)(exports.dirSrc, 'core');
+exports.dirController = (0, path_1.resolve)(exports.dirSrc, 'controller');

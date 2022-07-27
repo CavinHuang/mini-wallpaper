@@ -1,0 +1,48 @@
+{
+  "name": "api-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pm2": "pm2 start ecosystem.json",
+    "build": "cross-env NODE_ENV=production tsc --build && cpx \"src/**/*.{js,json}\" dist",
+    "start2": "node ./dist/app.js",
+    "watch": "cross-env NODE_ENV=production nodemon --ext js,ts --exec yarn start",
+    "start": "cross-env NODE_ENV=production nodemon --ext js,ts --exec ts-node ./src/app.ts",
+    "dev": "nodemon --watch ./src/* -e ts --exec ts-node ./src/app.ts",
+    "clear:js": "rimraf ./src/**/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^3.3.0",
+    "bcrypt": "^5.0.1",
+    "fs-readdir-recursive": "^1.1.0",
+    "glob": "^8.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.4",
+    "koa-body": "^5.0.0",
+    "koa-helmet": "^6.1.0",
+    "koa-jwt": "^4.0.3",
+    "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
+    "koa2-request": "^1.0.4",
+    "log-update": "^4.0.0",
+    "log4js": "^6.3.0",
+    "md5": "^2.3.0",
+    "moment": "^2.29.3",
+    "mysql2": "^2.3.3",
+    "qs": "^6.10.3",
+    "reflect-metadata": "^0.1.13",
+    "streamroller": "^3.1.1",
+    "typeorm": "^0.3.6"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.7.3"
+  }
+}
