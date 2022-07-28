@@ -6,6 +6,7 @@ import { CoreController } from '../CoreController'
   skipPerm: true
 })
 class Test {
+  
   @Get('/index', {
     skipPerm: false
   })

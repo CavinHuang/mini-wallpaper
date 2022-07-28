@@ -35,11 +35,13 @@
     "moment": "^2.29.3",
     "mysql2": "^2.3.3",
     "qs": "^6.10.3",
+    "redis": "^3.1.1",
     "reflect-metadata": "^0.1.13",
     "streamroller": "^3.1.1",
     "typeorm": "^0.3.6"
   },
   "devDependencies": {
+    "@types/node": "*",
     "chalk": "^4.1.2",
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.16",

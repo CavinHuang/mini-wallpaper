@@ -22,8 +22,6 @@ export function typeOrmInit(logInfo: any, callback?: any) {
     .then((connection) => {
       // 这里可以写实体操作相关的代码
       callback && callback(connection)
-      // logInfo('初始化管理员：admin / 123456')
-      // logInfo('√初始化数据库成功')
     })
     .catch((error) => console.log(error))
 }

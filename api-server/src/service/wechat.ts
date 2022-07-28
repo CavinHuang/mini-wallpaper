@@ -5,14 +5,28 @@ import { BaseService } from './baseService'
 import koa2Req from 'koa2-request'
 import md5 from 'md5'
 import { random } from '../utils'
+import { MiniProgram } from './miniprogram'
+import { redisClient } from '@/core/redis'
 
 const enum WECHAT_URLS {
   jscode2session = 'https://api.weixin.qq.com/sns/jscode2session'
 }
 
 class Wechat extends BaseService {
-  static code2session(code: string) {
+  /**
+   * 微信code换token
+  */
+  static async code2session(appid:string, code: string) {
+    const miniProgramInfo = await MiniProgram.getInfoByAppid(appid)
 
+    const requestUrl = WECHAT_URLS.jscode2session + `?appid=${miniProgramInfo.appid}&secret=${miniProgramInfo.appsecret}&js_code=${code}&grant_type=authorization_code`
+
+    const wechatData = await Wechat.sendRequest(requestUrl)
+
+    redisClient.set(wechatData.userToken, JSON.stringify(wechatData.data))
+    redisClient.expire(wechatData.userToken, 60 * 60 * 1)
+
+    return wechatData
   }
 
   /**
@@ -22,12 +36,11 @@ class Wechat extends BaseService {
    */
   static async sendRequest(url: string) {
     try {
-      let result = {}
       // 向微信服务器发送请求
       const x = await koa2Req(url)
       // 获取session_key和openid
       let userToken = md5(JSON.parse(x.body).openid + new Date().valueOf()) + random(1, 100000)
-      result = {
+      const result = {
         data: JSON.parse(x.body),
         userToken
       }

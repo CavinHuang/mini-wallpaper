@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@koa/cors': ^3.3.0
+  '@types/node': '*'
   bcrypt: ^5.0.1
   chalk: ^4.1.2
   cross-env: ^7.0.3
@@ -23,6 +24,7 @@ specifiers:
   mysql2: ^2.3.3
   nodemon: ^2.0.16
   qs: ^6.10.3
+  redis: ^3.1.1
   reflect-metadata: ^0.1.13
   streamroller: ^3.1.1
   ts-node: ^10.7.0
@@ -49,15 +51,17 @@ dependencies:
   moment: 2.29.4
   mysql2: 2.3.3
   qs: 6.11.0
+  redis: 3.1.2
   reflect-metadata: 0.1.13
   streamroller: 3.1.2
-  typeorm: 0.3.7_pa4ea3wjef6s4gsskhbyci3cte
+  typeorm: 0.3.7_tnpmzwuzb2hlzmvtko5qcumjb4
 
 devDependencies:
+  '@types/node': 18.6.1
   chalk: 4.1.2
   cross-env: 7.0.3
   nodemon: 2.0.19
-  ts-node: 10.9.1_typescript@4.7.4
+  ts-node: 10.9.1_f6w67sjx3imwytyzb2qhabnzqe
   typescript: 4.7.4
 
 packages:
@@ -154,7 +158,6 @@ packages:
 
   /@types/node/18.6.1:
     resolution: {integrity: sha512-z+2vB6yDt1fNwKOeGbckpmirO+VBDuQqecXkgeIqDlaOtmKn6hPR/viQ8cxCfqLU4fTlvM3+YjM367TukWdxpg==}
-    dev: false
 
   /abbrev/1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -589,6 +592,11 @@ packages:
 
   /delegates/1.0.0:
     resolution: {integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==}
+    dev: false
+
+  /denque/1.5.1:
+    resolution: {integrity: sha512-XwE+iZ4D6ZUB7mfYRMb5wByE8L74HCn30FBN7sWnXksWc1LO1bPDl67pBR9o/kC4z/xSNAwkMYcGgqDV3BE3Hw==}
+    engines: {node: '>=0.10'}
     dev: false
 
   /denque/2.1.0:
@@ -1667,6 +1675,32 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /redis-commands/1.7.0:
+    resolution: {integrity: sha512-nJWqw3bTFy21hX/CPKHth6sfhZbdiHP6bTawSgQBlKOVRG7EZkfHbbHwQJnrE4vsQf0CMNE+3gJ4Fmm16vdVlQ==}
+    dev: false
+
+  /redis-errors/1.2.0:
+    resolution: {integrity: sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==}
+    engines: {node: '>=4'}
+    dev: false
+
+  /redis-parser/3.0.0:
+    resolution: {integrity: sha512-DJnGAeenTdpMEH6uAJRK/uiyEIH9WVsUmoLwzudwGJUwZPp80PDBWPHXSAGNPwNvIXAbe7MSUB1zQFugFml66A==}
+    engines: {node: '>=4'}
+    dependencies:
+      redis-errors: 1.2.0
+    dev: false
+
+  /redis/3.1.2:
+    resolution: {integrity: sha512-grn5KoZLr/qrRQVwoSkmzdbw6pwF+/rwODtrOr6vuBRiR/f3rjSTGupbF90Zpqm2oenix8Do6RV7pYEkGwlKkw==}
+    engines: {node: '>=10'}
+    dependencies:
+      denque: 1.5.1
+      redis-commands: 1.7.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
+    dev: false
+
   /reflect-metadata/0.1.13:
     resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
     dev: false
@@ -1961,7 +1995,7 @@ packages:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
     dev: false
 
-  /ts-node/10.9.1_typescript@4.7.4:
+  /ts-node/10.9.1_f6w67sjx3imwytyzb2qhabnzqe:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -1980,6 +2014,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
+      '@types/node': 18.6.1
       acorn: 8.8.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -2027,7 +2062,7 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /typeorm/0.3.7_pa4ea3wjef6s4gsskhbyci3cte:
+  /typeorm/0.3.7_tnpmzwuzb2hlzmvtko5qcumjb4:
     resolution: {integrity: sha512-MsPJeP6Zuwfe64c++l80+VRqpGEGxf0CkztIEnehQ+CMmQPSHjOnFbFxwBuZ2jiLqZTjLk2ZqQdVF0RmvxNF3Q==}
     engines: {node: '>= 12.9.0'}
     hasBin: true
@@ -2097,9 +2132,10 @@ packages:
       js-yaml: 4.1.0
       mkdirp: 1.0.4
       mysql2: 2.3.3
+      redis: 3.1.2
       reflect-metadata: 0.1.13
       sha.js: 2.4.11
-      ts-node: 10.9.1_typescript@4.7.4
+      ts-node: 10.9.1_f6w67sjx3imwytyzb2qhabnzqe
       tslib: 2.4.0
       uuid: 8.3.2
       xml2js: 0.4.23
