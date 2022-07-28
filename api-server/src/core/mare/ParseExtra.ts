@@ -1,4 +1,4 @@
-const initMareParseExtra = ($) => {
+const initMareParseExtra = () => {
   return async (ctx, next) => {
     const raw = ctx.raw || (ctx.raw = {})
 

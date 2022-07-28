@@ -1,6 +1,6 @@
 import Moment from 'moment'
 
-const initMareParseCookies = ($) => {
+const initMareParseCookies = () => {
   return async (ctx, next) => {
     const cookiesAdd = ctx.body?._cookiesAdd
 

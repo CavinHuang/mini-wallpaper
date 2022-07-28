@@ -15,7 +15,7 @@ import parseRaw from '../server/mare/parseRaw'
 
 export const server = {
   host: '0.0.0.0',
-  port: 10088
+  port: 10089
 }
 
 export const name = 'GameApi'

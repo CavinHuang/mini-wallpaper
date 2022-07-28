@@ -1,7 +1,7 @@
 import CR from 'crypto'
 import { crypto } from '../../config'
 
-const initMareCheckPerm = ($) => {
+const initMareCheckPerm = () => {
   return async (ctx_, next) => {
     const ctx = ctx_
     const raw = ctx.raw
@@ -13,7 +13,10 @@ const initMareCheckPerm = ($) => {
     const token = raw.token?.trim()
 
     if (!token) {
-      ctx.body = '拒绝访问。缺少登录信息'
+      ctx.body = {
+        code: 403,
+        message: '拒绝访问。缺少登录信息'
+      }
       return (ctx.status = 403)
     }
 

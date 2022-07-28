@@ -20,6 +20,7 @@
     "bcrypt": "^5.0.1",
     "fs-readdir-recursive": "^1.1.0",
     "glob": "^8.0.3",
+    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-body": "^5.0.0",

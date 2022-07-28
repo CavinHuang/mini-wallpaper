@@ -8,10 +8,10 @@ import { createServer } from 'http'
 import { createSecureServer, Http2ServerRequest, Http2ServerResponse } from 'http2'
 import path from 'path'
 
-import initRoute from './core/initRouter'
+import { initRoute } from './core/importCtrl'
 import { dirController, secret, unlessRoute } from '../config'
 import { typeOrmInit } from '../models'
-
+import router from './router'
 
 interface Config {
   name: string
@@ -62,6 +62,7 @@ export class Server {
 
   async init() {
     try {
+      await initRoute(dirController)
       this.initLogger()
       await typeOrmInit(this.logInfo)
       this.initApp()
@@ -108,20 +109,20 @@ export class Server {
   public initApp() {
     const koa = this.koa
 
-    koa.use(function (ctx, next) {
-      return next().catch((err) => {
-        console.log(err)
-        if (401 == err.status) {
-          ctx.status = 401
-          ctx.body = { code: 401, message: '您还没有登录，请先登录！' }
-        } else if (404 === err.status) {
-          ctx.status = 404
-          ctx.body = { code: 404, message: '您访问的路径不存在' }
-        } else {
-          throw err
-        }
-      })
-    })
+    // koa.use(function (ctx, next) {
+    //   return next().catch((err) => {
+    //     console.log(err)
+    //     if (401 == err.status) {
+    //       ctx.status = 401
+    //       ctx.body = { code: 401, message: '您还没有登录，请先登录！' }
+    //     } else if (404 === err.status) {
+    //       ctx.status = 404
+    //       ctx.body = { code: 404, message: '您访问的路径不存在' }
+    //     } else {
+    //       throw err
+    //     }
+    //   })
+    // })
 
     koa.use(async (ctx, next) => {
       ctx.set('Access-Control-Allow-Origin', '*')
@@ -143,13 +144,13 @@ export class Server {
 
     // koa.use(httpProxy())
 
-    koa.use(
-      jwt({
-        secret
-      }).unless({
-        path: unlessRoute
-      })
-    )
+    // koa.use(
+    //   jwt({
+    //     secret
+    //   }).unless({
+    //     path: unlessRoute
+    //   })
+    // )
 
     koa.use(Cors())
 
@@ -178,7 +179,11 @@ export class Server {
   }
 
   public async initRouter() {
-    await initRoute(this, dirController)
+    this.koa.use(async (ctx, next) => {
+      ctx.$ = this
+      await next()
+    })
+    this.koa.use(router.routes()).use(router.allowedMethods())
   }
 
   /** 加载日志函数 */

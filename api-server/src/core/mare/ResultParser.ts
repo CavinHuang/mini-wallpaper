@@ -1,4 +1,4 @@
-const initMareParseResult = ($) => {
+const initMareParseResult = () => {
   return async (ctx, next) => {
     const rout = ctx.rout
 

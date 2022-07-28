@@ -7,6 +7,17 @@ import { initHTTPMares } from './initMiddleware'
 
 const appendExt = isDev ? '.api.ts' : '.api.js'
 
+interface Type<T> extends Function {
+  new (...args: any[]): T;
+}
+
+function getMethods<T = any>(value: Type<T>) {
+  const ctx: T = new value();
+  const prototype = Object.getPrototypeOf(ctx)
+  const methods = Reflect.ownKeys(prototype)
+  return methods.filter((method: string) => method.startsWith('_'))
+}
+
 const initRouterHandler = async (server: Server, pathAPP: string) => {
   const router: any = new KoaRouter()
   const methodsRouter = router.methods.map((m) => m.toLowerCase())
