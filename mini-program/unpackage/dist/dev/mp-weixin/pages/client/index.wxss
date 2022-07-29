@@ -1,0 +1,112 @@
+
+.home-header{
+	height: 200rpx;
+	width: 100%;
+	position: relative;
+	border-radius: 0rpx 0rpx 48rpx 48rpx;
+}
+.home-main{
+	width: 100%;
+	position: relative;
+	margin-top: -156rpx;
+	padding: 0 30rpx;
+}
+.home-mendian{
+	width: 100%;
+	height: 84rpx;
+	background:rgba(255,255,255,0.1);
+	border-radius: 42rpx;
+}
+.integral-mall-header{
+	position: relative;
+	height: 320rpx;
+}
+.integral-mall-header .bg{
+	width: 100%;
+	height: 320rpx;
+}
+.integral-mall-header .main{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 320rpx;
+}
+.swiper-integral{
+	height: 32rpx;
+	width: 100%;
+}
+.integral-mall-main{
+	position: relative;
+	margin-top: -104rpx;
+}
+.integal-mall-menu{
+	width: 100%;
+	height: 176rpx;
+	background: #FFFFFF;
+	border-radius: 20rpx;
+}
+.integral-tuan-l{
+	width: 240rpx;
+	height: 180rpx;
+	background: #f2f2f2;
+	border-radius: 16rpx;
+}
+.integral-mall-coupon{
+	height: 408rpx;
+	width: 330rpx;
+	background: #FFFFFF;
+	position: relative;
+	border-radius: 16rpx;
+	overflow: hidden;
+}
+.integral-mall-coupon  .top{
+	padding: 0rpx 0rpx 24rpx 0rpx;
+	border-bottom: 2rpx dashed #FEC675;
+}
+.integral-mall-coupon  .y-l,.integral-mall-coupon  .y-r{
+	width: 20rpx;
+	height: 20rpx;
+	border-radius: 10rpx;
+	background: #F5F6FA;
+	position: absolute;
+	z-index: 2;
+	top: 284rpx;
+}
+.integral-mall-coupon  .y-l{
+	left: -10rpx;
+}
+.integral-mall-coupon  .y-r{
+	right: -10rpx;
+}
+.integral-mall-coupon   .coupon-value{
+	width: 100%;
+	height: 250rpx;
+	position: relative;
+}
+.integral-mall-coupon  .coupon-value image{
+	width: 100%;
+	height: 180rpx;
+}
+.integral-mall-coupon  .coupon-value .num{
+	width: 100%;
+	height: 64rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.integral-mall-goods{
+	width: 100%;
+	height: 200rpx;
+	background: #F2F2F2;
+	border-radius: 16rpx;
+}
+.titleNview-placing {
+	height: 25px;
+	padding-top: 44px;
+	box-sizing: content-box;
+}
+

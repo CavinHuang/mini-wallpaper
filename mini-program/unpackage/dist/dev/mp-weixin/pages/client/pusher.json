@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "直播测试",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "yyq-live-pusher": "/components/yyq-LivePusher/yyq-LivePusher"
+  }
+}

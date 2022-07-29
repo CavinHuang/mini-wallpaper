@@ -1,0 +1,6 @@
+
+.empty-box{
+	padding: 60rpx;
+	text-align: center;
+}
+

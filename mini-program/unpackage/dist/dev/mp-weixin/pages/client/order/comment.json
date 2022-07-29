@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "订单评价",
+  "usingComponents": {
+    "select-star": "/components/select/star",
+    "upload-list": "/components/upload/list"
+  }
+}

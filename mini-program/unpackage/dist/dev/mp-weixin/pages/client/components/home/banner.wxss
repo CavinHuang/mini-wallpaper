@@ -1,0 +1,12 @@
+
+.home-swiper-banner{
+	height: 200rpx;
+	box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.04);
+	border-radius: 16rpx;
+	overflow: hidden;
+}
+.home-swiper-banner image{
+	width: 100%;
+	height: 200rpx;
+}
+

@@ -1,0 +1,12 @@
+
+.integral-role-header{
+	position: relative;
+	width: 100%;
+	height: 400rpx;
+}
+.integral-role-main{
+	position: relative;
+	width: 100%;
+	margin-top: -192rpx;
+}
+

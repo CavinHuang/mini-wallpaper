@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "更换顾问",
+  "usingComponents": {
+    "com-empty": "/components/common/empty"
+  }
+}

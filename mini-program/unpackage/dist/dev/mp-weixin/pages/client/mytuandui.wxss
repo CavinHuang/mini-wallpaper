@@ -1,0 +1,11 @@
+
+.miniapp-icon{
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 40rpx;
+	background: #F2F2F2;
+}
+.col5{
+	margin-bottom: 20px;
+}
+

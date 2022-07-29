@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "订单中心",
+  "usingComponents": {
+    "order-integralgoods": "/pages/client/components/order/integralgoods",
+    "uni-pagination": "/components/uni-pagination/uni-pagination"
+  }
+}

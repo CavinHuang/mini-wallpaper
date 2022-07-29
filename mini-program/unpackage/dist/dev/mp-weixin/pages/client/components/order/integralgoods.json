@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "countdown-time": "/components/countdown/time"
+  },
+  "component": true
+}

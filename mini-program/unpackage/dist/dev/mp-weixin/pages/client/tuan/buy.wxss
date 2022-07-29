@@ -1,0 +1,10 @@
+
+.tuan-buy-l{
+	width: 200rpx;
+	height: 150rpx;
+	background: #F2F2F2;
+}
+.tuan-buy-r{
+	width: calc(100% - 200rpx);
+}
+

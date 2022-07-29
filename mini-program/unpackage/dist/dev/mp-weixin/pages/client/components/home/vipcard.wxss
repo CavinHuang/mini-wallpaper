@@ -1,0 +1,73 @@
+
+.home-vip-tag-box{
+	height: 100rpx;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	border-radius: 8rpx;
+}
+.home-vip-tag-box .main{
+	width: 100%;
+	height: 100rpx;
+	position: absolute;
+	z-index: 2;
+	left: 0;
+	top: 0;
+}
+.home-vip-tag-box .bg{
+	width: 100%;
+	height: 100rpx;
+}
+.tag-no-vip{
+	width: 128rpx;
+	height: 40rpx;
+	background: #FFFFFF;
+	border-radius: 20rpx;
+	font-size: 24rpx;
+	font-weight: 600;
+	color:#8A8D99;
+	text-align: center;
+	line-height: 40rpx;
+}
+.tag-has-vip{
+	width: 200rpx;
+	height: 40rpx;
+	background: linear-gradient(180deg, #333333 0%, #000000 100%);
+	border-radius: 20rpx;
+}
+.tag-has-vip .vip-level-icon{
+	width: 36rpx;
+	height: 36rpx;
+}
+.tag-has-vip .vip-level-means{
+	font-size: 24rpx;
+	margin-left: 8rpx;
+	font-weight: 500;
+	background: linear-gradient(180deg, #F2DCA9 0%, #C79556 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.home-vip-tag-box .main .right-icon{
+	width: 40rpx;
+	height: 40rpx;
+}
+.vip-qrcode-tag{
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 40rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.btn-vip-money,.btn-vip-adviser{
+	width: 208rpx;
+	height: 80rpx;
+	border-radius: 40rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 28rpx;
+	font-weight: 600;
+	color:#FFFFFF;
+}
+

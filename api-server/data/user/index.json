@@ -1,0 +1,170 @@
+{
+  "code": 1,
+  "msg": "",
+  "time": "1659079511",
+  "data": {
+    "id": 1428,
+    "group_id": 1,
+    "username": "user_1428",
+    "nickname": "独立的法西ᯤ⁶ᴳ",
+    "mobile": "user_1428",
+    "avatar": "https:\/\/thirdwx.qlogo.cn\/mmopen\/vi_32\/DYAIOgq83eo3vt0N1oVD8GVKznDq0ZsSfnuV78OuNZjiacuEtibkv9aKpIjFJHbfI8GTgDBfvzqMEXF2YHBmhmLg\/132",
+    "gender": 0,
+    "birthday": null,
+    "money": "1.00",
+    "score": 0,
+    "status": "normal",
+    "isrz": 1,
+    "pid": 1,
+    "dtime": "1970-01-01",
+    "stime": 0,
+    "istg": 1,
+    "token": "de8c3206-a667-47b6-bc88-e02043bf6b0b",
+    "user_id": 1428,
+    "createtime": 1659079504,
+    "expiretime": 1661671504,
+    "expires_in": 2591993,
+    "Groupname": "普通会员",
+    "config": {
+      "name": "六号时空",
+      "beian": "",
+      "cdnurl": "",
+      "version": 1659079511,
+      "timezone": "Asia\/Shanghai",
+      "forbiddenip": "",
+      "languages": {
+        "backend": "zh-cn",
+        "frontend": "zh-cn"
+      },
+      "fixedpage": "dashboard",
+      "categorytype": {
+        "default": "Default",
+        "page": "Page",
+        "article": "Article",
+        "type": "视频类型",
+        "shopmenu": "商城分类",
+        "year": "年份",
+        "adddd": "地区",
+        "type2": "音频分类",
+        "type3": "文章分类",
+        "type4": "图片分类"
+      },
+      "configgroup": {
+        "basic": "Basic",
+        "email": "Email",
+        "dictionary": "Dictionary",
+        "user": "User",
+        "api": "api接口",
+        "banner": "横幅",
+        "fenxiao": "分销配置",
+        "weixnapi": "微信api",
+        "appapi": "APPapi"
+      },
+      "mail_type": "1",
+      "mail_smtp_host": "smtp.qq.com",
+      "mail_smtp_port": "465",
+      "mail_smtp_user": "10000",
+      "mail_smtp_pass": "password",
+      "mail_verify_type": "2",
+      "mail_from": "10000@qq.com",
+      "zfb": {
+        "alipayrsaPublicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsAg9f7w+FYU991p0tHJFlwxdzSmNZKpoIIvuA\/luEbEb09PAQgbOvPYJa5dqzsMiMDeM78peXcBj7Sw23HKv4qfinJKKJJEPqzO9ChTy2Pp8P5W3VLk94HdrOHZ1bTAU9Cz65PxImLrE4M36H7a22onLj8m+\/tl7sEllcXLYrpcyNiad\/h3c7bPUx8NHRhev74FR5Jxw4dyDVxKTPZLuwmSRvcubI7Dbkid3oU8wHsyWdheU5EhF5CEvlqKPT8RyZqU7uiE8USBugtnjSJnvJWlHE6BjGASGGTurxxqBKfbw87dpu\/d+g0RQWGNzgGJvhx3JetAM3V9vYKhKbud+AQIDAQAB",
+        "rsaPrivateKey": "MIIEpAIBAAKCAQEAvz2jY\/2FLOb9BiTyzLXcD6A56LgbPBBkxs3HxlVpoDewZGARhUfLf19uHdIKlTqMqP2sJM+wWd7Z7z1aTg6ohznw+GHjpGbh05a2qnB40NssNlZqfGsXpqvLlAqS5wNTrqMppvoZ\/EDBXn\/f7JQybEUwxHR3JvusRDPcE1U6Bk7cJqlcKLhCSe7RvoGq9XlmDCV+3c6RAZxReZ+un2Xg+aXq\/AhEPIcHlWXYkqRmA\/xt4w3mQ5pjX9mgMyven+IvilyeyaE0o2w8fU2F5sgGTLEO4QemKa6em6CxDXML4745xr981C3jIrdeKkhb7AtaltJtqS7jYNjm5CAiLG5NyQIDAQABAoIBAE0QIIxFd+ntNt7H+tNFIWVmko9VyRu+G24FNFCW0JaQelMoZ0cG9FjicrQvlLYnvtDGUB0RWCYO6FFArugvfffoAFOG1r3D+5JQ9FDgO78l4r4OuqBiY0h1h\/ajACl5LLp942X2+Iuu6H0VGH30BhGdHBa+O9mIpxVgtHlR6azqXbxOXvHplfldLB1evwIkD2RR8DZ\/Am8ohTLdVAGXH4TWK5acOAWF9Txyyv7Vt9trN\/k+nJpK98TTJv0R+jX8j01LJvlPXeygWBh3\/3SdTep078Jhoux+80KMok7Qvxt41E0sQ0zcOapJ7Dn4prqJVB8mhr73w0vmeUS8ACrHRwECgYEA6MvrLdpy9ws6Sf4ePxKqgd9w2z3TA15XGdA9Ox1cOJhq3XI\/haeVlsoFVQT+DDv48FcQvNPDcsNzbIEj1Dd1ntuss4GtFoQRGadpE1ix1zqbVmhzZVZV75GxuxUlQENuOb6NQYW9srdaqT9wOny55mI\/Wyx8CgZZ0Utc3wdKLWkCgYEA0k1f0f\/6wDCW\/THYKJf47\/Bl6+MSASVXJbIQo07nAvK3WcL6iOGjvQ9tHvwy+s0rgIcqXWpMivcVj+i7q9Y8c+TDhF5fKZwLAsy9mw8VJDnKoaExFYXO2hVh98TDG+DBsIs\/xOWngXuGhSraS5JF4gyhXJcjVO596OgrrvNSMWECgYBJ6bTZ8ineVipDo\/Nmgz6vzYm\/knmU8Dcncv597myBa6NCfCu++9566dmXjOY8bC414O7nhTThEz1qjfYaQyGNNqI2vE2AgJ4NTyIFinusomb\/oFpDKo5OaivMAoK5TK+Klf2zeAsq2xxl8EZpy4Aarcb\/47feVvXdhdgO1\/mtQQKBgQCrViKlIxqWDoBVVJC5sec9BOzk3CFFEbkImyR3CMepXToIRZR8hOk0FSdgQTT\/pLy2gGkBpqMp7NiCYKjV\/TtPaKfqZkC908Ycx9YKSKV+2B7AxGULFfNLNnSUupgDVIA5Z5nSvxBTq+ITCLDFNSz+WC\/3EaPVhGDMqqs8ZD0owQKBgQCjwxKeODSsqht9ebQn6DoyJFsi1X5hv1gcg8lsMXP9qn4XYrIxPswz851+pJTmu3r894FxHGckqJt4t1U08qA+ZthwBt\/NlprSYxfrB9nSnq7pZXTxJ9dqkvnw\/jk7U03ipHLOflEaYMXp30qF8PKYboZBnc\/VNytHZdPsxyxmbw==",
+        "appId": "2016012701123321",
+        "notifyurl": "https:\/\/rw.gzzsw.cn\/api\/pay\/notify",
+        "notifyurlcz": "https:\/\/rw.gzzsw.cn\/api\/pay\/notifycz"
+      },
+      "banner": [
+        "\/uploads\/20220729\/85702b62f9d4e1fe8c14454b81327ae7.jpg",
+        "\/uploads\/20210304\/e522390a2607d8f7a92c7196f0fe2d9b.jpg",
+        "\/uploads\/20220727\/74f418b81146eb2d22540d2d95efd0f7.jpg"
+      ],
+      "background": [
+        "#19c766",
+        "#19cdde",
+        "#efd09a"
+      ],
+      "imgurl": "https:\/\/lhsk.demo.hongcd.com",
+      "txsxf": "0.01",
+      "txbz": "提现手续费1%，最少提现100元",
+      "zstx": "100",
+      "tels": "15085996343",
+      "azbb": "1000000",
+      "azxz": "https:\/\/rw.gzzsw.cn\/2020.apk",
+      "weixin": "zhuzhi520",
+      "mrseek": "10",
+      "vipsj": {
+        "1": "10",
+        "3": "27",
+        "6": "48",
+        "12": "80"
+      },
+      "iskq": "1",
+      "fxdj": {
+        "1": "0.05",
+        "2": "0.04",
+        "3": "0.03",
+        "4": "0.02",
+        "5": "0.01"
+      },
+      "link": [
+        "\/pages\/client\/member\/tougao",
+        "\/pages\/client\/vipcard\/index",
+        "\/pages\/client\/integral\/role"
+      ],
+      "mbgColor": "#144aaf",
+      "txydbapi": {
+        "secret_id": "AKIDb1FsGOUxLhofsqp3IJ5ZnGrByXqugF0X",
+        "secret_key": "PNBk6TZuzcldGeneT8YtOOBj01nKbnAJ"
+      },
+      "fxhb": [
+        "\/uploads\/20211101\/bee695baec0b0b01f04e2377a004f752.jpg",
+        "\/uploads\/20211003\/bd0c35c4e8312b7552cdbc615e732ba7.jpg",
+        "\/uploads\/20210223\/f13e41af60cc86439f5ec0e23cf817ee.jpg"
+      ],
+      "dsfzf": {
+        "memberid": "220533037",
+        "callbackurl": "http:\/\/v2.demo.hongcd.com\/",
+        "notifyurl": "http:\/\/v2.demo.hongcd.com\/api\/pay\/notifydsf",
+        "key": "yrhmr43z59g59xgegwjee8icurmjdrtr",
+        "tjurl": "https:\/\/pay.aidemao.com\/Pay_Index.html",
+        "zfname": "环球支付",
+        "bankcode": "901"
+      },
+      "weixinxcx": {
+        "appid": "wx6c9e452be15a9b3c",
+        "appSecret": "bfb7e574763b21d1ab6fbc9c4f99822b",
+        "template_id": "wAqsuRFgYS9XBJ2OmBgVYgZ-YrpOkS0dfo-WxQuv41c",
+        "videoAd": "adunit-f9ed63aceac7448e",
+        "BannerAd": "adunit-68f50a53583e734c",
+        "tanchuAd": "adunit-d9d1fed489b8d63b"
+      },
+      "wxpay": {
+        "mch_id": "1600201741",
+        "key": "hguhsgdjsadkjbasjdhjkasdkjnakfba"
+      },
+      "weixinh5": {
+        "appid": "wx4dd16cd75cb18305"
+      },
+      "wxgzh": {
+        "appid": "wxf0c41cb7eaf468e1",
+        "secret": "d5d61c6cf4693f4a5947b28e2d4b8753"
+      },
+      "admoney": "1",
+      "mrcs": "5",
+      "mrqd": "3",
+      "qdmoney": "1",
+      "zczsjf": "1",
+      "yqzc": "1",
+      "dltel": "0",
+      "tgbz": "1、欢迎投稿，您审核通过的投稿作品产生的收入，以90%的积分的方式，发放给您的账号。\r\n\r\n2、投稿获得的积分，可以联系管理员兑换稿费。管理员微信：zhuzhi520",
+      "tgbzje": "0.9",
+      "appapi": {
+        "adpid": "1507000689",
+        "dspadpid": "1111111112"
+      }
+    },
+    "dqts": -19202,
+    "tgbzje": 0.9
+  }
+}

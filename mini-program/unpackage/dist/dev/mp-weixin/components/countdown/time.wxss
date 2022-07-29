@@ -1,0 +1,19 @@
+
+.order-t{
+	width:48rpx;
+	height:48rpx;
+	background:#FFFFFF;
+	text-align: center;
+	line-height: 48rpx;
+	font-size:28rpx;
+	font-weight: 500;
+	color: #000000;
+	border-radius: 8rpx;
+}
+.order-t.small{
+	width: 40rpx;
+	height: 40rpx;
+	font-size: 24rpx;
+	line-height: 40rpx;
+}
+

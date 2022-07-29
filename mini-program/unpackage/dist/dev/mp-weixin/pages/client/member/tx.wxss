@@ -1,0 +1,108 @@
+
+page{
+		background: #f9f9f9;
+}
+.cztop{
+		position: relative;
+}
+.czxx{
+		top: 10px;
+		font-size: 32rpx;
+		margin-left: 50rpx;
+		color: #3a3a3a;
+		font-family: iconfont;
+		line-height: 80rpx;
+}
+.czyebox{
+		padding: 20rpx 50rpx;
+}
+.czyebox>view:first-child{
+		font-size: 32rpx;
+		color: #3a3a3a;
+		line-height: 50px;
+}
+.czye{
+		width: 100%;
+		border-bottom: 1rpx solid #e5e5e5;
+		font-size: 36rpx;
+		font-weight: bold;
+		color: #3a3a3a;
+		position: relative;
+		padding-left: 20px;
+		height: 40px;
+		line-height: 40px;
+}
+.czye:after{
+		position: absolute;
+		top: -2px;
+		left: 0;
+		content: '￥';
+		color: #3a3a3a;
+		font-size: 18px;
+}
+.czye1{
+		width: 100%;
+		border-bottom: 1rpx solid #e5e5e5;
+		font-size: 32rpx;
+		color: #3a3a3a;
+		position: relative;
+		height: 40px;
+		line-height: 40px;
+}
+.onstep{
+		margin-top: 40rpx;
+		background: #007AFF!important;
+}
+.czmain{
+		width: 94%;
+		margin: 10px auto;
+		overflow: hidden;
+		background: #fff;
+		border-radius: 16rpx;
+		padding-bottom: 20px;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+.icon-alipay{
+		background: #fbfbfb;
+		padding-bottom: 20rpx;
+}
+.icon-alipay>view:first-child{
+		margin-top: 10px;
+		font-size: 32rpx;
+		padding-left: 0rpx;
+		color: #3a3a3a;
+		font-family: iconfont;
+		position: relative;
+		line-height: 30px;
+}
+.icon-alipay:before {
+	    content: "\e636";
+		margin-top: 25rpx;
+		margin-right: 10rpx;
+		color: #007AFF;
+}
+.cztype>view:first-child:after{
+		position: absolute;
+		content:"\e66c";
+		top: 0;
+		left: 0;
+		font-size: 26px;
+		color: #05c160;
+}
+.rmbLogo {
+        font-size: 40rpx;
+}
+button {
+        background-color: #007aff;
+        color: #ffffff;
+}
+.uni-h1.uni-center {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+}
+.ipaPayBtn {
+        margin-top: 30rpx;
+}
+

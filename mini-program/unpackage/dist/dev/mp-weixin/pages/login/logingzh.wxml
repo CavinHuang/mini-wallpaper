@@ -1,0 +1,1 @@
+<view class="content"><view class="header"><image src="../../static/shilu-login/logo.png"></image></view><view class="button-login" style="margin-top:30%;" hover-class="button-hover" data-event-opts="{{[['tap',[['bindLogin']]]]}}" bindtap="__e"><text style="font-size:40rpx;">登录</text></view></view>

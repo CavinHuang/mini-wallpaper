@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "六号时空",
+  "navigationBarBackgroundColor": "#363B4D",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "home-banner": "/pages/client/components/home/banner",
+    "sub-tabvsw": "/components/sub/tabvsw",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

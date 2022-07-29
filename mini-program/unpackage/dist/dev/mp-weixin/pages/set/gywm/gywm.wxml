@@ -1,0 +1,1 @@
+<view><view style="padding:0 40rpx;"><rich-text class="cont" nodes="{{gywm}}"></rich-text></view></view>

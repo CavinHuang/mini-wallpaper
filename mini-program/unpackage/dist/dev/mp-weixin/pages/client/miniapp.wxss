@@ -1,0 +1,8 @@
+
+.miniapp-icon{
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 40rpx;
+	background: #F2F2F2;
+}
+

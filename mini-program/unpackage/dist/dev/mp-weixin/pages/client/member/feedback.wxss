@@ -1,0 +1,19 @@
+
+.tag-feedback{
+	height: 64rpx;
+	border:2rpx solid #E4E6ED;
+	padding: 0 20rpx;
+	line-height: 60rpx;
+	color:#000000;
+	font-size: 28rpx;
+	border-radius: 32rpx;
+	margin-right: 20rpx;
+	margin-bottom: 20rpx;
+}
+.tag-feedback.on{
+	border:none;
+	color:#FFFFFF;
+	line-height: 64rpx;
+	padding: 0 22rpx;
+}
+

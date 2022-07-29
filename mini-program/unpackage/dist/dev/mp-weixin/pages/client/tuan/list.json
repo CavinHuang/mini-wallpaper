@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "详情",
+  "usingComponents": {
+    "home-banner": "/pages/client/components/home/banner",
+    "home-default": "/pages/client/components/home/default",
+    "dialog-login": "/components/dialog/login",
+    "zaudio": "/components/uniapp-zaudio/zaudio"
+  }
+}

@@ -1,0 +1,12 @@
+
+.h1{
+		font-size: 32rpx;
+		text-align: center;
+		font-weight: bold;
+		line-height: 52px;
+}
+.cont{
+	font-size: 32rpx;
+	box-sizing: border-box;
+}
+

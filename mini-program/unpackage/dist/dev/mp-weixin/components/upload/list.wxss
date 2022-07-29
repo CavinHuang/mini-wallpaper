@@ -1,0 +1,46 @@
+
+.upload-list-photo{
+	width:190rpx;
+	height:190rpx;
+	border-radius:16rpx;
+	position: relative;
+	margin-right: 30rpx;
+	margin-bottom: 30rpx;
+}
+.upload-list-photo.camera{
+
+	background:#FFFFFF;
+	border:2rpx dashed #C5CADB;
+}
+.upload-list-photo.camera .upload{
+	width: 64rpx;
+	height: 64rpx;
+	border-radius: 32rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.upload-list-photo:nth-child(3n){
+	margin-right: 0rpx;
+}
+.upload-list-photo .photo{
+	width:190rpx;
+	height:190rpx;
+	border-radius:16rpx;
+	background: #f2f2f2;
+}
+.upload-list-photo .del{
+	width: 56rpx;
+	height: 56rpx;
+	position: absolute;
+	border-radius: 28rpx;
+	background: rgba(0,0,0,0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 2;
+	right: 0;
+	top: 0;
+}
+
+

@@ -22,6 +22,37 @@ export class User {
   openid: string
 
   @Column({
+    comment: '父级pid',
+    type: 'int',
+    default: 0
+  })
+  pid: number
+
+  @Column({
+    comment: '所属组',
+    type: 'int',
+    default: 1
+  })
+  group_id: number
+
+  @Column({
+    length: 200,
+    comment: '用户名'
+  })
+  username: string
+
+  @Column({
+    length: 200,
+    comment: '用户手机号'
+  })
+  mobile: string
+
+  @Column({
+    comment: '积分'
+  })
+  score: number
+
+  @Column({
     length: 200,
     comment: '用户昵称'
   })

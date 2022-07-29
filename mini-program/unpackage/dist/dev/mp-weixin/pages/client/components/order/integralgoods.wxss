@@ -1,0 +1,17 @@
+
+.delivery-type{
+	width: 128rpx;
+	height: 36rpx;
+	background: #FFFFFF;
+	border-radius: 18rpx;
+	font-size: 24rpx;
+	color:#8A8D99;
+	line-height: 36rpx;
+	text-align: center;
+	font-weight: 500;
+	margin-left: 0rpx;
+}
+.mt16{
+	margin-top: 0px;
+}
+

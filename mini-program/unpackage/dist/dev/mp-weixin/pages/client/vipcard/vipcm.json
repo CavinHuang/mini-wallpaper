@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "会员升级",
+  "usingComponents": {
+    "dialog-couponshare": "/components/dialog/couponshare",
+    "h-form-alert": "/components/h-form-alert/h-form-alert"
+  }
+}

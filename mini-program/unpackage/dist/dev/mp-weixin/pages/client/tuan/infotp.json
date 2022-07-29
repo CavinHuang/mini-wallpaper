@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "壁纸图片",
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "pop": "/components/ming-pop/ming-pop"
+  }
+}

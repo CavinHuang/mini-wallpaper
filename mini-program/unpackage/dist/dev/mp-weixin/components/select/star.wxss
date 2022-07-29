@@ -1,0 +1,14 @@
+
+.star-list{width: 100%;}
+.star-list.small{width: 380rpx;}
+.star-list.mini{width: 200rpx;}
+.star-list .star{
+	font-size: 80rpx;
+}
+.star-list.small .star{
+	font-size: 48rpx;
+}
+.star-list.mini .star{
+	font-size: 32rpx;
+}
+

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的团队",
+  "usingComponents": {
+    "dialog-qrcode": "/components/dialog/qrcode"
+  }
+}

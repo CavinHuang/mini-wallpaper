@@ -1,0 +1,8 @@
+
+.content.data-v-04b71b64 {
+	background: #000;
+	overflow: hidden;
+	width: 750rpx;
+	position: fixed;
+}
+

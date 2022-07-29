@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "会员卡详情",
+  "usingComponents": {
+    "dialog-birthday": "/components/dialog/birthday"
+  }
+}

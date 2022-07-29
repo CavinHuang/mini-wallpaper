@@ -1,0 +1,1 @@
+<block wx:if="{{idfd==1}}"><view class="content"><view class="header"><image src="../../static/shilu-login/logo.png"></image></view><button data-event-opts="{{[['tap',[['getUserInfo1']]]]}}" class="button-login" style="margin-top:80rpx;font-size:26rpx;color:#fff;height:80rpx;line-height:80rpx;" bindtap="__e">获取微信授权</button></view></block>

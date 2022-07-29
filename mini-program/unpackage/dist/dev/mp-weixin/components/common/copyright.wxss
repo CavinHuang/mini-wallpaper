@@ -1,0 +1,10 @@
+
+.copyright{
+	padding: 48rpx;
+	text-align: center;
+}
+.copyright image{
+	width: 208rpx;
+	height: 76rpx;
+}
+

@@ -1,0 +1,15 @@
+
+.uni-title{
+	color: #444;
+	font-size: 32rpx;
+	font-weight: normal;
+}
+.uni-text{
+	font-size: 28rpx;
+}
+.uni-h5{
+	font-size: 32rpx;
+	color: #3a3a3a;
+	font-weight:500;
+}
+

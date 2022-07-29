@@ -1,0 +1,104 @@
+
+.vipcard-detail-header{
+	position: relative;
+	height: 480rpx;
+}
+.vipcard-detail-header .bg{
+	width: 100%;
+	height: 480rpx;
+}
+.vipcard-detail-header .main{
+	height: 480rpx;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.vipcard-detail-header .vipcard-num{
+	font-size: 24rpx;
+	font-weight: bold;
+	line-height: 48rpx;
+	background: linear-gradient(180deg, #F2DCA9 0%, #C79556 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.vipcard-detail-header .vipcard-face{
+	width: 112rpx;
+	height: 112rpx;
+	border:8rpx solid rgba(255,255,255,0.9);
+	border-radius: 100rpx;
+	background: rgba(255,255,255,0.9);
+}
+.vipcard-detail-header .vipcard-level-tag{
+	height: 40rpx;
+	border-radius: 20rpx;
+	padding: 0 16rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border:2rpx solid rgba(255,255,255,.3)
+}
+.vipcard-detail-main{
+	position: relative;
+	margin-top: -212rpx;
+}
+.vipcard-swiper{
+	height: 280rpx;
+	width: 100%;
+}
+.vipcard-swiper .swiper-item{
+	width: 100%;
+	padding-left: 15px; /**就用PX了**/
+}
+.vipcard-swiper .swiper-item .card{
+	height: 280rpx;
+	width: 100%;
+	position: relative;
+	border-radius: 32rpx;
+	overflow: hidden;
+}
+.vipcard-swiper .swiper-item .card .bg{
+	width: 100%;
+	height: 280rpx;
+}
+.vipcard-swiper .swiper-item .card .main{
+	width: 100%;
+	height: 280rpx;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	padding: 72rpx;
+}
+.vipcard-swiper .swiper-item .card .main .vipcard-info{
+	height: 80rpx;
+	background: #FFFFFF;
+	border-radius: 24rpx;
+	padding: 0 20rpx;
+	text-align: center;
+	line-height: 80rpx;
+	color:#ff0000;
+	font-size: 30rpx;
+}
+.vipcard-swiper .swiper-item .card .vip-type-tag{
+	width: 104rpx;
+	height: 40rpx;
+	background: linear-gradient(136deg, #4E4E4E 0%, #262728 100%);
+	border-radius: 0rpx 20rpx 20rpx 0rpx;
+	text-align: center;
+	line-height: 40rpx;
+	font-size: 24rpx;
+	color:#F7E3C3;
+	font-weight: 500;
+	position: absolute;
+	z-index: 3;
+	left: 0;
+	top:40rpx;
+}
+.vipcard-con-box{
+	width: 300rpx;
+	background: #FFFFFF;
+	box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.04);
+	border-radius: 8rpx;
+}
+

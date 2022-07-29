@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "投稿",
+  "usingComponents": {
+    "easy-upload": "/components/easy-upload/easy-upload"
+  }
+}

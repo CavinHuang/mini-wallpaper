@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "com-copyright": "/components/common/copyright",
+    "dialog-birthday": "/components/dialog/birthday",
+    "dialog-login": "/components/dialog/login",
+    "dialog-qrcode": "/components/dialog/qrcode",
+    "dialog-couponshareget": "/components/dialog/couponshareget"
+  },
+  "component": true
+}

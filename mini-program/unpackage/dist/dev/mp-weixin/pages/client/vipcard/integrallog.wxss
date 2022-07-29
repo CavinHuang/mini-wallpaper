@@ -1,0 +1,36 @@
+
+.integral-log-header{
+	position: relative;
+	height: 252rpx;
+}
+.integral-log-header .bg{
+	width: 100%;
+	height: 252rpx;
+}
+.integral-log-header .main{
+	height: 252rpx;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.btn-integral{
+	width: 192rpx;
+	height: 80rpx;
+	background: #FFFFFF;
+	box-shadow: 0rpx 8rpx 32rpx 0rpx rgba(0, 0, 0, 0.04);
+	border-radius: 40rpx;
+	text-align: center;
+	line-height: 80rpx;
+	color:#6687EF;
+	font-size: 28rpx;
+	font-weight: 500;
+}
+.integral-log-main{
+	background: #FFFFFF;
+	min-height: 1400rpx;
+	position: relative;
+	margin-top: -32rpx;
+	border-radius: 32rpx 32rpx 0rpx 0rpx;
+}
+

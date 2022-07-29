@@ -1,12 +1,20 @@
 // redis配置参数
 import { redis as redisConfig } from '../../config'
-import redis from 'redis'
+import Redis from 'ioredis'
 
 let redisClient = null
 function connect() {
   if (redisClient) return redisClient
   else {
-    redisClient = redis.createClient(redisConfig.host, redisConfig.port, { ...(redisConfig.pass ? {auth_pass: redisConfig.pass } : {})})
+    //redisConfig.host, redisConfig.port, { ...(redisConfig.pass ? {auth_pass: redisConfig.pass } : {})}
+    //redis[s]://[[username][:password]@][host][:port]
+    redisClient = new Redis({
+      port: redisConfig.port, // Redis port
+      host: redisConfig.host, // Redis host
+      // username: "default", // needs Redis >= 6
+      password: redisConfig.pass,
+      db: 0, // Defaults to 0
+    })
   }
 }
 

@@ -1,0 +1,1 @@
+<view class="empty-box"><image style="width:296rpx;height:296rpx;" src="{{statics.emptyImg}}"></image><view class="ft14 cl-notice mt20">{{''+title+''}}</view></view>

@@ -1,7 +1,7 @@
 /**
  * 小程序
  */
-import { M } from '@/models';
+import { M } from '../models';
 import { BaseService } from './baseService';
 import { MiniProgram as MiniProgramEntity } from '../models/entity/miniprogram'
 export class MiniProgram extends BaseService {

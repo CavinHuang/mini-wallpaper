@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "usingComponents": {
+    "home-vipcard": "/pages/client/components/home/vipcard",
+    "home-banner": "/pages/client/components/home/banner",
+    "com-copyright": "/components/common/copyright",
+    "dialog-birthday": "/components/dialog/birthday",
+    "dialog-login": "/components/dialog/login",
+    "dialog-qrcode": "/components/dialog/qrcode"
+  }
+}
