@@ -1,4 +1,7 @@
 export class Response {
+  static successMessage = 'success'
+  static errorMessage = 'error'
+
   public static return(data: any = {}, code = 1, message = '') {
     return {
       data,

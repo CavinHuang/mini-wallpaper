@@ -46,9 +46,15 @@ view.data-v-0728c3b8 {
 }
 .centers.data-v-0728c3b8 {
   width: 100vw;
+  display: -webkit-box;
+  display: -webkit-flex;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
   position: fixed;
   top: 0;
   left: 0;

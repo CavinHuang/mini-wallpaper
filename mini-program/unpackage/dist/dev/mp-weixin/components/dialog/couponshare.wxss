@@ -59,22 +59,35 @@
 	position: absolute;
 	left: 0;
 	bottom: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 }
 .couponshare-modal-middle-main .footer-act-main .share-btn{
 	width: 330rpx;
 	height: 80rpx;
+	background: -webkit-linear-gradient(top, #FFF6D6 0%, #FFE388 100%);
 	background: linear-gradient(180deg, #FFF6D6 0%, #FFE388 100%);
 	box-shadow: 0rpx 8rpx 24rpx 0rpx rgba(0, 0, 0, 0.08);
 	border-radius: 40rpx;
 	color:#F14844;
 	font-size: 32rpx;
 	font-weight: 500;
+	display: -webkit-box;
+	display: -webkit-flex;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 	margin: 0;
 	padding: 0;
 }

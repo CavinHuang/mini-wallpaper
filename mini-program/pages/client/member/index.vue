@@ -208,6 +208,7 @@
 			},
 			async ongrzlTap() {
 				let data = {};
+				data.appid = this.$config.appId
 				data.token = uni.getStorageSync("userinfo").token;
 				data.uid = uni.getStorageSync("userinfo").id;
 				uni.request({

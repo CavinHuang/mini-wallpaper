@@ -9,6 +9,7 @@ import ParseExtra from '../core/mare/ParseExtra'
 import CheckPerm from '../core/mare/CheckPerm'
 import ParseCookies from '../core/mare/ParseCookies'
 import ResultParser from '../core/mare/ResultParser'
+import InitComonService from '../core/mare/InitCommentService'
 import parseRaw from '../server/mare/parseRaw'
 
 // const { faces, folds } = initRoute(dirController)
@@ -36,7 +37,7 @@ export const wock = {
 export const serverConfig = {
   favicon: resolve(dirPublic, 'favicon.ico'),
   middleware: {
-    before: [parseRaw, ParseExtra, CheckPerm],
+    before: [parseRaw, InitComonService, ParseExtra, CheckPerm],
     after: [ParseCookies, ResultParser]
   },
   name,

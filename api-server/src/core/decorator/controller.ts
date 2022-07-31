@@ -3,6 +3,7 @@ import router from '../../server/router'
 import { initHTTPMares } from '../../server/core/initMiddleware'
 import { logger } from '../logger'
 import { ApiOptions } from './../../controller/interface';
+import { Response } from "../../core/responce";
 
 export function Controller(root: string, apiOptions?: Partial<ApiOptions>) {
   return function (target: new (...args: any[]) => any) {
@@ -40,13 +41,18 @@ export function Controller(root: string, apiOptions?: Partial<ApiOptions>) {
           router[method](fullPath, mare)
         }
         router[method](fullPath, ...middlewares, async (ctx, next) => {
-          const params: ControllerParams = {
+          try {
+            const params: ControllerParams = {
             query: ctx.request.query,
             body: ctx.request.body,
             $: ctx.$
           }
           const result = await handler(params)
           ctx.body = result
+          } catch (e) {
+            // ctx.status = 500
+            ctx.body = Response.error(e.message, e.code)
+          }
           await next()
         })
         // 后置中间件

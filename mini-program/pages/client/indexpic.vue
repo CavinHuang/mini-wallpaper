@@ -214,8 +214,10 @@
 				if(this.type4id){
 					data.typeid=this.type4id
 				}
+				data.pageSize = data.limit
+				data.appid = this.configs.appId
 				uni.request({
-					url: this.configs.webUrl+'/api/video/lists',
+					url: this.configs.webUrl+'/api/resource/lists',
 					data: data,
 					success: data => {
 						//console.log(data.data)
