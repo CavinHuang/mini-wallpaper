@@ -56,7 +56,7 @@ export class ResourceService extends BaseService {
    * @param resources 资源数据
    * @returns Promise<InsertResult>
    */
-  public async saveAll(resources: ResourceEntity[]) {
+  public async saveAll(resources: Partial<ResourceEntity>[]) {
     const resource = M(ResourceEntity)
     const res = await resource.createQueryBuilder().insert().into(ResourceEntity).values(resources).execute()
 

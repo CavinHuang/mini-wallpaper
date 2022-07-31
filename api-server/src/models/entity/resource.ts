@@ -23,9 +23,39 @@ export class Resource {
 
   @Column({
     length: 200,
+    comment: 'name'
+  })
+  name: string
+
+  @Column({
+    length: 500,
+    comment: 'info'
+  })
+  info: string
+
+  @Column({
+    length: 500,
     comment: '资源的地址'
   })
   url: string
+
+  @Column({
+    length: 500,
+    comment: '资源的缩略图地址'
+  })
+  thumb_url: string
+
+  @Column({
+    comment: '资源的单价',
+    type: 'decimal'
+  })
+  price: number
+
+  @Column({
+    comment: '会员资源的单价',
+    type: 'decimal'
+  })
+  vip_price: number
 
   @Column({
     comment: '排序值'
