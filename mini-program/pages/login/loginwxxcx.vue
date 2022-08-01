@@ -325,7 +325,7 @@
 							})
 							uni.setStorage({ //缓存配置信息
 								key: 'config',
-								data: cts.data.data.config
+								data: cts.data.config
 							})
 							uni.showModal({
 								title: '温馨提示',

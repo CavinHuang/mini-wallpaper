@@ -18,7 +18,10 @@ export class Pagination {
   // @ApiModelProperty({ description: "总条数", type: "number", example: 10 })
   private total: number
   // @ApiModelProperty({ description: "数据" })
-  public datalist?: any[]
+  public rows?: any[]
+
+  private limit: number
+  private offset: number
 
   public get _pageNum(): number {
     return this.pageNum
@@ -67,7 +70,7 @@ export class Pagination {
    */
   public static async findByPage(
     queryBuilder: SelectQueryBuilder<any>,
-    pageHelper?: { getRayMany?: boolean; pageNum?: number; pageSize?: number }
+    pageHelper?: { getRayMany?: boolean; offset?: number, limit?: number, pageNum?: number; pageSize?: number }
   ): Promise<Pagination> {
     if (!pageHelper) {
       pageHelper = {}
@@ -75,11 +78,9 @@ export class Pagination {
     const pagination = new Pagination()
     if (queryBuilder.getSql().includes('GROUP BY')) {
       const sql = queryBuilder.getSql()
-      console.log('=======', sql)
       const selectFields = sql.slice(sql.indexOf('SELECT ') + 7, sql.indexOf(' FROM'))
       const countSql = sql.replace(selectFields, '1')
       const execSql = sql.includes('ORDER BY') ? countSql.substring(0, countSql.indexOf('ORDER BY')) : countSql
-      console.log('[]', execSql, Object.values(queryBuilder.getParameters()))
       const params = Object.values(queryBuilder.getParameters())
       const _params = []
       params.forEach((item) => {
@@ -99,10 +100,15 @@ export class Pagination {
     const pageNum = pageHelper.pageNum && pageHelper.pageNum > 0 ? +pageHelper.pageNum : 1
     pagination._pageNum = pageNum < pagination._totalPage ? +pageNum : +pagination._totalPage
 
-    queryBuilder.limit(pagination._pageSize)
-    queryBuilder.offset(Number((pagination._pageNum - 1) * pagination._pageSize))
+    const _limit = pageHelper.limit ? pageHelper.limit : pagination._pageSize
+    const _offset = pageHelper.offset ? pageHelper.offset : Number((pagination._pageNum - 1) * pagination._pageSize)
 
-    pagination.datalist = pageHelper.getRayMany ? await queryBuilder.getRawMany() : await queryBuilder.getMany()
+    pagination.offset = _offset
+    pagination.limit = _limit
+    queryBuilder.limit(_limit)
+    queryBuilder.offset(_offset)
+
+    pagination.rows = pageHelper.getRayMany ? await queryBuilder.getRawMany() : await queryBuilder.getMany()
 
     return pagination
   }
@@ -155,7 +161,7 @@ export class Pagination {
     pagination._pageNum = pageNum < pagination._totalPage ? +pageNum : +pagination._totalPage
     // SQL添加分页参数
     sql = sql + ' limit ' + (pagination._pageNum - 1) * pagination._pageSize + ',' + pagination._pageSize
-    pagination.datalist = await entityManager.query(sql, parameters)
+    pagination.rows = await entityManager.query(sql, parameters)
     return pagination
   }
 }

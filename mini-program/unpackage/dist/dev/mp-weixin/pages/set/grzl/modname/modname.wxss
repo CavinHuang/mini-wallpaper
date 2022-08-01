@@ -29,16 +29,12 @@
 }
 .onname.data-v-19e3605f{
 	width: 94%;
-	margin: 20rpx auto;
-	background: -webkit-linear-gradient(left top, #E49315 , #E17503); /* Safari 5.1 - 6.0 */ /* Opera 11.1 - 12.0 */ /* Firefox 3.6 - 15 */
-	background: -webkit-linear-gradient(top left, #E49315 , #E17503);
+	margin: 20rpx auto; /* Safari 5.1 - 6.0 */ /* Opera 11.1 - 12.0 */ /* Firefox 3.6 - 15 */
 	background: linear-gradient(to bottom right, #E49315 , #E17503); /* 标准的语法（必须放在最后） */
 }
 .onnames.data-v-19e3605f{
 	width: 94%;
-	margin: 20rpx auto;
-	background: -webkit-linear-gradient(left top, #f1f1f1 , #f9f9f9); /* Safari 5.1 - 6.0 */ /* Opera 11.1 - 12.0 */ /* Firefox 3.6 - 15 */
-	background: -webkit-linear-gradient(top left, #f1f1f1 , #f9f9f9);
+	margin: 20rpx auto; /* Safari 5.1 - 6.0 */ /* Opera 11.1 - 12.0 */ /* Firefox 3.6 - 15 */
 	background: linear-gradient(to bottom right, #f1f1f1 , #f9f9f9); /* 标准的语法（必须放在最后） */
 }
 

@@ -1,3 +1,5 @@
+import { CONFIG_REDIS_KEY } from '../../service/common';
+import { redisGet } from './../redis/index';
 const initMareParseResult = () => {
   return async (ctx, next) => {
     const rout = ctx.rout
@@ -9,6 +11,11 @@ const initMareParseResult = () => {
         if (body instanceof Error) {
           ctx.body = { code: 400, message: body.message }
         } else {
+          //塞入config
+          const headerAppid = ctx.headers.appid
+          const queryAppid = ctx.request.query.appid
+          const appid = headerAppid || queryAppid
+          body.config = await redisGet(`${CONFIG_REDIS_KEY}${appid}`)
           ctx.body = body
         }
         ctx.type = 'json'

@@ -101,9 +101,10 @@
 	}
 
 	.tab-nav-plus-scroll .item{
-		height: 76rpx;
+		height: 60rpx;
+		line-height: 60rpx;
 		display: inline-block;
-		margin-right: 60rpx;
+		margin-right: 20rpx;
 		position: relative;
 	}
 	.tab-nav-plus-scroll .item:last-child{
@@ -111,14 +112,19 @@
 	}
 	.tab-nav-plus-scroll .item .tit{
 		text-align: center;
-		height: 48rpx;
-		line-height: 48rpx;
-		font-size: 28rpx;
-		font-weight: 500;
+		height: 70rpx;
+		line-height: 50rpx;
+		font-size: 34rpx;
+		background: #eeeeee;
+		padding: 10rpx 30rpx;
+		border-radius: 40rpx;
+		font-weight: 200;
+		color: #8f9398;
 	}
 	.tab-nav-plus-scroll .item .tit.on{
-		font-size: 32rpx;
-		font-weight: 600;
+		font-size: 34rpx;
+		color: #323332;
+		background-image: linear-gradient(to right, #fbf95e, #f9cc3b);
 	}
 	.tab-nav-plus-main .tab-nav-plus-scroll .item .bd{
 		position: absolute;

@@ -9,10 +9,14 @@ export class CatgoryService {
       where: { appid }
     })
 
-    const result: Record<string, Catgory> = {}
+    const result: Record<string, Catgory[]> = {}
 
     categories.forEach(cate => {
-      result[cate.type] = cate
+      if (Object.prototype.hasOwnProperty.call(result, cate.type)) {
+        result[cate.type].push(cate)
+      } else {
+        result[cate.type] = [cate]
+      }
     })
 
     return result

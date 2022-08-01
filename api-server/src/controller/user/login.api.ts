@@ -6,7 +6,6 @@ import { genValidateParams } from "../../middlewares";
 import { loginParams } from "../../validator"
 import { Wechat } from "../../service/wechat";
 import { Response } from "../../core/responce";
-import config from '../../temp/config.json'
 import { redisClient } from '../../core/redis';
 
 interface IGetPhone {
@@ -26,13 +25,13 @@ class UserLogin extends CoreController {
     const userRes = await redisClient.get(params.query.token)
     console.log(userRes)
     if (userRes) {
-      return Response.success({...JSON.parse(userRes), config}, 'success')
+      return Response.success({...JSON.parse(userRes), token: params.query.token }, 'success')
     }
 
     const userRaw = await userService.getUserById(params.query.uid)
     console.log(userRaw)
     if (userRaw) {
-      return Response.success({...userRaw, config}, 'success')
+      return Response.success(userRaw, 'success')
     }
   }
 
@@ -47,8 +46,7 @@ class UserLogin extends CoreController {
       redisClient.set(result.userToken, JSON.stringify(userRes))
       return Response.success({
         userInfo: {...userRes, token: result.userToken},
-        wechatData,
-        config
+        wechatData
       }, '登录成功')
     }
     return Response.success(result, 'success')
@@ -73,15 +71,13 @@ class UserLogin extends CoreController {
 
       if (saveRes) {
         return Response.success({
-          userinfo: {...saveRes},
-          config
+          userinfo: saveRes
         })
       }
     }
 
     return Response.success({
-      userInfo: userRes,
-      config
+      userInfo: userRes
     })
   }
 }

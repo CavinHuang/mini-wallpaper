@@ -1,15 +1,24 @@
+import { SelectQueryBuilder } from 'typeorm';
+import { ResourceWithCategory } from './../../models/entity/resourceWithCategory';
+import { Catgory } from './../../models/entity/catgory';
 import { ResourceService } from './../../service/resource';
 import { ControllerParams } from './../../interfaces/decorator';
 import { Controller, Get } from '../../core/decorator'
 import { ResourceType } from '../../service/resource';
 import { Response } from "../../core/responce";
+import { Resource } from '../../models/entity/resource';
 
 interface IListParams {
-  pageNum: number
-  pageSize: number
+  limit: number
+  offset: number
   type: ResourceType
+  typeId: number
   isHot?: boolean
   isRecommend?: boolean
+}
+
+interface IInfoParams {
+  id: number
 }
 
 @Controller('/resource', { skipPerm: true })
@@ -21,21 +30,46 @@ class Test {
    * @returns 
    */
   @Get('/lists')
-  public list(params: ControllerParams<IListParams>) {
+  public async list(params: ControllerParams<IListParams>) {
     const { query } = params
-    const { pageNum, pageSize, type = ResourceType.image, isHot, isRecommend } = query
+    const { limit, offset, type = ResourceType.image, isHot, isRecommend, typeId } = query
     const resourceService = new ResourceService()
-    let where: any = {}
-    if (isHot) {
-      where.is_hot = true
-    }
+    const result = await resourceService.getPageResourceByType(type, { limit, offset }, {
+      where: (query: SelectQueryBuilder<Resource>) => {
+        if (isHot) {
+          query = query.andWhere('r.is_hot = :isHot', { isHot: Boolean(isHot) })
+        }
 
-    if (isRecommend) {
-      where.is_recommend = true
-    }
+        if (isRecommend) {
+          query = query.andWhere('r.is_recommend = :isRecommend', { isRecommend: Boolean(isRecommend) })
+        }
 
-    const result = resourceService.getPageResourceByType(type, pageNum, pageSize, where)
+        if (typeId) {
+          query = query.innerJoin(ResourceWithCategory, 'rwc', 'r.id = rwc.resource_id').leftJoin(Catgory, 'c', 'rwc.category_id = c.id')
+          .andWhere('c.id = :typeId', { typeId })
+        }
+
+        return query
+      }
+    }, Boolean(isHot), Boolean(isRecommend))
 
     return Response.success(result, Response.successMessage)
+  }
+
+  /**
+   * 获取单个资源
+   * @param params 
+   * @returns 
+   */
+  @Get('/infotp')
+  public async infotp(params: ControllerParams<IInfoParams>) {
+    const { query } = params
+    const { id } = query
+
+    const resource = await (new ResourceService().getResourceById(id)) as Resource & { images: string[] }
+
+    resource.images = [`https://lhsk.demo.hongcd.com` + resource.url]
+
+    return Response.success(resource, Response.successMessage)
   }
 }

@@ -260,9 +260,9 @@
 											if (res.confirm) {
 												if (cts.data.message == '登录成功') {
 													console.log('====')
-													this_.logins(cts.data.data)
+													this_.logins(cts.data)
 												} else {
-													this_.opsdd(cts.data.data)
+													this_.opsdd(cts.data)
 												}
 											} else if (res.cancel) {
 
@@ -298,15 +298,15 @@
 				})
 			},
 			logins(data) {
-				if (data.userInfo.avatar) {
-					var str = data.userInfo.avatar;
+				if (data.data.userInfo.avatar) {
+					var str = data.data.userInfo.avatar;
 					if (str.indexOf("data:image") != -1) {
 						var avatar = '';
 					} else {
 						if (str.indexOf("http") != -1) {
-							avatar = data.userInfo.avatar;
+							avatar = data.data.userInfo.avatar;
 						} else {
-							avatar = this.configs.imgUrl + data.userInfo.avatar;
+							avatar = this.configs.imgUrl + data.data.userInfo.avatar;
 						}
 					}
 				} else {
@@ -316,11 +316,12 @@
 					key: 'avatar',
 					data: avatar
 				})
+				console.log('++++++', data.data.userInfo, '缓存配置信息111')
 				uni.setStorage({ //缓存配置信息
 					key: 'userinfo',
-					data: data.userInfo
+					data: data.data.userInfo
 				})
-				console.log(data.config)
+				console.log(data.config, '缓存配置信息222')
 				uni.setStorage({ //缓存配置信息
 					key: 'config',
 					data: data.config

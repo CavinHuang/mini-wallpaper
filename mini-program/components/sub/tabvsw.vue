@@ -3,7 +3,7 @@
 		<view class="tab-nav-plus-main"  :class="isFixed ? 'fixed' : ''">
 			<scroll-view :scroll-left="getLeft"   :scroll-with-animation="true" :scroll-x="true" class="tab-nav-plus-scroll">
 				<view v-for="(item,index) in tabs" :key="index"  :data-index="index" @click="tabClick" class="item">
-					<view class="tit" :class="selectIndex == index ? 'on' : ''" :style="{color: selectIndex == index ? '#FF6600': '#353535'}">{{item.name}}</view>
+					<view class="tit" :class="selectIndex == index ? 'on' : ''" :style="{color: selectIndex == index ? '#fff': '#353535'}">{{item.name}}</view>
 					<!-- <view class="bd" :style="{background:selectIndex == index ? tempColor: 'transparent'}"></view> -->
 				</view>
 			</scroll-view>
@@ -98,7 +98,7 @@
 		white-space: nowrap;
 		height: 76rpx;
 	}
-
+	
 	.tab-nav-plus-scroll .item{
 		height: 60upx;
 		line-height: 60upx;
@@ -111,19 +111,20 @@
 	}
 	.tab-nav-plus-scroll .item .tit{
 		text-align: center;
-		height: 48rpx;
-		line-height: 44rpx;
-		font-size: 30rpx;
+		height: 70rpx;
+		line-height: 50rpx;
+		font-size: 34rpx;
 		/* border: solid 1upx #ddd; */
-		background: #f0f0f0;
-		padding: 0upx 16upx;
-		border-radius: 12upx;
-		font-weight: 500;
-		color: #909398;
+		background: #eeeeee;
+		padding: 10upx 30upx;
+		border-radius: 40rpx;
+		font-weight: 200;
+		color: #8f9398;
 	}
 	.tab-nav-plus-scroll .item .tit.on{
-		font-size: 28rpx;
-		font-weight: 600;
+		font-size: 34rpx;
+		color: #323332;
+		background-image: linear-gradient(to right, #fbf95e, #f9cc3b);
 	}
 	.tab-nav-plus-main .tab-nav-plus-scroll .item .bd{
 		position: absolute;

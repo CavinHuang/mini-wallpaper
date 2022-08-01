@@ -85,6 +85,5 @@
       "desc": "为您精选服务"
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

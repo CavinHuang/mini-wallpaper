@@ -3,6 +3,7 @@ import { BaseService } from './baseService';
 import { Resource as ResourceEntity } from '../models/entity/resource'
 import { Pagination } from '../core';
 import { BusinessError, BUSINESS_ERROR_CODE } from './../core/error/businessError';
+import { SelectQueryBuilder } from 'typeorm';
 
 /**
  * 资源类型
@@ -25,16 +26,26 @@ export class ResourceService extends BaseService {
    * @param extralWhere 额外的where条件
    * @returns Promise<Pagination>
    */
-  public async getPageResourceByType(type: ResourceType, pageNum = 1, pageSize = 10, extralWhere: any = null) {
-    let query = M(ResourceEntity).createQueryBuilder('r').where('r.status = :status AND type = :type', { status: 1, type })
+  public async getPageResourceByType(type: ResourceType, { pageNum = 1, pageSize = 10, offset = 0, limit = 15}, extral: {
+    where: (query: SelectQueryBuilder<ResourceEntity>) => SelectQueryBuilder<ResourceEntity>
+  }, isHot = false, isRecommend = false) {
+    let query = M(ResourceEntity).createQueryBuilder('r').where('r.status = :status AND r.type = :type', { status: 1, type })
 
-    if (extralWhere) {
-      query = query.andWhere(extralWhere)
+    if (extral.where) {
+      query = extral.where(query)
     }
 
-    query = query.orderBy('r.is_recommend', 'DESC').addOrderBy('r.is_hot', 'DESC').addOrderBy('r.sort', 'ASC').addOrderBy('r.id', 'DESC')
+    if (isRecommend) {
+      query = query.orderBy('r.is_recommend', 'DESC')
+    }
 
-    const result = await Pagination.findByPage(query, { pageNum, pageSize, getRayMany: true })
+    if (isHot) {
+      query = query.addOrderBy('r.is_hot', 'DESC')
+    }
+
+    query = query.addOrderBy('r.sort', 'ASC').addOrderBy('r.id', 'DESC')
+
+    const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit })
 
     return result
   }
@@ -92,5 +103,16 @@ export class ResourceService extends BaseService {
    */
   public async deleteResource(id: number) {
     return await this.updateResource(id, { is_deleted: true })
+  }
+
+  /**
+   * 获取单个resource
+   * @param id 资源id
+   * @returns Promise<ResourceEntity>
+   */
+  public async getResourceById(id: number) {
+    return await M(ResourceEntity).findOne({
+      where: { id }
+    })
   }
 }

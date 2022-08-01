@@ -20,10 +20,15 @@
 		<sub-tabvs class="pt5" v-if="selectIndex==4 && type4tab[1]" :tabs="type4tab" @change="changetype4" :selectIndex="selecttype4" :scrollTop="scrollTop"></sub-tabvs>
 		<view class="pd10_15 flex space" style="display:flex; flex-wrap:wrap;">
 			<block v-for="(value,key) in listData" :key="key">
-			<view class="box pic-item"  @click="detail(value.id,value.lx)">
-				<!-- <view class="btn-mini" style="position: absolute; top: 20upx; right: 20upx; border-radius: 10upx;font-size: 18upx;width: 60upx; height: 36upx; z-index: 1;" :style="getBtnStyle">壁纸</view> -->
-				<image class="integral-mall-goods" mode="aspectFill" :src="value.img"></image>
-			</view>
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="mb10" v-if="key==6 && BannerAd" style="width: 100%;">
+					<ad :unit-id="BannerAd"></ad>
+				</view>	
+				<!-- #endif -->
+				<view class="box pic-item"  @click="detail(value.id,value.lx)">
+					<!-- <view class="btn-mini" style="position: absolute; top: 20upx; right: 20upx; border-radius: 10upx;font-size: 18upx;width: 60upx; height: 36upx; z-index: 1;" :style="getBtnStyle">壁纸</view> -->
+					<image class="integral-mall-goods" mode="aspectFill" :src="value.thumb_url"></image>
+				</view>
 			</block>
 		</view>
 		<view class="mb15">
@@ -49,6 +54,7 @@
 				searchValue:'',
 				total:0,
 				pageSize:10,
+				BannerAd: '',
 				tabs:[
 					{name:'全部'},
 					{name:'视频'},
@@ -205,7 +211,7 @@
 					data.lx=this.selectIndex
 				}
 				if(this.typeid && this.selectIndex==1){
-					data.typeid=this.typeid
+					data.typeId=this.typeid
 				}
 				if(this.addddid && this.selectIndex==1){
 					data.addddid=this.addddid
@@ -214,29 +220,30 @@
 					data.yearid=this.yearid
 				}
 				if(this.type2id && this.selectIndex==2){
-					data.typeid=this.type2id
+					data.typeId=this.type2id
 				}
 				if(this.type3id && this.selectIndex==3){
-					data.typeid=this.type3id
+					data.typeId=this.type3id
 				}
 				if(this.type4id && this.selectIndex==4){
-					data.typeid=this.type4id
+					data.typeId=this.type4id
 				}
 				if(this.keytext){
 					data.keytext=this.keytext
 				}
+				data.appid = this.configs.appId
 				uni.request({
-					url: this.configs.webUrl+'/api/video/lists',
+					url: this.configs.webUrl+'/api/resource/lists',
 					data: data,
 					success: data => {
 						//console.log(data.data)
 						
-						this.yeartab=data.data.typedata.year
-						this.addddtab=data.data.typedata.adddd
-						this.typetab=data.data.typedata.type
-						this.type2tab=data.data.typedata.type2
-						this.type3tab=data.data.typedata.type3
-						this.type4tab=data.data.typedata.type4
+						// this.yeartab=data.data.typedata.year
+						// this.addddtab=data.data.typedata.adddd
+						// this.typetab=data.data.typedata.type
+						// this.type2tab=data.data.typedata.type2
+						// this.type3tab=data.data.typedata.type3
+						this.type4tab=data.data.config.type4
 						
 						
 						if(this.typeids>0){
@@ -248,8 +255,8 @@
 								}
 							}
 						}
-						if (data.data.total>0) {
-							let list = data.data.rows;
+						if (data.data.data.total>0) {
+							let list = data.data.data.rows;
 							this.listData = this.reload ? list : this.listData.concat(list);
 							this.reload = false;
 							this.last_id = this.last_id+1;

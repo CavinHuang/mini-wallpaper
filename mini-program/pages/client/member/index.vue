@@ -30,7 +30,13 @@
 		<view style="width: 100%; height: 30upx;"></view>
 		<home-vipcard :userinfo="userinfo" @loginAct="showLoginAct" @qrcode="showQrcode = true"></home-vipcard>
 		<view class="mt24">
+			<!-- #ifdef MP-WEIXIN -->
+			<ad v-if="BannerAd" :unit-id="BannerAd"></ad>
+			<home-banner v-else :banners="banners"></home-banner>
+			<!-- #endif -->
+			<!-- #ifndef MP-WEIXIN -->
 			<home-banner :banners="banners"></home-banner>
+			<!-- #endif -->
 		</view>
 		<view class="flex wrap space mt16">
 			<view v-for="(item,index) in getMenus" :key="index" :class="index > 1 ? 'mt16': ''">
@@ -102,6 +108,7 @@
 				showBirthday: false,
 				showQrcode: false,
 				avatar: '',
+				BannerAd: '',
 				userinfo: [],
 				banners: [],
 				vipLevel: 0,
@@ -208,7 +215,7 @@
 			},
 			async ongrzlTap() {
 				let data = {};
-				data.appid = this.$config.appId
+				data.appid = this.configs.appId
 				data.token = uni.getStorageSync("userinfo").token;
 				data.uid = uni.getStorageSync("userinfo").id;
 				uni.request({

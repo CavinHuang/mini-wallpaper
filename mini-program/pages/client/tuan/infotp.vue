@@ -9,7 +9,7 @@
 				</swiper>
 			</view>
 			<view class="bottom" :class="cssTran ? 'closeCss' : 'openCss'" v-if="!loadFlag">
-				<view class="num">{{indexCurrent}} / {{detail.imageslength}}</view>
+				<view class="num">{{indexCurrent}} / {{detail.images.length}}</view>
 				<view class="nav-box">
 					<view class="nav-tab" @click="backClick()">
 						<image style="width: 50upx; height: 50upx;" :src="staticUrl+'back.png'"></image>
@@ -129,7 +129,7 @@ export default {
 		if(uni.getStorageSync("userinfo").id){
 			this.uid=uni.getStorageSync("userinfo").id
 		}
-		this.ongrzlTap()
+		// this.ongrzlTap()
 	},
 	onShow() {
 		// #ifdef APP-PLUS
@@ -191,16 +191,17 @@ export default {
 				data.token=uni.getStorageSync("userinfo").token
 				this.isLogin = true
 			}
+			data.appid = this.configs.appId
 			uni.request({
-				url: this.configs.webUrl+'/api/video/infotp',
+				url: this.configs.webUrl+'/api/resource/infotp',
 				data: data,
 				success: data => {
 						uni.hideLoading();
 						if(uni.getStorageSync("userinfo").token){
 							if(data.data.isvip>1){
-								this.price=data.data.vipprice
+								this.price=data.data.data.vip_price
 							}else{
-								this.price=data.data.price
+								this.price=data.data.data.price
 							}
 						}else{
 							this.price=data.data.price
@@ -209,7 +210,7 @@ export default {
 						//this.info=[];
 						
 						//this.info=data.data
-						this.detail = data.data
+						this.detail = data.data.data
 						if(data.data.isvip>1){
 							if(data.data.vipprice*1==0){
 								this.isplaytext='VIP免费'

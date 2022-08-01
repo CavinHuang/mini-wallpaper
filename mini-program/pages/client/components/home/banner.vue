@@ -3,7 +3,7 @@
 		<swiper class="home-swiper-banner" indicator-color="rgba(255, 255, 255, 0.3)" indicator-active-color="#FFFFFF" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="500">
 			<swiper-item v-for="(item,index) in banners" :key="index">
 				<navigator :url="item.link">
-				<image :src="item.src" style="border-radius: 16rpx"></image>
+				<image :src="item.cover" style="border-radius: 16rpx"></image>
 				</navigator>
 			</swiper-item>
 			

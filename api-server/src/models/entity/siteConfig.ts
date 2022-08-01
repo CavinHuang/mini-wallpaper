@@ -51,6 +51,11 @@ export class SiteConfig {
   background: string
 
   @Column({
+    comment: '小程序背景颜色配置',
+  })
+  mbgColor: string
+
+  @Column({
     type: 'datetime'
   })
   create_at: Date

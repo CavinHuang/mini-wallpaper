@@ -14,8 +14,9 @@ interface IConfig {
   [key: string]: any
 }
 
-const CONFIG_REDIS_KEY = 'config_'
-const CONFIG_VERSION_REDIS_KEY = 'config_key_'
+export const CONFIG_REDIS_KEY = 'config_'
+export const CONFIG_VERSION_REDIS_KEY = 'config_key_'
+export const CONFIG_CATEGORY_REDIS_KEY = 'category_key_'
 
 export class CommonService {
 
@@ -27,7 +28,7 @@ export class CommonService {
 
     const siteConfig = siteConfigs[0]
     const categoryService = new CatgoryService()
-    const categories = categoryService.getCategoryByAppid(siteConfig.appid)
+    const categories = await categoryService.getCategoryByAppid(siteConfig.appid)
 
     config.site = siteConfig
 
@@ -39,21 +40,23 @@ export class CommonService {
     }
 
     // banner
-    const banners = (new BannerService).getBannerByAppid(siteConfig.appid)
+    const banners = await (new BannerService).getBannerByAppid(siteConfig.appid)
 
     config.banner = banners
 
     // 存redis
     redisSet(`${CONFIG_REDIS_KEY}${siteConfig.appid}`, config)
+    redisSet(`${CONFIG_VERSION_REDIS_KEY}${siteConfig.appid}`, siteConfig.version)
 
+    // category
+    redisSet(`${CONFIG_CATEGORY_REDIS_KEY}${siteConfig.appid}`, categories)
     return true
   }
 
   public async initCache(appid: string) {
     const key = `${CONFIG_REDIS_KEY}${appid}`
-
     const redisRes = await redisGet<IConfig>(key)
-    const redisConfigVersion = await redisGet(`${CONFIG_VERSION_REDIS_KEY}`)
+    const redisConfigVersion = await redisGet(`${CONFIG_VERSION_REDIS_KEY}${appid}`)
     if (redisRes && redisConfigVersion === redisRes.site.version) {
       return true
     }

@@ -138,6 +138,7 @@
 				let data = {};
 				data.token = uni.getStorageSync("userinfo").token;
 				data.uid = uni.getStorageSync("userinfo").id;
+				data.appid = this.configs.appId
 				uni.request({
 					url: this.configs.webUrl+'/api/user/index',
 					data: data,
