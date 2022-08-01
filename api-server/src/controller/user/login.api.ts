@@ -1,3 +1,6 @@
+import { Response } from './../../core/responce/index';
+import { ResourceWithCategory } from './../../models/entity/resourceWithCategory';
+import { redisGet } from './../../core/redis/index';
 import { userService } from './../../service/user';
 import { ControllerParams } from "../../interfaces";
 import { Controller, Get, Post, Use } from "../../core/decorator";
@@ -7,6 +10,10 @@ import { loginParams } from "../../validator"
 import { Wechat } from "../../service/wechat";
 import { Response } from "../../core/responce";
 import { redisClient } from '../../core/redis';
+import { User } from "../../models/entity/user";
+import { Resource } from '../../models/entity/resource';
+import { ResourceService, ResourceType } from '../../service/resource';
+import { M } from '../../models';
 
 interface IGetPhone {
   nickName: string
@@ -20,6 +27,9 @@ interface IGetPhone {
 interface ITougao {
   typeId: number
   img: string
+  pic: string
+  token: string
+  appid: string
 }
 
 @Controller('/user')
@@ -86,5 +96,46 @@ class UserLogin extends CoreController {
   }
 
   @Post('/tougao')
-  public async tougao() {}
+  public async tougao(params: ControllerParams<any, ITougao>) {
+    const { body } = params
+    const { img, pic, typeId, token, appid } = body
+
+    const user = await redisGet<User>(token)
+
+    const rawData: Partial<Resource> = {
+      appid,
+      type: ResourceType.image,
+      name: '投稿作品',
+      info: '投稿作品',
+      url: pic,
+      thumb_url: img,
+      upload_type: 'qiniu',
+      price: 0,
+      vip_price: 0,
+      sort: 0,
+      is_hot: false,
+      is_recommend: false,
+      is_deleted: false,
+      author: user.id,
+      status: 1,
+      create_at: new Date()
+    }
+
+    try {
+      const saveRes = await (new ResourceService).saveResource(rawData)
+
+      if (saveRes) {
+        const saveRelation = M(ResourceWithCategory)
+        const data = saveRelation.create({
+          resource_id: saveRes.id,
+          category_id: typeId
+        })
+
+        return Response.success(data, Response.successMessage)
+      }
+
+    } catch (e) {
+      throw e
+    }
+  }
 }

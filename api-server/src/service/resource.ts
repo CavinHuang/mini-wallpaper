@@ -55,7 +55,7 @@ export class ResourceService extends BaseService {
    * @param resource 资源数据
    * @returns Promise<ResourceEntity>
    */
-  public saveResource(resource: ResourceEntity) {
+  public saveResource(resource: Partial<ResourceEntity>) {
     const resourceInstance = M(ResourceEntity)
     const raw = resourceInstance.create(resource)
 

@@ -233,7 +233,7 @@
 					url: this.configs.webUrl + '/api/resource/lists',
 					data: data,
 					success: res => {
-						console.log(res.data.config)
+						console.log(res.data.config, '=====')
 						//缓存配置信息
 						uni.setStorage({
 							key: 'config',
