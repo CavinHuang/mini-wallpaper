@@ -46,6 +46,13 @@ export class Resource {
   thumb_url: string
 
   @Column({
+    length: 200,
+    comment: '资源的上传方式, local/qiniu',
+    default: 'local'
+  })
+  upload_type: string
+
+  @Column({
     comment: '资源的单价',
     type: 'decimal'
   })

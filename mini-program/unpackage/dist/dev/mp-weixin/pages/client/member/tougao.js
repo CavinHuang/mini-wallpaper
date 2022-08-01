@@ -187,11 +187,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
@@ -204,7 +199,8 @@ var _default =
       imageLists: [],
       uploadfiles: 1,
       configfenlei: [],
-      tyid: 0 };
+      tyid: 0,
+      qiniuBasePath: '' };
 
   },
   computed: {
@@ -217,14 +213,16 @@ var _default =
     } },
 
   onLoad: function onLoad() {
+    this.qiniuBasePath = uni.getStorageSync('config').site.qiniuPath;
     this.uploadUrl = this.configs.webUrl + '/api/user/upload?token=' + uni.getStorageSync("userinfo").token;
     this.deleteUrl = this.configs.webUrl + '/api/user/deleteUrl?token=' + uni.getStorageSync("userinfo").token;
-    this.configfenlei = uni.getStorageSync("config").fenlei;
+    this.configfenlei = uni.getStorageSync("config").type4;
   },
 
   methods: {
     opda: function opda(tyid) {
       this.tyid = tyid;
+      this.qiniuBasePath = this.qiniuBasePath + '/' + tyid;
     },
     successFails: function successFails(list) {
       console.log(list);
@@ -238,7 +236,10 @@ var _default =
     },
     deleteFails: function deleteFails(e) {
       console.log(e);var
-      data = e.data,index = e.index;
+
+      data =
+
+      e.data,index = e.index;
       this.imageLists.splice(index, 1);
       // uni.showModal({
       //     content: "删除成功",
@@ -294,6 +295,7 @@ var _default =
       data.token = uni.getStorageSync("userinfo").token;
       uni.request({
         url: this.configs.webUrl + '/api/user/tougao',
+        method: 'POST',
         data: data,
         success: function success(res) {
           if (res.data.code == 1) {
@@ -314,7 +316,10 @@ var _default =
               } });
 
           } else {
-            uni.showToast({ title: res.data.msg, icon: "none" });
+            uni.showToast({
+              title: res.data.msg,
+              icon: "none" });
+
           }
         },
         fail: function fail(data, code) {

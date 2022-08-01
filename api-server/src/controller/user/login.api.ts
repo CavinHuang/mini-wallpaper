@@ -17,13 +17,17 @@ interface IGetPhone {
   pid: number
 }
 
+interface ITougao {
+  typeId: number
+  img: string
+}
+
 @Controller('/user')
 class UserLogin extends CoreController {
 
   @Get('/index', { skipPerm: true })
   public async index(params: ControllerParams<{ token: string, uid: number }>) {
     const userRes = await redisClient.get(params.query.token)
-    console.log(userRes)
     if (userRes) {
       return Response.success({...JSON.parse(userRes), token: params.query.token }, 'success')
     }
@@ -80,4 +84,7 @@ class UserLogin extends CoreController {
       userInfo: userRes
     })
   }
+
+  @Post('/tougao')
+  public async tougao() {}
 }

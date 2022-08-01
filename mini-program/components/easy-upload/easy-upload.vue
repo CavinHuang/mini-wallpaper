@@ -125,6 +125,14 @@
 			uploadfiles: {
 				type: Number,
 				default: 1
+			},
+			uploadType: {
+				type: String,
+				default: 'default'
+			},
+			qiniuBasePath: {
+				type: String,
+				default: ''
 			}
 		},
 		data(){
@@ -177,6 +185,7 @@
 							sourceType: ['album', 'camera'], //从相册选择
 							success: async (res) => {
 								this.filesLen = res.tempFiles.length;
+								
 								for(let i = 0; i< res.tempFiles.length; i++){
 									if(Math.ceil(res.tempFiles[i].size / 1024) < this.uploadMaxSize * 1024){
 										this.files.push({
@@ -198,7 +207,11 @@
 									}
 									//自动上传处理
 									if(this.isImmediate){
-										await this.uploads(res.tempFiles[i].path, i)
+										if (this.uploadType === 'qiniu') {
+											await this.qiniuUpload(res.tempFiles[i].path, i)
+										} else {
+											await this.uploads(res.tempFiles[i].path, i)
+										}
 									}
 								}
 							}
@@ -247,6 +260,64 @@
 					index
 				});
 			},
+			
+			qiniuUpload(img, i) {
+				return new Promise((resolve, reject) => {
+					uni.request({
+						url: this.configs.webUrl + '/api/index/qiniu/token',
+						data: {
+							appid: this.configs.appId
+						},
+						success: (res) => {
+							console.log(res)
+							
+							let key = new Date().getTime()
+							uni.uploadFile({
+								url: "https://up-z2.qiniup.com", 
+								filePath: img,
+								name: 'file',
+								method: "POST",
+								formData: {
+									'key': (this.qiniuBasePath ? this.qiniuBasePath + '/' : '') + key, //key值
+									'token': res.data.data //七牛云token值
+								},
+								success: uploadFileRes => {
+									//uploadFileRes 返回了data是一个json字符串 
+									//拿到里面的key拼接上域名，再反出去就ok了
+									let strToObj=JSON.parse(uploadFileRes.data);
+									console.log("uploadFileRes",strToObj)
+									this.resFails.push(strToObj.key)
+									if(this.filesLen === (i + 1)){
+										this.$emit("onUploadSuccess", this.resFails);
+										this.resFails = [];
+									};
+									uni.hideLoading();
+									resolve('');
+								},
+								fail: fail => {
+									console.log(fail)
+									// #ifdef APP-PLUS
+									plus.nativeUI.alert(`您上传的文件第${i + 1}个失败`);
+									// #endif
+									// #ifndef APP-PLUS
+									uni.showModal({
+										content: `您上传的文件第${i + 1}个失败`,
+										showCancel: false,
+									});
+									// #endif
+									uni.showToast({
+										title: "网络错误",
+										icon: "none"
+									});
+									// data.fail(fail); //反出去错误信息
+									uni.hideLoading();
+								}
+							})
+						}
+					})
+				})
+			},
+			
 			uploads(filePath, i = 0){
 				if(this.isShowLoading){
 					uni.showLoading({

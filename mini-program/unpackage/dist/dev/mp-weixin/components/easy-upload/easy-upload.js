@@ -240,7 +240,15 @@ var _icon = _interopRequireDefault(__webpack_require__(/*! ./icon/icon.png */ 39
                         */
     uploadfiles: {
       type: Number,
-      default: 1 } },
+      default: 1 },
+
+    uploadType: {
+      type: String,
+      default: 'default' },
+
+    qiniuBasePath: {
+      type: String,
+      default: '' } },
 
 
   data: function data() {
@@ -293,7 +301,8 @@ var _icon = _interopRequireDefault(__webpack_require__(/*! ./icon/icon.png */ 39
             sourceType: ['album', 'camera'], //从相册选择
             success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(res) {var i;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                         _this.filesLen = res.tempFiles.length;
-                        i = 0;case 2:if (!(i < res.tempFiles.length)) {_context.next = 17;break;}if (!(
+
+                        i = 0;case 2:if (!(i < res.tempFiles.length)) {_context.next = 22;break;}if (!(
                         Math.ceil(res.tempFiles[i].size / 1024) < _this.uploadMaxSize * 1024)) {_context.next = 7;break;}
                         _this.files.push({
                           source: res.tempFiles[i].path,
@@ -307,14 +316,18 @@ var _icon = _interopRequireDefault(__webpack_require__(/*! ./icon/icon.png */ 39
 
 
                         uni.showModal({
-                          content: "\u7B2C".concat(_toConsumableArray(new Set(_this.exceeded_list)).join(','), "\u5F20\u56FE\u7247\u8D85\u51FA\u9650\u5236").concat(_this.uploadMaxSize, "MB,\u5DF2\u8FC7\u6EE4") });return _context.abrupt("continue", 14);case 11:if (!
+                          content: "\u7B2C".concat(_toConsumableArray(new Set(_this.exceeded_list)).join(','), "\u5F20\u56FE\u7247\u8D85\u51FA\u9650\u5236").concat(_this.uploadMaxSize, "MB,\u5DF2\u8FC7\u6EE4") });return _context.abrupt("continue", 19);case 11:if (!
 
 
 
 
 
-                        _this.isImmediate) {_context.next = 14;break;}_context.next = 14;return (
-                          _this.uploads(res.tempFiles[i].path, i));case 14:i++;_context.next = 2;break;case 17:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}() });
+                        _this.isImmediate) {_context.next = 19;break;}if (!(
+                        _this.uploadType === 'qiniu')) {_context.next = 17;break;}_context.next = 15;return (
+                          _this.qiniuUpload(res.tempFiles[i].path, i));case 15:_context.next = 19;break;case 17:_context.next = 19;return (
+
+                          _this.uploads(res.tempFiles[i].path, i));case 19:i++;_context.next = 2;break;case 22:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}() });
+
 
 
 
@@ -363,7 +376,65 @@ var _icon = _interopRequireDefault(__webpack_require__(/*! ./icon/icon.png */ 39
         index: index });
 
     },
-    uploads: function uploads(filePath) {var _this2 = this;var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    qiniuUpload: function qiniuUpload(img, i) {var _this2 = this;
+      return new Promise(function (resolve, reject) {
+        uni.request({
+          url: _this2.configs.webUrl + '/api/index/qiniu/token',
+          data: {
+            appid: _this2.configs.appId },
+
+          success: function success(res) {
+            console.log(res);
+
+            var key = new Date().getTime();
+            uni.uploadFile({
+              url: "https://up-z2.qiniup.com",
+              filePath: img,
+              name: 'file',
+              method: "POST",
+              formData: {
+                'key': (_this2.qiniuBasePath ? _this2.qiniuBasePath + '/' : '') + key, //key值
+                'token': res.data.data //七牛云token值
+              },
+              success: function success(uploadFileRes) {
+                //uploadFileRes 返回了data是一个json字符串 
+                //拿到里面的key拼接上域名，再反出去就ok了
+                var strToObj = JSON.parse(uploadFileRes.data);
+                console.log("uploadFileRes", strToObj);
+                _this2.resFails.push(strToObj.key);
+                if (_this2.filesLen === i + 1) {
+                  _this2.$emit("onUploadSuccess", _this2.resFails);
+                  _this2.resFails = [];
+                };
+                uni.hideLoading();
+                resolve('');
+              },
+              fail: function fail(_fail) {
+                console.log(_fail);
+
+
+
+
+                uni.showModal({
+                  content: "\u60A8\u4E0A\u4F20\u7684\u6587\u4EF6\u7B2C".concat(i + 1, "\u4E2A\u5931\u8D25"),
+                  showCancel: false });
+
+
+                uni.showToast({
+                  title: "网络错误",
+                  icon: "none" });
+
+                // data.fail(fail); //反出去错误信息
+                uni.hideLoading();
+              } });
+
+          } });
+
+      });
+    },
+
+    uploads: function uploads(filePath) {var _this3 = this;var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       if (this.isShowLoading) {
         uni.showLoading({
           title: '上传中' });
@@ -372,10 +443,10 @@ var _icon = _interopRequireDefault(__webpack_require__(/*! ./icon/icon.png */ 39
       //按顺序上传
       return new Promise( /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3(resolve) {var _yield$uni$uploadFile, _yield$uni$uploadFile2, err, res, dataas;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
                     uni.uploadFile({
-                      url: _this2.uploadUrl,
+                      url: _this3.uploadUrl,
                       filePath: filePath,
                       name: 'file',
-                      formData: _this2.formData }));case 2:_yield$uni$uploadFile = _context3.sent;_yield$uni$uploadFile2 = _slicedToArray(_yield$uni$uploadFile, 2);err = _yield$uni$uploadFile2[0];res = _yield$uni$uploadFile2[1];
+                      formData: _this3.formData }));case 2:_yield$uni$uploadFile = _context3.sent;_yield$uni$uploadFile2 = _slicedToArray(_yield$uni$uploadFile, 2);err = _yield$uni$uploadFile2[0];res = _yield$uni$uploadFile2[1];
 
                   if (err) {
 
@@ -390,24 +461,24 @@ var _icon = _interopRequireDefault(__webpack_require__(/*! ./icon/icon.png */ 39
                   };
                   dataas = JSON.parse(res.data);
                   console.log(dataas.data.url);
-                  _this2.resFails.push(dataas.data.url);
-                  if (_this2.filesLen === i + 1) {
-                    _this2.$emit("onUploadSuccess", _this2.resFails);
-                    _this2.resFails = [];
+                  _this3.resFails.push(dataas.data.url);
+                  if (_this3.filesLen === i + 1) {
+                    _this3.$emit("onUploadSuccess", _this3.resFails);
+                    _this3.resFails = [];
                   };
                   uni.hideLoading();
                   resolve('');case 15:case "end":return _context3.stop();}}}, _callee3);}));return function (_x3) {return _ref.apply(this, arguments);};}());
 
     },
-    requestFile: function requestFile() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var uploadFails, i;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (
-                _this3.uploadUrl) {_context4.next = 3;break;}
+    requestFile: function requestFile() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var uploadFails, i;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:if (
+                _this4.uploadUrl) {_context4.next = 3;break;}
                 console.error('请填写上传接口');return _context4.abrupt("return");case 3:
 
                 ;
-                uploadFails = _this3.files.filter(function (item) {return item.type === 'process';});
-                _this3.filesLen = uploadFails.length;
+                uploadFails = _this4.files.filter(function (item) {return item.type === 'process';});
+                _this4.filesLen = uploadFails.length;
                 i = 0;case 7:if (!(i < uploadFails.length)) {_context4.next = 13;break;}_context4.next = 10;return (
-                  _this3.uploads(uploadFails[i].source, i));case 10:i++;_context4.next = 7;break;case 13:case "end":return _context4.stop();}}}, _callee4);}))();
+                  _this4.uploads(uploadFails[i].source, i));case 10:i++;_context4.next = 7;break;case 13:case "end":return _context4.stop();}}}, _callee4);}))();
 
     } } };exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

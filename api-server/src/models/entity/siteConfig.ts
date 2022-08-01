@@ -56,6 +56,11 @@ export class SiteConfig {
   mbgColor: string
 
   @Column({
+    comment: '七牛云上传path',
+  })
+  qiniuPath: string
+
+  @Column({
     type: 'datetime'
   })
   create_at: Date
