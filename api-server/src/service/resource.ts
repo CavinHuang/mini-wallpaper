@@ -26,7 +26,7 @@ export class ResourceService extends BaseService {
    * @param extralWhere 额外的where条件
    * @returns Promise<Pagination>
    */
-  public async getPageResourceByType(type: ResourceType, { pageNum = 1, pageSize = 10, offset = 0, limit = 15}, extral: {
+  public async getPageResourceByType(type: ResourceType, { pageNum = 1, pageSize = 10, offset = 0, limit = 15}, extral?: {
     where: (query: SelectQueryBuilder<ResourceEntity>) => SelectQueryBuilder<ResourceEntity>
   }, isHot = false, isRecommend = false) {
     let query = M(ResourceEntity).createQueryBuilder('r').where('r.status = :status AND r.type = :type', { status: 1, type })
@@ -92,7 +92,7 @@ export class ResourceService extends BaseService {
       throw new BusinessError(BUSINESS_ERROR_CODE.NOT_FOUND, '不存在的资源')
     }
 
-    const rawData = resource.create(raw)
+    const rawData = resource.create({ ...result, ...raw})
     return await resource.save(rawData)
   }
 

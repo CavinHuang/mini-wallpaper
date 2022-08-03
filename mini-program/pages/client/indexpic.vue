@@ -13,11 +13,26 @@
 				<!-- <text @click="saoma()" class="iconfont iconicon_saoma ft24"></text> -->
 			</view>
 			<view class="mt10">
-				<home-banner :banners="banners"></home-banner>
+				<home-banner :banners="banners" @change="bannerChange"></home-banner>
 			</view>
 		</view>
+			
 		<view class="integral-mall-main plr15" style="margin-top: 140upx;">
-			<view class="integal-mall-menu flex pt16 pb16">
+			<view class="home-nav plr15" v-if="hasNav">
+				<view class="home-nav__item">
+					<view class="home-nav__content">
+						<image class="nav-image" src="../../static/icon/avatar-icon.png" mode="center"></image>
+						<view class="title">头像挂件</view>
+					</view>
+				</view>
+				<view class="home-nav__item">
+					<view class="home-nav__content">
+						<image class="nav-image" src="../../static/icon/shipin-icon.png" mode="center"></image>
+						<view class="title">视频工具</view>
+					</view>
+				</view>
+			</view>
+			<view v-else class="integal-mall-menu flex pt16 pb16">
 				<view class="col2 text-center" @click="linkTo"
 					data-link="/pages/client/tuan/sstp?selectIndex=4&typeids=98">
 					<view>
@@ -52,7 +67,7 @@
 					<view class="ft14 ftw600 mt6" style="color: #444;">全部壁纸</view>
 				</view>
 			</view>
-
+	
 			<view class="mt24" v-if="dataindex[4]">
 				<view class="flex alcenter space">
 					<view class="flex alcenter">
@@ -66,7 +81,7 @@
 
 				<view class="mt16 flex space">
 					<block v-for="(value,key) in dataindex[4]" :key="key" v-if="key<3">
-						<view class="box" style="width: 32%; position: relative;" @click="detail(value.id,value.lx)">
+						<view class="box" style="width: 32%; position: relative;" @click="detail(value.id,4)">
 							<!-- <view class="btn-mini" style="position: absolute; top: 20upx; right: 20upx; border-radius: 10upx;font-size: 18upx;width: 60upx; height: 36upx; z-index: 1;" :style="getBtnStyle">壁纸</view> -->
 							<image class="integral-mall-goods" mode="aspectFill" :src="value.thumb_url"></image>
 						</view>
@@ -97,7 +112,7 @@
 						<!-- #endif -->
 						<view class="box pic-item" @click="detail(value.id, 4)">
 							<!-- <view class="btn-mini" style="position: absolute; top: 20upx; right: 20upx; border-radius: 10upx;font-size: 18upx;width: 60upx; height: 36upx; z-index: 1;" :style="getBtnStyle">壁纸</view> -->
-							<image class="integral-mall-goods" mode="aspectFill" :src="value.thumb_url"></image>
+							<image class="integral-mall-goods" mode="aspectFill" :src="imagePath(value.upload_type, value.thumb_url)"></image>
 						</view>
 					</block>
 				</view>
@@ -105,12 +120,11 @@
 			</view>
 		</view>
 		<!-- <home-default :datasa="datasa"></home-default>
-		<!-- <com-footer model="index"></com-footer> --> -->
+		<com-footer model="index"></com-footer> -->
 	</view>
 </template>
 <script>
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-
 
 	export default {
 		components: {
@@ -118,6 +132,7 @@
 		},
 		data() {
 			return {
+				hasNav: false,
 				navLock: false,
 				datasa: [],
 				showdyxx: true,
@@ -142,12 +157,15 @@
 					contentdown: '上拉加载更多',
 					contentrefresh: '加载中',
 					contentnomore: '没有数据了'
-				}
+				},
+				inThisPage: false,
+				bannerCurrent: -1
 			}
 		},
 		computed: {
 
 		},
+		
 		onPageScroll(e) {
 			if (e.scrollTop > 44) {
 				if (this.navLock == false) {
@@ -194,7 +212,11 @@
 			this.getList1();
 		},
 		onShow() {
-
+			this.inThisPage = true
+			this.changeBg()
+		},
+		onHide() {
+			this.inThisPage = false
 		},
 		onShareAppMessage(res) {
 			var this_ = this
@@ -208,6 +230,27 @@
 			}
 		},
 		methods: {
+			changeBg() {
+				if (!this.inThisPage || this.bannerCurrent < 0) return
+				const banner = this.banners[this.bannerCurrent]
+				this.mbgColor = banner.background
+				uni.setNavigationBarColor({
+					frontColor: "#ffffff",
+					backgroundColor: banner.background,
+					complete: () => {
+						this.navLock = false;
+					}
+				});
+			},
+			bannerChange({ current }) {
+				this.bannerCurrent = current
+				this.changeBg()
+			},
+			imagePath(upload_type, url) {
+				if (url.indexOf('http') > -1) return url
+				const resource_cdn_url = uni.getStorageSync('config').site.resource_cdn_url
+				return resource_cdn_url[upload_type] + url
+			},
 			getList(lx, ishot) {
 				let this_ = this
 				let data = {};
@@ -407,6 +450,41 @@
 		width: 100%;
 		position: relative;
 		border-radius: 0rpx 0rpx 48rpx 48rpx;
+	}
+	
+	.home-nav {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 160rpx;
+	}
+	
+	.home-nav .home-nav__item {
+		width: 50%;
+	}
+	
+	.home-nav .home-nav__content {
+		background: #FFFFFF;
+		border-radius: 16rpx;
+		padding: 20rpx;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+	}
+	
+	.home-nav .title {
+		font-size: 32rpx;
+		margin-left: 20rpx;
+		color: #888;
+	}
+	
+	.home-nav .home-nav__item:first-child .home-nav__content {
+		 margin-right: 32rpx;
+	 }
+	
+	.home-nav .home-nav__item .nav-image {
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 50%;
 	}
 
 	.home-main {

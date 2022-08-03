@@ -8,7 +8,7 @@ import { redisClient } from '../core/redis';
 import { SiteConfigService } from './siteService';
 import { SiteConfig } from '../models/entity/siteConfig';
 
-interface IConfig {
+export interface IConfig {
   site?: SiteConfig
   banner?: Banner[]
   [key: string]: any
@@ -29,6 +29,37 @@ export class CommonService {
     const siteConfig = siteConfigs[0]
     const categoryService = new CatgoryService()
     const categories = await categoryService.getCategoryByAppid(siteConfig.appid)
+
+    const resource_cdn_url = siteConfig.resource_cdn_url
+
+    siteConfig.resource_cdn_url = (() => {
+      try {
+        return JSON.parse(resource_cdn_url)
+      } catch (e) {
+        console.log(e)
+        return ''
+      }
+    })()
+
+    const categorytype = siteConfig.categorytype
+    siteConfig.categorytype = (() => {
+      try {
+        return JSON.parse(categorytype)
+      } catch (e) {
+        console.log(e)
+        return ''
+      }
+    })()
+
+    const background = siteConfig.background
+    siteConfig.background = (() => {
+      try {
+        return JSON.parse(background)
+      } catch (e) {
+        console.log(e)
+        return ''
+      }
+    })()
 
     config.site = siteConfig
 
@@ -62,5 +93,10 @@ export class CommonService {
     }
 
     return this.setCache()
+  }
+
+  static async getRedisConfig(appid = '') {
+    const key = `${CONFIG_REDIS_KEY}${appid}`
+    return await redisGet<IConfig>(key)
   }
 }

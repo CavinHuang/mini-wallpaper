@@ -12,13 +12,19 @@
 		<view>
 			<text class="ft16 mb10" style="color: #666;line-height: 100upx; padding-left: 10upx;">请选择图片上传</text>
 		</view>
-		<easy-upload :dataList="imageList" :uploadfiles="uploadfiles" types="image" uploadType='qiniu' isImmediate="true"
-			uploadMaxCount="9" :uploadUrl="uploadUrl" :deleteUrl="deleteUrl" @onUploadSuccess="successFails"
+		<easy-upload
+			v-model="imageList"
+			:uploadfiles="uploadfiles"
+			types="image"
+			uploadType='qiniu'
+			:isImmediate="true"
+			:uploadMaxCount="9"
+			:uploadUrl="uploadUrl"
+			:deleteUrl="deleteUrl"
+			@onUploadSuccess="successFails"
 			@onDelSuccess="deleteFails"
-			:qiniuBasePath="qiniuBasePath">
-			<!-- <template v-slot:uploadBtn>
-			            <view class="upload-btn">上传</view>
-			        </template> -->
+			:qiniuBasePath="qiniuBasePath"
+		>
 		</easy-upload>
 		<view class="mt16">
 			<button class="btn-big mb10" @click="tjtp()" :style="isSubmit ? getBtnStyle : getBtnStyle">立即提交</button>
@@ -46,6 +52,12 @@
 				qiniuBasePath: ''
 			}
 		},
+		
+		watch: {
+			imageList(val) {
+				console.log('+++++', val)
+			}
+		},
 		computed: {
 			isSubmit() {
 				if (this.imageLists.length > 0) {
@@ -56,10 +68,37 @@
 			}
 		},
 		onLoad() {
+			let isLogin = false
+			if (uni.getStorageSync("userinfo").token) {
+				isLogin = true;
+			} else {
+				isLogin = false;
+			}
+			
+			if (!isLogin) {
+				uni.redirectTo({
+					url: '/pages/client/member/index'
+				})
+			}
 			this.qiniuBasePath = uni.getStorageSync('config').site.qiniuPath
 			this.uploadUrl = this.configs.webUrl + '/api/user/upload?token=' + uni.getStorageSync("userinfo").token
 			this.deleteUrl = this.configs.webUrl + '/api/user/deleteUrl?token=' + uni.getStorageSync("userinfo").token
 			this.configfenlei = uni.getStorageSync("config").type4
+		},
+		
+		onShow() {
+			let isLogin = false
+			if (uni.getStorageSync("userinfo").token) {
+				isLogin = true;
+			} else {
+				isLogin = false;
+			}
+			
+			if (!isLogin) {
+				uni.redirectTo({
+					url: 'pages/client/member/index'
+				})
+			}
 		},
 
 		methods: {
@@ -132,19 +171,21 @@
 				});
 
 				data.img = img
-				data.type = this.tyid
+				data.typeId = this.tyid
 				//data.name=this.name
 				data.pic = pic
 				data.token = uni.getStorageSync("userinfo").token;
+				data.appid = this.configs.appId
 				uni.request({
-					url: this.configs.webUrl + '/api/user/tougao',
+					url: this.configs.webUrl + '/api/user/tougao?appid=' + this.configs.appId,
 					method: 'POST',
 					data: data,
 					success: res => {
+						console.log(res.data)
 						if (res.data.code == 1) {
 							uni.showModal({
 								title: '温馨提示',
-								content: res.data.msg,
+								content: res.data.message,
 								showCancel: false,
 								confirmText: "确定",
 								success: function(res) {
@@ -160,7 +201,7 @@
 							});
 						} else {
 							uni.showToast({
-								title: res.data.msg,
+								title: res.data.message,
 								icon: "none"
 							});
 						}

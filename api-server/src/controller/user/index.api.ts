@@ -1,19 +1,19 @@
-import { Response } from './../../core/responce/index';
-import { ResourceWithCategory } from './../../models/entity/resourceWithCategory';
-import { redisGet } from './../../core/redis/index';
-import { userService } from './../../service/user';
+import { Response } from '../../core/responce';
+import { ResourceWithCategory } from '../../models/entity/resourceWithCategory';
+import { redisGet } from '../../core/redis/index';
+import { userService } from '../../service/user';
 import { ControllerParams } from "../../interfaces";
 import { Controller, Get, Post, Use } from "../../core/decorator";
 import { CoreController } from "../CoreController";
 import { genValidateParams } from "../../middlewares";
 import { loginParams } from "../../validator"
 import { Wechat } from "../../service/wechat";
-import { Response } from "../../core/responce";
 import { redisClient } from '../../core/redis';
 import { User } from "../../models/entity/user";
 import { Resource } from '../../models/entity/resource';
 import { ResourceService, ResourceType } from '../../service/resource';
 import { M } from '../../models';
+import { deleteFile } from '../../config/qiniu';
 
 interface IGetPhone {
   nickName: string
@@ -43,7 +43,6 @@ class UserLogin extends CoreController {
     }
 
     const userRaw = await userService.getUserById(params.query.uid)
-    console.log(userRaw)
     if (userRaw) {
       return Response.success(userRaw, 'success')
     }
@@ -95,7 +94,7 @@ class UserLogin extends CoreController {
     })
   }
 
-  @Post('/tougao')
+  @Post('/tougao', { skipPerm: true })
   public async tougao(params: ControllerParams<any, ITougao>) {
     const { body } = params
     const { img, pic, typeId, token, appid } = body
@@ -117,7 +116,7 @@ class UserLogin extends CoreController {
       is_recommend: false,
       is_deleted: false,
       author: user.id,
-      status: 1,
+      status: 2,
       create_at: new Date()
     }
 
@@ -126,16 +125,75 @@ class UserLogin extends CoreController {
 
       if (saveRes) {
         const saveRelation = M(ResourceWithCategory)
+        console.log(saveRes)
         const data = saveRelation.create({
           resource_id: saveRes.id,
           category_id: typeId
         })
-
-        return Response.success(data, Response.successMessage)
+        const res = saveRelation.save(data)
+        return Response.success(res, Response.successMessage)
       }
 
     } catch (e) {
       throw e
     }
+  }
+
+  @Get('/tougaojl', { skipPerm: true })
+  public async taogaojl(params: ControllerParams<{ limit: number, offset: number, token: string }>) {
+    const { query } = params
+    const { offset, limit, token } = query
+    const user = await userService.getRedisUser(token)
+    const resources = await (new ResourceService).getPageResourceByType(ResourceType.image, { offset, limit }, {
+      where: (query) => {
+        query = query.where('r.status = :status', { status: 2 })
+        if (user.role !== 2) {
+          query = query.andWhere('r.author = :author', { author: user.id })
+        }
+        return query
+      }
+    })
+
+    return Response.success(resources, Response.successMessage)
+  }
+
+  @Get('/tougaodel', { skipPerm: true })
+  public async tougaodel(params: ControllerParams<{ id: number, token: string }>) {
+    const { query } = params
+    const { id, token } = query
+    const user = await userService.getRedisUser(token)
+    const resource = await (new ResourceService().getResourceById(id))
+
+    if (user.id !== resource.author) {
+      return Response.error('只能删除自己的投稿')
+    }
+
+    const resourceService = new ResourceService()
+    if (resourceService.updateResource(id, { status: 3, is_deleted: true })) {
+      return Response.success(true, '删除成功')
+    }
+
+    return Response.error('删除失败，请重试~')
+  }
+
+  @Get('/tougaoshenhe', { skipPerm: true })
+  public async tougaoshenhe(params: ControllerParams<{ id: number, token: string }>) {
+    const { query } = params
+    const { id, token } = query
+    const user = await userService.getRedisUser(token)
+    if (user.role !== 2) {
+      return Response.error('没有审核权限，请联系管理员！')
+    }
+    const resourceService = new ResourceService()
+    const resource = await (resourceService.getResourceById(id))
+
+    if (!resource) {
+      return Response.error('不存在这样的资源！')
+    }
+    if (resourceService.updateResource(id, { status: 1 })) {
+      return Response.success(true, '审核成功')
+    }
+
+    return Response.error('审核失败，请重试~')
   }
 }

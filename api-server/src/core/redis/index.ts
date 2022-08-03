@@ -46,7 +46,6 @@ async function set(key, value) {
 export const redisGet = async <T>(key: string, json = true): Promise<T> => {
   connect()
   const res = await redisClient.get(key)
-  console.log(res)
   return res ? ( json ? JSON.parse(res) :res ) : null
 }
 

@@ -1,25 +1,25 @@
 
-.order-list-item-l{
+.order-list-item-l {
 	width: 150rpx;
 	height: 225rpx;
 	border-radius: 8rpx;
 	background: #F2F2F2;
 }
-.order-list-item-r{
+.order-list-item-r {
 	width: calc(100% - 200rpx);
 	padding-left: 30rpx;
 }
-.uni-title{
+.uni-title {
 	color: #444;
 	font-size: 32rpx;
 	font-weight: normal;
 }
-.uni-text{
+.uni-text {
 	font-size: 28rpx;
 }
-.uni-h5{
+.uni-h5 {
 	font-size: 32rpx;
 	color: #3a3a3a;
-	font-weight:500;
+	font-weight: 500;
 }
 

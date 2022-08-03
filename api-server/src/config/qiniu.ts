@@ -12,8 +12,51 @@ const options = {
   expires: 7200
 }
 const putPolicy = new qiniu.rs.PutPolicy(options)
-const uploadToken = putPolicy.uploadToken(mac)
+
+var config = new qiniu.conf.Config();
+config.zone = qiniu.zone.Zone_z2; // 华南
+
+var bucketManager = new qiniu.rs.BucketManager(mac, config);
+
+const uploadToken = () => {
+  return putPolicy.uploadToken(mac)
+}
+
+const deleteFile = (keys = [], bucket = 'cavin-static') => {
+  var deleteOperations = [];
+  keys.forEach(key => {
+    deleteOperations.push(
+      qiniu.rs.deleteOp(bucket, key),
+    )
+  })
+  console.log(deleteOperations)
+  return new Promise((resolve,reject) => {
+    bucketManager.batch(deleteOperations, function(err, respBody, respInfo) {
+      if (err) {
+        console.log(err);
+        reject(err)
+      } else {
+
+        if (parseInt((Number(respInfo.statusCode) / 100).toString()) == 2) {
+          respBody.forEach(function(item) {
+            if (item.code == 200) {
+              console.log(item.code + "\tsuccess");
+            } else {
+              console.log(item.code + "\t" + item.data.error);
+            }
+          });
+        } else {
+          console.log(respInfo.deleteusCode);
+          console.log(respBody);
+        }
+        resolve(respBody)
+        console.log(respBody,respInfo) // 最后还是res.end
+      }
+    });
+  })
+}
 
 export {
-  uploadToken
+  uploadToken,
+  deleteFile
 }

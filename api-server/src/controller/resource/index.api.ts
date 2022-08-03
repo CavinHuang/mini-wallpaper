@@ -1,3 +1,4 @@
+import { CommonService } from './../../service/common';
 import { SelectQueryBuilder } from 'typeorm';
 import { ResourceWithCategory } from './../../models/entity/resourceWithCategory';
 import { Catgory } from './../../models/entity/catgory';
@@ -19,6 +20,7 @@ interface IListParams {
 
 interface IInfoParams {
   id: number
+  appid: string
 }
 
 @Controller('/resource', { skipPerm: true })
@@ -64,11 +66,15 @@ class Test {
   @Get('/infotp')
   public async infotp(params: ControllerParams<IInfoParams>) {
     const { query } = params
-    const { id } = query
+    const { id, appid } = query
 
     const resource = await (new ResourceService().getResourceById(id)) as Resource & { images: string[] }
 
-    resource.images = [`https://lhsk.demo.hongcd.com` + resource.url]
+    const configs = await CommonService.getRedisConfig(appid)
+    const images = resource.url.split(',')
+    resource.images = images.map(url => {
+      return configs.site.resource_cdn_url[resource.upload_type] + url
+    })
 
     return Response.success(resource, Response.successMessage)
   }

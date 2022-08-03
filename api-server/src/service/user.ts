@@ -1,3 +1,4 @@
+import { redisGet } from './../core/redis/index';
 import { Repository } from "typeorm";
 import { M } from "../models";
 import { User } from "../models/entity/user";
@@ -31,6 +32,11 @@ class UserService {
     return user.findOne({
       where: { id: uid }
     })
+  }
+
+  public async getRedisUser(token: string) {
+    const user = await redisGet<User>(token)
+    return user
   }
 }
 

@@ -7,6 +7,6 @@ class Index {
 
   @Get('/qiniu/token')
   public qiniuToken() {
-    return Response.success(uploadToken, Response.successMessage)
+    return Response.success(uploadToken(), Response.successMessage)
   }
 }

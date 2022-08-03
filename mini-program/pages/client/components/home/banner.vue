@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<swiper class="home-swiper-banner" indicator-color="rgba(255, 255, 255, 0.3)" indicator-active-color="#FFFFFF" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="500">
+		<swiper class="home-swiper-banner" indicator-color="rgba(255, 255, 255, 0.3)" indicator-active-color="#FFFFFF" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="500" @change="changeHandler">
 			<swiper-item v-for="(item,index) in banners" :key="index">
 				<navigator :url="item.link">
 				<image :src="item.cover" style="border-radius: 16rpx"></image>
@@ -19,6 +19,11 @@
 				banners1:[],
 			}
 		},
+		methods: {
+			changeHandler(e) {
+				this.$emit('change', e.detail)
+			}
+		}
 	}
 </script>
 

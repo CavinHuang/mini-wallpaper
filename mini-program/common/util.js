@@ -85,6 +85,7 @@ function yzyTimes(cjsj) {
 	var s = (date.getSeconds() + 1 <= 10 ? '0' + (date.getSeconds()) : date.getSeconds()) + '';
 	return Y + M + D;
 }
+
 module.exports = {
 	yzyTime:yzyTime,
 	yzyTimes:yzyTimes,

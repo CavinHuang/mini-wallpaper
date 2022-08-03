@@ -158,6 +158,11 @@ export default {
 	    }
 	},
 	methods: {
+		imagePath(upload_type, url) {
+			if (url.indexOf('http') > -1) return url
+			const resource_cdn_url = uni.getStorageSync('config').site.resource_cdn_url
+			return resource_cdn_url[upload_type] + url
+		},
 		async ongrzlTap(){
 			let data = {};
 			data.token = uni.getStorageSync("userinfo").token;

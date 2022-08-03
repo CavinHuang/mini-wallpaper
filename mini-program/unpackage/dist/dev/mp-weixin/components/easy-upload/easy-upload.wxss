@@ -1,14 +1,8 @@
 
 .upload.data-v-da093e44 {
-	display: -webkit-box;
-	display: -webkit-flex;
 	display: flex;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
-	-webkit-flex-direction: row;
-	        flex-direction: row;
-	-webkit-flex-wrap: wrap;
-	        flex-wrap: wrap;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 .uplode-file.data-v-da093e44 {
 	position: relative;

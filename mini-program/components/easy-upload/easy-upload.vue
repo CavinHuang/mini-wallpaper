@@ -57,6 +57,15 @@
 			/**
 			 * 图片/视频数据展示
 			 */
+			value: {
+				type: Array,
+				default: function() {
+					return []
+				}
+			},
+			/**
+			 * 图片/视频数据展示
+			 */
 			dataList: {
 				type: Array,
 				default: function() {
@@ -150,18 +159,24 @@
 			}
 		},
 		watch:{
-			dataList:{
+			value:{
 				handler(val){
-					this.files = val.map(item => {
-						return {
-							source: item,
-							type: 'original'
-						}
-					});
-				},
-				immediate: true
+					console.log('======++++', val)
+					this.files = val
+					// this.files = val.map(item => {
+					// 	return {
+					// 		source: item,
+					// 		type: 'original'
+					// 	}
+					// });
+				}
+			},
+			files(val) {
+				console.log('=======', val)
+				this.$emit('input', val)
 			}
 		},
+		
 		methods:{
 			onPreviewImage (source) {
 				if(!this.previewImage) return;
@@ -285,9 +300,10 @@
 									//uploadFileRes 返回了data是一个json字符串 
 									//拿到里面的key拼接上域名，再反出去就ok了
 									let strToObj=JSON.parse(uploadFileRes.data);
-									console.log("uploadFileRes",strToObj)
-									this.resFails.push(strToObj.key)
+									console.log("uploadFileRes", strToObj)
+									this.resFails.push('/' + strToObj.key)
 									if(this.filesLen === (i + 1)){
+										
 										this.$emit("onUploadSuccess", this.resFails);
 										this.resFails = [];
 									};

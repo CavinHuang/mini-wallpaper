@@ -97,19 +97,10 @@ button {
         color: #ffffff;
 }
 .uni-h1.uni-center {
-        display: -webkit-box;
-        display: -webkit-flex;
         display: flex;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: row;
-                flex-direction: row;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
-                justify-content: center;
-        -webkit-box-align: end;
-        -webkit-align-items: flex-end;
-                align-items: flex-end;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
 }
 .ipaPayBtn {
         margin-top: 30rpx;

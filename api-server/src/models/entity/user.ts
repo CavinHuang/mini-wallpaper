@@ -36,6 +36,13 @@ export class User {
   group_id: number
 
   @Column({
+    comment: '所属角色',
+    type: 'int',
+    default: 1
+  })
+  role: number
+
+  @Column({
     length: 200,
     comment: '用户名'
   })

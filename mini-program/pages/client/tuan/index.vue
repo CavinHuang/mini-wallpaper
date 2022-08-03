@@ -25,9 +25,9 @@
 					<ad :unit-id="BannerAd"></ad>
 				</view>	
 				<!-- #endif -->
-				<view class="box pic-item"  @click="detail(value.id,value.lx)">
+				<view class="box pic-item"  @click="detail(value.id, 4)">
 					<!-- <view class="btn-mini" style="position: absolute; top: 20upx; right: 20upx; border-radius: 10upx;font-size: 18upx;width: 60upx; height: 36upx; z-index: 1;" :style="getBtnStyle">壁纸</view> -->
-					<image class="integral-mall-goods" mode="aspectFill" :src="value.thumb_url"></image>
+					<image class="integral-mall-goods" mode="aspectFill" :src="imagePath(value.upload_type, value.thumb_url)"></image>
 				</view>
 			</block>
 		</view>
@@ -161,6 +161,11 @@
 			
 		},
 		methods:{
+			imagePath(upload_type, url) {
+				if (url.indexOf('http') > -1) return url
+				const resource_cdn_url = uni.getStorageSync('config').site.resource_cdn_url
+				return resource_cdn_url[upload_type] + url
+			},
 			detail(id,lx){
 				console.log(lx);
 				if(lx==1){

@@ -32,7 +32,6 @@
 .tag-has-vip{
 	width: 200rpx;
 	height: 40rpx;
-	background: -webkit-linear-gradient(top, #333333 0%, #000000 100%);
 	background: linear-gradient(180deg, #333333 0%, #000000 100%);
 	border-radius: 20rpx;
 }
@@ -44,7 +43,6 @@
 	font-size: 24rpx;
 	margin-left: 8rpx;
 	font-weight: 500;
-	background: -webkit-linear-gradient(top, #F2DCA9 0%, #C79556 100%);
 	background: linear-gradient(180deg, #F2DCA9 0%, #C79556 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -57,29 +55,17 @@
 	width: 80rpx;
 	height: 80rpx;
 	border-radius: 40rpx;
-	display: -webkit-box;
-	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
+	justify-content: center;
+	align-items: center;
 }
 .btn-vip-money,.btn-vip-adviser{
 	width: 208rpx;
 	height: 80rpx;
 	border-radius: 40rpx;
-	display: -webkit-box;
-	display: -webkit-flex;
 	display: flex;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	        justify-content: center;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
+	justify-content: center;
+	align-items: center;
 	font-size: 28rpx;
 	font-weight: 600;
 	color:#FFFFFF;
