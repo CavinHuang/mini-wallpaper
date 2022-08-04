@@ -98,22 +98,22 @@ var components
 try {
   components = {
     homeVipcard: function() {
-      return __webpack_require__.e(/*! import() | pages/client/components/home/vipcard */ "pages/client/components/home/vipcard").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/vipcard.vue */ 508))
+      return __webpack_require__.e(/*! import() | pages/client/components/home/vipcard */ "pages/client/components/home/vipcard").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/vipcard.vue */ 522))
     },
     homeBanner: function() {
-      return __webpack_require__.e(/*! import() | pages/client/components/home/banner */ "pages/client/components/home/banner").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/banner.vue */ 457))
+      return __webpack_require__.e(/*! import() | pages/client/components/home/banner */ "pages/client/components/home/banner").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/banner.vue */ 368))
     },
     comCopyright: function() {
-      return __webpack_require__.e(/*! import() | components/common/copyright */ "components/common/copyright").then(__webpack_require__.bind(null, /*! @/components/common/copyright.vue */ 515))
+      return __webpack_require__.e(/*! import() | components/common/copyright */ "components/common/copyright").then(__webpack_require__.bind(null, /*! @/components/common/copyright.vue */ 529))
     },
     dialogBirthday: function() {
-      return __webpack_require__.e(/*! import() | components/dialog/birthday */ "components/dialog/birthday").then(__webpack_require__.bind(null, /*! @/components/dialog/birthday.vue */ 418))
+      return __webpack_require__.e(/*! import() | components/dialog/birthday */ "components/dialog/birthday").then(__webpack_require__.bind(null, /*! @/components/dialog/birthday.vue */ 439))
     },
     dialogLogin: function() {
-      return __webpack_require__.e(/*! import() | components/dialog/login */ "components/dialog/login").then(__webpack_require__.bind(null, /*! @/components/dialog/login.vue */ 478))
+      return __webpack_require__.e(/*! import() | components/dialog/login */ "components/dialog/login").then(__webpack_require__.bind(null, /*! @/components/dialog/login.vue */ 492))
     },
     dialogQrcode: function() {
-      return Promise.all(/*! import() | components/dialog/qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/dialog/qrcode")]).then(__webpack_require__.bind(null, /*! @/components/dialog/qrcode.vue */ 383))
+      return Promise.all(/*! import() | components/dialog/qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/dialog/qrcode")]).then(__webpack_require__.bind(null, /*! @/components/dialog/qrcode.vue */ 404))
     }
   }
 } catch (e) {
@@ -139,18 +139,22 @@ var render = function() {
   var _c = _vm._self._c || _h
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
-      _vm.showQrcode = true
+      _vm.actionShow = true
     }
 
     _vm.e1 = function($event) {
-      _vm.showBirthday = false
+      _vm.showQrcode = true
     }
 
     _vm.e2 = function($event) {
-      _vm.showLogin = false
+      _vm.showBirthday = false
     }
 
     _vm.e3 = function($event) {
+      _vm.showLogin = false
+    }
+
+    _vm.e4 = function($event) {
       _vm.showQrcode = false
     }
   }
@@ -187,110 +191,140 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var ActionSheet = function ActionSheet() {__webpack_require__.e(/*! require.ensure | components/actionSheet/actionSheet */ "components/actionSheet/actionSheet").then((function () {return resolve(__webpack_require__(/*! ../../../components/actionSheet/actionSheet.vue */ 536));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
+  components: {
+    ActionSheet: ActionSheet },
+
   data: function data() {
     return {
+      actionShow: false,
+      title: '选择背景图',
       isLogin: false,
       showLogin: false,
       isBirthday: true,
@@ -302,6 +336,27 @@ var _default =
       banners: [],
       vipLevel: 0,
       iskq: 0,
+      pic: [{
+        link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/259e96cd-2334-47e1-8552-8d2cbf2d5bf7.jpg',
+        name: '荷塘远山' },
+      {
+        link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/84bce2d3-a60f-49c8-82b6-96d9329795cf.jpg',
+        name: '花丛蓝天' },
+      {
+        link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/e5e1f410-ba7d-41ac-919f-32e55e5324d0.jpg',
+        name: '初夏树林' },
+      {
+        link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/b5e48354-42ce-45c0-b7db-2f7a3a162294.jpg',
+        name: '金秋麦穗' },
+      {
+        link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/a3c9410c-f5bf-46f2-8a33-975893a30737.jpg',
+        name: '桃花纷飞' },
+      {
+        link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/d06210c5-7d64-4afe-a02d-98508a1ac8a9.jpg',
+        name: '清新地球' }],
+
+      currentBgIndex: -1,
+      currentBgImage: null,
       memberMenus: [{
         name: '积分奖励',
         type: 'link',
@@ -383,6 +438,7 @@ var _default =
       this.isLogin = false;
     }
     this.banners = uni.getStorageSync("config").banner;
+    this.currentBgImage = uni.getStorageSync('user-top-bg');
     // this.getList();
   },
   onShareAppMessage: function onShareAppMessage(e) {
@@ -392,6 +448,22 @@ var _default =
 
   },
   methods: {
+    setBgImage: function setBgImage() {
+      if (this.currentBgIndex === -1) return null;
+      this.currentBgImage = this.pic[this.currentBgIndex].link;
+    },
+    ActionClose: function ActionClose() {
+      this.actionShow = false;
+    },
+    selectBg: function selectBg(index) {
+      this.currentBgIndex = index;
+      this.actionShow = false;
+      this.setBgImage();
+      uni.setStorage({
+        key: 'user-top-bg',
+        data: this.pic[this.currentBgIndex].link });
+
+    },
     opset: function opset() {
       uni.navigateTo({
         url: '/pages/set/set' });

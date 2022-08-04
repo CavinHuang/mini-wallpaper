@@ -23,8 +23,7 @@ export class Wechat extends BaseService {
 
     const wechatData = await Wechat.sendRequest(requestUrl)
 
-    redisClient.set(wechatData.userToken, JSON.stringify(wechatData.wechatData))
-    redisClient.expire(wechatData.userToken, 60 * 60 * 1)
+    // redisClient.set(wechatData.userToken, JSON.stringify(wechatData.wechatData))
 
     return wechatData
   }

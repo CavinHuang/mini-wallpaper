@@ -1,13 +1,19 @@
 <template>
 	<view class="pd16_15">
+		<!-- #ifdef MP-WEIXIN -->
+		<view v-if="BannerAd && uid>1">
+			<ad  :unit-id="BannerAd"></ad>
+		</view>
+		<!-- #endif -->
 		<view>
 			<text class="ft16 mb10" style="color: #666;line-height: 100upx; padding-left: 10upx;">请选择分类</text>
 		</view>
 		<view>
-			<block v-for="(value,key) in configfenlei" :key="key">
+			<!-- <block v-for="(value,key) in configfenlei" :key="key">
 				<text class="ft16 mb10 dfhgvb" @click="opda(value.id)"
 					:style="tyid==value.id?'background:#00C657; color: #ffffff; box-shadow: 0px 4px 16px -4px rgba(0, 198, 87, 0.3);':''">{{value.name}}</text>
-			</block>
+			</block> -->
+			<uni-data-checkbox mode="button" multiple v-model="checkbox2" selectedColor="#00C657" :localdata="configfenlei"></uni-data-checkbox>
 		</view>>
 		<view>
 			<text class="ft16 mb10" style="color: #666;line-height: 100upx; padding-left: 10upx;">请选择图片上传</text>
@@ -33,6 +39,12 @@
 			<button class="btn-big" @click="tougaojl()"
 				:style="isSubmit ? getBtnDisStyle : getBtnDisStyle">投稿记录</button>
 		</view>
+		<view class="mt16" v-if="tgbz">
+			<text class="ft16 mb10" style="color: #ff0000; line-height: 80upx; padding-left: 10upx;">投稿说明：</text>
+		</view>
+		<view v-if="tgbz" style="padding-left:10upx;">
+			<text class="ft14 mb10" style="color: #666;">{{tgbz}}</text>
+		</view>
 	</view>
 </template>
 
@@ -49,7 +61,9 @@
 				uploadfiles: 1,
 				configfenlei: [],
 				tyid: 0,
-				qiniuBasePath: ''
+				qiniuBasePath: '',
+				tgbz:'',
+				checkbox2: [],
 			}
 		},
 		
@@ -83,7 +97,12 @@
 			this.qiniuBasePath = uni.getStorageSync('config').site.qiniuPath
 			this.uploadUrl = this.configs.webUrl + '/api/user/upload?token=' + uni.getStorageSync("userinfo").token
 			this.deleteUrl = this.configs.webUrl + '/api/user/deleteUrl?token=' + uni.getStorageSync("userinfo").token
-			this.configfenlei = uni.getStorageSync("config").type4
+			this.configfenlei = uni.getStorageSync("config").type4.map(item => {
+				item.text = item.name,
+				item.value = item.id
+				return item
+			})
+			this.tgbz=uni.getStorageSync("config").site.tgbz
 		},
 		
 		onShow() {
@@ -146,9 +165,9 @@
 				// 	});
 				// 	return
 				// }
-				if (this.tyid == 0) {
+				if(this.checkbox2.length<=0){
 					uni.showModal({
-						content: '请选择分类'
+					    content : '请选择分类'
 					});
 					return
 				}
@@ -171,7 +190,7 @@
 				});
 
 				data.img = img
-				data.typeId = this.tyid
+				data.typeId=this.checkbox2
 				//data.name=this.name
 				data.pic = pic
 				data.token = uni.getStorageSync("userinfo").token;

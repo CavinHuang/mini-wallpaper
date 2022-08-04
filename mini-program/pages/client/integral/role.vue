@@ -130,7 +130,7 @@
 		    }
 		    return {
 		      title: '六号时空',
-			  channel:true,
+					channel:true,
 		      path: '/pages/client/indexpic?fxid='+this_.uid
 		    }
 		},

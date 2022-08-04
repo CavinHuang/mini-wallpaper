@@ -98,13 +98,13 @@ var components
 try {
   components = {
     homeBanner: function() {
-      return __webpack_require__.e(/*! import() | pages/client/components/home/banner */ "pages/client/components/home/banner").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/banner.vue */ 457))
+      return __webpack_require__.e(/*! import() | pages/client/components/home/banner */ "pages/client/components/home/banner").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/banner.vue */ 368))
     },
     homeDefault: function() {
-      return __webpack_require__.e(/*! import() | pages/client/components/home/default */ "pages/client/components/home/default").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/default.vue */ 471))
+      return __webpack_require__.e(/*! import() | pages/client/components/home/default */ "pages/client/components/home/default").then(__webpack_require__.bind(null, /*! @/pages/client/components/home/default.vue */ 485))
     },
     dialogLogin: function() {
-      return __webpack_require__.e(/*! import() | components/dialog/login */ "components/dialog/login").then(__webpack_require__.bind(null, /*! @/components/dialog/login.vue */ 478))
+      return __webpack_require__.e(/*! import() | components/dialog/login */ "components/dialog/login").then(__webpack_require__.bind(null, /*! @/components/dialog/login.vue */ 492))
     }
   }
 } catch (e) {
@@ -166,7 +166,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var zaudio = function zaudio() {Promise.all(/*! require.ensure | components/uniapp-zaudio/zaudio */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uniapp-zaudio/zaudio")]).then((function () {return resolve(__webpack_require__(/*! @/components/uniapp-zaudio/zaudio */ 485));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var zaudio = function zaudio() {Promise.all(/*! require.ensure | components/uniapp-zaudio/zaudio */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uniapp-zaudio/zaudio")]).then((function () {return resolve(__webpack_require__(/*! @/components/uniapp-zaudio/zaudio */ 499));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 

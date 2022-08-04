@@ -20,7 +20,7 @@ class UserService {
     const result = await user.findOne({
       where: {
         appid,
-        openid
+        openid: openid ? openid: ''
       }
     })
 

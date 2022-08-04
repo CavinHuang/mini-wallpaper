@@ -97,8 +97,11 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uniDataCheckbox: function() {
+      return Promise.all(/*! import() | uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox.vue */ 389))
+    },
     easyUpload: function() {
-      return Promise.all(/*! import() | components/easy-upload/easy-upload */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/easy-upload/easy-upload")]).then(__webpack_require__.bind(null, /*! @/components/easy-upload/easy-upload.vue */ 375))
+      return Promise.all(/*! import() | components/easy-upload/easy-upload */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/easy-upload/easy-upload")]).then(__webpack_require__.bind(null, /*! @/components/easy-upload/easy-upload.vue */ 396))
     }
   }
 } catch (e) {
@@ -193,6 +196,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -206,7 +221,9 @@ var _default =
       uploadfiles: 1,
       configfenlei: [],
       tyid: 0,
-      qiniuBasePath: '' };
+      qiniuBasePath: '',
+      tgbz: '',
+      checkbox2: [] };
 
   },
 
@@ -240,7 +257,12 @@ var _default =
     this.qiniuBasePath = uni.getStorageSync('config').site.qiniuPath;
     this.uploadUrl = this.configs.webUrl + '/api/user/upload?token=' + uni.getStorageSync("userinfo").token;
     this.deleteUrl = this.configs.webUrl + '/api/user/deleteUrl?token=' + uni.getStorageSync("userinfo").token;
-    this.configfenlei = uni.getStorageSync("config").type4;
+    this.configfenlei = uni.getStorageSync("config").type4.map(function (item) {
+      item.text = item.name,
+      item.value = item.id;
+      return item;
+    });
+    this.tgbz = uni.getStorageSync("config").site.tgbz;
   },
 
   onShow: function onShow() {
@@ -303,7 +325,7 @@ var _default =
       // 	});
       // 	return
       // }
-      if (this.tyid == 0) {
+      if (this.checkbox2.length <= 0) {
         uni.showModal({
           content: '请选择分类' });
 
@@ -328,7 +350,7 @@ var _default =
       });
 
       data.img = img;
-      data.typeId = this.tyid;
+      data.typeId = this.checkbox2;
       //data.name=this.name
       data.pic = pic;
       data.token = uni.getStorageSync("userinfo").token;

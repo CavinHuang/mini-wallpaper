@@ -98,7 +98,7 @@ var components
 try {
   components = {
     dialogQrcode: function() {
-      return Promise.all(/*! import() | components/dialog/qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/dialog/qrcode")]).then(__webpack_require__.bind(null, /*! @/components/dialog/qrcode.vue */ 383))
+      return Promise.all(/*! import() | components/dialog/qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/dialog/qrcode")]).then(__webpack_require__.bind(null, /*! @/components/dialog/qrcode.vue */ 404))
     }
   }
 } catch (e) {

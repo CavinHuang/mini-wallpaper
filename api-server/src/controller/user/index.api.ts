@@ -13,7 +13,6 @@ import { User } from "../../models/entity/user";
 import { Resource } from '../../models/entity/resource';
 import { ResourceService, ResourceType } from '../../service/resource';
 import { M } from '../../models';
-import { deleteFile } from '../../config/qiniu';
 
 interface IGetPhone {
   nickName: string
@@ -25,7 +24,7 @@ interface IGetPhone {
 }
 
 interface ITougao {
-  typeId: number
+  typeId: number[]
   img: string
   pic: string
   token: string
@@ -54,9 +53,22 @@ class UserLogin extends CoreController {
     const { query } = params
     const result = await Wechat.code2session(query.appid, query.code)
     const { wechatData } = result
+    if (wechatData.openid) {
+      const redisUserToken = await redisClient.get(wechatData.openid)
+      const redisUser = JSON.parse(await redisClient.get(redisUserToken)) as User
+      return Response.success({
+        userInfo: {...redisUser, token: result.userToken},
+        wechatData
+      }, '登录成功')
+    }
     const userRes = await userService.getUserByOpenId(query.appid, wechatData.openid)
     if (userRes) {
+      console.log(userRes.openid, wechatData, JSON.stringify(result))
+      redisClient.set(userRes.openid, result.userToken)
       redisClient.set(result.userToken, JSON.stringify(userRes))
+      redisClient.expire(result.userToken, 60 * 60 * 1)
+      redisClient.expire(wechatData.openid, 60 * 60 * 1)
+
       return Response.success({
         userInfo: {...userRes, token: result.userToken},
         wechatData
@@ -125,12 +137,14 @@ class UserLogin extends CoreController {
 
       if (saveRes) {
         const saveRelation = M(ResourceWithCategory)
-        console.log(saveRes)
-        const data = saveRelation.create({
-          resource_id: saveRes.id,
-          category_id: typeId
+        const datas = []
+        typeId.forEach(type => {
+          datas.push({
+            resource_id: saveRes.id,
+            category_id: type
+          })
         })
-        const res = saveRelation.save(data)
+        const res = saveRelation.createQueryBuilder().insert().into(ResourceWithCategory).values(datas).execute()
         return Response.success(res, Response.successMessage)
       }
 
@@ -146,7 +160,7 @@ class UserLogin extends CoreController {
     const user = await userService.getRedisUser(token)
     const resources = await (new ResourceService).getPageResourceByType(ResourceType.image, { offset, limit }, {
       where: (query) => {
-        query = query.where('r.status = :status', { status: 2 })
+        query = query.where('r.status = :status', { status: 2 }).orWhere('r.status = :status', { status: 1 }).orWhere('r.status = :status', { status: 3 })
         if (user.role !== 2) {
           query = query.andWhere('r.author = :author', { author: user.id })
         }

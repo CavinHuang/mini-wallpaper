@@ -98,10 +98,10 @@ var components
 try {
   components = {
     uniPopup: function() {
-      return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 390))
+      return __webpack_require__.e(/*! import() | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 411))
     },
     shareBtn: function() {
-      return __webpack_require__.e(/*! import() | components/share-btn/share-btn */ "components/share-btn/share-btn").then(__webpack_require__.bind(null, /*! @/components/share-btn/share-btn.vue */ 397))
+      return __webpack_require__.e(/*! import() | components/share-btn/share-btn */ "components/share-btn/share-btn").then(__webpack_require__.bind(null, /*! @/components/share-btn/share-btn.vue */ 418))
     }
   }
 } catch (e) {
@@ -186,7 +186,7 @@ __webpack_require__.r(__webpack_exports__);
 var _wxqrcode = _interopRequireDefault(__webpack_require__(/*! @/static/js/wxqrcode.js */ 93));
 
 
-var _vuex = __webpack_require__(/*! vuex */ 13);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var avatar = function avatar() {Promise.all(/*! require.ensure | components/yq-avatar/yq-avatar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/yq-avatar/yq-avatar")]).then((function () {return resolve(__webpack_require__(/*! @/components/yq-avatar/yq-avatar.vue */ 404));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 390));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var shareBtn = function shareBtn() {__webpack_require__.e(/*! require.ensure | components/share-btn/share-btn */ "components/share-btn/share-btn").then((function () {return resolve(__webpack_require__(/*! @/components/share-btn/share-btn.vue */ 397));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var _vuex = __webpack_require__(/*! vuex */ 13);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var avatar = function avatar() {Promise.all(/*! require.ensure | components/yq-avatar/yq-avatar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/yq-avatar/yq-avatar")]).then((function () {return resolve(__webpack_require__(/*! @/components/yq-avatar/yq-avatar.vue */ 425));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopup = function uniPopup() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup */ "components/uni-popup/uni-popup").then((function () {return resolve(__webpack_require__(/*! @/components/uni-popup/uni-popup.vue */ 411));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var shareBtn = function shareBtn() {__webpack_require__.e(/*! require.ensure | components/share-btn/share-btn */ "components/share-btn/share-btn").then((function () {return resolve(__webpack_require__(/*! @/components/share-btn/share-btn.vue */ 418));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 var that;var _default =
 {
   components: {

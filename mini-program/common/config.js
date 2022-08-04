@@ -9,5 +9,5 @@ export default {
 	//websocketUrl:"https://wx.***.com",
 	// 消息提示tabbar索引  websocketUrl:"https://wx.***.com",
 	TabbarIndex:2,
-	appId: 'wxf84a60c327db82a4'
+	appId: 'wx123004cdf793dff7'
 }

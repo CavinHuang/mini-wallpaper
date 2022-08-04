@@ -761,7 +761,7 @@ function populateParameters(result) {var _result$brand =
   // wx.getAccountInfoSync
 
   var parameters = {
-    appId: "",
+    appId: "__UNI__B9B55CC",
     appName: "九号部落",
     appVersion: "1.0.0",
     appVersionCode: "100",
@@ -870,7 +870,7 @@ var getAppBaseInfo = {
     var hostLanguage = language.replace('_', '-');
 
     result = sortObject(Object.assign(result, {
-      appId: "",
+      appId: "__UNI__B9B55CC",
       appName: "九号部落",
       appVersion: "1.0.0",
       appVersionCode: "100",
@@ -1400,7 +1400,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -4018,7 +4018,7 @@ var _default = {
   //websocketUrl:"https://wx.***.com",
   // 消息提示tabbar索引  websocketUrl:"https://wx.***.com",
   TabbarIndex: 2,
-  appId: 'wxf84a60c327db82a4' };exports.default = _default;
+  appId: 'wx123004cdf793dff7' };exports.default = _default;
 
 /***/ }),
 
@@ -5460,7 +5460,7 @@ var statics = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "" };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "appid": "__UNI__B9B55CC" };exports.default = _default;
 
 /***/ }),
 
@@ -7551,17 +7551,6 @@ EventBus = /*#__PURE__*/function () {
     } }]);return EventBus;}();
 
 exports.EventBus = EventBus;
-
-/***/ }),
-
-/***/ 380:
-/*!****************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/easy-upload/icon/icon.png ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,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"
 
 /***/ }),
 
@@ -13091,7 +13080,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -13112,14 +13101,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -13205,7 +13194,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -13615,7 +13604,18 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 451:
+/***/ 401:
+/*!****************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/easy-upload/icon/icon.png ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+
+/***/ 472:
 /*!**********************************************************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-search-bar/components/uni-search-bar/i18n/index.js ***!
   \**********************************************************************************************************************/
@@ -13623,9 +13623,9 @@ internalMixin(Vue);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 452));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 453));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 454));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 473));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 474));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 475));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -13633,7 +13633,7 @@ var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 4
 
 /***/ }),
 
-/***/ 452:
+/***/ 473:
 /*!*********************************************************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-search-bar/components/uni-search-bar/i18n/en.json ***!
   \*********************************************************************************************************************/
@@ -13644,7 +13644,7 @@ module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-
 
 /***/ }),
 
-/***/ 453:
+/***/ 474:
 /*!**************************************************************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hans.json ***!
   \**************************************************************************************************************************/
@@ -13655,7 +13655,7 @@ module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-
 
 /***/ }),
 
-/***/ 454:
+/***/ 475:
 /*!**************************************************************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-search-bar/components/uni-search-bar/i18n/zh-Hant.json ***!
   \**************************************************************************************************************************/
@@ -13663,105 +13663,6 @@ module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"uni-search-bar.cancel\":\"cancel\",\"uni-search-bar.placeholder\":\"請輸入搜索內容\"}");
-
-/***/ }),
-
-/***/ 488:
-/*!***********************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/loading.png ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAJ1BMVEUAAAD///////////////////////////////////////////////+uPUo5AAAADHRSTlMAgNS/qSOjlY+InZt9QEsOAAAAx0lEQVQ4y2OgDWBSwCEhc5CWEgHIEqwIcZ6DyBIyB+ASMWcmICQ4zxyFSzCeOYGQ6DkjgDBrzpkCmAT7mZNIlnOcOQWTWHOmAdlZNWcSGBiYDRgY2M4cR3Ev15kjEIbPmQWoPsk5A6HPHEPzIgvU1zIODHQFgiCAhct8BgQMQExULhOYBUkHCC5Oo+gKWKDBLiPAgCPY0dIWNyKioFoQUQtJ7WyoWjjOnIYlhj0wLZjJB0gSSHCYSZRAosbMBnTLgwgATu00AQBeS1ZZLm40ugAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 489:
-/*!***********************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/playbtn.png ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAACCBAMAAAB4LQ3OAAAAG1BMVEUAAAD////p4vH9/P75+Pv18fjs5fLw6/Xv6fQ0TWGRAAAAAXRSTlMAQObYZgAAAKVJREFUaN7t1rERAjEMRNEbEkgXjx0LlXAlqARKuRJcOUX8QAzsL+AFHtvS4Zxzzjnn3M92y4DCQyckXlJhQRsLI6mgGVTQCiqosKCNhZFU0AwqaAUVVFjQhYWRVNAMKmgFFVRY0IWFkVTQDCqosPD8AqHaT3Jk+42q9pc1o/2Hudp/2hV44rRPvd0+/VfgLah9E8Pb4PtA3XUG38ydc84555z7hz4cty0uOzcUmAAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 490:
-/*!************************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/pausebtn.png ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAAB7AgMAAADF8LC/AAAADFBMVEUAAAD////9/P7v6vVBUitsAAAAAXRSTlMAQObYZgAAAF9JREFUWMNjGAWjYBSMglFAKtCMAJFMYQ04VVwNPQAkTUMLcClgDg11AFKhoTG4VDCGhiYAqamhIXhUBIDMGFUxqmJUxaiKYa0CWhaSX54iymQiyvVRMApGwSgYBSQCAM/IWfC0TQ4AAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 491:
-/*!********************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/prev.png ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAsBAMAAADROCZUAAAAJFBMVEUAAACZmZmZmZmZmZmZmZmZmZmZmZmampqZmZmZmZmZmZmZmZkCsPx8AAAADHRSTlMA/rflQdGIVCcQcaO3ZLsGAAABe0lEQVQ4y32UvU7DMBDHj5KSpkzXNCm0SyNRJLb4DdIFsbpL1a2VeAAqJOZGqpjTAYTE0rDRiSAW+nQ48Sem5AZL9u/u/v64MyjzHkboT24zsMyNsLJBYq0TZP4jNgZ35nqLYlBm8a4JdlYGyHEgpk6EPb1+ioFycyjOFYhwq71OMNQBXVNwqUJyXJnAlSqOCNAhwrEpFbTKkGfqgGW0yuWRMxuMg3Js49wGDUwqiZUNHPxgY8olnmI4QkSelpxDC/I+v94YNvvd7r0Ciy7QbVE5kc8Y0kSph0C6NH79BvhqxDBWYpsOjH28IOW2GVhma4GOA3ZKJDjjIL+Xr9T0AShiCBwspi/5TByE7Rb9RIC3DNy+Ai5egQClDVQq2IMJJlKcmQKXPIJv1wRRBu2ePKAJ0um6GMorMUGLYgjyEn+Zd2NeOzwmhx8KigNPW1MM/5RPfcFB7id/SrS+qKEwVZ4xrGsc3WqJ3Wr1zQkutdpZk8L6AMwvgxhfxg/FrExlcfVmDwAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 492:
-/*!******************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/go.png ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAOVBMVEUAAACXl5eZmZmZmZmZmZmfn5+Xl5eZmZmZmZmYmJiampqZmZmZmZmZmZmZmZmZmZmYmJiZmZmZmZmiJt7bAAAAEnRSTlMAQMCQ8BAgoOBfMLBvz4B/0FBx9efPAAAAsUlEQVRIx7XWORKEMAxEUcsbNjv//ocdiqkph0wH6oSEl1i2pBBCgqmEPzJvpPszcSev4TXPnxYq38T5FcQHGL+kIgLaJQJYqgjIhwhgMxE8RdEAuQtgFEUCcBQR0EwAoygSIK8CGEWRAKQiAnIXAcQqAjhUQDMRQFIBpoLkDkwE3fdYd9erkbvr9T7N9Yku1bXN7MWzVebu2u5P00bW7joU2+Uw2PXVQV5OlPWnRlL4AHjEWAWshBEcAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 493:
-/*!************************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/loading2.png ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAJ1BMVEUAAACXl5eampqampqampqZmZmZmZmZmZmZmZmZmZmZmZmampqZmZnE4BJSAAAADHRSTlMAgNS/qX8jo5yVj4gD/GhsAAAAyUlEQVQ4y2OgDWBSwCEhc5CWEgnIEmwIcZ6jyBIxB+ASOWc2ICS4zxyDS7CeOYWQWHMmAGHWnjMTYBKcZ04jWc515gRMoufMAmRnzTlTwMDAbMDAwH7mJIp7Oc4cgTB8zjSg+qTmDIQ+cxzNiyxQX8s4MNAVCIIAFi7zGRAwADFRuUxgFiQdILg4jaIrYIEGu4wAA45gP8iAK6LgWhBRy6QAitqjDLgSQwAD9uSDrIURLcERTqI8B5ETtcwBXNmAbnkQAcCpnSYAAJv0WOoLt57cAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 494:
-/*!************************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/playbtn2.png ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUAQMAAAAmpYKCAAAABlBMVEUAAACZmZl+9SADAAAAAXRSTlMAQObYZgAAAF1JREFUKM/l0qERwDAMQ9Fs0BG6akfzKBpDyC7MJwLBMXrId5a8LpmHru1XsOGGhy5YsOGGhy5YsOGGhy5YsOGGh/4OHXYaFlxwuMWwQiYhQ8MKXYTuDIs/AK975geuiXevFfCySgAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 495:
-/*!*************************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/pausebtn2.png ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABcAQMAAADK9gDvAAAABlBMVEUAAACZmZl+9SADAAAAAXRSTlMAQObYZgAAADFJREFUOMtjGAUEgT0DA/8BKLv+AIP9Ayj7/wGG+g8w9oNR9rBjw+MXEe+I9DAKsAEAMnCOFwIO0Q0AAAAASUVORK5CYII="
-
-/***/ }),
-
-/***/ 496:
-/*!********************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/next.png ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAsBAMAAADROCZUAAAAJ1BMVEUAAACZmZmZmZmZmZmampqampqZmZmZmZmZmZmampqZmZmZmZmZmZn8YroOAAAADHRSTlMAPNPtX0q8pnoPjiNUFSKcAAABk0lEQVQ4y3WUsU/CUBDGDwsI4sAiMjAwGBKTDmpMNLEDJowOGFcG4uTAYGQyYSAY4uLQOGjYmhgnGdhl6StQxe+Pkt6jvNLwbmhf7/d63/XeXSm04oPlVT5tilmqDbZZPeY3Aa9yawGiGvXnWhAcpWhCjCLgBrO8XCU6+FH+DAT7mbRwvwJDONFdvlpOKBp39coV1nJMWEuVnMUvKCtBKqalgrIkynxvCIpZS8Yy3TgYe1wNNONgB0FdtpdSNtFgMLA5HRYxhNzlLrYAcynyF2jPZSVcSh/UapfyyyY0ouGUq3Ln0pazUvczM+r8Bst+0iWjK93vj4YoCTKP+GkBdqt7eQ7kFWBNySqHYNyDF+T5Cg9wCM0QlE7tghQEBEXAfp2yJ/zNFi5IheJbh69vqBKLK/AiG+uZiNOVoLdwtkkd+DQEjS4lfAW4JAzS8+unQwUMIcEx0Qd81btc9tC+w4XmoFJfuqP1tc2gbZ/NDddAXtei2qbWjYFucBzNqJ1vGM6sGk7tOMd/AGcq87VfRl+V/R87jqqFFPkJ6AAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -13776,7 +13677,106 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAsBAMAAADR
 
 /***/ }),
 
-/***/ 548:
+/***/ 502:
+/*!***********************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/loading.png ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAJ1BMVEUAAAD///////////////////////////////////////////////+uPUo5AAAADHRSTlMAgNS/qSOjlY+InZt9QEsOAAAAx0lEQVQ4y2OgDWBSwCEhc5CWEgHIEqwIcZ6DyBIyB+ASMWcmICQ4zxyFSzCeOYGQ6DkjgDBrzpkCmAT7mZNIlnOcOQWTWHOmAdlZNWcSGBiYDRgY2M4cR3Ev15kjEIbPmQWoPsk5A6HPHEPzIgvU1zIODHQFgiCAhct8BgQMQExULhOYBUkHCC5Oo+gKWKDBLiPAgCPY0dIWNyKioFoQUQtJ7WyoWjjOnIYlhj0wLZjJB0gSSHCYSZRAosbMBnTLgwgATu00AQBeS1ZZLm40ugAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 503:
+/*!***********************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/playbtn.png ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAACCBAMAAAB4LQ3OAAAAG1BMVEUAAAD////p4vH9/P75+Pv18fjs5fLw6/Xv6fQ0TWGRAAAAAXRSTlMAQObYZgAAAKVJREFUaN7t1rERAjEMRNEbEkgXjx0LlXAlqARKuRJcOUX8QAzsL+AFHtvS4Zxzzjnn3M92y4DCQyckXlJhQRsLI6mgGVTQCiqosKCNhZFU0AwqaAUVVFjQhYWRVNAMKmgFFVRY0IWFkVTQDCqosPD8AqHaT3Jk+42q9pc1o/2Hudp/2hV44rRPvd0+/VfgLah9E8Pb4PtA3XUG38ydc84555z7hz4cty0uOzcUmAAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 504:
+/*!************************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/pausebtn.png ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAAB7AgMAAADF8LC/AAAADFBMVEUAAAD////9/P7v6vVBUitsAAAAAXRSTlMAQObYZgAAAF9JREFUWMNjGAWjYBSMglFAKtCMAJFMYQ04VVwNPQAkTUMLcClgDg11AFKhoTG4VDCGhiYAqamhIXhUBIDMGFUxqmJUxaiKYa0CWhaSX54iymQiyvVRMApGwSgYBSQCAM/IWfC0TQ4AAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 505:
+/*!********************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/prev.png ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAsBAMAAADROCZUAAAAJFBMVEUAAACZmZmZmZmZmZmZmZmZmZmZmZmampqZmZmZmZmZmZmZmZkCsPx8AAAADHRSTlMA/rflQdGIVCcQcaO3ZLsGAAABe0lEQVQ4y32UvU7DMBDHj5KSpkzXNCm0SyNRJLb4DdIFsbpL1a2VeAAqJOZGqpjTAYTE0rDRiSAW+nQ48Sem5AZL9u/u/v64MyjzHkboT24zsMyNsLJBYq0TZP4jNgZ35nqLYlBm8a4JdlYGyHEgpk6EPb1+ioFycyjOFYhwq71OMNQBXVNwqUJyXJnAlSqOCNAhwrEpFbTKkGfqgGW0yuWRMxuMg3Js49wGDUwqiZUNHPxgY8olnmI4QkSelpxDC/I+v94YNvvd7r0Ciy7QbVE5kc8Y0kSph0C6NH79BvhqxDBWYpsOjH28IOW2GVhma4GOA3ZKJDjjIL+Xr9T0AShiCBwspi/5TByE7Rb9RIC3DNy+Ai5egQClDVQq2IMJJlKcmQKXPIJv1wRRBu2ePKAJ0um6GMorMUGLYgjyEn+Zd2NeOzwmhx8KigNPW1MM/5RPfcFB7id/SrS+qKEwVZ4xrGsc3WqJ3Wr1zQkutdpZk8L6AMwvgxhfxg/FrExlcfVmDwAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 506:
+/*!******************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/go.png ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAOVBMVEUAAACXl5eZmZmZmZmZmZmfn5+Xl5eZmZmZmZmYmJiampqZmZmZmZmZmZmZmZmZmZmYmJiZmZmZmZmiJt7bAAAAEnRSTlMAQMCQ8BAgoOBfMLBvz4B/0FBx9efPAAAAsUlEQVRIx7XWORKEMAxEUcsbNjv//ocdiqkph0wH6oSEl1i2pBBCgqmEPzJvpPszcSev4TXPnxYq38T5FcQHGL+kIgLaJQJYqgjIhwhgMxE8RdEAuQtgFEUCcBQR0EwAoygSIK8CGEWRAKQiAnIXAcQqAjhUQDMRQFIBpoLkDkwE3fdYd9erkbvr9T7N9Yku1bXN7MWzVebu2u5P00bW7joU2+Uw2PXVQV5OlPWnRlL4AHjEWAWshBEcAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 507:
+/*!************************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/loading2.png ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAJ1BMVEUAAACXl5eampqampqampqZmZmZmZmZmZmZmZmZmZmZmZmampqZmZnE4BJSAAAADHRSTlMAgNS/qX8jo5yVj4gD/GhsAAAAyUlEQVQ4y2OgDWBSwCEhc5CWEgnIEmwIcZ6jyBIxB+ASOWc2ICS4zxyDS7CeOYWQWHMmAGHWnjMTYBKcZ04jWc515gRMoufMAmRnzTlTwMDAbMDAwH7mJIp7Oc4cgTB8zjSg+qTmDIQ+cxzNiyxQX8s4MNAVCIIAFi7zGRAwADFRuUxgFiQdILg4jaIrYIEGu4wAA45gP8iAK6LgWhBRy6QAitqjDLgSQwAD9uSDrIURLcERTqI8B5ETtcwBXNmAbnkQAcCpnSYAAJv0WOoLt57cAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 508:
+/*!************************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/playbtn2.png ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUAQMAAAAmpYKCAAAABlBMVEUAAACZmZl+9SADAAAAAXRSTlMAQObYZgAAAF1JREFUKM/l0qERwDAMQ9Fs0BG6akfzKBpDyC7MJwLBMXrId5a8LpmHru1XsOGGhy5YsOGGhy5YsOGGhy5YsOGGh/4OHXYaFlxwuMWwQiYhQ8MKXYTuDIs/AK975geuiXevFfCySgAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 509:
+/*!*************************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/pausebtn2.png ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABcAQMAAADK9gDvAAAABlBMVEUAAACZmZl+9SADAAAAAXRSTlMAQObYZgAAADFJREFUOMtjGAUEgT0DA/8BKLv+AIP9Ayj7/wGG+g8w9oNR9rBjw+MXEe+I9DAKsAEAMnCOFwIO0Q0AAAAASUVORK5CYII="
+
+/***/ }),
+
+/***/ 510:
+/*!********************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uniapp-zaudio/static/next.png ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAsBAMAAADROCZUAAAAJ1BMVEUAAACZmZmZmZmZmZmampqampqZmZmZmZmZmZmampqZmZmZmZmZmZn8YroOAAAADHRSTlMAPNPtX0q8pnoPjiNUFSKcAAABk0lEQVQ4y3WUsU/CUBDGDwsI4sAiMjAwGBKTDmpMNLEDJowOGFcG4uTAYGQyYSAY4uLQOGjYmhgnGdhl6StQxe+Pkt6jvNLwbmhf7/d63/XeXSm04oPlVT5tilmqDbZZPeY3Aa9yawGiGvXnWhAcpWhCjCLgBrO8XCU6+FH+DAT7mbRwvwJDONFdvlpOKBp39coV1nJMWEuVnMUvKCtBKqalgrIkynxvCIpZS8Yy3TgYe1wNNONgB0FdtpdSNtFgMLA5HRYxhNzlLrYAcynyF2jPZSVcSh/UapfyyyY0ouGUq3Ln0pazUvczM+r8Bst+0iWjK93vj4YoCTKP+GkBdqt7eQ7kFWBNySqHYNyDF+T5Cg9wCM0QlE7tghQEBEXAfp2yJ/zNFi5IheJbh69vqBKLK/AiG+uZiNOVoLdwtkkd+DQEjS4lfAW4JAzS8+unQwUMIcEx0Qd81btc9tC+w4XmoFJfuqP1tc2gbZ/NDddAXtei2qbWjYFucBzNqJ1vGM6sGk7tOMd/AGcq87VfRl+V/R87jqqFFPkJ6AAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 569:
 /*!**********************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/static/js/qiniu.js ***!
   \**********************************************************************/
@@ -13921,7 +13921,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAsBAMAAADR
 
 /***/ }),
 
-/***/ 563:
+/***/ 584:
 /*!*******************************************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-icons/components/uni-icons/icons.js ***!
   \*******************************************************************************************************/
@@ -15098,7 +15098,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 578:
+/***/ 599:
 /*!***********************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/static/js/helper.js ***!
   \***********************************************************************/
@@ -15297,7 +15297,7 @@ var addzero = function addzero(i) {
 
 /***/ }),
 
-/***/ 586:
+/***/ 607:
 /*!**********************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uni-icons1/icons.js ***!
   \**********************************************************************************/

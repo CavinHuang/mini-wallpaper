@@ -1,5 +1,6 @@
 <template>
 	<view class="pd24_20">
+		<view class="user-top-bg" :style="currentBgImage ? 'background-image: url(' + currentBgImage + ');' : ''"></view>
 		<view v-if="isLogin == false" @click="showLoginAct" class="flex alcenter space">
 			<view class="flex alcenter">
 				<view class="member-face">
@@ -20,11 +21,17 @@
 				</view>
 				<view class="ml15">
 					<view class="ft16 cl-main">{{ userinfo.nickname || '' }}</view>
-					<view class="mt12 ft12 cl-notice">ID:{{ userinfo.id || '' }}</view>
+					<view class="mt12 ft12 cl-notice" :style="currentBgImage ? 'color: #333;' : ''">ID:{{ userinfo.id || '' }}</view>
 				</view>
 			</view>
-			<view class="btn-mini opsetads" @click="opset">
-				<text class="yticon icon-shezhi ft24 cl-notice"></text>
+			
+			<view>
+				<view class="btn-mini theme-icon" @click="actionShow = true">
+					<image src="../../../static/icon/theme.png"></image>
+				</view>
+				<view class="btn-mini opsetads" @click="opset">
+					<text class="yticon icon-shezhi ft24 cl-notice"></text>
+				</view>
 			</view>
 		</view>
 		<view style="width: 100%; height: 30upx;"></view>
@@ -95,13 +102,36 @@
 		<dialog-birthday v-if="showBirthday" @closed="showBirthday = false"></dialog-birthday>
 		<dialog-login v-if="showLogin" @loginYes="loginYes" @closed="showLogin = false"></dialog-login>
 		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false"></dialog-qrcode>
+		
+		<ActionSheet
+			:show="actionShow"
+			@close="ActionClose"
+			:title="title"
+		>
+			<view class="select-bg-container">
+				<view class="bg-item" v-for="(item, index) in pic" :key="index" @click="selectBg(index)" :class="{ active: index === currentBgIndex }">
+					<view class="bg-content">
+						<view class="image-box">
+							<image :src="item.link" class="bg-image"></image>
+						</view>
+						<view class="bg-name">{{ item.name }}</view>
+					</view>
+				</view>
+			</view>
+		</ActionSheet>
 	</view>
 </template>
 
 <script>
+	import ActionSheet from '../../../components/actionSheet/actionSheet.vue'
 	export default {
+		components: {
+			ActionSheet
+		},
 		data() {
 			return {
+				actionShow: false,
+				title: '选择背景图',
 				isLogin: false,
 				showLogin: false,
 				isBirthday: true,
@@ -113,6 +143,27 @@
 				banners: [],
 				vipLevel: 0,
 				iskq: 0,
+				pic: [{
+					link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/259e96cd-2334-47e1-8552-8d2cbf2d5bf7.jpg',
+					name: '荷塘远山'
+				}, {
+					link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/84bce2d3-a60f-49c8-82b6-96d9329795cf.jpg',
+					name: '花丛蓝天'
+				}, {
+					link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/e5e1f410-ba7d-41ac-919f-32e55e5324d0.jpg',
+					name: '初夏树林'
+				}, {
+					link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/b5e48354-42ce-45c0-b7db-2f7a3a162294.jpg',
+					name: '金秋麦穗'
+				}, {
+					link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/a3c9410c-f5bf-46f2-8a33-975893a30737.jpg',
+					name: '桃花纷飞'
+				}, {
+					link: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9225cf9c-812a-460f-a2e6-59b295dc56e4/d06210c5-7d64-4afe-a02d-98508a1ac8a9.jpg',
+					name: '清新地球'
+				}],
+				currentBgIndex: -1,
+				currentBgImage: null,
 				memberMenus: [{
 						name: '积分奖励',
 						type: 'link',
@@ -194,6 +245,7 @@
 				this.isLogin = false;
 			}
 			this.banners = uni.getStorageSync("config").banner
+			this.currentBgImage = uni.getStorageSync('user-top-bg')
 			// this.getList();
 		},
 		onShareAppMessage(e) {
@@ -203,6 +255,22 @@
 
 		},
 		methods: {
+			setBgImage() {
+				if (this.currentBgIndex === -1) return null
+				this.currentBgImage = this.pic[this.currentBgIndex].link
+			},
+			ActionClose() {
+				this.actionShow = false
+			},
+			selectBg(index) {
+				this.currentBgIndex = index
+				this.actionShow = false
+				this.setBgImage()
+				uni.setStorage({
+					key: 'user-top-bg',
+					data: this.pic[this.currentBgIndex].link
+				})
+			},
 			opset() {
 				uni.navigateTo({
 					url: '/pages/set/set'
@@ -348,6 +416,44 @@
 		border-radius: 100%;
 		animation: rotate 10s linear infinite;
 	}
+	
+	.user-top-bg {
+		background-size: 100% 100%;
+		height: 550rpx;
+		display: flex;
+		justify-content: center;
+		padding-top: 40rpx;
+		overflow: hidden;
+		position: relative;
+		flex-direction: column;
+		align-items: center;
+		color: #fff;
+		font-weight: 300;
+		text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 400upx;
+		z-index: -1;
+	}
+	
+	.theme-icon {
+		background: #FFFFFF;
+		color: #000000;
+		width: 70rpx;
+		height: 70rpx;
+		text-align: center;
+		border-radius: 100%;
+		padding: 6rpx;
+		margin-bottom: 12rpx;
+	}
+	
+	.theme-icon image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
 
 	@keyframes rotate {
 		0% {
@@ -399,5 +505,35 @@
 		height: 48rpx;
 		border-radius: 24rpx;
 		background: #F2F2F2;
+	}
+	
+	.select-bg-container {
+		padding: 32upx;
+		display: grid;
+		grid-template-columns: repeat(3, 210upx);
+		grid-gap: 32upx;
+		grid-auto-flow: row dense;
+	}
+	
+	.select-bg-container .bg-item {
+		overflow: hidden;
+		height: 200upx;
+	}
+	.select-bg-container .bg-item .image-box {
+		height: 160upx;
+		overflow: hidden;
+	}
+	.select-bg-container .bg-item .bg-name {
+		font-size: 28upx;
+		text-align: center;
+		line-height: 56upx;
+		color: #777;
+	}
+	.select-bg-container .bg-item.active .image-box {
+		border: 1px solid #00c657;
+	}
+	
+	.select-bg-container .bg-item.active .bg-name {
+		color: #00c657;
 	}
 </style>
