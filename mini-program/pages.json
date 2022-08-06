@@ -7,20 +7,20 @@
 				"navigationBarTextStyle": "white"
 			}
 		},
-		{
-			"path": "pages/client/index", //默认首页
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationBarBackgroundColor": "#363B4D",
-				"navigationBarTextStyle": "white"
-			}
-		},
-		{
-			"path": "pages/client/miniapp",
-			"style": {
-				"navigationBarTitleText": "更多服务"
-			}
-		},
+		// {
+		// 	"path": "pages/client/index", //默认首页
+		// 	"style": {
+		// 		"navigationBarTitleText": "",
+		// 		"navigationBarBackgroundColor": "#363B4D",
+		// 		"navigationBarTextStyle": "white"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/client/miniapp",
+		// 	"style": {
+		// 		"navigationBarTitleText": "更多服务"
+		// 	}
+		// },
 		{
 			"path": "pages/client/member/tougao",
 			"style": {
@@ -49,13 +49,13 @@
 				"navigationBarTitleText": "分享"
 			}
 		},
-		{
-			"path": "pages/client/pusher",
-			"style": {
-				"navigationBarTitleText": "直播测试",
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/client/pusher",
+		// 	"style": {
+		// 		"navigationBarTitleText": "直播测试",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		{
 			"path": "pages/client/vipcard/index",
 			"style": {
@@ -141,56 +141,59 @@
 					}
 				}
 			}
-		}, {
-			"path": "pages/set/grzl/modname/modname",
-			"style": {
-				"navigationBarTitleText": "修改姓名",
-				"app-plus": {
-					"titleNView": {
-						"backgroundColor": "#f5f5f5"
+		}, 
+		// {
+		// 	"path": "pages/set/grzl/modname/modname",
+		// 	"style": {
+		// 		"navigationBarTitleText": "修改姓名",
+		// 		"app-plus": {
+		// 			"titleNView": {
+		// 				"backgroundColor": "#f5f5f5"
 
-					}
-				}
-			}
-		}, {
-			"path": "pages/set/grzl/nc/nc",
-			"style": {
-				"navigationBarTitleText": "修改昵称",
-				"app-plus": {
-					"titleNView": {
-						"backgroundColor": "#f8f8f8"
-					}
-				}
-			}
-		}, {
-		 "path": "pages/set/grzl/wx/wx",
-			"style": {
-				"navigationBarTitleText": "修改微信号",
-				"app-plus": {
-					"titleNView": {
-						"backgroundColor": "#f8f8f8"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/client/vipcard/adviser",
-			"style": {
-				"navigationBarTitleText": "专属顾问"
-			}
-		},
-		{
-			"path": "pages/client/vipcard/adviserchange",
-			"style": {
-				"navigationBarTitleText": "更换顾问"
-			}
-		},
-		{
-			"path": "pages/client/mendian",
-			"style": {
-				"navigationBarTitleText": "切换门店"
-			}
-		},
+		// 			}
+		// 		}
+		// 	}
+		// }, 
+		// {
+		// 	"path": "pages/set/grzl/nc/nc",
+		// 	"style": {
+		// 		"navigationBarTitleText": "修改昵称",
+		// 		"app-plus": {
+		// 			"titleNView": {
+		// 				"backgroundColor": "#f8f8f8"
+		// 			}
+		// 		}
+		// 	}
+		// }, 
+		// {
+		// 	"path": "pages/set/grzl/wx/wx",
+		// 	"style": {
+		// 		"navigationBarTitleText": "修改微信号",
+		// 		"app-plus": {
+		// 			"titleNView": {
+		// 				"backgroundColor": "#f8f8f8"
+		// 			}
+		// 		}
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/client/vipcard/adviser",
+		// 	"style": {
+		// 		"navigationBarTitleText": "专属顾问"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/client/vipcard/adviserchange",
+		// 	"style": {
+		// 		"navigationBarTitleText": "更换顾问"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/client/mendian",
+		// 	"style": {
+		// 		"navigationBarTitleText": "切换门店"
+		// 	}
+		// },
 		{
 			"path": "pages/client/tuan/index",
 			"style": {
@@ -236,7 +239,7 @@
 		},
 		{
 			"path": "pages/client/tuan/infotp",
-		 "style": {
+			"style": {
 				"navigationBarTitleText": "壁纸图片",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
@@ -279,18 +282,18 @@
 				"navigationBarTitleText": "问题反馈"
 			}
 		},
-		{
-			"path": "pages/client/member/address",
-			"style": {
-				"navigationBarTitleText": "收货地址"
-			}
-		},
-		{
-			"path": "pages/client/member/addressform",
-			"style": {
-				"navigationBarTitleText": "地址管理"
-			}
-		},
+		// {
+		// 	"path": "pages/client/member/address",
+		// 	"style": {
+		// 		"navigationBarTitleText": "收货地址"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/client/member/addressform",
+		// 	"style": {
+		// 		"navigationBarTitleText": "地址管理"
+		// 	}
+		// },
 		{
 			"path": "pages/client/integral/role",
 			"style": {
@@ -317,12 +320,12 @@
 		// 		 "navigationBarTitleText": "积分兑换商品订单"
 		// 	}
 		// },
-		{
-			"path": "pages/client/order/comment",
-			"style": {
-				"navigationBarTitleText": "订单评价"
-			}
-		},
+		// {
+		// 	"path": "pages/client/order/comment",
+		// 	"style": {
+		// 		"navigationBarTitleText": "订单评价"
+		// 	}
+		// },
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -363,18 +366,16 @@
 			"style": {
 				"navigationBarTitleText": "用户协议"
 			}
-		}
-
-	    ,{
-            "path" : "pages/client/video-tool/index",
-            "style" :                                                                                    
-            {
+		},
+		{
+			"path": "pages/client/video-tool/index",
+			"style": {
 				"navigationBarTitleText": "视频解析",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "正在载入",
