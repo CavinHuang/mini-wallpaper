@@ -60,6 +60,26 @@ export class User {
   score: number
 
   @Column({
+    comment: '是否签到'
+  })
+  is_sign: boolean
+
+  @Column({
+    comment: '最大签到天数'
+  })
+  sign_max: number
+
+  @Column({
+    comment: '总签到天数'
+  })
+  sign_num: number
+
+  @Column({
+    comment: '最后签到的时间'
+  })
+  last_sign_date: Date
+
+  @Column({
     length: 200,
     comment: '用户昵称'
   })

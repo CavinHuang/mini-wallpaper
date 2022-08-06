@@ -151,8 +151,9 @@ export default {
 	    if (res.from === 'menu') {// 来自页面内分享按钮
 	      console.log(res.target)
 	    }
+		const siteConfig = uni.getStorageSync('config').site
 	    return {
-	      title: '六号时空',
+	      title: siteConfig.name,
 		  channel:true,
 	      path: '/pages/client/tuan/infotp?fxid='+this_.uid+'&id='+this_.id+'&isfx=1'
 	    }

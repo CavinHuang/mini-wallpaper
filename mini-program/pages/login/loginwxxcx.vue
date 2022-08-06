@@ -2,7 +2,6 @@
 	<view class="content">
 		<view class="header">
 			<image :src="userinfowx.avatarUrl"></image>
-
 		</view>
 		<view style="height: 100upx;line-height: 100upx; text-align: center;">
 			<text style="font-size: 36upx; text-align: center;">{{userinfowx.nickName}}</text>

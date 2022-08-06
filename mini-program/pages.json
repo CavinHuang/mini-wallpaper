@@ -365,7 +365,16 @@
 			}
 		}
 
-	],
+	    ,{
+            "path" : "pages/client/video-tool/index",
+            "style" :                                                                                    
+            {
+				"navigationBarTitleText": "视频解析",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "正在载入",

@@ -5,6 +5,12 @@ import { logger } from '../logger'
 import { ApiOptions } from './../../controller/interface';
 import { Response } from "../../core/responce";
 
+/**
+ * 控制器装饰
+ * @param root 
+ * @param apiOptions 
+ * @returns 
+ */
 export function Controller(root: string, apiOptions?: Partial<ApiOptions>) {
   return function (target: new (...args: any[]) => any) {
     const handlerKeys = Object.getOwnPropertyNames(target.prototype).filter(
@@ -43,10 +49,12 @@ export function Controller(root: string, apiOptions?: Partial<ApiOptions>) {
         router[method](fullPath, ...middlewares, async (ctx, next) => {
           try {
             const params: ControllerParams = {
-            query: ctx.request.query,
-            body: ctx.request.body,
-            $: ctx.$
-          }
+              query: ctx.request.query,
+              body: ctx.request.body,
+              $: ctx.$,
+              ...ctx.request.query,
+              ...ctx.request.body
+            }
           const result = await handler(params)
           ctx.body = result
           } catch (e) {

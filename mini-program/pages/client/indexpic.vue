@@ -16,7 +16,7 @@
 				<home-banner :banners="banners" @change="bannerChange"></home-banner>
 			</view>
 		</view>
-			
+
 		<view class="integral-mall-main plr15" style="margin-top: 140upx;">
 			<view class="home-nav plr15" v-if="hasNav">
 				<view class="home-nav__item">
@@ -67,7 +67,7 @@
 					<view class="ft14 ftw600 mt6" style="color: #444;">全部壁纸</view>
 				</view>
 			</view>
-	
+
 			<view class="mt24" v-if="dataindex[4]">
 				<view class="flex alcenter space">
 					<view class="flex alcenter">
@@ -108,11 +108,12 @@
 						<!-- #ifdef MP-WEIXIN -->
 						<view class="mb10" v-if="key==6 && BannerAd" style="width: 100%;">
 							<ad :unit-id="BannerAd"></ad>
-						</view>	
+						</view>
 						<!-- #endif -->
 						<view class="box pic-item" @click="detail(value.id, 4)">
 							<!-- <view class="btn-mini" style="position: absolute; top: 20upx; right: 20upx; border-radius: 10upx;font-size: 18upx;width: 60upx; height: 36upx; z-index: 1;" :style="getBtnStyle">壁纸</view> -->
-							<image class="integral-mall-goods" mode="aspectFill" :src="imagePath(value.upload_type, value.thumb_url)"></image>
+							<image class="integral-mall-goods" mode="aspectFill"
+								:src="imagePath(value.upload_type, value.thumb_url)"></image>
 						</view>
 					</block>
 				</view>
@@ -165,7 +166,7 @@
 		computed: {
 
 		},
-		
+
 		onPageScroll(e) {
 			if (e.scrollTop > 44) {
 				if (this.navLock == false) {
@@ -223,8 +224,9 @@
 			if (res.from === 'menu') { // 来自页面内分享按钮
 				console.log(res.target)
 			}
+			const siteConfig = uni.getStorageSync('config').site
 			return {
-				title: '六号时空',
+				title: siteConfig.name,
 				channel: true,
 				path: '/pages/client/indexpic?fxid=' + this_.uid
 			}
@@ -242,7 +244,9 @@
 					}
 				});
 			},
-			bannerChange({ current }) {
+			bannerChange({
+				current
+			}) {
 				this.bannerCurrent = current
 				this.changeBg()
 			},
@@ -451,17 +455,17 @@
 		position: relative;
 		border-radius: 0rpx 0rpx 48rpx 48rpx;
 	}
-	
+
 	.home-nav {
 		display: flex;
 		flex-wrap: wrap;
 		margin-top: 160rpx;
 	}
-	
+
 	.home-nav .home-nav__item {
 		width: 50%;
 	}
-	
+
 	.home-nav .home-nav__content {
 		background: #FFFFFF;
 		border-radius: 16rpx;
@@ -470,17 +474,17 @@
 		flex-wrap: nowrap;
 		align-items: center;
 	}
-	
+
 	.home-nav .title {
 		font-size: 32rpx;
 		margin-left: 20rpx;
 		color: #888;
 	}
-	
+
 	.home-nav .home-nav__item:first-child .home-nav__content {
-		 margin-right: 32rpx;
-	 }
-	
+		margin-right: 32rpx;
+	}
+
 	.home-nav .home-nav__item .nav-image {
 		width: 80rpx;
 		height: 80rpx;

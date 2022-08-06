@@ -9,7 +9,7 @@
     "start2": "node ./dist/app.js",
     "watch": "cross-env NODE_ENV=production nodemon --ext js,ts --exec yarn start",
     "start": "cross-env NODE_ENV=production nodemon --ext js,ts --exec ts-node ./src/app.ts",
-    "dev": "nodemon --watch ./src/* -e ts --exec ts-node ./src/app.ts",
+    "dev": "nodemon --watch ./src/* -e ts --exec ts-node -r tsconfig-paths/register ./src/app.ts",
     "clear:js": "rimraf ./src/**/*.js"
   },
   "keywords": [],
@@ -48,6 +48,7 @@
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.16",
     "ts-node": "^10.7.0",
+    "tsconfig-paths": "^4.0.0",
     "typescript": "^4.7.3"
   }
 }

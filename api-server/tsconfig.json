@@ -20,10 +20,34 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
 		// 路径映射, 别名到基于baseUrl的路径，便于vscode之类IDE(集成开发环境)识别
-		// "paths": {
-		// 	"@/*": ["src/*"],
-		// 	"~/*": ["src/*"]
-		// }
+		"paths": {
+			"@/*": ["src/*"],
+      "@/controller/*": ["src/controller/*"],
+      "@/service/*": [
+        "src/service/*"
+      ],
+      "@/models/*": [
+        "src/models/*"
+      ],
+      "@/server/*": [
+        "src/server/*"
+      ],
+      "@/utils/*": [
+        "src/utils/*"
+      ],
+      "@/validator/*": [
+        "src/validator/*"
+      ],
+      "@/interfaces/*": [
+        "src/interfaces/*"
+      ],
+      "@/config/*": [
+        "src/config/*"
+      ],
+      "@/core/*": [
+        "src/core/*"
+      ],
+		}
 	},
 	// "ts-node": {
 	// 	"transpileOnly": true //只编译，报警告或者错误一样运行

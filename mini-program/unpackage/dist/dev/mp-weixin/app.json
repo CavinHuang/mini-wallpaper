@@ -42,7 +42,8 @@
     "pages/login/logingzh",
     "pages/login/reg",
     "pages/login/forget",
-    "pages/login/agreement"
+    "pages/login/agreement",
+    "pages/client/video-tool/index"
   ],
   "subPackages": [],
   "window": {
@@ -85,5 +86,6 @@
       "desc": "为您精选服务"
     }
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }

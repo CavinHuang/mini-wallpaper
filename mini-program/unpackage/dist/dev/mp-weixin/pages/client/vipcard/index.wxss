@@ -18,6 +18,7 @@
 	font-size: 24rpx;
 	font-weight: bold;
 	line-height: 48rpx;
+	background: -webkit-linear-gradient(top, #F2DCA9 0%, #C79556 100%);
 	background: linear-gradient(180deg, #F2DCA9 0%, #C79556 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -33,9 +34,15 @@
 	height: 40rpx;
 	border-radius: 20rpx;
 	padding: 0 16rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
 	border:2rpx solid rgba(255,255,255,.3)
 }
 .vipcard-detail-main{
@@ -83,6 +90,7 @@
 .vipcard-swiper .swiper-item .card .vip-type-tag{
 	width: 104rpx;
 	height: 40rpx;
+	background: -webkit-linear-gradient(314deg, #4E4E4E 0%, #262728 100%);
 	background: linear-gradient(136deg, #4E4E4E 0%, #262728 100%);
 	border-radius: 0rpx 20rpx 20rpx 0rpx;
 	text-align: center;

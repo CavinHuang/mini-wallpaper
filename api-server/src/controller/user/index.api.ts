@@ -13,6 +13,8 @@ import { User } from "../../models/entity/user";
 import { Resource } from '../../models/entity/resource';
 import { ResourceService, ResourceType } from '../../service/resource';
 import { M } from '../../models';
+import { BusinessError, BUSINESS_ERROR_CODE } from '@/core/error/businessError';
+import { afterOneDay, datesAreOnSameDay } from '@/utils';
 
 interface IGetPhone {
   nickName: string
@@ -30,7 +32,9 @@ interface ITougao {
   token: string
   appid: string
 }
-
+/**
+ * 用户控制
+ */
 @Controller('/user')
 class UserLogin extends CoreController {
 
@@ -95,8 +99,10 @@ class UserLogin extends CoreController {
       })
 
       if (saveRes) {
+        // 做一次用户登录
+        const userRes = userService.doLogin(appid, openid)
         return Response.success({
-          userinfo: saveRes
+          userinfo: userRes
         })
       }
     }
@@ -209,5 +215,46 @@ class UserLogin extends CoreController {
     }
 
     return Response.error('审核失败，请重试~')
+  }
+
+  @Get('/myteam', { skipPerm: true })
+  public async myTeam(params: ControllerParams<{
+    offset: number
+    limit: number
+    uid: number
+  }>) {
+    const { query } = params
+    const { offset, limit, uid } = query
+
+    return userService.getMyPartner(uid, offset, limit)
+  }
+
+  /**
+   * 签到
+   * @param params 
+   * @returns 
+   */
+  @Get('/sign', { skipPerm: true })
+  public async sign(params: { uid: number }) {
+    const { uid } = params
+
+    const userRes = await userService.getUserById(uid)
+
+    if (!userRes) throw new BusinessError(BUSINESS_ERROR_CODE.NOT_FOUND, '没有这样的用户')
+
+    const lastSign = userRes.last_sign_date
+    const afterDate = afterOneDay(lastSign)
+    const sign_max = datesAreOnSameDay(new Date(), afterDate) ? userRes.sign_max + 1 : 0
+    const updateData = {
+      is_sign: true,
+      sign_max,
+      sign_num: userRes.sign_num + 1,
+      last_sign_date: new Date()
+    }
+
+    if (userService.saveUserInfo({...userRes, ...updateData, score: userRes.score + 1})) {
+      return Response.success(updateData, '签到成功')
+    }
+    return Response.error('签到失败,请重试~')
   }
 }

@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "投稿",
   "usingComponents": {
-    "uni-data-checkbox": "/uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox",
     "easy-upload": "/components/easy-upload/easy-upload"
   }
 }

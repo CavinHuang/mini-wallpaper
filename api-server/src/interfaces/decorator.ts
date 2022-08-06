@@ -3,8 +3,8 @@
  */
 import { Server } from '../server/Server';
 
-export interface ControllerParams<Q = Record<string, any>, B = Record<string, any>> {
+export type ControllerParams<Q = Record<string, any>, B = Record<string, any>> = {
   query: Q,
   body: B,
   $: Server
-}
+} & Q & B

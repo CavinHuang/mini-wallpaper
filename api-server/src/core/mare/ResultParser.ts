@@ -1,4 +1,4 @@
-import { CONFIG_REDIS_KEY } from '../../service/common';
+import { CONFIG_REDIS_KEY } from '@/service/common';
 import { redisGet } from './../redis/index';
 const initMareParseResult = () => {
   return async (ctx, next) => {
@@ -9,7 +9,7 @@ const initMareParseResult = () => {
         const body = ctx.body
 
         if (body instanceof Error) {
-          ctx.body = { code: 400, message: body.message }
+          ctx.body = { code: 500, message: body.message }
         } else {
           //塞入config
           const headerAppid = ctx.headers.appid
@@ -19,8 +19,9 @@ const initMareParseResult = () => {
           ctx.body = body
         }
         ctx.type = 'json'
-      } catch {
+      } catch (e) {
         ctx.status = 500
+        ctx.body = e.message
       }
     }
 

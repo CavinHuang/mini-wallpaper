@@ -60,3 +60,35 @@ export function formatDate(now) {
   return data
 }
 
+export const afterOneDay = (date?: Date) => {
+  //获取时间戳
+  if (!date) {
+    date = new Date()
+   }
+  const Time = date.getTime();//当前的毫秒数
+  const oneDay = 1000*60*60*24;//一天的毫秒数
+
+  const after = Time + oneDay;//计算后一天的毫秒数
+  date.setTime(after);
+
+  return date
+}
+
+export const beforeOneDay = (date?: Date) => {
+  //获取时间戳
+  if (!date) {
+    date = new Date()
+   }
+  const Time = date.getTime();//当前的毫秒数
+  const oneDay = 1000*60*60*24;//一天的毫秒数
+
+  const after = Time - oneDay;//计算后一天的毫秒数
+  date.setTime(after);
+
+  return date
+}
+
+export const datesAreOnSameDay = (first, second) =>
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate()
