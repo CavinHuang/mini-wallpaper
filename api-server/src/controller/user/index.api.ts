@@ -53,7 +53,7 @@ class UserLogin extends CoreController {
 
   @Use(genValidateParams('get', loginParams))
   @Get('/getOpenid', { skipPerm: true })
-  public async login(params: ControllerParams<{ code: string, appid: string }>) {
+  public async getOpenid(params: ControllerParams<{ code: string, appid: string }>) {
     const { query } = params
     const result = await Wechat.code2session(query.appid, query.code)
     const { wechatData } = result
@@ -82,7 +82,7 @@ class UserLogin extends CoreController {
   }
 
   @Get('/getphone', { skipPerm: true })
-  public async getOpenid(params: ControllerParams<IGetPhone>) {
+  public async getphone(params: ControllerParams<IGetPhone>) {
     const { query } = params
     const { appid, openid, nickName, avatarUrl, gender, pid } = query
     const userRes = await userService.getUserByOpenId(appid, openid)
@@ -256,5 +256,11 @@ class UserLogin extends CoreController {
       return Response.success(updateData, '签到成功')
     }
     return Response.error('签到失败,请重试~')
+  }
+
+  @Post('/login', { skipPerm: true })
+  public async login(params: { username: string, password: string }) {
+    const loginRes = await userService.jwtTokenLogin(params.username, params.password)
+    return Response.success(loginRes, '登录成功')
   }
 }

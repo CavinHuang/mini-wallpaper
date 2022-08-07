@@ -3,7 +3,8 @@
  */
 
 export enum BUSINESS_ERROR_CODE {
-  NOT_FOUND = 40004
+  NOT_FOUND = 40004,
+  PASSWORD_ERROR = 40003
 }
 
 export class BusinessError extends Error {

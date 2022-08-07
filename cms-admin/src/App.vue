@@ -22,7 +22,7 @@ const config = reactive({
 const i18nLocale = computed((): any => {
   if (globalStore.language && globalStore.language == 'zh') return zhCn
   if (globalStore.language == 'en') return en
-  return ''
+  return zhCn
 })
 
 // 配置全局组件大小 (small/default(medium)/large)

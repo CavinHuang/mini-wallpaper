@@ -59,6 +59,7 @@ export function Controller(root: string, apiOptions?: Partial<ApiOptions>) {
           ctx.body = result
           } catch (e) {
             // ctx.status = 500
+            console.log(e)
             ctx.body = Response.error(e.message, e.code)
           }
           await next()

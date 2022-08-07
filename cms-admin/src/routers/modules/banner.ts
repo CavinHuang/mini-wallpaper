@@ -1,22 +1,22 @@
 import { RouteRecordRaw } from 'vue-router'
 import { Layout } from '@/routers/constant'
 
-// 首页模块
+// banner模块
 const homeRouter: Array<RouteRecordRaw> = [
   {
-    path: '/admin',
+    path: '/banner',
     component: Layout,
-    redirect: '/admin/list',
+    redirect: '/banner/list',
     children: [
       {
         path: 'list',
-        name: 'homeList',
-        component: () => import('@/views/admin/list.vue'),
+        name: 'bannerList',
+        component: () => import('@/views/banner/index.vue'),
         meta: {
           keepAlive: true,
           requiresAuth: true,
-          title: '会员管理',
-          key: 'user'
+          title: '轮播图管理',
+          key: 'bannerList'
         }
       }
     ]

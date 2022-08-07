@@ -5,6 +5,11 @@ import md5 from 'md5'
 import { random } from '../utils'
 import { Pagination } from '@/core';
 import { Response } from '@/core/responce';
+import bcrypt from 'bcrypt'
+import jsonwebtoken from 'jsonwebtoken'
+import { BusinessError, BUSINESS_ERROR_CODE } from '@/core/error/businessError';
+import { secret } from '@/config';
+import { classToPlain } from 'class-transformer';
 
 class UserService {
   /**
@@ -48,6 +53,19 @@ class UserService {
   }
 
   /**
+   * 获取用户信息
+   * @param uid 
+   * @returns 
+   */
+  async getUserByUserName(username: string) {
+    const user = M(User)
+    return user.findOne({
+      where: { username: username }
+    })
+  }
+
+
+  /**
    * 获取redis的用户
    * @param token 
    * @returns 
@@ -82,6 +100,47 @@ class UserService {
       redisClient.expire(openid, 60 * 60 * 1)
     }
     return userRes
+  }
+
+  /**
+   * jwt 登录
+   * @param userName 
+   * @param password 
+   * @returns 
+   */
+  public async jwtTokenLogin(userName: string, password: string) {
+    const user = await this.getUserByUserName(userName)
+
+    if (!user) throw new BusinessError(BUSINESS_ERROR_CODE.NOT_FOUND, '不存在的用户')
+
+    if (bcrypt.compareSync(password, user.password)) {
+      const token = jsonwebtoken.sign({
+        data: user,
+        // 设置 token 过期时间
+        exp: Math.floor(Date.now() / 1000) + 60 * 60 // 60 seconds * 60 minutes = 1 hour
+      }, secret)
+      return {
+        user: classToPlain(user),
+        token
+      }
+    }
+
+    throw new BusinessError(BUSINESS_ERROR_CODE.PASSWORD_ERROR, '密码或者用户名错误')
+  }
+
+  /**
+   * 创建密码
+   * @param pass 
+   * @returns 
+   */
+  public async genUserPassword(pass: string) {
+    const slat = bcrypt.genSaltSync(10)
+    const password = bcrypt.hashSync(pass, slat)
+
+    return {
+      slat,
+      password
+    }
   }
 
   /**

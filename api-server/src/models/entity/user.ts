@@ -3,7 +3,7 @@
  */
 
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
-
+import { Exclude } from 'class-transformer';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -47,6 +47,20 @@ export class User {
     comment: '用户名'
   })
   username: string
+
+  @Exclude()
+  @Column({
+    length: 200,
+    comment: '用户密码'
+  })
+  password: string
+
+  @Exclude()
+  @Column({
+    length: 200,
+    comment: '加密盐'
+  })
+  salt: string
 
   @Column({
     length: 200,

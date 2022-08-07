@@ -39,8 +39,9 @@ class RequestHttp {
         axiosCanceler.addPending(config)
         // * 如果当前请求不需要显示 loading,在api服务中通过指定的第三个参数: { headers: { noLoading: true } }来控制不显示loading，参见loginApi
         config.headers!.noLoading || showFullScreenLoading()
+        config.headers!.webType = 'cms-admin'
         const token: string = globalStore.token
-        return { ...config, headers: { Authorization: `Bearer ${token}` } }
+        return { ...config, headers: { Authorization: `Bearer ${token}`, webType: 'cms-admin' } }
       },
       (error: AxiosError) => {
         return Promise.reject(error)

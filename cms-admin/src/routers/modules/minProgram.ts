@@ -1,22 +1,22 @@
 import { RouteRecordRaw } from 'vue-router'
 import { Layout } from '@/routers/constant'
 
-// 首页模块
+// 小程序管理模块
 const homeRouter: Array<RouteRecordRaw> = [
   {
-    path: '/crawel',
+    path: '/mini-program',
     component: Layout,
-    redirect: '/crawel/list',
+    redirect: '/mini-program/list',
     children: [
       {
         path: 'list',
-        name: 'crawelList',
-        component: () => import('@/views/crawel/list.vue'),
+        name: 'miniProgramList',
+        component: () => import('@/views/mini-program/index.vue'),
         meta: {
           keepAlive: true,
           requiresAuth: true,
-          title: '爬虫管理',
-          key: 'crawel'
+          title: '小程序管理',
+          key: 'miniProgramList'
         }
       }
     ]

@@ -5,6 +5,7 @@ specifiers:
   '@types/node': '*'
   bcrypt: ^5.0.1
   chalk: ^4.1.2
+  class-transformer: ^0.5.1
   cross-env: ^7.0.3
   fs-readdir-recursive: ^1.1.0
   glob: ^8.0.3
@@ -37,6 +38,7 @@ specifiers:
 dependencies:
   '@koa/cors': 3.3.0
   bcrypt: 5.0.1
+  class-transformer: 0.5.1
   fs-readdir-recursive: 1.1.0
   glob: 8.0.3
   ioredis: 5.2.2
@@ -461,6 +463,10 @@ packages:
   /chownr/2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
+    dev: false
+
+  /class-transformer/0.5.1:
+    resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
     dev: false
 
   /clean-stack/2.2.0:
