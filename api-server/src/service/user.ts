@@ -99,7 +99,10 @@ class UserService {
       redisClient.expire(userToken, 60 * 60 * 1)
       redisClient.expire(openid, 60 * 60 * 1)
     }
-    return userRes
+    return {
+      user: { ...userRes, token: userToken },
+      token: userToken
+    }
   }
 
   /**

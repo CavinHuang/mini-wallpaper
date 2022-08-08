@@ -46,7 +46,6 @@
 .tab-nav-plus-scroll .item .tit.on{
 	font-size: 34rpx;
 	color: #323332;
-	background-image: -webkit-linear-gradient(left, #fbf95e, #f9cc3b);
 	background-image: linear-gradient(to right, #fbf95e, #f9cc3b);
 }
 .tab-nav-plus-main .tab-nav-plus-scroll .item .bd{

@@ -426,9 +426,9 @@
 			"select-(.*)": "@/components/select/$1.vue",
 			"home-(.*)": "@/pages/client/components/home/$1.vue",
 			"order-(.*)": "@/pages/client/components/order/$1.vue"
-
 		}
 	},
+	"lazyCodeLoading": "requiredComponents",
 	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
 		"list": [{

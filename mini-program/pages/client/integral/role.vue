@@ -54,7 +54,7 @@
 							</view>
 						</view>
 					</view>
-					<view @click="qinddao()" v-if="mrqdjrk>0" class="btn-small" :style="getBtnRoleStyle" style="width: 148rpx;">签到</view>
+					<view @click="qinddao()" v-if="mrqdjrk==0" class="btn-small" :style="getBtnRoleStyle" style="width: 148rpx;">签到</view>
 					<view class="btn-small" v-else :style="getBtnDisStyle" style="width: 148rpx;">已完成</view>
 					
 				</view>
@@ -90,14 +90,19 @@
 				</view> -->
 			</view>
 		</view>
+		<uni-sign-in ref="sign"></uni-sign-in>
 	</view>
 </template>
 
 <script>
+	import uniSignIn from '../components/integral/uni-sign-in.vue'
 	let videoAd = null;
 	var w = uni.getSystemInfoSync().windowWidth;
 	var h = uni.getSystemInfoSync().windowHeight;
 	export default{
+		components: {
+			uniSignIn
+		},
 		data(){
 			return {
 				uid:'',
@@ -137,6 +142,9 @@
 		},
 		methods:{
 			async qinddao(){
+				this.$refs.sign.open()
+				console.log(this.$refs.sign)
+				return false
 				if(this.mrqdjrk<=0){
 					var mrqd=this.mrqd
 					uni.showModal({
@@ -295,6 +303,7 @@
 					url: this.configs.webUrl+'/api/index/index',
 					data: data,
 					success: res =>{
+						if (!res.data.code) return false
 						console.log(res.data.data.config.site.weixinxcx.videoAd)
 						this.videoids=res.data.data.config.site.weixinxcx.videoAd
 						this.zczsjf=res.data.data.config.site.zczsjf

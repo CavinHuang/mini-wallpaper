@@ -1,1 +1,0 @@
-<view class="{{['flex','space','alcenter','star-list',size]}}"><block wx:for="{{datas}}" wx:for-item="a" wx:for-index="i" wx:key="i"><text class="star iconfont iconicon_star" style="{{'color:'+(a<=getVal?'#FFD200':'#E4E6ED')+';'}}" data-value="{{a}}" data-event-opts="{{[['tap',[['changeStar',['$event']]]]]}}" bindtap="__e"></text></block></view>

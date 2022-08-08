@@ -1,14 +1,11 @@
 {
   "pages": [
     "pages/client/indexpic",
-    "pages/client/index",
-    "pages/client/miniapp",
     "pages/client/member/tougao",
     "pages/client/member/tougaojl",
     "pages/client/webva",
     "pages/client/mytuandui",
     "pages/client/member/qrshare",
-    "pages/client/pusher",
     "pages/client/vipcard/index",
     "pages/client/vipcard/vipcm",
     "pages/client/vipcard/recharge",
@@ -19,12 +16,6 @@
     "pages/set/set",
     "pages/set/grzl/grzl",
     "pages/set/gywm/gywm",
-    "pages/set/grzl/modname/modname",
-    "pages/set/grzl/nc/nc",
-    "pages/set/grzl/wx/wx",
-    "pages/client/vipcard/adviser",
-    "pages/client/vipcard/adviserchange",
-    "pages/client/mendian",
     "pages/client/tuan/index",
     "pages/client/tuan/sstp",
     "pages/client/tuan/list",
@@ -32,11 +23,8 @@
     "pages/client/tuan/buy",
     "pages/client/member/index",
     "pages/client/member/feedback",
-    "pages/client/member/address",
-    "pages/client/member/addressform",
     "pages/client/integral/role",
     "pages/client/order/index",
-    "pages/client/order/comment",
     "pages/login/login",
     "pages/login/loginwxxcx",
     "pages/login/logingzh",
@@ -86,6 +74,5 @@
       "desc": "为您精选服务"
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

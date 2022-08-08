@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "赚积分",
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-sign-in": "/pages/client/components/integral/uni-sign-in"
+  }
 }

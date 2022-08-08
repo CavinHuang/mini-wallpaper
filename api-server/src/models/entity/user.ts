@@ -74,9 +74,9 @@ export class User {
   score: number
 
   @Column({
-    comment: '是否签到'
+    comment: '本轮签到几天'
   })
-  is_sign: boolean
+  sign_this_max: number
 
   @Column({
     comment: '最大签到天数'

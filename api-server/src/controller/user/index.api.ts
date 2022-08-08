@@ -1,3 +1,4 @@
+import { classToPlain } from 'class-transformer';
 import { Response } from '../../core/responce';
 import { ResourceWithCategory } from '../../models/entity/resourceWithCategory';
 import { redisGet } from '../../core/redis/index';
@@ -32,6 +33,15 @@ interface ITougao {
   token: string
   appid: string
 }
+
+interface ISign {
+  is_sign: boolean
+  last_sign_date: Date
+  sign_max: number
+  sign_num: number
+  sign_this_max: number
+}
+
 /**
  * 用户控制
  */
@@ -57,24 +67,11 @@ class UserLogin extends CoreController {
     const { query } = params
     const result = await Wechat.code2session(query.appid, query.code)
     const { wechatData } = result
-    if (wechatData.openid) {
-      const redisUserToken = await redisClient.get(wechatData.openid)
-      const redisUser = JSON.parse(await redisClient.get(redisUserToken)) as User
-      return Response.success({
-        userInfo: {...redisUser, token: result.userToken},
-        wechatData
-      }, '登录成功')
-    }
-    const userRes = await userService.getUserByOpenId(query.appid, wechatData.openid)
-    if (userRes) {
-      console.log(userRes.openid, wechatData, JSON.stringify(result))
-      redisClient.set(userRes.openid, result.userToken)
-      redisClient.set(result.userToken, JSON.stringify(userRes))
-      redisClient.expire(result.userToken, 60 * 60 * 1)
-      redisClient.expire(wechatData.openid, 60 * 60 * 1)
+    const { user, token } = await userService.doLogin(query.appid, wechatData.openid)
 
+    if (user) {
       return Response.success({
-        userInfo: {...userRes, token: result.userToken},
+        userInfo: {...user, token},
         wechatData
       }, '登录成功')
     }
@@ -100,7 +97,7 @@ class UserLogin extends CoreController {
 
       if (saveRes) {
         // 做一次用户登录
-        const userRes = userService.doLogin(appid, openid)
+        const userRes = await userService.doLogin(appid, openid)
         return Response.success({
           userinfo: userRes
         })
@@ -249,6 +246,7 @@ class UserLogin extends CoreController {
       is_sign: true,
       sign_max,
       sign_num: userRes.sign_num + 1,
+      sign_this_max: userRes.sign_this_max + 1,
       last_sign_date: new Date()
     }
 
@@ -256,6 +254,25 @@ class UserLogin extends CoreController {
       return Response.success(updateData, '签到成功')
     }
     return Response.error('签到失败,请重试~')
+  }
+
+  @Get('/getSignInfo', { skipPerm: true })
+  public async getSignInfo(params: { uid: number }) {
+    const user = classToPlain((await userService.getUserById(params.uid))) as User
+
+    const result: ISign = {
+      is_sign: false,
+      sign_max: user.sign_max,
+      sign_num: user.sign_num,
+      last_sign_date: user.last_sign_date,
+      sign_this_max: user.sign_this_max
+    }
+
+    if (datesAreOnSameDay(new Date(), user.last_sign_date)) {
+      result.is_sign = true
+    }
+
+    return Response.success(result, Response.successMessage)
   }
 
   @Post('/login', { skipPerm: true })

@@ -9,4 +9,9 @@ class Index {
   public qiniuToken() {
     return Response.success(uploadToken(), Response.successMessage)
   }
+
+  @Get('/index')
+  public index() {
+    
+  }
 }

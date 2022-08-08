@@ -1,37 +1,31 @@
 {
-  "projectname": "壁纸图片，表情包，头像。兼容app、h5、微信小程序、支持微信小程序奖励广告",
+  "projectname": "星图部落",
   "setting": {
     "compileHotReLoad": true
   },
   "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
   "condition": {
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
     "miniprogram": {
       "list": [
         {
           "name": "wode",
           "pathName": "pages/client/member/index",
           "query": "",
+          "launchMode": "default",
           "scene": null
         },
         {
           "name": "注册",
           "pathName": "pages/login/loginwxxcx",
           "query": "xid=2",
+          "launchMode": "default",
           "scene": null
         },
         {
-          "name": "pages/client/video-tool/index/index",
-          "pathName": "pages/client/video-tool/index",
+          "name": "role",
+          "pathName": "pages/client/integral/role",
           "query": "",
+          "launchMode": "default",
           "scene": null
         }
       ]

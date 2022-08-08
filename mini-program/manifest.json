@@ -56,12 +56,12 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "wxf84a60c327db82a4",
+        "appid" : "wx123004cdf793dff7",
         "setting" : {
             "urlCheck" : false,
             "postcss" : true,
             "minified" : true,
-            "es6" : false
+            "es6" : true
         },
         "usingComponents" : true,
         "requiredBackgroundModes" : [ "audio" ],
