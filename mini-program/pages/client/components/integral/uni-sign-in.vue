@@ -11,11 +11,11 @@
 				</view>
 				<view>
 					<view class="days-box">
-						<view class="days" v-for="item in [1,2,3,4]" :key="item">
-							<uni-icons v-if="[1].includes(item-1)" class="icon active" color="#FFFFFF"
+						<view class="days" v-for="item in 7" :key="item">
+							<uni-icons v-if="false" class="icon active" color="#FFFFFF"
 								type="checkmarkempty"></uni-icons>
 							<template v-else>
-								<uni-icons v-if="item<signInRes.n" class="icon active" color="#FFFFFF"
+								<uni-icons v-if="true" class="icon active" color="#FFFFFF"
 									type="closeempty"></uni-icons>
 								<uni-icons v-else class="icon" type="checkmarkempty" color="#FFFFFF"></uni-icons>
 							</template>
@@ -67,7 +67,7 @@
 				return new Promise((resolve, reject) => {
 					const date = new Date(new Date().toLocaleDateString()).getTime()
 					uni.request({
-						url: this.configs.webUrl + '/api/user/getSignInfo',
+						url: this.configs.webUrl + '/api/user/sign',
 						data: {
 							uid: uni.getStorageSync('userinfo').id,
 							appid: this.configs.appId
@@ -77,7 +77,7 @@
 								this.signInRes = res.data.data
 								this.$refs.popup.open()
 								uni.showToast({
-									title: ToastText,
+									title: res.data.message.ToastText,
 									duration: 3000,
 									icon: 'none'
 								});

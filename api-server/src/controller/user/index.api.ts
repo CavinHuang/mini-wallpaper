@@ -1,3 +1,4 @@
+import { UserSignInfoService } from './../../service/userSignInfo';
 import { classToPlain } from 'class-transformer';
 import { Response } from '../../core/responce';
 import { ResourceWithCategory } from '../../models/entity/resourceWithCategory';
@@ -240,17 +241,37 @@ class UserLogin extends CoreController {
     if (!userRes) throw new BusinessError(BUSINESS_ERROR_CODE.NOT_FOUND, '没有这样的用户')
 
     const lastSign = userRes.last_sign_date
+
+    if (datesAreOnSameDay(new Date(), lastSign)) {
+      console.log(await UserSignInfoService.nowSignInfo(userRes.id))
+      const result: ISign = {
+          is_sign: true,
+          sign_max: userRes.sign_max,
+          sign_num: userRes.sign_num,
+          last_sign_date: userRes.last_sign_date,
+          sign_this_max: userRes.sign_this_max
+        }
+      return Response.success(result, '今日已经签过到了')
+    }
+
     const afterDate = afterOneDay(lastSign)
-    const sign_max = datesAreOnSameDay(new Date(), afterDate) ? userRes.sign_max + 1 : 0
+    const now = new Date()
+    const sign_max = datesAreOnSameDay(now, afterDate) ? userRes.sign_max + 1 : 0
     const updateData = {
       is_sign: true,
       sign_max,
       sign_num: userRes.sign_num + 1,
       sign_this_max: userRes.sign_this_max + 1,
-      last_sign_date: new Date()
+      last_sign_date: now
     }
 
     if (userService.saveUserInfo({...userRes, ...updateData, score: userRes.score + 1})) {
+      // 记录一条记录
+      await UserSignInfoService.saveInfo({
+        last_sign_date: now,
+        uid: userRes.id
+      })
+      console.log(await UserSignInfoService.nowSignInfo(userRes.id))
       return Response.success(updateData, '签到成功')
     }
     return Response.error('签到失败,请重试~')
