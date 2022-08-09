@@ -10,8 +10,32 @@ import jsonwebtoken from 'jsonwebtoken'
 import { BusinessError, BUSINESS_ERROR_CODE } from '@/core/error/businessError';
 import { secret } from '@/config';
 import { classToPlain } from 'class-transformer';
+import { SelectQueryBuilder } from 'typeorm';
 
 class UserService {
+  /**
+   * 获取分页数据
+   * @param type 资源类型
+   * @param pageNum 当前页数
+   * @param pageSize 总条数
+   * @param extralWhere 额外的where条件
+   * @returns Promise<Pagination>
+   */
+  public async getPageUser({ pageNum = 1, pageSize = 10, offset, limit}: { pageNum: number, pageSize: number, offset?: number, limit?: number }, extral?: {
+    where: (query: SelectQueryBuilder<User>) => SelectQueryBuilder<User>
+  }) {
+    let query = M(User).createQueryBuilder('u').where('u.status = :status', { status: 1 })
+
+    if (extral && extral.where) {
+      query = extral.where(query)
+    }
+
+    query = query.addOrderBy('u.create_at', 'DESC').addOrderBy('u.id', 'DESC')
+
+    const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit })
+
+    return result
+  }
   /**
    * 保存用户信息
    */

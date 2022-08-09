@@ -1,6 +1,6 @@
 <template>
   <div class="footer flx-center">
-    <a href="http://thedoki.com/" target="_blank"> 2022 © Doki Hub. </a>
+    <a href="http://thedoki.com/" target="_blank"> 2022 © min cms. </a>
   </div>
 </template>
 

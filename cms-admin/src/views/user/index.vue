@@ -81,10 +81,29 @@ const columns: Partial<ColumnProps>[] = [
     width: 80
   },
   {
+    prop: 'appid',
+    label: 'appid',
+    width: 135
+  },
+  {
     prop: 'username',
     label: '用户名',
     search: true,
     width: 135
+  },
+  {
+    prop: 'openid',
+    label: 'openid',
+    width: 135
+  },
+  {
+    prop: 'nickname',
+    label: '用户昵称'
+  },
+  {
+    prop: 'avatar',
+    label: '头像',
+    image: true
   },
   {
     prop: 'gender',
@@ -96,8 +115,24 @@ const columns: Partial<ColumnProps>[] = [
     searchType: 'select'
   },
   {
-    prop: 'email',
-    label: '邮箱'
+    prop: 'province',
+    label: '省份',
+    width: '140'
+  },
+  {
+    prop: 'city',
+    label: '城市',
+    width: '140'
+  },
+  {
+    prop: 'group_id',
+    label: '所属组',
+    width: '140'
+  },
+  {
+    prop: 'score',
+    label: '积分',
+    width: '140'
   },
   {
     prop: 'create_at',

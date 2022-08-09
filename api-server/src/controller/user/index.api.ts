@@ -51,6 +51,11 @@ interface ISign {
 @Controller('/user')
 class UserLogin extends CoreController {
 
+  @Post('/list', { skipPerm: true })
+  public async list({ pageNum = 1, pageSize = 10 }: { pageNum: number, pageSize: number }) {
+    return Response.success(await userService.getPageUser({ pageNum, pageSize }))
+  }
+
   @Get('/index', { skipPerm: true })
   public async index(params: ControllerParams<{ token: string, uid: number }>) {
     const userRes = await redisClient.get(params.query.token)

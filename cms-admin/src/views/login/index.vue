@@ -10,7 +10,7 @@
         <div class="login-form">
           <div class="login-logo">
             <img class="login-icon" src="@/assets/images/logo.svg" alt="" />
-            <p class="logo-text">Doki Hub</p>
+            <p class="logo-text">min cms</p>
           </div>
           <LoginForm ref="loginRef" :age="'20'" :address="['天府三街', '天府四街']" :obj="obj"></LoginForm>
         </div>

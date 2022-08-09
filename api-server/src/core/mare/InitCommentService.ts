@@ -14,7 +14,9 @@ export default function initCommentService() {
       ctx.status = 403
       return (ctx.body = Response.error('没有权限'))
     }
-    commonService.initCache(appid)
+    if (appid) {
+      commonService.initCache(appid)
+    }
     await next()
   }
 }
