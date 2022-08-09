@@ -54,9 +54,8 @@
 							</view>
 						</view>
 					</view>
-					<view @click="qinddao()" v-if="mrqdjrk==0" class="btn-small" :style="getBtnRoleStyle" style="width: 148rpx;">签到</view>
+					<view @click="qinddao()" v-if="mrqdjrk>0" class="btn-small" :style="getBtnRoleStyle" style="width: 148rpx;">签到</view>
 					<view class="btn-small" v-else :style="getBtnDisStyle" style="width: 148rpx;">已完成</view>
-					
 				</view>
 				<!-- <view class="flex alcenter space pb16 bd-bottom mb16">
 					<view class="flex alcenter">
@@ -299,26 +298,27 @@
 				let data = {};
 				data.token = uni.getStorageSync("userinfo").token;
 				data.uid = uni.getStorageSync("userinfo").id;
+				data.appid = this.configs.appId
 				uni.request({
 					url: this.configs.webUrl+'/api/index/index',
 					data: data,
 					success: res =>{
 						if (!res.data.code) return false
-						console.log(res.data.data.config.site.weixinxcx.videoAd)
-						this.videoids=res.data.data.config.site.weixinxcx.videoAd
-						this.zczsjf=res.data.data.config.site.zczsjf
-						this.yqzc=res.data.data.config.site.yqzc
+						console.log(res.data.data)
+						// this.videoids=res.data.data.config.site.weixinxcx.videoAd
+						this.zczsjf=res.data.data.zczsjf
+						this.yqzc=res.data.data.yqzc
 						
-						var mrcs=res.data.data.config.mrcs
-						var mrcsjr=res.data.data.config.mrcsjr
-						this.mrcs=mrcs
-						this.mrcsjrk=mrcs-mrcsjr
+						// var mrcs=res.data.data.config.mrcs
+						var mrcsjr=res.data.data.mrcsjr
+						// this.mrcs=mrcs
+						this.mrcsjrk=mrcsjr
 						
-						var mrqd=res.data.data.config.mrqd
-						var mrqdjr=res.data.data.config.mrqdjr
-						this.mrqd=mrqd
-						this.mrqdjrk=mrqd-mrqdjr
-						this.adLoad()
+						// var mrqd=res.data.data.config.mrqd
+						var mrqdjr=res.data.data.mrqdjr
+						// this.mrqd=mrqd
+						this.mrqdjrk=mrqdjr
+						// this.adLoad()
 					},
 					fail: (data, code) => {
 						//console.log('fail' + JSON.stringify(data));

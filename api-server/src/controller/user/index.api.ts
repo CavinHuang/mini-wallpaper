@@ -41,6 +41,8 @@ interface ISign {
   sign_max: number
   sign_num: number
   sign_this_max: number
+  days: number[]
+  n: number
 }
 
 /**
@@ -243,13 +245,15 @@ class UserLogin extends CoreController {
     const lastSign = userRes.last_sign_date
 
     if (datesAreOnSameDay(new Date(), lastSign)) {
-      console.log(await UserSignInfoService.nowSignInfo(userRes.id))
+      const { days, n } = await UserSignInfoService.nowSignInfo(userRes.id)
       const result: ISign = {
           is_sign: true,
           sign_max: userRes.sign_max,
           sign_num: userRes.sign_num,
           last_sign_date: userRes.last_sign_date,
-          sign_this_max: userRes.sign_this_max
+          sign_this_max: userRes.sign_this_max,
+          days,
+          n
         }
       return Response.success(result, '今日已经签过到了')
     }
@@ -267,12 +271,8 @@ class UserLogin extends CoreController {
 
     if (userService.saveUserInfo({...userRes, ...updateData, score: userRes.score + 1})) {
       // 记录一条记录
-      await UserSignInfoService.saveInfo({
-        last_sign_date: now,
-        uid: userRes.id
-      })
-      console.log(await UserSignInfoService.nowSignInfo(userRes.id))
-      return Response.success(updateData, '签到成功')
+      const { days, n } = await UserSignInfoService.doSign(userRes.id)
+      return Response.success({...updateData, days, n}, '签到成功')
     }
     return Response.error('签到失败,请重试~')
   }
@@ -286,7 +286,9 @@ class UserLogin extends CoreController {
       sign_max: user.sign_max,
       sign_num: user.sign_num,
       last_sign_date: user.last_sign_date,
-      sign_this_max: user.sign_this_max
+      sign_this_max: user.sign_this_max,
+      days: [],
+      n: 0
     }
 
     if (datesAreOnSameDay(new Date(), user.last_sign_date)) {

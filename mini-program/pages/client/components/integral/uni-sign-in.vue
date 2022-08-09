@@ -6,20 +6,20 @@
 			<view class="content">
 				<view class="main">
 					<text class="title">今日签到成功</text>
-					<text class="total">本轮已签到{{signInRes.sign_this_max}}天</text>
+					<text class="total">本轮已签到{{signInRes.days.length}}天</text>
 					<text class="scores">当前积分：{{signInRes.score}}</text>
 				</view>
 				<view>
 					<view class="days-box">
-						<view class="days" v-for="item in 7" :key="item">
-							<uni-icons v-if="false" class="icon active" color="#FFFFFF"
+						<view class="days" v-for="item in weekdays" :key="item">
+							<uni-icons v-if="signInRes.days.includes(item-1)" class="icon active" color="#FFFFFF"
 								type="checkmarkempty"></uni-icons>
 							<template v-else>
-								<uni-icons v-if="true" class="icon active" color="#FFFFFF"
+								<uni-icons v-if="item<signInRes.n" class="icon active" color="#FFFFFF"
 									type="closeempty"></uni-icons>
 								<uni-icons v-else class="icon" type="checkmarkempty" color="#FFFFFF"></uni-icons>
 							</template>
-							<template v-if="[1].includes(item-1)||item>signInRes.n">
+							<template v-if="signInRes.days.includes(item-1)||item">
 								<text class="day" :class="{grey:item>signInRes.n}">第{{item}}天</text>
 							</template>
 
@@ -27,10 +27,10 @@
 						</view>
 					</view>
 					<view class="tip-box">
-						<text class="tip">签到一次得10积分</text>
+						<text class="tip">签到一次得1积分</text>
 						<view class="row">
 							<text class="tip">连续签到7天可多得</text>
-							<text class="red">50</text>
+							<text class="red">5</text>
 							<text class="tip">积分</text>
 						</view>
 					</view>
@@ -56,7 +56,9 @@
 					sign_max: 0,
 					sign_num: 0,
 					last_sign_date: null,
-					sign_this_max: 0
+					sign_this_max: 0,
+					days: [],
+					n: 0
 				}
 			}
 		},
@@ -82,7 +84,7 @@
 									icon: 'none'
 								});
 							}
-							resolve(res.data.data) 
+							resolve(res.data) 
 						},
 						error: (e) => {
 							reject(e)
@@ -169,17 +171,17 @@
 					console.log(res)
 					if (res) {
 						uni.hideLoading()
-						this.signInRes = res
+						this.signInRes = res.data
 						this.$refs.popup.open()
-						if (this.signInRes.sign_this_max == 7) {
+						if (this.signInRes.days.length == 7) {
 							uni.showToast({
-								title: "你已完成7日连续签到，获得60积分！",
+								title: "你已完成7日连续签到！",
 								icon: "none",
 								duration: 5000
 							})
 						} else {
 							uni.showToast({
-								title: "签到成功,获得10积分！",
+								title: res.message,
 								icon: "none",
 								duration: 5000
 							})

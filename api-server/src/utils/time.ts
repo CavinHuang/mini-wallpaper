@@ -92,3 +92,16 @@ export const datesAreOnSameDay = (first, second) =>
     first.getFullYear() === second.getFullYear() &&
     first.getMonth() === second.getMonth() &&
     first.getDate() === second.getDate()
+
+export function todayTimestamp(date?: Date) {
+  const _Date = date ? date : new Date
+	//时区
+	let timeZone = _Date.getTimezoneOffset() / 60
+  console.log(timeZone)
+	//获得相对于北京时间的时间戳
+	let timestamp = _Date.getTime() + 3600 * 1000 * (8 + timeZone)
+	//一天一共多少毫秒
+	const D = 3600 * 24 * 1000
+	//去掉余数，再减去东8区的8小时 得到当天凌晨的时间戳
+	return parseInt((timestamp / D).toString()) * D - 3600 * 1000 * 8
+}

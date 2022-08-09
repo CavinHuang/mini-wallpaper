@@ -252,7 +252,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var videoAd = null;
 var w = uni.getSystemInfoSync().windowWidth;
 var h = uni.getSystemInfoSync().windowHeight;var _default =
@@ -456,30 +455,31 @@ var h = uni.getSystemInfoSync().windowHeight;var _default =
                 data = {};
                 data.token = uni.getStorageSync("userinfo").token;
                 data.uid = uni.getStorageSync("userinfo").id;
+                data.appid = _this3.configs.appId;
                 uni.request({
                   url: _this3.configs.webUrl + '/api/index/index',
                   data: data,
                   success: function success(res) {
                     if (!res.data.code) return false;
-                    console.log(res.data.data.config.site.weixinxcx.videoAd);
-                    _this3.videoids = res.data.data.config.site.weixinxcx.videoAd;
-                    _this3.zczsjf = res.data.data.config.site.zczsjf;
-                    _this3.yqzc = res.data.data.config.site.yqzc;
+                    console.log(res.data.data);
+                    // this.videoids=res.data.data.config.site.weixinxcx.videoAd
+                    _this3.zczsjf = res.data.data.zczsjf;
+                    _this3.yqzc = res.data.data.yqzc;
 
-                    var mrcs = res.data.data.config.mrcs;
-                    var mrcsjr = res.data.data.config.mrcsjr;
-                    _this3.mrcs = mrcs;
-                    _this3.mrcsjrk = mrcs - mrcsjr;
+                    // var mrcs=res.data.data.config.mrcs
+                    var mrcsjr = res.data.data.mrcsjr;
+                    // this.mrcs=mrcs
+                    _this3.mrcsjrk = mrcsjr;
 
-                    var mrqd = res.data.data.config.mrqd;
-                    var mrqdjr = res.data.data.config.mrqdjr;
-                    _this3.mrqd = mrqd;
-                    _this3.mrqdjrk = mrqd - mrqdjr;
-                    _this3.adLoad();
+                    // var mrqd=res.data.data.config.mrqd
+                    var mrqdjr = res.data.data.mrqdjr;
+                    // this.mrqd=mrqd
+                    _this3.mrqdjrk = mrqdjr;
+                    // this.adLoad()
                   },
                   fail: function fail(data, code) {
                     //console.log('fail' + JSON.stringify(data));
-                  } });case 4:case "end":return _context3.stop();}}}, _callee3);}))();
+                  } });case 5:case "end":return _context3.stop();}}}, _callee3);}))();
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
