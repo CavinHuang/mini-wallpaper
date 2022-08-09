@@ -11,6 +11,12 @@ export class MiniProgram {
 
   @Column({
     length: 200,
+    comment: '小程序名称'
+  })
+  name: string
+
+  @Column({
+    length: 200,
     comment: '小程序appid，用于区分小程序'
   })
   appid: string

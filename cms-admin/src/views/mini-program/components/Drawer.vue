@@ -4,23 +4,11 @@
       <el-form-item label="名称" prop="name" clearable>
         <el-input v-model="drawerData.rowData!.name" placeholder="请填写名称"></el-input>
       </el-form-item>
-      <el-form-item label="分类key" prop="name" clearable>
-        <el-input v-model="drawerData.rowData!.slug" placeholder="请填写分类key"></el-input>
+      <el-form-item label="appid" prop="appid" clearable>
+        <el-input v-model="drawerData.rowData!.appid" placeholder="请填写appid"></el-input>
       </el-form-item>
-      <div class="" style="margin-left: 180px">
-        <el-radio-group v-model="coverType" class="ml-4">
-          <el-radio label="1">图片</el-radio>
-          <el-radio label="2">icon</el-radio>
-        </el-radio-group>
-      </div>
-      <el-form-item label="分类封面" prop="cover" clearable v-if="coverType === '1'">
-        <el-input type="textarea" v-model="drawerData.rowData!.image" placeholder="请输入封面图片地址"></el-input>
-      </el-form-item>
-      <el-form-item label="分类icon" prop="icon" clearable v-if="coverType === '2'">
-        <SelectIcon v-model:iconValue="drawerData.rowData!.icon"></SelectIcon>
-      </el-form-item>
-      <el-form-item label="排序" prop="name" clearable>
-        <el-input type="number" v-model="drawerData.rowData!.sort" placeholder="请填写排序"></el-input>
+      <el-form-item label="appid" prop="appid" clearable>
+        <el-input v-model="drawerData.rowData!.appsecret" placeholder="请填写appsecret"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -31,10 +19,9 @@
 </template>
 
 <script setup lang="ts" name="UserDrawer">
-import { Game } from '@/api/interface'
 import { ref, reactive } from 'vue'
 import { ElMessage, FormInstance } from 'element-plus'
-import SelectIcon from '@/components/SelectIcon/index.vue'
+import { MinProgram } from '@/api/interface/minProgram'
 
 const rules = reactive({
   name: [{ required: true, message: '请填写名称', trigger: 'blur' }]
@@ -44,7 +31,7 @@ interface DrawerProps {
   title: string
   isView: boolean
   isEdit?: boolean
-  rowData?: Game.cate
+  rowData?: MinProgram.Item
   apiUrl?: (params: any) => Promise<any>
   getTableList?: () => Promise<any>
 }
@@ -62,7 +49,6 @@ const coverType = ref('1')
 // 接收父组件传过来的参数
 const acceptParams = (params: DrawerProps): void => {
   drawerData.value = params
-  coverType.value = params.rowData?.image ? '1' : '2'
   drawerVisible.value = true
 }
 
@@ -74,7 +60,7 @@ const handleSubmit = () => {
     try {
       if (!drawerData.value.apiUrl) return
       await drawerData.value.apiUrl(drawerData.value.rowData)
-      ElMessage.success({ message: `${drawerData.value.title}游戏成功！` })
+      ElMessage.success({ message: `${drawerData.value.title}成功！` })
       drawerData.value.getTableList && drawerData.value.getTableList()
       drawerVisible.value = false
     } catch (error) {
