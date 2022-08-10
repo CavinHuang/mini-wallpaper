@@ -1,6 +1,6 @@
 import { M } from "@/models";
-import { SystemConfigTab } from "@/models/entity/systemCOnfigTab";
-import { getTreeChildren } from "@/utils/data";
+import { SystemConfigTab } from "@/models/entity/systemConfigTab";
+import { getTreeChildren, sortListTier } from "@/utils/data";
 
 export class SystemConfigTabService {
 
@@ -15,6 +15,31 @@ export class SystemConfigTabService {
     return {
       list, treeData
     }
+  }
+
+  /**
+   * 获取所有的
+   * @returns 
+   */
+  public static getConfigTabAll() {
+    return M(SystemConfigTab).find()
+  }
+
+  /**
+   * 获取下拉选项
+   * @returns 
+   */
+  public static async getSelectForm() {
+    const menuList = await SystemConfigTabService.getConfigTabAll()
+    console.log(menuList)
+    const list = sortListTier(menuList, 0, 'pid', 'id')
+    const menus = [{ value: 0, label: '顶级按钮' }]
+
+    list.forEach(menu => {
+      menus.push({ value: menu.id, label: menu.html + menu.title })
+    })
+
+    return menus
   }
 
   /**

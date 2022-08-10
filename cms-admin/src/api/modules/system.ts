@@ -12,18 +12,22 @@ export class SystemApi {
     return http.get<MinProgram.Item[]>(PORT1 + '/system/config-class', params)
   }
 
+  public static getSelectOptions() {
+    return http.get<Array<{ label: string; value: number }>>(PORT1 + '/system/getSelectOptions')
+  }
+
   // * 编辑
   public static edit(params: { id: string }) {
-    return http.post(PORT1 + '/min-program/update', params)
+    return http.post(PORT1 + '/system/config-tab/update', params)
   }
 
   // * 增加
   public static add(params: { id: string }) {
-    return http.post(PORT1 + '/min-program/create', params)
+    return http.post(PORT1 + '/system/config-tab/create', params)
   }
 
   // * 增加
   public static delete(params: { id: string }) {
-    return http.post(PORT1 + '/min-program/delete', params)
+    return http.post(PORT1 + '/systemdelete', params)
   }
 }

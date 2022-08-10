@@ -60,3 +60,4 @@ export namespace User {
 
 export * from './crawel'
 export * from './game'
+export * from './system'

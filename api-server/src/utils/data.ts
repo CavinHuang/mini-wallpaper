@@ -22,8 +22,38 @@ export function getTreeChildren($data = [], $childrenname = 'children', $keyName
     if ($list[$item[$pidName]]) {
       $list[$item[$pidName]][$childrenname].push($list[$item[$keyName]]);
     } else {
-      $tree.push([$list[$item[$keyName]]]);
+      $tree.push($list[$item[$keyName]]);
     }
   })
   return $tree;
+}
+
+
+/**
+ * 分级排序
+ * @param $data
+ * @param int $pid
+ * @param string $field
+ * @param string $pk
+ * @param string $html
+ * @param int $level
+ * @param bool $clear
+ * @return array
+ */
+export function sortListTier($data = [], $pid = 0, $field = 'pid', $pk = 'id', $html = '|-----', $level = 1, $clear = true)
+{
+    let $list = [];
+    function handler($data = [], $pid = 0, $field = 'pid', $pk = 'id', $html = '|-----', $level = 1, $clear = true) {
+      if ($clear) $list = [];
+      $data.forEach(($k, $res) => {
+        if ($res[$field] == $pid) {
+          $res['html'] = $html.repeat($level);
+          $list.push($res);
+          delete $data[$k]
+          handler($data, $res[$pk], $field, $pk, $html, $level + 1, false);
+        }
+      })
+    }
+    handler($data, $pid, $field, $pk, $html, $level, $clear)
+    return $list;
 }
