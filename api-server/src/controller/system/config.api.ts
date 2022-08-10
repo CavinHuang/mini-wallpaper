@@ -3,6 +3,7 @@ import { Controller, Get, Post } from '@/core/decorator';
 import { Response } from '@/core/responce';
 import { SystemConfigTabService } from '@/service/systemConfigTab';
 import { SystemConfig as SystemConfigEntity } from '../../models/entity/systemConfig';
+import { ControllerParams } from '@/interfaces';
 
 @Controller('/system', { skipPerm: true })
 class SystemConfig {
@@ -24,6 +25,14 @@ class SystemConfig {
   @Post('/config-tab/update')
   public async updateConfigTab(raw: Partial<SystemConfigTab>) {
     return Response.success(await SystemConfigTabService.update(raw.id, raw), Response.successMessage)
+  }
+
+  @Post('/config-tab/changeStatus')
+  public async changeStatus(raw: ControllerParams<any, { ids: number[] } & Partial<SystemConfigTab>>) {
+    const { body } = raw
+    const { ids } = body
+    delete body.ids
+    return Response.success(await SystemConfigTabService.updateAll(ids, body), Response.successMessage)
   }
 
   @Get('/getSelectOptions')

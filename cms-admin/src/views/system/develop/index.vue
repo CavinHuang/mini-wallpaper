@@ -90,9 +90,22 @@ const columns: Partial<ColumnProps>[] = [
   }
 ]
 
+function getAllIds(row: System.SystemConfigTabItem) {
+  const ids: number[] = []
+  ids.push(row.id)
+  if (row.children && row.children.length) {
+    row.children.forEach((item) => {
+      ids.push(...getAllIds(item))
+    })
+  }
+  return ids
+}
+
 // 切换状态
 const changeStatus = async (row: System.SystemConfigTabItem) => {
-  await useHandleData(SystemApi.edit, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.title}】状态`)
+  const hasChildren = row.children && row.children.length
+  const ids = getAllIds(row)
+  await useHandleData(SystemApi.changeStatus, { ids, status: row.status == 1 ? 0 : true }, `切换【${row.title}】状态`)
   proTable.value.refresh()
 }
 

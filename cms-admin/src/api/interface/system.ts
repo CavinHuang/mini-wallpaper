@@ -11,6 +11,7 @@ export namespace System {
     icon: string
     type: number
     sort: number
+    children?: SystemConfigTabItem[]
   }
 
   export interface ReqGetParams extends ReqPage {

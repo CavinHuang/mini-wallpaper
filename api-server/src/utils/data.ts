@@ -20,6 +20,7 @@ export function getTreeChildren($data = [], $childrenname = 'children', $keyName
   const $tree = []; //格式化好的树
   $list.forEach($item => {
     if ($list[$item[$pidName]]) {
+      if (!$list[$item[$pidName]][$childrenname]) $list[$item[$pidName]][$childrenname] = []
       $list[$item[$pidName]][$childrenname].push($list[$item[$keyName]]);
     } else {
       $tree.push($list[$item[$keyName]]);
@@ -43,9 +44,10 @@ export function getTreeChildren($data = [], $childrenname = 'children', $keyName
 export function sortListTier($data = [], $pid = 0, $field = 'pid', $pk = 'id', $html = '|-----', $level = 1, $clear = true)
 {
     let $list = [];
+    if ($clear) $list = [];
     function handler($data = [], $pid = 0, $field = 'pid', $pk = 'id', $html = '|-----', $level = 1, $clear = true) {
-      if ($clear) $list = [];
-      $data.forEach(($k, $res) => {
+      $data.forEach(($res, $k) => {
+        console.log($k, $res, $field, $res[$field], $pid)
         if ($res[$field] == $pid) {
           $res['html'] = $html.repeat($level);
           $list.push($res);

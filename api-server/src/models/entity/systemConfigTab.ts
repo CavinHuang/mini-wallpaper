@@ -25,7 +25,7 @@ export class SystemConfigTab {
   @Column({
     comment: '配置分类状态'
   })
-  status: boolean
+  status: number
 
   @Column({
     comment: '配置分类是否显示'

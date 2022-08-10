@@ -21,6 +21,11 @@ export class SystemApi {
     return http.post(PORT1 + '/system/config-tab/update', params)
   }
 
+  // * 更新状态
+  public static changeStatus(params: { ids: number[] }) {
+    return http.post(PORT1 + '/system/config-tab/changeStatus', params)
+  }
+
   // * 增加
   public static add(params: { id: string }) {
     return http.post(PORT1 + '/system/config-tab/create', params)

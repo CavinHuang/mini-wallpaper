@@ -33,6 +33,7 @@ export class SystemConfigTabService {
     const menuList = await SystemConfigTabService.getConfigTabAll()
     console.log(menuList)
     const list = sortListTier(menuList, 0, 'pid', 'id')
+    console.log(list)
     const menus = [{ value: 0, label: '顶级按钮' }]
 
     list.forEach(menu => {
@@ -69,4 +70,13 @@ export class SystemConfigTabService {
     return model.save(data)
   }
   
+  /**
+   * 更新
+   * @param raw 
+   * @returns 
+   */
+  public static updateAll(ids: number[], raw: Partial<SystemConfigTab>) {
+    console.log(raw)
+    return M(SystemConfigTab).createQueryBuilder().update(SystemConfigTab).set(raw).where('id IN (:...ids)', { ids }).execute()
+  }
 }
