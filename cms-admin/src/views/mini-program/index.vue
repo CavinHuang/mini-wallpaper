@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="tsx" name="adminList">
-import { ref, reactive, h } from 'vue'
+import { ref, reactive } from 'vue'
 import { Game } from '@/api/interface'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
@@ -39,6 +39,7 @@ import ProTable from '@/components/ProTable/index.vue'
 import UserDrawer from './components/Drawer.vue'
 import { EditPen, View } from '@element-plus/icons-vue'
 import { MiniProgramApi } from '@/api/modules'
+
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
 
@@ -60,18 +61,15 @@ const columns: Partial<ColumnProps>[] = [
   {
     prop: 'name',
     label: '小程序名称',
-    search: true,
-    width: 200
+    search: true
   },
   {
     prop: 'appid',
-    label: 'appid',
-    width: '140'
+    label: 'appid'
   },
   {
     prop: 'appsecret',
-    label: 'appsecret',
-    width: 100
+    label: 'appsecret'
   },
   {
     prop: 'create_at',
@@ -93,19 +91,15 @@ const columns: Partial<ColumnProps>[] = [
   }
 ]
 
-const getAssetsImage = (cover: string) => {
-  return cover.indexOf('http') > -1 ? cover : new URL('/src/assets/images/game/' + cover, import.meta.url).href
-}
-
 // 删除分类信息
 const deleteAccount = async (params: Game.cate) => {
-  await useHandleData(deleteCrawel, { id: [params.id] }, `是否确认删除【${params.name}】分类？`)
+  await useHandleData(MiniProgramApi.delete, { id: [params.id] }, `是否确认删除【${params.name}】？`)
   proTable.value.refresh()
 }
 
 // 切换分类状态
 const changeStatus = async (row: Game.cate) => {
-  await useHandleData(editGameCate, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】分类状态`)
+  await useHandleData(MiniProgramApi.edit, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】状态`)
   proTable.value.refresh()
 }
 
@@ -120,7 +114,7 @@ const openDrawer = (title: string, rowData: Partial<Game.cate> = {}, isEdit: boo
     rowData: { ...rowData },
     isEdit,
     isView: title === '查看' ? true : false,
-    apiUrl: title === '新增' ? addGameCate : title === '编辑' ? editGameCate : '',
+    apiUrl: title === '新增' ? MiniProgramApi.add : title === '编辑' ? MiniProgramApi.edit : '',
     getTableList: proTable.value.refresh
   }
   drawerRef.value!.acceptParams(params)

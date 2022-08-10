@@ -7,7 +7,7 @@
       <el-form-item label="appid" prop="appid" clearable>
         <el-input v-model="drawerData.rowData!.appid" placeholder="请填写appid"></el-input>
       </el-form-item>
-      <el-form-item label="appid" prop="appid" clearable>
+      <el-form-item label="appsecret" prop="appid" clearable>
         <el-input v-model="drawerData.rowData!.appsecret" placeholder="请填写appsecret"></el-input>
       </el-form-item>
     </el-form>

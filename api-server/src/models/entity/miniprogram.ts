@@ -33,6 +33,9 @@ export class MiniProgram {
   })
   status: number
 
+  @Column()
+  is_deleted: boolean
+
   @Column({
     type: 'datetime'
   })

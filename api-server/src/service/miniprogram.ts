@@ -24,7 +24,7 @@ export class MiniProgram extends BaseService {
   public static async getPageData({ pageNum = 1, pageSize = 10, offset, limit}: { pageNum: number, pageSize: number, offset?: number, limit?: number }, extral?: {
     where: (query: SelectQueryBuilder<MiniProgramEntity>) => SelectQueryBuilder<MiniProgramEntity>
   }) {
-    let query = M(MiniProgramEntity).createQueryBuilder('u').where('u.status = :status', { status: 1 })
+    let query = M(MiniProgramEntity).createQueryBuilder('u')
 
     if (extral && extral.where) {
       query = extral.where(query)
@@ -35,5 +35,32 @@ export class MiniProgram extends BaseService {
     const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit })
 
     return result
+  }
+
+  /**
+   * 创建新的小程序
+   * @param raw 
+   * @returns 
+   */
+  public static createMiniProgram(raw: Partial<MiniProgramEntity>) {
+    const model = M(MiniProgramEntity)
+    const data = model.create(raw)
+
+    return model.save(data)
+  }
+
+  /**
+   * 更新小程序信息
+   * @param id 
+   * @param raw 
+   * @returns 
+   */
+  public static async updateMiniProgram(id: number, raw: Partial<MiniProgramEntity>) {
+    const model = M(MiniProgramEntity)
+    const miniData = await model.findOne({
+      where: { id }
+    })
+    const data = Object.assign(miniData, raw)
+    return model.save(data)
   }
 }

@@ -14,8 +14,13 @@ class Menu {
         { icon: 'ship', title: '轮播图管理', path: '/banner/list' },
         { icon: 'Grid', title: '资源分类管理', path: '/category/list' },
         { icon: 'Grid', title: '资源管理', path: '/resource/list' },
-        { icon: 'Grid', title: '设置', path: '/setting', children: [
-          { path: '/setting/site', title: '应用配置', icon: 'menu' },
+        // { icon: 'Grid', title: '设置', path: '/setting', children: [
+        //   { path: '/setting/site', title: '应用配置', icon: 'menu' },
+        // ] },
+        { icon: 'Grid', title: '维护', path: '/system', children: [
+          { path: '/system/config', title: '开发配置', children: [
+            { path: '/system/config/develop', title: '配置分类' }
+          ] },
         ] },
 
         // {
