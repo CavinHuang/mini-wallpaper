@@ -12,9 +12,9 @@
         <div @click="changeStatus(scope.row)">
           <el-switch
             :value="scope.row.status"
-            :active-text="scope.row.status === 1 ? '启用' : '禁用'"
-            :active-value="1"
-            :inactive-value="0"
+            :active-text="Boolean(scope.row.status) ? '启用' : '禁用'"
+            :active-value="true"
+            :inactive-value="false"
           />
         </div>
       </template>
@@ -43,6 +43,13 @@ import { useRoute } from 'vue-router'
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
 const route = useRoute()
+
+const textType = [
+  { value: 'input', label: '文本框' },
+  { value: 'dateTime', label: '时间' },
+  { value: 'color', label: '颜色' },
+  { value: 'number', label: '数字' }
+]
 
 // 如果表格需要初始化请求参数,直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上)
 const initParam = reactive({
@@ -76,12 +83,13 @@ const columns: Partial<ColumnProps>[] = [
     label: '配置名称'
   },
   {
-    prop: '字段变量',
-    label: 'menu_name'
+    prop: 'menu_name',
+    label: '字段变量'
   },
   {
-    prop: '字段类型',
-    label: 'type'
+    prop: 'type',
+    label: '字段类型',
+    enum: textType
   },
   {
     prop: 'status',
@@ -95,22 +103,9 @@ const columns: Partial<ColumnProps>[] = [
   }
 ]
 
-function getAllIds(row: System.SystemConfigTabItem) {
-  const ids: number[] = []
-  ids.push(row.id)
-  if (row.children && row.children.length) {
-    row.children.forEach((item) => {
-      ids.push(...getAllIds(item))
-    })
-  }
-  return ids
-}
-
 // 切换状态
-const changeStatus = async (row: System.SystemConfigTabItem) => {
-  const hasChildren = row.children && row.children.length
-  const ids = getAllIds(row)
-  await useHandleData(SystemApi.changeStatus, { ids, status: row.status == 1 ? 0 : true }, `切换【${row.title}】状态`)
+const changeStatus = async (row: System.SystemConfigItem) => {
+  await useHandleData(SystemApi.editConfig, { id: row.id, status: Boolean(row.status) ? false : true }, `切换【${row.name}】状态`)
   proTable.value.refresh()
 }
 
@@ -119,12 +114,12 @@ interface DrawerExpose {
   acceptParams: (params: any) => void
 }
 const drawerRef = ref<DrawerExpose>()
-const openDrawer = (title: string, rowData: Partial<System.SystemConfigTabItem> = {}) => {
+const openDrawer = (title: string, rowData: Partial<System.SystemConfigItem> = { type: '0' }) => {
   let params = {
     title: title,
     rowData: { ...rowData },
     isView: title === '查看' ? true : false,
-    apiUrl: title === '添加' ? SystemApi.add : title === '编辑' ? SystemApi.edit : '',
+    apiUrl: title === '添加' ? SystemApi.addConfig : title === '编辑' ? SystemApi.editConfig : '',
     getTableList: proTable.value.refresh
   }
   drawerRef.value!.acceptParams(params)

@@ -9,7 +9,7 @@ export namespace System {
     status: number
     display: boolean
     icon: string
-    type: number
+    type: string
     sort: number
     children?: SystemConfigTabItem[]
   }

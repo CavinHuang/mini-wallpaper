@@ -65,4 +65,31 @@ export class SystemConfigService {
 
     return str
   }
+
+  /**
+   * 创建
+   * @param raw 
+   * @returns 
+   */
+  public static create(raw: Partial<SystemConfig>) {
+    const model = M(SystemConfig)
+    const data = model.create(raw)
+    return model.save(data)
+  }
+
+  /**
+   * 更新
+   * @param raw 
+   * @returns 
+   */
+  public static update(id: number, raw: Partial<SystemConfig>) {
+    const model = M(SystemConfig)
+    const rawData = model.findOne({
+      where: {
+        id
+      }
+    })
+    const data = Object.assign(rawData, raw)
+    return model.save(data)
+  }
 }

@@ -26,6 +26,16 @@ export class SystemApi {
     return http.post(PORT1 + '/system/config-tab/update', params)
   }
 
+  // * 编辑配置
+  public static addConfig(params: { id: string }) {
+    return http.post(PORT1 + '/system/config/create', params)
+  }
+
+  // * 编辑
+  public static editConfig(params: { id: string }) {
+    return http.post(PORT1 + '/system/config/update', params)
+  }
+
   // * 更新状态
   public static changeStatus(params: { ids: number[] }) {
     return http.post(PORT1 + '/system/config-tab/changeStatus', params)

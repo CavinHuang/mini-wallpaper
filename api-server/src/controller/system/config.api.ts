@@ -12,9 +12,6 @@ class SystemConfig {
   @Get('/config-class')
   public async configTab() {
     const { treeData } = await SystemConfigTabService.getAll()
-
-    console.log(treeData)
-
     return Response.success(treeData, Response.successMessage)
   }
 
@@ -26,6 +23,17 @@ class SystemConfig {
   @Post('/config-tab/update')
   public async updateConfigTab(raw: Partial<SystemConfigTab>) {
     return Response.success(await SystemConfigTabService.update(raw.id, raw), Response.successMessage)
+  }
+
+  @Post('/config/create')
+  public async createConfig(raw: Partial<SystemConfigEntity>) {
+    return Response.success(await SystemConfigService.create(raw), Response.successMessage)
+  }
+
+  @Post('/config/update')
+  public async updateConfig(raw: Partial<SystemConfigEntity>) {
+    raw.status = Boolean(raw.status)
+    return Response.success(await SystemConfigService.update(raw.id, raw), Response.successMessage)
   }
 
   @Post('/config-tab/changeStatus')

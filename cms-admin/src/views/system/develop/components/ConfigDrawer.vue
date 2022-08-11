@@ -1,17 +1,22 @@
 <template>
   <el-drawer v-model="drawerVisible" :destroy-on-close="true" size="600px" :title="`${drawerData.title}配置分类`">
-    <el-tabs v-model="drawerData.rowData!.type" class="demo-tabs" @tab-click="onhangeTab">
-      <el-tab-pane label="文本框" name="0">文本框</el-tab-pane>
-      <el-tab-pane label="多行文本框" name="1">多行文本框</el-tab-pane>
-      <el-tab-pane label="单选框" name="2">单选框</el-tab-pane>
-      <el-tab-pane label="文件上传" name="3">文件上传</el-tab-pane>
-      <el-tab-pane label="多选框" name="4">多选框</el-tab-pane>
-      <el-tab-pane label="下拉框" name="5">下拉框</el-tab-pane>
+    <el-tabs v-model="drawerData.rowData!.type" class="demo-tabs" @tab-click="onchangeTab">
+      <el-tab-pane label="文本框" name="0"></el-tab-pane>
+      <el-tab-pane label="多行文本框" name="1"></el-tab-pane>
+      <el-tab-pane label="单选框" name="2"></el-tab-pane>
+      <el-tab-pane label="文件上传" name="3"></el-tab-pane>
+      <el-tab-pane label="多选框" name="4"></el-tab-pane>
+      <el-tab-pane label="下拉框" name="5"></el-tab-pane>
     </el-tabs>
-    <el-form ref="ruleFormRef" :rules="rules" :disabled="drawerData.isView" :model="drawerData.rowData" label-width="100px">
+    <el-form ref="ruleFormRef" :rules="rules" :disabled="drawerData.isView" :model="drawerData.rowData" label-width="140px">
       <el-form-item label="分类" prop="config_tab_id" clearable>
         <el-select v-model="drawerData.rowData!.config_tab_id" placeholder="请选择分类" clearable>
           <el-option v-for="item in selectOptions" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="类型" prop="input_type" clearable v-if="drawerData.rowData!.type === '0'">
+        <el-select v-model="drawerData.rowData!.input_type" placeholder="请选择分类" clearable>
+          <el-option v-for="item in textType" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="配置名称" prop="name" clearable>
@@ -23,12 +28,12 @@
       <el-form-item label="配置简介" prop="desc" clearable>
         <el-input v-model="drawerData.rowData!.desc" placeholder="请填写desc"></el-input>
       </el-form-item>
-      <InputGroup v-if="drawerData.rowData!.type === '0'" />
-      <TextareaGroup v-if="drawerData.rowData!.type === '1'" />
-      <RadioGroup v-if="drawerData.rowData!.type === '2'" />
-      <UploadGroup v-if="drawerData.rowData!.type === '3'" />
-      <CheckboxGroup v-if="drawerData.rowData!.type === '4'" />
-      <SelectGroup v-if="drawerData.rowData!.type === '5'" />
+      <InputGroup :row-data="drawerData.rowData" v-if="drawerData.rowData!.type === '0'" />
+      <TextareaGroup :row-data="drawerData.rowData" v-if="drawerData.rowData!.type === '1'" />
+      <RadioGroup :row-data="drawerData.rowData" v-if="drawerData.rowData!.type === '2'" />
+      <UploadGroup :row-data="drawerData.rowData" v-if="drawerData.rowData!.type === '3'" />
+      <CheckboxGroup :row-data="drawerData.rowData" v-if="drawerData.rowData!.type === '4'" />
+      <SelectGroup :row-data="drawerData.rowData" v-if="drawerData.rowData!.type === '5'" />
       <el-form-item label="状态" prop="display" clearable>
         <el-radio-group v-model="drawerData.rowData!.status">
           <el-radio :label="1">显示</el-radio>
@@ -65,6 +70,13 @@ const rules = reactive({
   type: [{ required: true, message: '请选择分类', trigger: 'change' }]
 })
 
+const textType = [
+  { value: 'input', label: '文本框' },
+  { value: 'dateTime', label: '时间' },
+  { value: 'color', label: '颜色' },
+  { value: 'number', label: '数字' }
+]
+
 interface DrawerProps {
   title: string
   isView: boolean
@@ -73,8 +85,8 @@ interface DrawerProps {
   getTableList?: () => Promise<any>
 }
 
-const onhangeTab = (name: string) => {
-  drawerData.value.rowData!.type = name
+const onchangeTab = (tab: any) => {
+  drawerData.value.rowData!.type = tab.index as string
 }
 
 // drawer框状态
