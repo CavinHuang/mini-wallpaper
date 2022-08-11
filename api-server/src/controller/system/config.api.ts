@@ -1,8 +1,9 @@
+import { SystemConfigService } from '@/service/systemConfig';
 import { SystemConfigTab } from '@/models/entity/systemConfigTab';
 import { Controller, Get, Post } from '@/core/decorator';
 import { Response } from '@/core/responce';
 import { SystemConfigTabService } from '@/service/systemConfigTab';
-import { SystemConfig as SystemConfigEntity } from '../../models/entity/systemConfig';
+import { SystemConfig as SystemConfigEntity } from '@/models/entity/systemConfig';
 import { ControllerParams } from '@/interfaces';
 
 @Controller('/system', { skipPerm: true })
@@ -39,5 +40,17 @@ class SystemConfig {
   public async getSelectOptions() {
     const data = await SystemConfigTabService.getSelectForm()
     return Response.success(data, Response.successMessage)
+  }
+
+  @Get('/config/list')
+  public async configList({ tab_id }: { tab_id: number }) {
+    const list = await SystemConfigService.getConfigList({
+      where: {
+        config_tab_id: tab_id
+      }
+    })
+    console.log(list)
+
+    return Response.success(list, Response.successMessage)
   }
 }

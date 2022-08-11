@@ -14,6 +14,24 @@ export namespace System {
     children?: SystemConfigTabItem[]
   }
 
+  export interface SystemConfigItem {
+    id: number
+    menu_name: string
+    type: string
+    input_type: string
+    config_tab_id: number
+    parameter: string
+    upload_type: number
+    required: string
+    width: number
+    height: number
+    value: string
+    name: string
+    desc: string
+    sort: number
+    status: boolean
+  }
+
   export interface ReqGetParams extends ReqPage {
     name: string
   }

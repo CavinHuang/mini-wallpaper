@@ -18,6 +18,17 @@ const homeRouter: Array<RouteRecordRaw> = [
           title: '配置分类',
           key: 'SystemConfigDevelop'
         }
+      },
+      {
+        path: '/system/config/system_config_tab/:id',
+        name: 'SystemConfigTabList',
+        component: () => import('@/views/system/develop/list.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '配置列表',
+          key: 'SystemConfigTabList'
+        }
       }
     ]
   }

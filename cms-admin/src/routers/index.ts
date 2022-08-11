@@ -4,8 +4,29 @@ import { HOME_URL } from '@/config/config'
 import { AuthStore } from '@/store/modules/auth'
 import { GlobalStore } from '@/store'
 import { AxiosCanceler } from '@/api/helper/axiosCancel'
+import { RouteLocationNormalized } from 'vue-router'
 
 const axiosCanceler = new AxiosCanceler()
+
+function checkRouterPath(to: RouteLocationNormalized, routerList: string[]) {
+  let checkResult = routerList.indexOf(to.path) > -1
+
+  if (!checkResult) {
+    routerList.forEach((path) => {
+      const index = path.indexOf(':')
+      console.log(path, index)
+      if (index > -1) {
+        const tmpPath = path.substring(0, index - 1)
+        console.log(tmpPath, index)
+        if (to.path.indexOf(tmpPath) > -1) {
+          checkResult = true
+          return
+        }
+      }
+    })
+  }
+  return checkResult
+}
 
 // * 路由拦截 beforeEach
 router.beforeEach((to, from, next) => {
@@ -34,7 +55,8 @@ router.beforeEach((to, from, next) => {
   const routerList = dynamicRouter.concat(staticRouter)
 
   // * 如果访问的地址没有在路由表中重定向到403页面
-  if (routerList.indexOf(to.path) !== -1) return next()
+  console.log(routerList, to.path)
+  if (checkRouterPath(to, routerList)) return next()
   next({
     path: '/403'
   })

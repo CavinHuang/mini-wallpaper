@@ -12,6 +12,11 @@ export class SystemApi {
     return http.get<MinProgram.Item[]>(PORT1 + '/system/config-class', params)
   }
 
+  // * 获取配置列表
+  public static getConfigList(params: MinProgram.ReqGetParams) {
+    return http.get<MinProgram.Item[]>(PORT1 + '/system/config/list', params)
+  }
+
   public static getSelectOptions() {
     return http.get<Array<{ label: string; value: number }>>(PORT1 + '/system/getSelectOptions')
   }

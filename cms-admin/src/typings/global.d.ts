@@ -6,6 +6,9 @@ declare namespace Menu {
     icon?: string
     isLink?: string
     close?: boolean
+    meta?: {
+      hidden?: boolean
+    }
     children?: MenuOptions[]
   }
 }

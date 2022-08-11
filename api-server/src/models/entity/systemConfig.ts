@@ -60,7 +60,7 @@ export class SystemConfig {
   @Column({
     comment: '配置名称'
   })
-  namme: string
+  name: string
 
   @Column({
     comment: '配置简介'

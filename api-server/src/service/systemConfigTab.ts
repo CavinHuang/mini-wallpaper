@@ -31,9 +31,7 @@ export class SystemConfigTabService {
    */
   public static async getSelectForm() {
     const menuList = await SystemConfigTabService.getConfigTabAll()
-    console.log(menuList)
     const list = sortListTier(menuList, 0, 'pid', 'id')
-    console.log(list)
     const menus = [{ value: 0, label: '顶级按钮' }]
 
     list.forEach(menu => {

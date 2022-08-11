@@ -19,7 +19,8 @@ class Menu {
         // ] },
         { icon: 'Grid', title: '维护', path: '/system', children: [
           { path: '/system/config', title: '开发配置', children: [
-            { path: '/system/config/develop', title: '配置分类' }
+            { path: '/system/config/develop', title: '配置分类' },
+            { path: '/system/config/system_config_tab/:id', title: '配置列表', meta: { hidden: true } },
           ] },
         ] },
 
