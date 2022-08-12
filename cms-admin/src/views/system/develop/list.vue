@@ -30,12 +30,11 @@
 
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import Drawer from './components/ConfigDrawer.vue'
-import { CirclePlus, Delete, EditPen, View } from '@element-plus/icons-vue'
+import { CirclePlus, Delete, EditPen } from '@element-plus/icons-vue'
 import { SystemApi } from '@/api/modules'
 import { System } from '@/api/interface'
 import { useRoute } from 'vue-router'
@@ -56,21 +55,6 @@ const initParam = reactive({
   tab_id: route.params.id
 })
 
-// 自定义渲染头部(使用tsx语法)
-const renderHeader = (scope: any) => {
-  return (
-    <el-button
-      type="primary"
-      onClick={() => {
-        console.log(scope)
-        ElMessage.success('我是自定义表头')
-      }}
-    >
-      {scope.row.label}
-    </el-button>
-  )
-}
-
 // 配置项
 const columns: Partial<ColumnProps>[] = [
   {
@@ -87,9 +71,12 @@ const columns: Partial<ColumnProps>[] = [
     label: '字段变量'
   },
   {
-    prop: 'type',
-    label: '字段类型',
-    enum: textType
+    prop: 'input_type',
+    label: '字段类型'
+  },
+  {
+    prop: 'value',
+    label: '值'
   },
   {
     prop: 'status',
@@ -98,8 +85,7 @@ const columns: Partial<ColumnProps>[] = [
   {
     prop: 'operation',
     label: '操作',
-    fixed: 'right',
-    renderHeader
+    fixed: 'right'
   }
 ]
 

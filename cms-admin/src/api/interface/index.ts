@@ -11,7 +11,7 @@ export interface ResultData<T = any> extends Result {
 
 // * 分页响应参数
 export interface ResPage<T> {
-  datalist: T[]
+  rows: T[]
   pageNum: number
   pageSize: number
   total: number
@@ -61,3 +61,5 @@ export namespace User {
 export * from './crawel'
 export * from './game'
 export * from './system'
+export * from './banner'
+export * from './minProgram'

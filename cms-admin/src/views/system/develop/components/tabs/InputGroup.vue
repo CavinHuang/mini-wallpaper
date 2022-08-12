@@ -6,7 +6,7 @@
     <el-input-number v-model="rowData!.width" placeholder="请填写文本框宽(%)"></el-input-number>
   </el-form-item>
   <el-form-item label="验证规则" prop="required" clearable>
-    <el-input-number v-model="rowData!.required" placeholder="多个请用,隔开例如：required:true,url:true"></el-input-number>
+    <el-input v-model="rowData!.required" placeholder="多个请用,隔开例如：required:true,url:true"></el-input>
   </el-form-item>
 </template>
 

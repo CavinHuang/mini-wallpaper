@@ -77,6 +77,15 @@ const textType = [
   { value: 'number', label: '数字' }
 ]
 
+const inputType: Record<number, string> = {
+  0: 'text',
+  1: 'textarea',
+  2: 'radio',
+  3: 'upload',
+  4: 'checkbox',
+  5: 'select'
+}
+
 interface DrawerProps {
   title: string
   isView: boolean
@@ -87,6 +96,7 @@ interface DrawerProps {
 
 const onchangeTab = (tab: any) => {
   drawerData.value.rowData!.type = tab.index as string
+  drawerData.value.rowData!.input_type = inputType[tab.index as number]
 }
 
 // drawer框状态

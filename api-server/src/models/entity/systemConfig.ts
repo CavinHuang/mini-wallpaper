@@ -75,5 +75,5 @@ export class SystemConfig {
   @Column({
     comment: '是否隐藏'
   })
-  status: boolean
+  status: number
 }

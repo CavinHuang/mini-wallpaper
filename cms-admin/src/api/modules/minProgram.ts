@@ -1,8 +1,7 @@
-import { Login } from '@/api/interface/index'
-import { PORT1, PORT2 } from '@/api/config/servicePort'
+import { PORT1 } from '@/api/config/servicePort'
 import http from '@/api'
 
-import { MinProgram } from '../interface/minProgram'
+import { MinProgram, ResPage } from '../interface'
 
 /**
  * 小程序api
@@ -10,7 +9,7 @@ import { MinProgram } from '../interface/minProgram'
 export class MiniProgramApi {
   // * 获取列表
   public static getList(params: MinProgram.ReqGetParams) {
-    return http.get<MinProgram.Item[]>(PORT1 + '/min-program/list', params)
+    return http.get<ResPage<MinProgram.Item>>(PORT1 + '/min-program/list', params)
   }
 
   // * 编辑

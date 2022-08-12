@@ -32,7 +32,6 @@ class SystemConfig {
 
   @Post('/config/update')
   public async updateConfig(raw: Partial<SystemConfigEntity>) {
-    raw.status = Boolean(raw.status)
     return Response.success(await SystemConfigService.update(raw.id, raw), Response.successMessage)
   }
 
