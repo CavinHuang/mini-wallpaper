@@ -1,6 +1,6 @@
 <template>
   <div class="table-box">
-    <ProTable ref="proTable" :requestApi="getGameCateList" :initParam="initParam" :columns="columns">
+    <ProTable ref="proTable" :requestApi="CategoryApi.getList" :initParam="initParam" :columns="columns" :pagination="false">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
         <!-- <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增规则</el-button> -->
@@ -18,18 +18,6 @@
             :inactive-value="0"
           />
         </div>
-      </template>
-      <template #image="scope">
-        <div :data="JSON.stringify(scope.row)"></div>
-        <el-image
-          v-if="scope.row.image"
-          :src="getAssetsImage(scope.row.image)"
-          :preview-src-list="[getAssetsImage(scope.row.image)]"
-          fit="cover"
-          class="table-image"
-          preview-teleported
-        />
-        <component v-else-if="scope.row.icon" :is="scope.row.icon"></component>
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
@@ -50,7 +38,7 @@ import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import UserDrawer from './components/UserDrawer.vue'
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
-import { getGameCateList, addGameCate, editGameCate, deleteCrawel, changeCrawelStatus } from '@/api/modules/game'
+import { CategoryApi } from '@/api/modules'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -71,19 +59,41 @@ const columns: Partial<ColumnProps>[] = [
     width: 80
   },
   {
+    prop: 'appid',
+    label: '所属小程序',
+    search: true,
+    width: 200
+  },
+  {
     prop: 'name',
     label: '分类名称',
     search: true,
     width: 200
   },
   {
-    prop: 'slug',
-    label: '分类key',
-    width: '140'
+    prop: 'short_name',
+    label: '分类简称',
+    width: 200
   },
   {
-    prop: 'image',
+    prop: 'type',
+    label: 'type',
+    width: 200
+  },
+  {
+    prop: 'type_text',
+    label: 'type_text',
+    width: 200
+  },
+  {
+    prop: 'keywords',
+    label: '关键词',
+    width: 200
+  },
+  {
+    prop: 'covor',
     label: '图标/封面',
+    image: true,
     width: 100
   },
   {
@@ -99,7 +109,7 @@ const columns: Partial<ColumnProps>[] = [
     width: 160
   },
   {
-    prop: 'sort',
+    prop: 'weigh',
     label: '排序',
     sortable: true,
     width: 160

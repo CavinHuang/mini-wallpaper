@@ -115,4 +115,31 @@ export class ResourceService extends BaseService {
       where: { id }
     })
   }
+
+  /**
+   * 创建
+   * @param raw 
+   * @returns 
+   */
+  public static create(raw: Partial<ResourceEntity>) {
+    const model = M(ResourceEntity)
+    const data = model.create(raw)
+    return model.save(data)
+  }
+
+  /**
+   * 更新
+   * @param raw 
+   * @returns 
+   */
+  public static update(id: number, raw: Partial<ResourceEntity>) {
+    const model = M(ResourceEntity)
+    const rawData = model.findOne({
+      where: {
+        id
+      }
+    })
+    const data = Object.assign(rawData, raw)
+    return model.save(data)
+  }
 }

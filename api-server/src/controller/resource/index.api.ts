@@ -4,7 +4,7 @@ import { ResourceWithCategory } from './../../models/entity/resourceWithCategory
 import { Catgory } from './../../models/entity/catgory';
 import { ResourceService } from './../../service/resource';
 import { ControllerParams } from './../../interfaces/decorator';
-import { Controller, Get } from '../../core/decorator'
+import { Controller, Get, Post } from '../../core/decorator'
 import { ResourceType } from '../../service/resource';
 import { Response } from "../../core/responce";
 import { Resource } from '../../models/entity/resource';
@@ -12,6 +12,8 @@ import { Resource } from '../../models/entity/resource';
 interface IListParams {
   limit: number
   offset: number
+  pageNum: number
+  pageSize: number
   type: ResourceType
   typeId: number
   isHot?: boolean
@@ -34,9 +36,9 @@ class Test {
   @Get('/lists')
   public async list(params: ControllerParams<IListParams>) {
     const { query } = params
-    const { limit, offset, type = ResourceType.image, isHot, isRecommend, typeId } = query
+    const { limit, offset, type = ResourceType.image, isHot, isRecommend, typeId, pageNum, pageSize } = query
     const resourceService = new ResourceService()
-    const result = await resourceService.getPageResourceByType(type, { limit, offset }, {
+    const result = await resourceService.getPageResourceByType(type, { limit, offset, pageNum, pageSize }, {
       where: (query: SelectQueryBuilder<Resource>) => {
         if (isHot) {
           query = query.andWhere('r.is_hot = :isHot', { isHot: Boolean(isHot) })
@@ -77,5 +79,15 @@ class Test {
     })
 
     return Response.success(resource, Response.successMessage)
+  }
+
+  @Post('/create')
+  public async create(raw: Partial<Catgory>) {
+    return Response.success(await ResourceService.create(raw), Response.successMessage)
+  }
+
+  @Post('/update')
+  public async update(raw: Partial<Catgory>) {
+    return Response.success(await ResourceService.update(raw.id, raw), Response.successMessage)
   }
 }
