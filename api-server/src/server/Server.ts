@@ -12,6 +12,7 @@ import { initRoute } from './core/importCtrl'
 import { dirController, secret, unlessRoute } from '../config'
 import { typeOrmInit } from '../models'
 import router from './router'
+import { RequestLog } from '@/middlewares'
 
 interface Config {
   name: string
@@ -62,9 +63,9 @@ export class Server {
 
   async init() {
     try {
-      await initRoute(dirController)
       this.initLogger()
       await typeOrmInit(this.logInfo)
+      await initRoute(dirController)
       this.initApp()
       await this.initRouter()
     } catch (e) {
@@ -139,6 +140,8 @@ export class Server {
     })
 
     koa.use(koaBody())
+
+    koa.use(RequestLog())
 
     koa.use(KoaStatic(path.resolve(__dirname, '../../static')))
 
