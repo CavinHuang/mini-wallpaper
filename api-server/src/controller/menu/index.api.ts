@@ -2,7 +2,7 @@ import { Controller, Get } from "@/core/decorator";
 import { Response } from "@/core/responce";
 
 @Controller('/menu')
-class Menu {
+export class Menu {
 
   @Get('/list', { skipPerm: true })
   public list() {

@@ -49,7 +49,7 @@ interface ISign {
  * 用户控制
  */
 @Controller('/user')
-class UserLogin extends CoreController {
+export class UserLogin extends CoreController {
 
   @Post('/list', { skipPerm: true })
   public async list({ pageNum = 1, pageSize = 10 }: { pageNum: number, pageSize: number }) {

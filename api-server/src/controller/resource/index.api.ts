@@ -26,7 +26,7 @@ interface IInfoParams {
 }
 
 @Controller('/resource', { skipPerm: true })
-class Test {
+export class ResourceController {
 
   /**
    * 资源列表

@@ -4,7 +4,7 @@ import { Response } from "@/core/responce";
 import { Catgory } from '@/models/entity/catgory';
 
 @Controller('/category', { skipPerm: true })
-class BannerController {
+export class BannerController {
   @Get('/lists')
   public async lists() {
     return Response.success(await CatgoryService.getAll(), Response.successMessage)

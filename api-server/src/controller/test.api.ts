@@ -19,4 +19,11 @@ export class Test {
       query
     } }
   }
+
+  @Get('/async')
+  public async asyncTest() {
+    return new Promise((resolve) => {
+      resolve({ code: 200, message: 1 })
+    })
+  }
 }

@@ -5,7 +5,7 @@ import { uploadToken } from '@/config/qiniu'
 import { datesAreOnSameDay } from '@/utils';
 
 @Controller('/index', { skipPerm: true })
-class Index {
+export class Index {
 
   @Get('/qiniu/token')
   public qiniuToken() {

@@ -7,7 +7,7 @@ import { SystemConfig as SystemConfigEntity } from '@/models/entity/systemConfig
 import { ControllerParams } from '@/interfaces';
 
 @Controller('/system', { skipPerm: true })
-class SystemConfig {
+export class SystemConfig {
 
   @Get('/config-class')
   public async configTab() {

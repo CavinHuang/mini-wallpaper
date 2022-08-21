@@ -5,7 +5,7 @@ import { MiniProgram as MiniProgramEntity } from '@/models/entity/miniprogram'
 import { BusinessError, BUSINESS_ERROR_CODE } from '@/core/error/businessError';
 
 @Controller('/min-program', { skipPerm: true})
-class MiniProgramController {
+export class MiniProgramController {
 
   @Get('/list')
   public async list({ pageSize = 10, pageNum = 1 }: { pageSize: number, pageNum: number }) {
