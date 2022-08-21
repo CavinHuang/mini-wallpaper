@@ -2,7 +2,7 @@ import { dirPublic } from './path'
 import { resolve } from 'path'
 import { crypto } from './crypto'
 import { logger } from '../utils'
-import { ParseExtra, CheckPerm, ParseCookies, RequestLog, ResultParser, InitComonService } from '@/core/mare'
+import { ParseExtra, CheckPerm, ParseCookies, ResultParser, InitComonService } from '@/core/mare'
 import parseRaw from '../server/mare/parseRaw'
 
 // const { faces, folds } = initRoute(dirController)
@@ -30,7 +30,7 @@ export const wock = {
 export const serverConfig = {
   favicon: resolve(dirPublic, 'favicon.ico'),
   middleware: {
-    before: [RequestLog, parseRaw, InitComonService, ParseExtra, CheckPerm],
+    before: [parseRaw, InitComonService, ParseExtra, CheckPerm],
     after: [ParseCookies, ResultParser]
   },
   name,

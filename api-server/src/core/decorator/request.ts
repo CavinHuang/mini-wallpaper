@@ -16,8 +16,8 @@ function genRequestDecorator(method: string) {
         path,
         handler: key
       })
-      // console.log(target.constructor, metadata, '++++++')
       Reflect.defineMetadata(TAGS.ROUTE_PATH, metadata, target.constructor)
+      Reflect.defineMetadata(TAGS.API_METHOD_OPTIONS, apiOptions, target)
     }
   }
 }

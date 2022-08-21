@@ -9,7 +9,6 @@ export default function initCommentService() {
     const webType = ctx.headers.webtype
     const queryAppid = ctx.request.query.appid
     const appid = headerAppid || queryAppid
-    console.log(!appid, ctx.headers, webType, webType !== 'cms-admin')
     if (!appid && webType !== 'cms-admin') {
       ctx.status = 403
       return (ctx.body = Response.error('没有权限'))

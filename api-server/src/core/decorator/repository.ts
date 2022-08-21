@@ -7,6 +7,4 @@ export const Repository = (name?: string) => (cls: any) => {
   Container.set(name ?? cls.name, getRepository(cls));
   // 不论是否传入 key，都使用 Class 作为 key 注册一份
   // Container.set(cls, getRepository(cls));
-
-  console.log(Container.services)
 }

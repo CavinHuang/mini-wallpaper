@@ -27,6 +27,7 @@ export class CommonService {
     const siteConfigs = await sitConfigService.getSiteConfig()
 
     const siteConfig = siteConfigs[0]
+    if (!siteConfig) return false
     const categoryService = new CatgoryService()
     const categories = await categoryService.getCategoryByAppid(siteConfig.appid)
 

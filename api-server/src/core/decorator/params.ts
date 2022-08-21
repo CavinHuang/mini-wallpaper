@@ -1,6 +1,6 @@
 import { ROUTE_PARAMS_SOURCE, TAGS } from "../constants"
 
-const register = (type: string) => (name?: string) => (
+const register = (type: string | Symbol) => (name?: string) => (
   target: any,
   targetKey: string,
   indexOrPropertyDescriptor: number | TypedPropertyDescriptor<any>

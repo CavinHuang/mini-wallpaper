@@ -12,7 +12,7 @@ import { initRoute } from './core/importCtrl'
 import { dirController, secret, unlessRoute } from '../config'
 import { typeOrmInit } from '../models'
 import router from './router'
-import { RequestLog } from '@/middlewares'
+import { RequestLog, koaError } from '@/middlewares'
 
 interface Config {
   name: string
@@ -65,7 +65,7 @@ export class Server {
     try {
       this.initLogger()
       await typeOrmInit(this.logInfo)
-      await initRoute(dirController)
+      await initRoute(dirController, this)
       this.initApp()
       await this.initRouter()
     } catch (e) {
@@ -179,6 +179,7 @@ export class Server {
     koa.use(Helmet.permittedCrossDomainPolicies())
     koa.use(Helmet.referrerPolicy())
     koa.use(Helmet.xssFilter())
+    koa.use(koaError())
   }
 
   public async initRouter() {

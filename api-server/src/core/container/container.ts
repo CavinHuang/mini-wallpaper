@@ -58,7 +58,6 @@ export const Service = Provide
 
 export function Inject(key?: string): PropertyDecorator {
   return (target, propertyKey) => {
-    console.log(target, target.constructor.name, propertyKey)
     Container.propertyRegistry.set(
       `${target.constructor.name}:${String(propertyKey)}`,
       key ?? Reflect.getMetadata('design:type', target, propertyKey)
