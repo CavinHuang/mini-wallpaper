@@ -25,9 +25,10 @@ export const initRoute = async (pathAPP, server: Server) => {
       const routePrefixMeta = Reflect.getMetadata(TAGS.ROUTE_PREFIX, Ctrl);
       const routePathMeta = Reflect.getMetadata(TAGS.ROUTE_PATH, Ctrl);
       const controllerApiOptions = Reflect.getMetadata(TAGS.API_CONTROLLER_OPTIONS, Ctrl)
-      const methodApiOptions = Reflect.getMetadata(TAGS.API_METHOD_OPTIONS, Ctrl)
+      
       if (!routePathMeta) return
       routePathMeta.forEach(({ method, path: p, handler }) => {
+        const methodApiOptions = Reflect.getMetadata(TAGS.API_METHOD_OPTIONS, Ctrl, handler)
         const fullPath = path.join(routePrefixMeta, p).replace(/\\/g, '/')
         router[method](fullPath, async function (ctx, next) {
           ctx.rout = {

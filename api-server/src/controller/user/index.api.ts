@@ -5,7 +5,7 @@ import { ResourceWithCategory } from '../../models/entity/resourceWithCategory';
 import { redisGet } from '../../core/redis/index';
 import { userService } from '../../service/user';
 import { ControllerParams } from "../../interfaces";
-import { Controller, Get, Post, Use } from "../../core/decorator";
+import { Body, Controller, Get, Params, Post, Use } from "../../core/decorator";
 import { CoreController } from "../CoreController";
 import { genValidateParams } from "../../middlewares";
 import { loginParams } from "../../validator"
@@ -48,22 +48,22 @@ interface ISign {
 /**
  * 用户控制
  */
-@Controller('/user')
+@Controller('/user', { skipPerm: true })
 export class UserLogin extends CoreController {
 
   @Post('/list', { skipPerm: true })
-  public async list({ pageNum = 1, pageSize = 10 }: { pageNum: number, pageSize: number }) {
+  public async list(@Params() { pageNum = 1, pageSize = 10 }: { pageNum: number, pageSize: number }) {
     return Response.success(await userService.getPageUser({ pageNum, pageSize }))
   }
 
   @Get('/index', { skipPerm: true })
-  public async index(params: ControllerParams<{ token: string, uid: number }>) {
-    const userRes = await redisClient.get(params.query.token)
+  public async index(@Params() params: { token: string, uid: number }) {
+    const userRes = await redisClient.get(params.token)
     if (userRes) {
-      return Response.success({...JSON.parse(userRes), token: params.query.token }, 'success')
+      return Response.success({...JSON.parse(userRes), token: params.token }, 'success')
     }
 
-    const userRaw = await userService.getUserById(params.query.uid)
+    const userRaw = await userService.getUserById(params.uid)
     if (userRaw) {
       return Response.success(userRaw, 'success')
     }
@@ -71,11 +71,10 @@ export class UserLogin extends CoreController {
 
   @Use(genValidateParams('get', loginParams))
   @Get('/getOpenid', { skipPerm: true })
-  public async getOpenid(params: ControllerParams<{ code: string, appid: string }>) {
-    const { query } = params
-    const result = await Wechat.code2session(query.appid, query.code)
+  public async getOpenid(@Params() params: { code: string, appid: string }) {
+    const result = await Wechat.code2session(params.appid, params.code)
     const { wechatData } = result
-    const { user, token } = await userService.doLogin(query.appid, wechatData.openid)
+    const { user, token } = await userService.doLogin(params.appid, wechatData.openid)
 
     if (user) {
       return Response.success({
@@ -87,9 +86,8 @@ export class UserLogin extends CoreController {
   }
 
   @Get('/getphone', { skipPerm: true })
-  public async getphone(params: ControllerParams<IGetPhone>) {
-    const { query } = params
-    const { appid, openid, nickName, avatarUrl, gender, pid } = query
+  public async getphone(@Params() params: IGetPhone) {
+    const { appid, openid, nickName, avatarUrl, gender, pid } = params
     const userRes = await userService.getUserByOpenId(appid, openid)
 
     if (!userRes) {
@@ -118,9 +116,8 @@ export class UserLogin extends CoreController {
   }
 
   @Post('/tougao', { skipPerm: true })
-  public async tougao(params: ControllerParams<any, ITougao>) {
-    const { body } = params
-    const { img, pic, typeId, token, appid } = body
+  public async tougao(@Params() params: ITougao) {
+    const { img, pic, typeId, token, appid } = params
 
     const user = await redisGet<User>(token)
 
@@ -165,9 +162,8 @@ export class UserLogin extends CoreController {
   }
 
   @Get('/tougaojl', { skipPerm: true })
-  public async taogaojl(params: ControllerParams<{ limit: number, offset: number, token: string }>) {
-    const { query } = params
-    const { offset, limit, token } = query
+  public async taogaojl(@Params() params: { limit: number, offset: number, token: string }) {
+    const { offset, limit, token } = params
     const user = await userService.getRedisUser(token)
     const resources = await (new ResourceService).getPageResourceByType(ResourceType.image, { offset, limit }, {
       where: (query) => {
@@ -183,9 +179,8 @@ export class UserLogin extends CoreController {
   }
 
   @Get('/tougaodel', { skipPerm: true })
-  public async tougaodel(params: ControllerParams<{ id: number, token: string }>) {
-    const { query } = params
-    const { id, token } = query
+  public async tougaodel(@Params() params: { id: number, token: string }) {
+    const { id, token } = params
     const user = await userService.getRedisUser(token)
     const resource = await (new ResourceService().getResourceById(id))
 
@@ -202,9 +197,8 @@ export class UserLogin extends CoreController {
   }
 
   @Get('/tougaoshenhe', { skipPerm: true })
-  public async tougaoshenhe(params: ControllerParams<{ id: number, token: string }>) {
-    const { query } = params
-    const { id, token } = query
+  public async tougaoshenhe(@Params() params: { id: number, token: string }) {
+    const { id, token } = params
     const user = await userService.getRedisUser(token)
     if (user.role !== 2) {
       return Response.error('没有审核权限，请联系管理员！')
@@ -223,13 +217,12 @@ export class UserLogin extends CoreController {
   }
 
   @Get('/myteam', { skipPerm: true })
-  public async myTeam(params: ControllerParams<{
+  public async myTeam(@Params() params: {
     offset: number
     limit: number
     uid: number
-  }>) {
-    const { query } = params
-    const { offset, limit, uid } = query
+  }) {
+    const { offset, limit, uid } = params
 
     return userService.getMyPartner(uid, offset, limit)
   }
@@ -240,7 +233,7 @@ export class UserLogin extends CoreController {
    * @returns 
    */
   @Get('/sign', { skipPerm: true })
-  public async sign(params: { uid: number }) {
+  public async sign(@Params() params: { uid: number }) {
     const { uid } = params
 
     const userRes = await userService.getUserById(uid)
@@ -283,7 +276,7 @@ export class UserLogin extends CoreController {
   }
 
   @Get('/getSignInfo', { skipPerm: true })
-  public async getSignInfo(params: { uid: number }) {
+  public async getSignInfo(@Params() params: { uid: number }) {
     const user = classToPlain((await userService.getUserById(params.uid))) as User
 
     const result: ISign = {
@@ -304,7 +297,7 @@ export class UserLogin extends CoreController {
   }
 
   @Post('/login', { skipPerm: true })
-  public async login(params: { username: string, password: string }) {
+  public async login(@Body() params: { username: string, password: string }) {
     const loginRes = await userService.jwtTokenLogin(params.username, params.password)
     return Response.success(loginRes, '登录成功')
   }

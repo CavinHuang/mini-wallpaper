@@ -1,6 +1,6 @@
 import { userService } from './../../service/user';
 import { Response } from "@/core/responce";
-import { Controller, Get } from "@/core/decorator";
+import { Body, Controller, Get } from "@/core/decorator";
 import { uploadToken } from '@/config/qiniu'
 import { datesAreOnSameDay } from '@/utils';
 
@@ -13,7 +13,7 @@ export class Index {
   }
 
   @Get('/index')
-  public async index(params: { uid: number }) {
+  public async index(@Body() params: { uid: number }) {
     const user = await userService.getUserById(params.uid)
 
     const lastSign = user.last_sign_date

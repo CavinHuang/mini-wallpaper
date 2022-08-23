@@ -1,6 +1,6 @@
 import { SystemConfigService } from '@/service/systemConfig';
 import { SystemConfigTab } from '@/models/entity/systemConfigTab';
-import { Controller, Get, Post } from '@/core/decorator';
+import { Body, Controller, Get, Params, Post } from '@/core/decorator';
 import { Response } from '@/core/responce';
 import { SystemConfigTabService } from '@/service/systemConfigTab';
 import { SystemConfig as SystemConfigEntity } from '@/models/entity/systemConfig';
@@ -8,7 +8,6 @@ import { ControllerParams } from '@/interfaces';
 
 @Controller('/system', { skipPerm: true })
 export class SystemConfig {
-
   @Get('/config-class')
   public async configTab() {
     const { treeData } = await SystemConfigTabService.getAll()
@@ -16,27 +15,27 @@ export class SystemConfig {
   }
 
   @Post('/config-tab/create')
-  public async createConfigTab(raw: Partial<SystemConfigTab>) {
+  public async createConfigTab(@Body() raw: Partial<SystemConfigTab>) {
     return Response.success(await SystemConfigTabService.create(raw), Response.successMessage)
   }
 
   @Post('/config-tab/update')
-  public async updateConfigTab(raw: Partial<SystemConfigTab>) {
+  public async updateConfigTab(@Body() raw: Partial<SystemConfigTab>) {
     return Response.success(await SystemConfigTabService.update(raw.id, raw), Response.successMessage)
   }
 
   @Post('/config/create')
-  public async createConfig(raw: Partial<SystemConfigEntity>) {
+  public async createConfig(@Body() raw: Partial<SystemConfigEntity>) {
     return Response.success(await SystemConfigService.create(raw), Response.successMessage)
   }
 
   @Post('/config/update')
-  public async updateConfig(raw: Partial<SystemConfigEntity>) {
+  public async updateConfig(@Body() raw: Partial<SystemConfigEntity>) {
     return Response.success(await SystemConfigService.update(raw.id, raw), Response.successMessage)
   }
 
   @Post('/config-tab/changeStatus')
-  public async changeStatus(raw: ControllerParams<any, { ids: number[] } & Partial<SystemConfigTab>>) {
+  public async changeStatus(@Body() raw: ControllerParams<any, { ids: number[] } & Partial<SystemConfigTab>>) {
     const { body } = raw
     const { ids } = body
     delete body.ids
@@ -50,13 +49,12 @@ export class SystemConfig {
   }
 
   @Get('/config/list')
-  public async configList({ tab_id }: { tab_id: number }) {
+  public async configList(@Params() { tab_id }: { tab_id: number }) {
     const list = await SystemConfigService.getConfigList({
       where: {
         config_tab_id: tab_id
       }
     })
-    console.log(list)
 
     return Response.success(list, Response.successMessage)
   }

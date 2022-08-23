@@ -1,13 +1,13 @@
-import { CommonService } from './../../service/common';
+import { CommonService } from '@/service/common';
 import { SelectQueryBuilder } from 'typeorm';
-import { ResourceWithCategory } from './../../models/entity/resourceWithCategory';
-import { Catgory } from './../../models/entity/catgory';
-import { ResourceService } from './../../service/resource';
-import { ControllerParams } from './../../interfaces/decorator';
-import { Controller, Get, Post } from '../../core/decorator'
-import { ResourceType } from '../../service/resource';
-import { Response } from "../../core/responce";
-import { Resource } from '../../models/entity/resource';
+import { ResourceWithCategory } from '@/models/entity/resourceWithCategory';
+import { Catgory } from '@/models/entity/catgory';
+import { ResourceService } from '@/service/resource';
+import { ControllerParams } from '@/interfaces/decorator';
+import { Body, Controller, Get, Params, Post } from '@/core/decorator'
+import { ResourceType } from '@/service/resource';
+import { Response } from "@/core/responce";
+import { Resource } from '@/models/entity/resource';
 
 interface IListParams {
   limit: number
@@ -34,9 +34,8 @@ export class ResourceController {
    * @returns 
    */
   @Get('/lists')
-  public async list(params: ControllerParams<IListParams>) {
-    const { query } = params
-    const { limit, offset, type = ResourceType.image, isHot, isRecommend, typeId, pageNum, pageSize } = query
+  public async list(@Params() params: IListParams) {
+    const { limit, offset, type = ResourceType.image, isHot, isRecommend, typeId, pageNum, pageSize } = params
     const resourceService = new ResourceService()
     const result = await resourceService.getPageResourceByType(type, { limit, offset, pageNum, pageSize }, {
       where: (query: SelectQueryBuilder<Resource>) => {
@@ -82,12 +81,12 @@ export class ResourceController {
   }
 
   @Post('/create')
-  public async create(raw: Partial<Catgory>) {
+  public async create(@Body() raw: Partial<Catgory>) {
     return Response.success(await ResourceService.create(raw), Response.successMessage)
   }
 
   @Post('/update')
-  public async update(raw: Partial<Catgory>) {
+  public async update(@Body() raw: Partial<Catgory>) {
     return Response.success(await ResourceService.update(raw.id, raw), Response.successMessage)
   }
 }

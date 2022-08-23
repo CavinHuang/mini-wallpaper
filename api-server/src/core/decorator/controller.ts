@@ -1,11 +1,6 @@
 import 'reflect-metadata'
 import { Container } from './../container/container';
-import { ControllerParams } from '../../interfaces'
-import router from '../../server/router'
-import { initHTTPMares } from '../../server/core/initMiddleware'
-import { logger } from '../logger'
 import { ApiOptions } from './../../controller/interface';
-import { Response } from "../../core/responce";
 import { TAGS } from '../constants';
 
 /**

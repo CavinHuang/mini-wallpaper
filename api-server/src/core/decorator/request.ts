@@ -17,7 +17,7 @@ function genRequestDecorator(method: string) {
         handler: key
       })
       Reflect.defineMetadata(TAGS.ROUTE_PATH, metadata, target.constructor)
-      Reflect.defineMetadata(TAGS.API_METHOD_OPTIONS, apiOptions, target)
+      Reflect.defineMetadata(TAGS.API_METHOD_OPTIONS, apiOptions, target.constructor, key)
     }
   }
 }
