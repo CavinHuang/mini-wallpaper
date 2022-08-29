@@ -1400,7 +1400,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -13142,7 +13142,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -13163,14 +13163,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -13256,7 +13256,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"九号部落","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -13765,7 +13765,272 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAsBAMAAADR
 
 /***/ }),
 
-/***/ 480:
+/***/ 459:
+/*!***************************************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-sign-in/utils/ad.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _createSuper(Derived) {var hasNativeReflectConstruct = _isNativeReflectConstruct();return function _createSuperInternal() {var Super = _getPrototypeOf(Derived),result;if (hasNativeReflectConstruct) {var NewTarget = _getPrototypeOf(this).constructor;result = Reflect.construct(Super, arguments, NewTarget);} else {result = Super.apply(this, arguments);}return _possibleConstructorReturn(this, result);};}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _isNativeReflectConstruct() {if (typeof Reflect === "undefined" || !Reflect.construct) return false;if (Reflect.construct.sham) return false;if (typeof Proxy === "function") return true;try {Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));return true;} catch (e) {return false;}}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} // ad.js
+var ADType = {
+  RewardedVideo: "RewardedVideo",
+  FullScreenVideo: "FullScreenVideo" };var
+
+
+AdHelper = /*#__PURE__*/function () {
+
+  function AdHelper() {_classCallCheck(this, AdHelper);
+    this._ads = {};
+  }_createClass(AdHelper, [{ key: "load", value: function load(
+
+    options, onload, onerror) {
+      var ops = this._fixOldOptions(options);var
+
+      adpid =
+      ops.adpid;
+
+      if (!adpid || this.isBusy(adpid)) {
+        return;
+      }
+
+      this.get(ops).load(onload, onerror);
+    } }, { key: "show", value: function show(
+
+    options, onsuccess, onfail) {
+      var ops = this._fixOldOptions(options);var
+
+      adpid =
+      ops.adpid;
+
+      if (!adpid) {
+        return;
+      }
+
+      uni.showLoading({
+        mask: true });
+
+
+      var ad = this.get(ops);
+
+      ad.load(function () {
+        uni.hideLoading();
+        ad.show(function (e) {
+          onsuccess && onsuccess(e);
+        });
+      }, function (err) {
+        uni.hideLoading();
+        onfail && onfail(err);
+      });
+    } }, { key: "isBusy", value: function isBusy(
+
+    adpid) {
+      return this._ads[adpid] && this._ads[adpid].isLoading;
+    } }, { key: "get", value: function get(
+
+    options) {var
+
+      adpid =
+
+      options.adpid,_options$singleton = options.singleton,singleton = _options$singleton === void 0 ? true : _options$singleton;
+      if (singleton === false) {
+        if (this._ads[adpid]) {
+          this._ads[adpid].destroy();
+          delete this._ads[adpid];
+        }
+      }
+      delete options.singleton;
+      if (!this._ads[adpid]) {
+        this._ads[adpid] = this._createAdInstance(options);
+      }
+
+      return this._ads[adpid];
+    } }, { key: "_createAdInstance", value: function _createAdInstance(
+
+    options) {
+      var adType = options.adType || ADType.RewardedVideo;
+      delete options.adType;
+
+      var ad = null;
+      if (adType === ADType.RewardedVideo) {
+        ad = new RewardedVideo(options);
+      } else if (adType === ADType.FullScreenVideo) {
+        ad = new FullScreenVideo(options);
+      }
+
+      return ad;
+    } }, { key: "_fixOldOptions", value: function _fixOldOptions(
+
+    options) {
+      return typeof options === "string" ? {
+        adpid: options } :
+      options;
+    } }]);return AdHelper;}();
+
+
+var EXPIRED_TIME = 1000 * 60 * 30;
+var ProviderType = {
+  CSJ: 'csj',
+  GDT: 'gdt' };
+
+
+var RETRY_COUNT = 1;var
+
+AdBase = /*#__PURE__*/function () {
+  function AdBase(adInstance) {var _this = this;var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};_classCallCheck(this, AdBase);
+    this._isLoad = false;
+    this._isLoading = false;
+    this._lastLoadTime = 0;
+    this._lastError = null;
+    this._retryCount = 0;
+
+    this._loadCallback = null;
+    this._closeCallback = null;
+    this._errorCallback = null;
+
+    var ad = this._ad = adInstance;
+    ad.onLoad(function (e) {
+      _this._isLoading = false;
+      _this._isLoad = true;
+      _this._lastLoadTime = Date.now();
+
+      _this.onLoad();
+    });
+    ad.onClose(function (e) {
+      _this._isLoad = false;
+      _this.onClose(e);
+    });
+    ad.onVerify && ad.onVerify(function (e) {
+      // e.isValid
+    });
+    ad.onError(function (_ref)
+
+
+    {var code = _ref.code,message = _ref.message;
+      _this._isLoading = false;
+      var data = {
+        code: code,
+        errMsg: message };
+
+
+      if (code === -5008) {
+        _this._loadAd();
+        return;
+      }
+
+      if (_this._retryCount < RETRY_COUNT) {
+        _this._retryCount += 1;
+        _this._loadAd();
+        return;
+      }
+
+      _this._lastError = data;
+      _this.onError(data);
+    });
+  }_createClass(AdBase, [{ key: "getProvider", value: function getProvider()
+
+
+
+
+
+
+
+
+
+    {
+      return this._ad.getProvider();
+    } }, { key: "load", value: function load(
+
+    onload, onerror) {
+      this._loadCallback = onload;
+      this._errorCallback = onerror;
+
+      if (this._isLoading) {
+        return;
+      }
+
+      if (this._isLoad) {
+        this.onLoad();
+        return;
+      }
+
+      this._retryCount = 0;
+
+      this._loadAd();
+    } }, { key: "show", value: function show(
+
+    onclose) {
+      this._closeCallback = onclose;
+
+      if (this._isLoading || !this._isLoad) {
+        return;
+      }
+
+      if (this._lastError !== null) {
+        this.onError(this._lastError);
+        return;
+      }
+
+      var provider = this.getProvider();
+      if (provider === ProviderType.CSJ && this.isExpired) {
+        this._loadAd();
+        return;
+      }
+
+      this._ad.show();
+    } }, { key: "onLoad", value: function onLoad(
+
+    e) {
+      if (this._loadCallback != null) {
+        this._loadCallback();
+      }
+    } }, { key: "onClose", value: function onClose(
+
+    e) {
+      if (this._closeCallback != null) {
+        this._closeCallback({
+          isEnded: e.isEnded });
+
+      }
+    } }, { key: "onError", value: function onError(
+
+    e) {
+      if (this._errorCallback != null) {
+        this._errorCallback(e);
+      }
+    } }, { key: "destroy", value: function destroy()
+
+    {
+      this._ad.destroy();
+    } }, { key: "_loadAd", value: function _loadAd()
+
+    {
+      this._isLoad = false;
+      this._isLoading = true;
+      this._lastError = null;
+      this._ad.load();
+    } }, { key: "isExpired", get: function get() {return this._lastLoadTime !== 0 && Math.abs(Date.now() - this._lastLoadTime) > EXPIRED_TIME;} }, { key: "isLoading", get: function get() {return this._isLoading;} }]);return AdBase;}();var
+
+
+RewardedVideo = /*#__PURE__*/function (_AdBase) {_inherits(RewardedVideo, _AdBase);var _super = _createSuper(RewardedVideo);
+  function RewardedVideo() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};_classCallCheck(this, RewardedVideo);return _super.call(this,
+    plus.ad.createRewardedVideoAd(options), options);
+  }return RewardedVideo;}(AdBase);var
+
+
+FullScreenVideo = /*#__PURE__*/function (_AdBase2) {_inherits(FullScreenVideo, _AdBase2);var _super2 = _createSuper(FullScreenVideo);
+  function FullScreenVideo() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};_classCallCheck(this, FullScreenVideo);return _super2.call(this,
+    plus.ad.createFullScreenVideoAd(options), options);
+  }return FullScreenVideo;}(AdBase);var _default =
+
+
+new AdHelper();exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 495:
 /*!*******************************************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-icons/components/uni-icons/icons.js ***!
   \*******************************************************************************************************/
@@ -14942,7 +15207,18 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 495:
+/***/ 5:
+/*!**************************************************************!*\
+  !*** G:/NodeProjects/mini-wallpaper/mini-program/pages.json ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 510:
 /*!***********************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/static/js/helper.js ***!
   \***********************************************************************/
@@ -15141,18 +15417,7 @@ var addzero = function addzero(i) {
 
 /***/ }),
 
-/***/ 5:
-/*!**************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/pages.json ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ 503:
+/***/ 518:
 /*!**********************************************************************************!*\
   !*** G:/NodeProjects/mini-wallpaper/mini-program/components/uni-icons1/icons.js ***!
   \**********************************************************************************/
@@ -15255,271 +15520,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   'closefill': "\uE589",
   'sound': "\uE590",
   'scan': "\uE612" };exports.default = _default;
-
-/***/ }),
-
-/***/ 578:
-/*!***************************************************************************************!*\
-  !*** G:/NodeProjects/mini-wallpaper/mini-program/uni_modules/uni-sign-in/utils/ad.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _createSuper(Derived) {var hasNativeReflectConstruct = _isNativeReflectConstruct();return function _createSuperInternal() {var Super = _getPrototypeOf(Derived),result;if (hasNativeReflectConstruct) {var NewTarget = _getPrototypeOf(this).constructor;result = Reflect.construct(Super, arguments, NewTarget);} else {result = Super.apply(this, arguments);}return _possibleConstructorReturn(this, result);};}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _isNativeReflectConstruct() {if (typeof Reflect === "undefined" || !Reflect.construct) return false;if (Reflect.construct.sham) return false;if (typeof Proxy === "function") return true;try {Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));return true;} catch (e) {return false;}}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} // ad.js
-var ADType = {
-  RewardedVideo: "RewardedVideo",
-  FullScreenVideo: "FullScreenVideo" };var
-
-
-AdHelper = /*#__PURE__*/function () {
-
-  function AdHelper() {_classCallCheck(this, AdHelper);
-    this._ads = {};
-  }_createClass(AdHelper, [{ key: "load", value: function load(
-
-    options, onload, onerror) {
-      var ops = this._fixOldOptions(options);var
-
-      adpid =
-      ops.adpid;
-
-      if (!adpid || this.isBusy(adpid)) {
-        return;
-      }
-
-      this.get(ops).load(onload, onerror);
-    } }, { key: "show", value: function show(
-
-    options, onsuccess, onfail) {
-      var ops = this._fixOldOptions(options);var
-
-      adpid =
-      ops.adpid;
-
-      if (!adpid) {
-        return;
-      }
-
-      uni.showLoading({
-        mask: true });
-
-
-      var ad = this.get(ops);
-
-      ad.load(function () {
-        uni.hideLoading();
-        ad.show(function (e) {
-          onsuccess && onsuccess(e);
-        });
-      }, function (err) {
-        uni.hideLoading();
-        onfail && onfail(err);
-      });
-    } }, { key: "isBusy", value: function isBusy(
-
-    adpid) {
-      return this._ads[adpid] && this._ads[adpid].isLoading;
-    } }, { key: "get", value: function get(
-
-    options) {var
-
-      adpid =
-
-      options.adpid,_options$singleton = options.singleton,singleton = _options$singleton === void 0 ? true : _options$singleton;
-      if (singleton === false) {
-        if (this._ads[adpid]) {
-          this._ads[adpid].destroy();
-          delete this._ads[adpid];
-        }
-      }
-      delete options.singleton;
-      if (!this._ads[adpid]) {
-        this._ads[adpid] = this._createAdInstance(options);
-      }
-
-      return this._ads[adpid];
-    } }, { key: "_createAdInstance", value: function _createAdInstance(
-
-    options) {
-      var adType = options.adType || ADType.RewardedVideo;
-      delete options.adType;
-
-      var ad = null;
-      if (adType === ADType.RewardedVideo) {
-        ad = new RewardedVideo(options);
-      } else if (adType === ADType.FullScreenVideo) {
-        ad = new FullScreenVideo(options);
-      }
-
-      return ad;
-    } }, { key: "_fixOldOptions", value: function _fixOldOptions(
-
-    options) {
-      return typeof options === "string" ? {
-        adpid: options } :
-      options;
-    } }]);return AdHelper;}();
-
-
-var EXPIRED_TIME = 1000 * 60 * 30;
-var ProviderType = {
-  CSJ: 'csj',
-  GDT: 'gdt' };
-
-
-var RETRY_COUNT = 1;var
-
-AdBase = /*#__PURE__*/function () {
-  function AdBase(adInstance) {var _this = this;var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};_classCallCheck(this, AdBase);
-    this._isLoad = false;
-    this._isLoading = false;
-    this._lastLoadTime = 0;
-    this._lastError = null;
-    this._retryCount = 0;
-
-    this._loadCallback = null;
-    this._closeCallback = null;
-    this._errorCallback = null;
-
-    var ad = this._ad = adInstance;
-    ad.onLoad(function (e) {
-      _this._isLoading = false;
-      _this._isLoad = true;
-      _this._lastLoadTime = Date.now();
-
-      _this.onLoad();
-    });
-    ad.onClose(function (e) {
-      _this._isLoad = false;
-      _this.onClose(e);
-    });
-    ad.onVerify && ad.onVerify(function (e) {
-      // e.isValid
-    });
-    ad.onError(function (_ref)
-
-
-    {var code = _ref.code,message = _ref.message;
-      _this._isLoading = false;
-      var data = {
-        code: code,
-        errMsg: message };
-
-
-      if (code === -5008) {
-        _this._loadAd();
-        return;
-      }
-
-      if (_this._retryCount < RETRY_COUNT) {
-        _this._retryCount += 1;
-        _this._loadAd();
-        return;
-      }
-
-      _this._lastError = data;
-      _this.onError(data);
-    });
-  }_createClass(AdBase, [{ key: "getProvider", value: function getProvider()
-
-
-
-
-
-
-
-
-
-    {
-      return this._ad.getProvider();
-    } }, { key: "load", value: function load(
-
-    onload, onerror) {
-      this._loadCallback = onload;
-      this._errorCallback = onerror;
-
-      if (this._isLoading) {
-        return;
-      }
-
-      if (this._isLoad) {
-        this.onLoad();
-        return;
-      }
-
-      this._retryCount = 0;
-
-      this._loadAd();
-    } }, { key: "show", value: function show(
-
-    onclose) {
-      this._closeCallback = onclose;
-
-      if (this._isLoading || !this._isLoad) {
-        return;
-      }
-
-      if (this._lastError !== null) {
-        this.onError(this._lastError);
-        return;
-      }
-
-      var provider = this.getProvider();
-      if (provider === ProviderType.CSJ && this.isExpired) {
-        this._loadAd();
-        return;
-      }
-
-      this._ad.show();
-    } }, { key: "onLoad", value: function onLoad(
-
-    e) {
-      if (this._loadCallback != null) {
-        this._loadCallback();
-      }
-    } }, { key: "onClose", value: function onClose(
-
-    e) {
-      if (this._closeCallback != null) {
-        this._closeCallback({
-          isEnded: e.isEnded });
-
-      }
-    } }, { key: "onError", value: function onError(
-
-    e) {
-      if (this._errorCallback != null) {
-        this._errorCallback(e);
-      }
-    } }, { key: "destroy", value: function destroy()
-
-    {
-      this._ad.destroy();
-    } }, { key: "_loadAd", value: function _loadAd()
-
-    {
-      this._isLoad = false;
-      this._isLoading = true;
-      this._lastError = null;
-      this._ad.load();
-    } }, { key: "isExpired", get: function get() {return this._lastLoadTime !== 0 && Math.abs(Date.now() - this._lastLoadTime) > EXPIRED_TIME;} }, { key: "isLoading", get: function get() {return this._isLoading;} }]);return AdBase;}();var
-
-
-RewardedVideo = /*#__PURE__*/function (_AdBase) {_inherits(RewardedVideo, _AdBase);var _super = _createSuper(RewardedVideo);
-  function RewardedVideo() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};_classCallCheck(this, RewardedVideo);return _super.call(this,
-    plus.ad.createRewardedVideoAd(options), options);
-  }return RewardedVideo;}(AdBase);var
-
-
-FullScreenVideo = /*#__PURE__*/function (_AdBase2) {_inherits(FullScreenVideo, _AdBase2);var _super2 = _createSuper(FullScreenVideo);
-  function FullScreenVideo() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};_classCallCheck(this, FullScreenVideo);return _super2.call(this,
-    plus.ad.createFullScreenVideoAd(options), options);
-  }return FullScreenVideo;}(AdBase);var _default =
-
-
-new AdHelper();exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

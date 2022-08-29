@@ -98,10 +98,10 @@ var components
 try {
   components = {
     orderIntegralgoods: function() {
-      return __webpack_require__.e(/*! import() | pages/client/components/order/integralgoods */ "pages/client/components/order/integralgoods").then(__webpack_require__.bind(null, /*! @/pages/client/components/order/integralgoods.vue */ 454))
+      return __webpack_require__.e(/*! import() | pages/client/components/order/integralgoods */ "pages/client/components/order/integralgoods").then(__webpack_require__.bind(null, /*! @/pages/client/components/order/integralgoods.vue */ 469))
     },
     uniPagination: function() {
-      return __webpack_require__.e(/*! import() | components/uni-pagination/uni-pagination */ "components/uni-pagination/uni-pagination").then(__webpack_require__.bind(null, /*! @/components/uni-pagination/uni-pagination.vue */ 461))
+      return __webpack_require__.e(/*! import() | components/uni-pagination/uni-pagination */ "components/uni-pagination/uni-pagination").then(__webpack_require__.bind(null, /*! @/components/uni-pagination/uni-pagination.vue */ 476))
     }
   }
 } catch (e) {
@@ -158,7 +158,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniPagination = function uniPagination() {__webpack_require__.e(/*! require.ensure | components/uni-pagination/uni-pagination */ "components/uni-pagination/uni-pagination").then((function () {return resolve(__webpack_require__(/*! @/components/uni-pagination/uni-pagination.vue */ 461));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniPagination = function uniPagination() {__webpack_require__.e(/*! require.ensure | components/uni-pagination/uni-pagination */ "components/uni-pagination/uni-pagination").then((function () {return resolve(__webpack_require__(/*! @/components/uni-pagination/uni-pagination.vue */ 476));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 

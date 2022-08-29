@@ -43,7 +43,7 @@ export const initRoute = async (pathAPP, server: Server) => {
           router[method](fullPath, mare)
         }
         // 注册路由
-        router[method](fullPath, async (ctx) => {
+        router[method](fullPath, async (ctx, next) => {
           // 请求参数元信息
           const routeParamsMeta = Reflect.getMetadata(TAGS.ROUTE_PARAMS, Ctrl, handler) || []
           // 请求参数类型信息
@@ -75,6 +75,7 @@ export const initRoute = async (pathAPP, server: Server) => {
             })
           )));
           ctx.body = data
+          await next()
         })
 
         // 后置中间件

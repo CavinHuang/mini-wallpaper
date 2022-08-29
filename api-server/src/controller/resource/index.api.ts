@@ -65,9 +65,8 @@ export class ResourceController {
    * @returns 
    */
   @Get('/infotp')
-  public async infotp(params: ControllerParams<IInfoParams>) {
-    const { query } = params
-    const { id, appid } = query
+  public async infotp(@Params() params: IInfoParams) {
+    const { id, appid } = params
 
     const resource = await (new ResourceService().getResourceById(id)) as Resource & { images: string[] }
 

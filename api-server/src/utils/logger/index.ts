@@ -181,7 +181,6 @@ const Logger = class Logger {
    * @param {any} where 在做什么
    * @param {any[]} infos 日志内容。第一个内容不换行，第二个内容开始换行并缩进
    */
-  // eslint-disable-next-line no-unused-vars
   trace(where, what, ...rest) {
     this.logger.trace('', ...arguments)
   }
@@ -194,7 +193,6 @@ const Logger = class Logger {
    * @param {any} where 在做什么
    * @param {any[]} infos 日志内容。第一个内容不换行，第二个内容开始换行并缩进
    */
-  // eslint-disable-next-line no-unused-vars
   debug(where, what, ...rest) {
     this.logger.debug('', ...arguments)
   }
@@ -243,7 +241,6 @@ const Logger = class Logger {
    * @param {any} where 在做什么
    * @param {any[]} infos 日志内容。第一个内容不换行，第二个内容开始换行并缩进
    */
-  // eslint-disable-next-line no-unused-vars
   fatal(where, what, ...rest) {
     this.logger.fatal('', ...arguments)
   }
@@ -257,7 +254,6 @@ const Logger = class Logger {
    * @param {any} where 在做什么
    * @param {any[]} infos 日志内容。第一个内容不换行，第二个内容开始换行并缩进
    */
-  // eslint-disable-next-line no-unused-vars
   mark(where, what, ...rest) {
     this.logger.mark('', ...arguments)
   }
@@ -271,7 +267,6 @@ const Logger = class Logger {
    * @param {any} where 在做什么
    * @param {any[]} infos 日志内容。第一个内容不换行，第二个内容开始换行并缩进
    */
-  // eslint-disable-next-line no-unused-vars
   traceU(where, what, ...infos) {
     this.logger.trace(symbolLogUpdate, ...arguments)
   }

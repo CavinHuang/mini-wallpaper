@@ -92,7 +92,7 @@ try {
       return Promise.all(/*! import() | components/dialog/qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/dialog/qrcode")]).then(__webpack_require__.bind(null, /*! @/components/dialog/qrcode.vue */ 322))
     },
     dialogCouponshareget: function() {
-      return __webpack_require__.e(/*! import() | components/dialog/couponshareget */ "components/dialog/couponshareget").then(__webpack_require__.bind(null, /*! @/components/dialog/couponshareget.vue */ 483))
+      return __webpack_require__.e(/*! import() | components/dialog/couponshareget */ "components/dialog/couponshareget").then(__webpack_require__.bind(null, /*! @/components/dialog/couponshareget.vue */ 498))
     }
   }
 } catch (e) {

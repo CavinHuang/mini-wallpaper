@@ -3,9 +3,7 @@ import logUpdate from 'log-update'
 import symbolLogUpdate from './LogUpdateSymbol'
 import symbolLogDone from './LogDoneSymbol'
 
-// eslint-disable-next-line no-console
 const consoleLog = console.log.bind(console)
-// eslint-disable-next-line no-console
 const consoleError = console.error.bind(console)
 
 const configureConsole = function (config) {

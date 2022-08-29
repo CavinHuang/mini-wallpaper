@@ -3,6 +3,7 @@ import { redisGet } from './../redis/index';
 const initMareParseResult = () => {
   return async (ctx, next) => {
     const rout = ctx.rout
+    console.log("🚀 ~ file: ResultParser.ts ~ line 6 ~ return ~ rout", rout)
 
     if (rout.option.parseResult) {
       try {
