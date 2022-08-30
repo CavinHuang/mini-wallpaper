@@ -9,7 +9,7 @@
     <view :style="{paddingTop: vuex_custom_bar_height + 'px'}">
       
       <dynamic-demo-template ref="demoTemplate" :tips="tips" :sectionList="sectionList" :full="true" @click="click">
-        <tn-grid v-if="showGrid" :align="align" :hoverClass="hoverClass" :col="col">
+        <tn-grid v-if="showGrid" align="center" :hoverClass="hoverClass" :col="col">
           <block v-for="(item, index) in icons" :key="index">
             <!-- #ifndef MP-WEIXIN -->
             <tn-grid-item>

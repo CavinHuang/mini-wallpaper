@@ -42,6 +42,7 @@ module.exports = {
         endOfLine: 'auto'
       }
     ],
+    allowForLoopAfterthoughts: true,
     'vue/multi-word-component-names': [
       'error',
       {

@@ -231,6 +231,7 @@
     },
     watch: {
       list(newVal, oldVal) {
+        console.log("🚀 ~ file: tn-swiper.vue ~ line 234 ~ list ~ newVal", newVal)
         // 如果修改了list的数据，重置current的值
         if (newVal.length !== oldVal.length) this.swiperIndex = 0
       },
@@ -254,7 +255,6 @@
 </script>
 
 <style lang="scss" scoped>
-  
   .tn-swiper {
     
     &__wrap {
