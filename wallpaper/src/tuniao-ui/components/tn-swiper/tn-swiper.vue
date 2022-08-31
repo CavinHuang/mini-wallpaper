@@ -41,7 +41,7 @@
     </swiper>
     
     <!-- 指示点 -->
-    <view class="tn-swiper__indicator" :style="[indicatorStyle]">
+    <view class="tn-swiper__indicator" :style="([indicatorStyle] as any)">
       <block v-if="mode === 'rect'">
         <view
           v-for="(item, index) in list"
@@ -73,7 +73,9 @@
   </view>
 </template>
 
-<script>
+<script lang="ts">
+  import { ComponentOptions, CSSProperties } from 'vue'
+  import color from '../../libs/function/color'
   export default {
     name: 'tn-swiper',
     props: {
@@ -177,13 +179,13 @@
     },
     computed: {
       backgroundColorStyle() {
-        return this.$t.color.getBackgroundColorStyle(this.backgroundColor)
+        return color.getBackgroundColorStyle(this.backgroundColor)
       },
       backgroundColorClass() {
-        return this.$t.color.getBackgroundColorInternalClass(this.backgroundColor)
+        return color.getBackgroundColorInternalClass(this.backgroundColor)
       },
       swiperStyle() {
-        let style = {}
+        let style: any = {}
         if (this.backgroundColorStyle) {
           style.backgroundColor = this.backgroundColorStyle
         }
@@ -193,7 +195,7 @@
         return style
       },
       indicatorStyle() {
-        let style = {}
+        let style: CSSProperties = {}
         if (this.indicatorPosition === 'topLeft' || this.indicatorPosition === 'bottomLeft') style.justifyContent = 'flex-start'
         if (this.indicatorPosition === 'topCenter' || this.indicatorPosition === 'bottomCenter') style.justifyContent =  'center'
         if (this.indicatorPosition === 'topRight' || this.indicatorPosition === 'bottomRight') style.justifyContent =  'flex-end'
@@ -209,7 +211,7 @@
         return style
       },
       swiperTitleStyle() {
-        let style = {}
+        let style: any = {}
         if (this.mode === 'none' || this.mode === '') style.paddingBottom = '12rpx'
         if (['bottomLeft','bottomCenter','bottomRight'].indexOf(this.indicatorPosition) >= 0 && this.mode === 'number') {
           style.paddingBottom = '60rpx'
@@ -231,7 +233,7 @@
     },
     watch: {
       list(newVal, oldVal) {
-        console.log("🚀 ~ file: tn-swiper.vue ~ line 234 ~ list ~ list", list)
+        console.log("🚀 ~ file: tn-swiper.vue ~ line 234 ~ list ~ list", newVal)
         // 如果修改了list的数据，重置current的值
         if (newVal.length !== oldVal.length) this.swiperIndex = 0
       },
@@ -241,17 +243,17 @@
       }
     },
     methods: {
-      click(index) {
+      click(index: number) {
         this.$emit('click', index)
       },
       // 图片自动切换时触发
-      change(event) {
+      change(event: any) {
         const current = event.detail.current
         this.swiperIndex = current
         this.$emit('change', current)
       }
     }
-  }
+  }  as ComponentOptions
 </script>
 
 <style lang="scss" scoped>

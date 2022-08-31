@@ -11,3 +11,8 @@ onHide(() => {
   console.log('App Hide')
 })
 </script>
+
+<style lang="scss">
+@import './tuniao-ui/index.scss';
+@import './tuniao-ui/iconfont.css';
+</style>
