@@ -32,7 +32,6 @@ function initModules() {
       }
       modulesFiles[module].push(...ReaddirRecur(moduleControllerPath))
     })
-    console.log(modulesFiles)
   }
   return modulesFiles
 }
@@ -75,7 +74,6 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
   const router = new Router({
     prefix: moduleConfig.routerPrefix
   })
-  console.log(module, 'module')
   await filesApp.forEach(async(file) => {
     const filePath = path.join(controllerPath, file)
     const importResult = await import(filePath)
@@ -155,7 +153,6 @@ export const initRoute = async (pathAPP, server: Server) => {
   modulesFiles[commonController] = ReaddirRecur(pathAPP)
   const [maresHTTPBefore, maresHTTPAfter] = await initHTTPMares()
   const fianlModuleFiles = filterHandler(modulesFiles)
-  console.log("🚀 ~ file: importCtrl.ts ~ line 156 ~ initRoute ~ fianlModuleFiles", fianlModuleFiles)
   
   Object.keys(fianlModuleFiles).forEach(module => {
     mountedRouter(server, module, fianlModuleFiles[module], maresHTTPBefore, maresHTTPAfter)

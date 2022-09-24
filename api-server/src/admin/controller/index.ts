@@ -1,7 +1,7 @@
 import { Controller, Get } from "@/core/decorator";
 import { Response } from "@/core/responce";
 
-@Controller('/index')
+@Controller('/index', { skipPerm: true })
 export class AdminIndex {
 
   @Get('/index')
