@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { TAGS } from '../constants';
-import { ApiOptions } from '@/controller/interface';
+import { ApiOptions } from '@/interfaces';
 
 function genRequestDecorator(method: string) {
   return function (path: string, apiOptions?: Partial<ApiOptions>) {

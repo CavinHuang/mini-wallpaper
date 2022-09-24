@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Container } from './../container/container';
-import { ApiOptions } from './../../controller/interface';
+import { ApiOptions } from '@/interfaces';
 import { TAGS } from '../constants';
 
 /**

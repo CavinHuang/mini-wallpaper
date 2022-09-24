@@ -11,7 +11,6 @@ import path from 'path'
 import { initRoute } from './core/importCtrl'
 import { dirController, secret, unlessRoute } from '../config'
 import { typeOrmInit } from '../models'
-import router from './router'
 import { RequestLog, koaError } from '@/middlewares'
 
 interface Config {
@@ -187,7 +186,6 @@ export class Server {
       ctx.$ = this
       await next()
     })
-    this.koa.use(router.routes()).use(router.allowedMethods())
   }
 
   /** 加载日志函数 */

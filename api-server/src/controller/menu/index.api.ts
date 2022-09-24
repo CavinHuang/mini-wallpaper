@@ -9,11 +9,22 @@ export class Menu {
     return Response.success([
         { icon: 'home-filled', title: '首页', path: '/home/index' },
         // { icon: 'histogram', title: '数据大屏', path: '/dataScreen' },
-        { icon: 'user', title: '用户管理', path: '/user/list' },
-        { icon: 'food', title: '小程序管理', path: '/mini-program/list' },
-        { icon: 'ship', title: '轮播图管理', path: '/banner/list' },
-        { icon: 'Grid', title: '资源分类管理', path: '/category/list' },
-        { icon: 'Grid', title: '资源管理', path: '/resource/list' },
+        { icon: 'user', title: '用户', path: '/user/index', children: [
+          { path: '/user/list', title: '用户列表' },
+          { path: '/user/list', title: '用户等级' },
+          { path: '/user/list', title: '用户组管理' },
+        ] },
+        { icon: 'food', title: '应用', path: '/app/index', children: [
+          { title: '小程序', path: '/mini-program/list' }
+        ] },
+        { icon: 'Grid', title: '内容', path: '/resource/index', children: [
+          { title: '轮播图管理', path: '/banner/list' },
+          { title: '轮播位置管理', path: '/banner/list' },
+          { path: '/resource/list', title: '资源列表' },
+          { path: '/category/list', title: '资源分类' },
+          { path: '/category/list', title: '资源标签' },
+          { path: '/resource/list', title: '创作者管理' },
+        ] },
         { icon: 'Grid', title: '设置', path: '/setting', children: [
           { path: '/setting/site', title: '应用配置' },
           { path: '/setting/config', title: '系统设置' },
@@ -27,6 +38,7 @@ export class Menu {
           { path: '/system/config', title: '开发配置', children: [
             { path: '/system/config/develop', title: '配置分类' },
             { path: '/system/config/system_config_tab/:id', title: '配置列表', meta: { hidden: true } },
+            { path: '/system/data_group/index', title: '数据字典组' },
           ] },
         ] },
 

@@ -1,0 +1,4 @@
+{
+  "module": "admin",
+  "routerPrefix": "/admin"
+}

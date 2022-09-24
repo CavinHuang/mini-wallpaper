@@ -6,7 +6,6 @@ import { redisGet } from '../../core/redis/index';
 import { userService } from '../../service/user';
 import { ControllerParams } from "../../interfaces";
 import { Body, Controller, Get, Params, Post, Use } from "../../core/decorator";
-import { CoreController } from "../CoreController";
 import { genValidateParams } from "../../middlewares";
 import { loginParams } from "../../validator"
 import { Wechat } from "../../service/wechat";
@@ -49,7 +48,7 @@ interface ISign {
  * 用户控制
  */
 @Controller('/user', { skipPerm: true })
-export class UserLogin extends CoreController {
+export class UserLogin {
 
   @Post('/list', { skipPerm: true })
   public async list(@Params() { pageNum = 1, pageSize = 10 }: { pageNum: number, pageSize: number }) {

@@ -1,0 +1,4 @@
+{
+  "modules": "api",
+  "routerPrefix": "/api"
+}
