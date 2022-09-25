@@ -24,3 +24,7 @@ function genRequestDecorator(method: string) {
 
 export const Get = genRequestDecorator('get')
 export const Post = genRequestDecorator('post')
+export const Put = genRequestDecorator('put')
+export const Options = genRequestDecorator('options')
+export const Delete = genRequestDecorator('delete')
+export const Patch = genRequestDecorator('patch')

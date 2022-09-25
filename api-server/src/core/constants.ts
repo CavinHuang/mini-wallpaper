@@ -11,5 +11,6 @@ export const TAGS = {
 export const ROUTE_PARAMS_SOURCE = {
   QUERY: Symbol('QUERY'),
   BODY: Symbol('BODY'),
-  PARAMS: Symbol('PARAMS')
+  PARAMS: Symbol('PARAMS'),
+  ALL_PARAMS: Symbol('ALL_PARAMS')
 }

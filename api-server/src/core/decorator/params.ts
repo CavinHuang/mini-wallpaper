@@ -19,4 +19,5 @@ const register = (type: string | Symbol) => (name?: string) => (
 export const Query = register(ROUTE_PARAMS_SOURCE.QUERY)
 export const Body = register(ROUTE_PARAMS_SOURCE.BODY)
 export const Params = register(ROUTE_PARAMS_SOURCE.PARAMS)
+export const AllParams = register(ROUTE_PARAMS_SOURCE.ALL_PARAMS)
 export const Req = Query
