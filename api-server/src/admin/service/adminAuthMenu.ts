@@ -1,8 +1,10 @@
-import { Service } from "@/core/container";
+import { Inject, Provide } from "@/core/container";
 import { AdminAuthMenu } from "@/models/entity/adminAuthMenu";
 import { BaseService } from "@/service/baseService";
+import { Repository } from "typeorm";
 
-@Service()
+@Provide()
 export class AdminAuthMenuService extends BaseService {
-  public entity = AdminAuthMenu
+  @Inject('AdminAuthMenu')
+  public repository:Repository<AdminAuthMenu>
 }

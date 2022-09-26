@@ -2,7 +2,7 @@ import { Repo } from "@/core/decorator";
 import { Entity, Index, PrimaryColumn } from "typeorm";
 
 @Repo('AdminAuthRoleMenu')
-@Entity()
+@Entity({})
 @Index(['role_id', 'menu_id'])
 export class AdminAuthRoleMenu {
   @Index()

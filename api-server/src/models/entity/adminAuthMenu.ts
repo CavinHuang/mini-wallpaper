@@ -2,7 +2,7 @@ import { Repo } from "@/core/decorator";
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Repo('AdminAuthMenu')
-@Entity()
+@Entity({})
 export class AdminAuthMenu {
   @PrimaryGeneratedColumn({
     comment: '角色菜单主键id'

@@ -9,6 +9,7 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import eslintPlugin from 'vite-plugin-eslint'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import importToCDN from 'vite-plugin-cdn-import'
+import vitePluginImp from 'vite-plugin-imp'
 // import AutoImport from "unplugin-auto-import/vite";
 // import Components from "unplugin-vue-components/vite";
 // import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
@@ -33,7 +34,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@/styles/var.scss";'
+          additionalData: '@use "@/styles/var.scss" as *;'
         }
       }
     },
@@ -47,6 +48,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // 代理跨域（mock 不需要配置，这里只是个事列）
       proxy: {
         '/api': {
+          // target: "https://www.fastmock.site/mock/f81e8333c1a9276214bcdbc170d9e0a0", // fastmock
+          // target: 'https://mock.mengxuegu.com/mock/629d727e6163854a32e8307e', // easymock
+          target: 'http://localhost:10089',
+          changeOrigin: true
+          // rewrite: (path) => path.replace(/^\/api/, '')
+        },
+        '/admin': {
           // target: "https://www.fastmock.site/mock/f81e8333c1a9276214bcdbc170d9e0a0", // fastmock
           // target: 'https://mock.mengxuegu.com/mock/629d727e6163854a32e8307e', // easymock
           target: 'http://localhost:10089',
@@ -67,10 +75,20 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }),
       // * EsLint 报错信息显示在浏览器界面上
       eslintPlugin(),
-      // * vite 可以使用 jsx/tsx 语法
-      vueJsx(),
       // * name 可以写在 script 标签上
       VueSetupExtend(),
+      vitePluginImp({
+        libList: [
+          {
+            libName: '@formily/element-plus',
+            style(name) {
+              return `@formily/element-plus/esm/${name}/style.js`
+            }
+          }
+        ]
+      }),
+      // * vite 可以使用 jsx/tsx 语法
+      vueJsx(),
       // * demand import element(如果使用了cdn引入,没必要使用element自动导入了)
       // AutoImport({
       // 	resolvers: [ElementPlusResolver()]

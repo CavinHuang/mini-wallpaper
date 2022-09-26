@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { System } from '@/api/interface/system.js'
+import { System } from '@/api/interface/system'
 import { PropType } from 'vue'
 
 const props = defineProps({

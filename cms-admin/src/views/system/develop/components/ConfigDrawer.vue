@@ -54,7 +54,7 @@
 <script setup lang="ts" name="UserDrawer">
 import { ref, reactive, watch } from 'vue'
 import { ElMessage, FormInstance } from 'element-plus'
-import { System } from '@/api/interface/system.js'
+import { System } from '@/api/interface/system'
 import { SystemApi } from '@/api/modules'
 import InputGroup from './tabs/InputGroup.vue'
 import TextareaGroup from './tabs/TextareaGroup.vue'

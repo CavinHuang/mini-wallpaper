@@ -1,12 +1,11 @@
 import { Repo } from "@/core/decorator";
 import { Entity, Index, PrimaryColumn } from "typeorm";
 
-// @Index('role_id', { unique: true })
-// @Index('user_id', { unique: true })
 @Repo('AdminAuthRoleUser')
-@Entity()
-@Index(['role_id', 'user_id'])
+@Entity({})
+@Index(['role_id', 'user_id'], { unique: true })
 export class AdminAuthRoleUser {
+  @Index()
   @PrimaryColumn({
     unsigned: true,
     comment: '角色id'
@@ -14,6 +13,7 @@ export class AdminAuthRoleUser {
   @Index()
   role_id: number
 
+  @Index()
   @PrimaryColumn({
     unsigned: true,
     comment: '用户id'
