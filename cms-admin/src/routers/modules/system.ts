@@ -37,8 +37,19 @@ const homeRouter: Array<RouteRecordRaw> = [
         meta: {
           keepAlive: true,
           requiresAuth: true,
-          title: '配置列表',
-          key: 'SystemConfigTabList'
+          title: '角色管理',
+          key: 'SystemRoleTabList'
+        }
+      },
+      {
+        path: '/setting/system_admin',
+        name: 'SystemAdminList',
+        component: () => import('@/views/system/auth/admin.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '管理员管理',
+          key: 'SystemAdminList'
         }
       }
     ]

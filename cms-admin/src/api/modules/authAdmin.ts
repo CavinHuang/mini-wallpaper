@@ -19,7 +19,7 @@ const http = request({
   baseURL: '/admin'
 })
 
-export class AuthApi {
+export class AuthRoleApi {
   /**
    * 获取列表
    * @param params

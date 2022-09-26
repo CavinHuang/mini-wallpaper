@@ -6,6 +6,7 @@ import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { AdminUser } from "@/models/entity/adminUser";
+import { SelectQueryBuilder } from "typeorm";
 import { AdminUserService } from "../service/adminUser";
 
 @Controller('/admin-user', { skipPerm: true })
@@ -15,8 +16,26 @@ class AdminUserController {
   protected adminUserService: AdminUserService
 
   @Get('')
-  public info(@Query() { pageNo = 1, pageSize = 10 }: { pageSize: number, pageNo: number }) {
+  public async list(@Query() { pageNum = 1, pageSize = 10, nickname = '', username = '' }: { pageSize: number, pageNum: number; nickname: string; username: string }) {
+    const where: Record<string, string> = {}
 
+    if (nickname) {
+      where.nickname = nickname
+    }
+
+    
+    if (username) {
+      where.username = username
+    }
+    return Response.success(await this.adminUserService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminUser>) => {
+      query.andWhere(where)
+      return query
+    }))
+  }
+
+  @Get('/:id')
+  public async info(@Params('id') id: number) {
+    return Response.success(await this.adminUserService.info(id))
   }
 
   @Post('')
