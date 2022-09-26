@@ -64,9 +64,9 @@ export class Server {
     try {
       this.initLogger()
       await typeOrmInit(this.logInfo)
-      await initRoute(dirController, this)
       this.initApp()
       await this.initRouter()
+      await initRoute(dirController, this)
     } catch (e) {
       this.logError('运行错误', e)
     }

@@ -5,18 +5,23 @@
 import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
-import { AdminAuthRole } from '@/models/entity/adminAuthRoleMenu';
+import { AdminAuthRole } from '@/models/entity/adminAuthRole';
 import { AdminAuthRoleService } from "../service/adminAuthRole";
 
-@Controller('/admin-user', { skipPerm: true })
-class AdminAuthRoleController {
+@Controller('/role', { skipPerm: true })
+export class AdminAuthRoleController {
 
   @Inject()
   protected adminAuthRoleService: AdminAuthRoleService
 
   @Get('')
-  public info(@Query() { pageNo = 1, pageSize = 10 }: { pageSize: number, pageNo: number }) {
+  public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number }) {
+    return Response.success(await this.adminAuthRoleService.getPageList({ pageNum, pageSize }))
+  }
 
+  @Get('/:id')
+  public async info(@Params('id') id: number) {
+    return Response.success(await this.adminAuthRoleService.info(id))
   }
 
   @Post('')
@@ -28,7 +33,7 @@ class AdminAuthRoleController {
   }
 
   @Put('/:id')
-  public update(@Params() id: number, @Body() params: Partial<AdminAuthRole>) {
+  public update(@Params('id') id: number, @Body() params: Partial<AdminAuthRole>) {
     if (this.adminAuthRoleService.update(id, params)) {
       return Response.success(true, '更新成功')
     }

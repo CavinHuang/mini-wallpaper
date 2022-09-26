@@ -11,6 +11,7 @@ import { plainToClass } from 'class-transformer';
 import { Server } from '../Server';
 import { initHTTPMares } from './initMiddleware';
 import { appConfig, isDev, dirController, dirSrc, serverConfig } from '@/config';
+import { objectArraySortByAtr } from '@/utils'
 
 const appendExt = isDev ? '.ts' : '.js'
 
@@ -84,7 +85,7 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
       const routePrefixMeta = Reflect.getMetadata(TAGS.ROUTE_PREFIX, Ctrl);
       const routePathMeta = Reflect.getMetadata(TAGS.ROUTE_PATH, Ctrl);
       const controllerApiOptions = Reflect.getMetadata(TAGS.API_CONTROLLER_OPTIONS, Ctrl)
-      
+
       if (!routePathMeta) return
       routePathMeta.forEach(({ method, path: p, handler }) => {
         const methodApiOptions = Reflect.getMetadata(TAGS.API_METHOD_OPTIONS, Ctrl, handler)
@@ -107,11 +108,13 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           const routeParamsMeta = Reflect.getMetadata(TAGS.ROUTE_PARAMS, Ctrl, handler) || []
           // 请求参数类型信息
           const routeParamsTypes = Reflect.getMetadata(TAGS.ROUTE_PARAMS_TYPE, inst, handler)
-          const data = await inst[handler](...(await Promise.all(routeParamsMeta.map(
-            // 获取参数
-            async ({name, type}, index) => {
-              let params
 
+          const sortIndexRouteParams = objectArraySortByAtr(routeParamsMeta, 'index')
+          
+          const data = await inst[handler](...(await Promise.all(sortIndexRouteParams.map(
+            // 获取参数
+            async ({name, type, index}, idx) => {
+              let params
               switch(type) {
                 case ROUTE_PARAMS_SOURCE.QUERY:
                   params = ctx.query
@@ -126,13 +129,13 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
                   params = { ...ctx.query, ...ctx.request.body, ...ctx.params}
               }
               // 普通对象转为 DTO 的实例对象
-              const entity = plainToClass(routeParamsTypes[0], name ? params[name] : params)
+              const entity = plainToClass(routeParamsTypes[index], name ? params[name] : params)
 
               // 校验请求参数
-              const errors = await validate(entity)
-              if(errors.length) {
-                throw new Error(Object.values(errors[0].constraints).join(','))
-              }
+              // const errors = await validate(entity)
+              // if(errors.length) {
+              //   throw new Error(Object.values(errors[0].constraints).join(','))
+              // }
               return entity
             })
           )));

@@ -23,6 +23,7 @@ export class Container {
 
     // 实例化这个类
     const ins = !isObject(Cons) ? new Cons() : Cons;
+
     // 遍历注册信息
     for (const info of Container.propertyRegistry) {
       // 注入标识符与要注入类的标识符
@@ -39,7 +40,13 @@ export class Container {
         ins[propKey] = target;
       }
     }
-
+     if (
+      ins && 
+      Object.prototype.hasOwnProperty.call(ins, '_injectAbleKey') &&
+      Object.prototype.hasOwnProperty.call(ins, '_injectHandler')
+    ) {
+      ins[ins['_injectHandler']](ins[ins['_injectAbleKey']])
+    }
     return ins;
   }
 
