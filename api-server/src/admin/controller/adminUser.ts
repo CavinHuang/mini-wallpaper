@@ -11,8 +11,7 @@ import { AdminUserService } from "../service/adminUser";
 
 @Controller('/admin-user', { skipPerm: true })
 export class AdminUserController {
-
-  @Inject('AdminUser')
+  @Inject()
   protected adminUserService: AdminUserService
 
   @Get('')
@@ -22,15 +21,21 @@ export class AdminUserController {
     if (nickname) {
       where.nickname = nickname
     }
-
     
     if (username) {
       where.username = username
     }
-    return Response.success(await this.adminUserService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminUser>) => {
-      query.andWhere(where)
-      return query
-    }))
+    try {
+      const result = await this.adminUserService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminUser>) => {
+        query.andWhere(where)
+        return query
+      })
+      return Response.success(result)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+    
   }
 
   @Get('/:id')

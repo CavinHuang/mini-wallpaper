@@ -1,11 +1,9 @@
 import { Repo } from "@/core/decorator";
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 @Repo('AdminAuthRole')
 @Entity()
 export class AdminAuthRole {
-
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number
 
   @Column({

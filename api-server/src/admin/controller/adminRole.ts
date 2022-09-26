@@ -12,7 +12,7 @@ import { AdminAuthRoleService } from "../service/adminAuthRole";
 @Controller('/role', { skipPerm: true })
 export class AdminAuthRoleController {
 
-  @Inject('AdminAuthRole')
+  @Inject()
   protected adminAuthRoleService: AdminAuthRoleService
 
   @Get('')

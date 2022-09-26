@@ -26,7 +26,6 @@
         <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
       </template>
     </ProTable>
-    <UserDrawer ref="drawerRef"></UserDrawer>
     <FormDrawer :schema="schema" :success="formActionSchema" :title="drawerTitle" ref="formRef"></FormDrawer>
   </div>
 </template>
@@ -36,8 +35,7 @@ import { ref, reactive, h } from 'vue'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
-import UserDrawer from './components/UserDrawer.vue'
-import FormDrawer from './components/FormDrawer.vue'
+import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
 import { AuthRoleApi, Auth } from '@/api/modules'
 

@@ -50,6 +50,11 @@ export class AdminUser {
   update_at: Date
 
   @Column({
+    comment: '删除时间'
+  })
+  delete_at: Date
+
+  @Column({
     comment: '最后操作人'
   })
   last_action_user: number
