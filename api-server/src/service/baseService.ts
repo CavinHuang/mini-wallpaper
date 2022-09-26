@@ -4,7 +4,7 @@
 
 import { Pagination } from "@/core";
 import { M } from "@/models";
-import { Repository, DeepPartial, FindOptionsWhere, SelectQueryBuilder } from "typeorm";
+import { Repository, DeepPartial, FindOptionsWhere, SelectQueryBuilder, IsNull } from "typeorm";
 
 export class BaseService<ModelRepo = Record<string, any>> {
 
@@ -27,7 +27,9 @@ export class BaseService<ModelRepo = Record<string, any>> {
     { pageNum = 1, pageSize = 10, offset = 0, limit = 15, alias = ''},
     extral?: (query: SelectQueryBuilder<ModelRepo>) => SelectQueryBuilder<ModelRepo>
   ) {
-    let query = this.entity.createQueryBuilder(alias)
+    let query = this.entity.createQueryBuilder(alias).where({
+      delete_at: IsNull()
+    })
 
     if (extral) {
       query = extral(query)
@@ -44,7 +46,8 @@ export class BaseService<ModelRepo = Record<string, any>> {
   public info(id: number) {
     return this.entity.findOne({
       where: {
-        id
+        id,
+        delete_at: IsNull()
       } as unknown as FindOptionsWhere<ModelRepo>
     })
   }
@@ -62,7 +65,7 @@ export class BaseService<ModelRepo = Record<string, any>> {
   }
 
   /**
-   * 创建
+   * 删除
    * @param raw 
    * @returns 
    */

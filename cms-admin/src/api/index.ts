@@ -103,3 +103,8 @@ class RequestHttp {
 }
 
 export default new RequestHttp(config)
+
+export const request = (cusConfig: AxiosRequestConfig) => {
+  const _config = Object.assign({}, config, cusConfig)
+  return new RequestHttp(_config)
+}

@@ -61,7 +61,7 @@ export const useTable = (apiUrl: (params: any) => Promise<any>, initParam: any =
       updatedTotalParam()
       Object.assign(state.totalParam, initParam)
       const { data } = await apiUrl(state.totalParam)
-      console.log(data)
+      console.log(data, isPageable)
       state.tableData = isPageable ? data.rows : data
       // 解构后台返回的分页数据(如果有分页更新分页信息)
       const { pageNum, pageSize, total } = data

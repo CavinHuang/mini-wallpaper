@@ -6,6 +6,7 @@ import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { AdminAuthRole } from '@/models/entity/adminAuthRole';
+import { SelectQueryBuilder } from "typeorm";
 import { AdminAuthRoleService } from "../service/adminAuthRole";
 
 @Controller('/role', { skipPerm: true })
@@ -15,8 +16,21 @@ export class AdminAuthRoleController {
   protected adminAuthRoleService: AdminAuthRoleService
 
   @Get('')
-  public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number }) {
-    return Response.success(await this.adminAuthRoleService.getPageList({ pageNum, pageSize }))
+  public async list(@Query() { pageNum = 1, pageSize = 10, role_name = '', role_code = '' }: { pageSize: number, pageNum: number; role_name: string; role_code: string }) {
+    const where: Record<string, string> = {}
+
+    if (role_name) {
+      where.role_name = role_name
+    }
+
+    
+    if (role_code) {
+      where.role_code = role_code
+    }
+    return Response.success(await this.adminAuthRoleService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminAuthRole>) => {
+      query.andWhere(where)
+      return query
+    }))
   }
 
   @Get('/:id')
@@ -41,7 +55,7 @@ export class AdminAuthRoleController {
   }
 
   @Delete('/:id')
-  public delete(@Params() id: number) {
+  public delete(@Params('id') id: number) {
     if (this.adminAuthRoleService.delete(id)) {
       return Response.success(true, '删除成功')
     }

@@ -41,7 +41,8 @@ export class AdminAuthRole {
   update_at: Date
 
   @Column({
-    comment: '删除时间'
+    comment: '删除时间',
+    default: null
   })
   delete_at: Date
 }
