@@ -5,6 +5,7 @@
 import { M } from "@/models";
 
 export class BaseService<ModelRepo = Record<string, any>> {
+  constructor() {}
 
   public entity: any;
   

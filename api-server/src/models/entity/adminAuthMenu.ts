@@ -1,8 +1,8 @@
 import { Repo } from "@/core/decorator";
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Repo('AdminRole')
-@Entity({})
+@Repo('AdminAuthMenu')
+@Entity()
 export class AdminAuthMenu {
   @PrimaryGeneratedColumn({
     comment: '角色菜单主键id'
@@ -61,7 +61,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '标记角色菜单是否为链接',
     type: 'tinyint',
-    length: 2,
     default: 0,
     nullable: false
   })
@@ -70,7 +69,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '标记角色菜单是否隐藏不显示在侧边栏（1 隐藏 0 显示）',
     type: 'tinyint',
-    length: 2,
     default: 0,
     nullable: false
   })
@@ -79,7 +77,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '标记角色菜单是否可以在面包屑中点击',
     type: 'tinyint',
-    length: 2,
     default: 1,
     nullable: false
   })
@@ -88,7 +85,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '标记角色菜单是否总是显示在侧边栏（1 永远显示 0 不显示）',
     type: 'tinyint',
-    length: 2,
     default: 0,
     nullable: false
   })
@@ -97,7 +93,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '标记角色菜单是否被缓存（1 缓存 0 不缓存）',
     type: 'tinyint',
-    length: 2,
     default: 0,
     nullable: false
   })
@@ -106,7 +101,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '标记角色菜单是否显示在面包屑（1 显示在面包屑 0 不显示在面包屑）',
     type: 'tinyint',
-    length: 2,
     default: 1,
     nullable: false
   })
@@ -115,7 +109,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '标记角色菜单是否为公共菜单',
     type: 'tinyint',
-    length: 2,
     default: 0,
     nullable: false
   })
@@ -124,7 +117,6 @@ export class AdminAuthMenu {
    @Column({
     comment: '角色菜单排序',
     type: 'mediumint',
-    length: 8,
     default: 1,
     nullable: false
   })
@@ -139,7 +131,6 @@ export class AdminAuthMenu {
   @Column({
     comment: '角色菜单状态',
     type: 'tinyint',
-    length: 2,
     default: 1
   })
   status: number

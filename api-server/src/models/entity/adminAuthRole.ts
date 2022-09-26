@@ -1,10 +1,11 @@
 import { Repo } from "@/core/decorator";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Repo('AdminRole')
-@Entity({})
+@Repo('AdminAuthRole')
+@Entity()
 export class AdminAuthRole {
-  @PrimaryGeneratedColumn()
+
+  @PrimaryColumn()
   id: number
 
   @Column({
@@ -26,7 +27,8 @@ export class AdminAuthRole {
   remark: string
 
   @Column({
-    comment: '状态'
+    comment: '状态',
+    default: 1
   })
   status: number
 

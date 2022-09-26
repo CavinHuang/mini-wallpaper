@@ -1,21 +1,23 @@
 import { Repo } from "@/core/decorator";
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Index, PrimaryColumn } from "typeorm";
 
-@Repo('AdminRole')
-@Entity({})
-@Index(['role_id', 'user_id'], { unique: true })
-@Index('role_id', { unique: true })
-@Index('user_id', { unique: true })
-export class AdminAuthRole {
-  @Column({
+// @Index('role_id', { unique: true })
+// @Index('user_id', { unique: true })
+@Repo('AdminAuthRoleUser')
+@Entity()
+@Index(['role_id', 'user_id'])
+export class AdminAuthRoleUser {
+  @PrimaryColumn({
     unsigned: true,
     comment: '角色id'
   })
+  @Index()
   role_id: number
 
-  @Column({
+  @PrimaryColumn({
     unsigned: true,
     comment: '用户id'
   })
+  @Index()
   user_id: number
 }

@@ -5,13 +5,13 @@
 import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
-import { AdminAuthRole } from '@/models/entity/adminAuthRoleMenu';
+import { AdminAuthRole } from '@/models/entity/adminAuthRole';
 import { AdminAuthRoleService } from "../service/adminAuthRole";
 
-@Controller('/admin-user', { skipPerm: true })
-class AdminAuthRoleController {
+@Controller('/role', { skipPerm: true })
+export class AdminAuthRoleController {
 
-  @Inject()
+  @Inject('AdminAuthRole')
   protected adminAuthRoleService: AdminAuthRoleService
 
   @Get('')

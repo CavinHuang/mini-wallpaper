@@ -84,7 +84,6 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
       const routePrefixMeta = Reflect.getMetadata(TAGS.ROUTE_PREFIX, Ctrl);
       const routePathMeta = Reflect.getMetadata(TAGS.ROUTE_PATH, Ctrl);
       const controllerApiOptions = Reflect.getMetadata(TAGS.API_CONTROLLER_OPTIONS, Ctrl)
-      
       if (!routePathMeta) return
       routePathMeta.forEach(({ method, path: p, handler }) => {
         const methodApiOptions = Reflect.getMetadata(TAGS.API_METHOD_OPTIONS, Ctrl, handler)
@@ -127,6 +126,8 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
               }
               // 普通对象转为 DTO 的实例对象
               const entity = plainToClass(routeParamsTypes[0], name ? params[name] : params)
+
+              console.log(routeParamsTypes, routeParamsTypes[0], entity)
 
               // 校验请求参数
               const errors = await validate(entity)

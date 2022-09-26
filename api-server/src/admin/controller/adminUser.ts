@@ -9,9 +9,9 @@ import { AdminUser } from "@/models/entity/adminUser";
 import { AdminUserService } from "../service/adminUser";
 
 @Controller('/admin-user', { skipPerm: true })
-class AdminUserController {
+export class AdminUserController {
 
-  @Inject()
+  @Inject('AdminUser')
   protected adminUserService: AdminUserService
 
   @Get('')

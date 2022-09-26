@@ -9,9 +9,9 @@ import { AdminAuthMenu } from "@/models/entity/adminAuthMenu";
 import { AdminAuthMenuService } from "../service/adminAuthMenu";
 
 @Controller('/admin-user', { skipPerm: true })
-class AdminAuthMenuController {
+export class AdminAuthMenuController {
 
-  @Inject()
+  @Inject('AdminAuthMenu')
   protected adminAuthMenuService: AdminAuthMenuService
 
   @Get('')
