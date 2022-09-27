@@ -123,11 +123,97 @@ interface FormDrwerExpose {
   handleOpen: () => void
 }
 const schema = reactive({
-  is_super: {
+  auth_type: {
     type: 'boolean',
-    title: '是否超级管理',
+    title: '类型',
     required: true,
     default: true,
+    enum: [
+      {
+        label: '接口',
+        value: 2
+      },
+      {
+        label: '菜单(包含页面按钮)',
+        value: 1
+      }
+    ],
+    'x-decorator': 'FormItem',
+    'x-component': 'Radio.Group'
+    // 'x-reactions': {
+    //   target: '*(menu_name,nickname)',
+    //   fulfill: { state: { visible: '{{$self.value === 1}}' } }
+    // }
+  },
+  menu_name: {
+    type: 'string',
+    title: '按钮名称',
+    required: true,
+    'x-decorator': 'FormItem',
+    'x-component': 'Input',
+    'x-reactions': {
+      dependencies: ['auth_type'],
+      fulfill: {
+        state: {
+          visible: '{{$deps[0] === 1}}'
+        }
+      }
+    }
+  },
+  pid: {
+    type: 'string',
+    title: '父级页面',
+    enum: [] as { label: string; value: string }[],
+    'x-decorator': 'FormItem',
+    'x-component': 'Select',
+    'x-component-props': {
+      style: 'width: 240px;'
+    }
+  },
+  path: {
+    type: 'string',
+    title: '路由地址',
+    required: true,
+    'x-decorator': 'FormItem',
+    'x-component': 'Input',
+    'x-reactions': {
+      dependencies: ['auth_type'],
+      fulfill: {
+        state: {
+          visible: '{{$deps[0] === 1}}'
+        }
+      }
+    }
+  },
+  unique_auth: {
+    type: 'string',
+    title: '权限标识',
+    'x-decorator': 'FormItem',
+    'x-component': 'Input'
+  },
+  icon: {
+    type: 'string',
+    title: '图标',
+    'x-decorator': 'FormItem',
+    'x-component': 'Input',
+    'x-reactions': {
+      dependencies: ['auth_type'],
+      fulfill: {
+        state: {
+          visible: '{{$deps[0] === 1}}'
+        }
+      }
+    }
+  },
+  sort: {
+    type: 'string',
+    title: '排序',
+    'x-decorator': 'FormItem',
+    'x-component': 'Input'
+  },
+  hidden: {
+    type: 'boolean',
+    title: '隐藏菜单',
     enum: [
       {
         label: '是',
@@ -139,35 +225,7 @@ const schema = reactive({
       }
     ],
     'x-decorator': 'FormItem',
-    'x-component': 'Radio.Group',
-    'x-reactions': {
-      target: '*(username,nickname)',
-      fulfill: { state: { visible: '{{$self.value === true}}' } }
-    }
-  },
-  username: {
-    type: 'string',
-    title: '用户名',
-    required: true,
-    'x-decorator': 'FormItem',
-    'x-component': 'Input'
-  },
-  nickname: {
-    type: 'string',
-    title: '昵称',
-    required: true,
-    'x-decorator': 'FormItem',
-    'x-component': 'Input'
-  },
-  role_id: {
-    type: 'string',
-    title: '角色',
-    enum: [] as { label: string; value: string }[],
-    'x-decorator': 'FormItem',
-    'x-component': 'Select',
-    'x-component-props': {
-      style: 'width: 240px;'
-    }
+    'x-component': 'Radio.Group'
   }
 })
 
