@@ -1,10 +1,21 @@
 <template>
   <div class="table-box">
-    <ProTable ref="proTable" :requestApi="SystemApi.getList" :initParam="initParam" :columns="columns" :pagination="false">
+    <ProTable
+      ref="proTable"
+      :requestApi="SystemApi.getList"
+      :initParam="initParam"
+      :columns="columns"
+      :pagination="false"
+      :border="false"
+    >
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
         <el-button type="primary" :icon="CirclePlus" @click="openDrawer('添加')">添加配置分类</el-button>
       </template>
+      <!-- <template #title="scope">
+        <el-icon><CaretRight /></el-icon>
+        <span style="margin-left: 10px">{{ scope.row.title }}</span>
+      </template> -->
       <!-- 用户状态 slot -->
       <template #status="scope">
         <!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所有在外层包一个盒子，点击触发盒子 click 方法 -->
@@ -24,19 +35,18 @@
         <!-- <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button> -->
       </template>
     </ProTable>
-    <Drawer ref="drawerRef"></Drawer>
+    <FormDrawer :schema="schema" :title="drawerTitle" :initialValues="initialValues" ref="formRef"></FormDrawer>
   </div>
 </template>
 
-<script setup lang="tsx" name="authIndex">
+<script setup lang="ts" name="authIndex">
 import { ref, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
-import Drawer from './components/Drawer.vue'
+import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
 import { CirclePlus, Delete, EditPen, View } from '@element-plus/icons-vue'
-import { SystemApi } from '@/api/modules'
+import { AuthAdmin, AuthAdminApi, SystemApi } from '@/api/modules'
 import { System } from '@/api/interface'
 import { useRouter } from 'vue-router'
 
@@ -63,15 +73,26 @@ const columns: Partial<ColumnProps>[] = [
   {
     type: 'index',
     label: '#',
+    prop: 'id',
     width: 80
   },
   {
     prop: 'title',
-    label: '分类名称'
+    label: '按钮名称',
+    align: 'left',
+    width: 160
   },
   {
     prop: 'eng_title',
-    label: '分类字段英文'
+    label: '接口路径'
+  },
+  {
+    prop: 'eng_title',
+    label: '前端权限'
+  },
+  {
+    prop: 'eng_title',
+    label: '页面路由'
   },
   {
     prop: 'status',
@@ -96,6 +117,60 @@ function getAllIds(row: System.SystemConfigTabItem) {
   return ids
 }
 
+// 打开 drawer(新增、查看、编辑)
+interface FormDrwerExpose {
+  acceptParams: (params: any) => void
+  handleOpen: () => void
+}
+const schema = reactive({
+  is_super: {
+    type: 'boolean',
+    title: '是否超级管理',
+    required: true,
+    default: true,
+    enum: [
+      {
+        label: '是',
+        value: true
+      },
+      {
+        label: '否',
+        value: false
+      }
+    ],
+    'x-decorator': 'FormItem',
+    'x-component': 'Radio.Group',
+    'x-reactions': {
+      target: '*(username,nickname)',
+      fulfill: { state: { visible: '{{$self.value === true}}' } }
+    }
+  },
+  username: {
+    type: 'string',
+    title: '用户名',
+    required: true,
+    'x-decorator': 'FormItem',
+    'x-component': 'Input'
+  },
+  nickname: {
+    type: 'string',
+    title: '昵称',
+    required: true,
+    'x-decorator': 'FormItem',
+    'x-component': 'Input'
+  },
+  role_id: {
+    type: 'string',
+    title: '角色',
+    enum: [] as { label: string; value: string }[],
+    'x-decorator': 'FormItem',
+    'x-component': 'Select',
+    'x-component-props': {
+      style: 'width: 240px;'
+    }
+  }
+})
+
 // 切换状态
 const changeStatus = async (row: System.SystemConfigTabItem) => {
   const hasChildren = row.children && row.children.length
@@ -109,15 +184,30 @@ interface DrawerExpose {
   acceptParams: (params: any) => void
 }
 
-const drawerRef = ref<DrawerExpose>()
-const openDrawer = (title: string, rowData: Partial<System.SystemConfigTabItem> = {}) => {
+const formRef = ref<FormDrwerExpose>()
+const initialValues = ref<Partial<AuthAdmin.adminItem>>()
+const drawerTitle = ref('')
+const openDrawer = (title: string, rowData: Partial<AuthAdmin.adminItem> = {}, isEdit: boolean = false) => {
+  initialValues.value = rowData
+
+  if (isEdit) {
+    // @ts-ignore
+    delete schema.password
+    // @ts-ignore
+    delete schema.confirm_password
+  }
+
   let params = {
     title: title,
     rowData: { ...rowData },
+    isEdit,
     isView: title === '查看' ? true : false,
-    apiUrl: title === '添加' ? SystemApi.add : title === '编辑' ? SystemApi.edit : '',
+    apiUrl: title === '新增' ? AuthAdminApi.add : title === '编辑' ? AuthAdminApi.update : '',
     getTableList: proTable.value.refresh
   }
-  drawerRef.value!.acceptParams(params)
+  // drawerRef.value!.acceptParams(params)
+  drawerTitle.value = title
+  formRef.value!.acceptParams(params)
+  formRef.value!.handleOpen()
 }
 </script>

@@ -66,6 +66,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // plugins
     plugins: [
       vue(),
+      // * vite 可以使用 jsx/tsx 语法
+      vueJsx(),
       createHtmlPlugin({
         inject: {
           data: {
@@ -77,18 +79,16 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       eslintPlugin(),
       // * name 可以写在 script 标签上
       VueSetupExtend(),
-      vitePluginImp({
-        libList: [
-          {
-            libName: '@formily/element-plus',
-            style(name) {
-              return `@formily/element-plus/esm/${name}/style.js`
-            }
-          }
-        ]
-      }),
-      // * vite 可以使用 jsx/tsx 语法
-      vueJsx(),
+      // vitePluginImp({
+      //   libList: [
+      //     {
+      //       libName: '@formily/element-plus',
+      //       style(name) {
+      //         return `@formily/element-plus/esm/${name}/style.js`
+      //       }
+      //     }
+      //   ]
+      // }),
       // * demand import element(如果使用了cdn引入,没必要使用element自动导入了)
       // AutoImport({
       // 	resolvers: [ElementPlusResolver()]

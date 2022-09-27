@@ -51,6 +51,17 @@ const homeRouter: Array<RouteRecordRaw> = [
           title: '管理员管理',
           key: 'SystemAdminList'
         }
+      },
+      {
+        path: '/setting/system_menus',
+        name: 'SystemAdminRuleList',
+        component: () => import('@/views/system/auth/menus.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '权限规则',
+          key: 'SystemAdminRuleList'
+        }
       }
     ]
   }

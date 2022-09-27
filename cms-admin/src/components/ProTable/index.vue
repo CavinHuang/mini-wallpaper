@@ -49,6 +49,7 @@
           :label="item.label"
           :width="item.width"
           :fixed="item.fixed"
+          :align="item.align"
           v-slot="scope"
         >
           <slot :name="item.type" :row="scope.row"></slot>

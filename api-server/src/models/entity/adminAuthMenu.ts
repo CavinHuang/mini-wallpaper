@@ -1,5 +1,5 @@
 import { Repo } from "@/core/decorator";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Repo('AdminAuthMenu')
 @Entity({})
@@ -9,6 +9,7 @@ export class AdminAuthMenu {
   })
   id: number
 
+  @Index()
   @Column({
     type: 'int',
     default: 0,
@@ -21,14 +22,7 @@ export class AdminAuthMenu {
     default: '',
     nullable: false
   })
-  name: string
-
-  @Column({
-    comment: '角色菜单侧边栏和面包屑展示的名称',
-    default: '',
-    nullable: false
-  })
-  title: string
+  menu_name: string
 
   @Column({
     comment: '角色菜单路由地址',
@@ -38,18 +32,25 @@ export class AdminAuthMenu {
   path: string
 
   @Column({
-    comment: '角色菜单文件所在路径（为空则为Layout）',
+    comment: 'api接口地址',
     default: '',
     nullable: false
   })
-  url: string
+  api_url: string
 
   @Column({
-    comment: '角色菜单重定向地址',
+    comment: '提交方式POST GET PUT DELETE',
     default: '',
     nullable: false
   })
-  redirect: string
+  methods: string
+
+  @Column({
+    comment: '参数',
+    default: '[]',
+    nullable: false
+  })
+  params: string
 
   @Column({
     comment: '角色菜单的图标',
@@ -67,6 +68,37 @@ export class AdminAuthMenu {
   is_link: number
 
   @Column({
+    comment: '子管理员是否可用',
+    type: 'tinyint',
+    default: 1,
+    nullable: false
+  })
+  access: number
+
+  @Column({
+    comment: '是否为菜单 1菜单 2功能',
+    type: 'tinyint',
+    default: 0,
+    nullable: false
+  })
+  auth_type: number
+
+  @Column({
+    comment: '顶部菜单标示',
+    default: 0,
+    nullable: false
+  })
+  header: string
+
+  @Column({
+    comment: '是否顶部菜单1是0否',
+    type: 'tinyint',
+    default: 0,
+    nullable: false
+  })
+  is_header: number
+
+  @Column({
     comment: '标记角色菜单是否隐藏不显示在侧边栏（1 隐藏 0 显示）',
     type: 'tinyint',
     default: 0,
@@ -75,12 +107,11 @@ export class AdminAuthMenu {
   hidden: number
 
   @Column({
-    comment: '标记角色菜单是否可以在面包屑中点击',
-    type: 'tinyint',
-    default: 1,
+    comment: '前台唯一标识',
+    default: '',
     nullable: false
   })
-  is_click_in_breadcrumb: number
+  unique_auth: string
 
   @Column({
     comment: '标记角色菜单是否总是显示在侧边栏（1 永远显示 0 不显示）',
@@ -99,22 +130,6 @@ export class AdminAuthMenu {
   no_cache: number
 
   @Column({
-    comment: '标记角色菜单是否显示在面包屑（1 显示在面包屑 0 不显示在面包屑）',
-    type: 'tinyint',
-    default: 1,
-    nullable: false
-  })
-  breadcrumb_show: number
-
-  @Column({
-    comment: '标记角色菜单是否为公共菜单',
-    type: 'tinyint',
-    default: 0,
-    nullable: false
-  })
-  public_menu: number
-
-   @Column({
     comment: '角色菜单排序',
     type: 'mediumint',
     default: 1,
