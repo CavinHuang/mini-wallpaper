@@ -48,10 +48,9 @@ export class AdminAuthRoleController {
 
   @Put('/:id')
   public update(@Params('id') id: number, @Body() params: Partial<AdminAuthRole>) {
-    if (this.adminAuthRoleService.update(id, params)) {
-      return Response.success(true, '更新成功')
-    }
-    return Response.error('更新失败，请重试')
+    console.log("🚀 ~ file: adminRole.ts ~ line 51 ~ AdminAuthRoleController ~ update ~ id", id)
+    console.log("🚀 ~ file: adminRole.ts ~ line 51 ~ AdminAuthRoleController ~ update ~ params", params)
+    return this.adminAuthRoleService.update(id, params)
   }
 
   @Delete('/:id')

@@ -47,6 +47,8 @@ export class Container {
     ) {
       ins[ins['_injectHandler']](ins[ins['_injectAbleKey']])
     }
+    console.log("🚀 ~ file: container.ts ~ line 45 ~ Container ~ ins", ins)
+
     return ins;
   }
 

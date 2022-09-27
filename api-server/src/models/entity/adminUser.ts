@@ -15,7 +15,8 @@ export class AdminUser {
 
   @Column({
     comment: '登录密码',
-    nullable: false
+    nullable: false,
+    select: false
   })
   password: string
 
@@ -25,7 +26,8 @@ export class AdminUser {
   nickname: string
 
   @Column({
-    comment: '加密盐'
+    comment: '加密盐',
+    select: false
   })
   slat: string
 

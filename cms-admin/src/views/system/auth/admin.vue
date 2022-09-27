@@ -26,18 +26,24 @@
         <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
       </template>
     </ProTable>
-    <FormDrawer :schema="schema" :success="formActionSchema" :title="drawerTitle" ref="formRef"></FormDrawer>
+    <FormDrawer
+      :schema="schema"
+      :success="formActionSchema"
+      :title="drawerTitle"
+      :initialValues="initialValues"
+      ref="formRef"
+    ></FormDrawer>
   </div>
 </template>
 
-<script setup lang="tsx" name="authRole">
-import { ref, reactive, h } from 'vue'
+<script setup lang="ts" name="authRole">
+import { ref, reactive, h, onMounted } from 'vue'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
-import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
-import { AuthAdminApi, AuthAdmin } from '@/api/modules'
+import { CirclePlus, Delete, EditPen, View } from '@element-plus/icons-vue'
+import { AuthAdminApi, AuthAdmin, AuthRoleApi, AuthRole } from '@/api/modules'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -58,26 +64,23 @@ const columns: Partial<ColumnProps>[] = [
     width: 80
   },
   {
-    prop: 'role_name',
-    label: '角色名称',
-    search: true,
-    width: 120
+    prop: 'username',
+    label: '用户名',
+    search: true
   },
   {
-    prop: 'role_code',
-    label: '角色编码',
-    search: true,
-    width: 120
+    prop: 'nickname',
+    label: '昵称',
+    search: true
   },
   {
     prop: 'status',
     label: '状态',
-    sortable: true,
-    width: 140
+    sortable: true
   },
   {
-    prop: 'remark',
-    label: '角色说明'
+    prop: 'last_action_user',
+    label: '最后操作人'
   },
   {
     prop: 'operation',
@@ -103,10 +106,17 @@ interface FormDrwerExpose {
   acceptParams: (params: any) => void
   handleOpen: () => void
 }
-const schema = {
+const schema = reactive({
   username: {
     type: 'string',
     title: '用户名',
+    required: true,
+    'x-decorator': 'FormItem',
+    'x-component': 'Input'
+  },
+  nickname: {
+    type: 'string',
+    title: '昵称',
     required: true,
     'x-decorator': 'FormItem',
     'x-component': 'Input'
@@ -155,18 +165,66 @@ const schema = {
       }
     ]
   },
-  is_super: {
+  role_id: {
     type: 'string',
+    title: '角色',
+    enum: [] as { label: string; value: string }[],
+    'x-decorator': 'FormItem',
+    'x-component': 'Select',
+    'x-component-props': {
+      style: 'width: 240px;'
+    }
+  },
+  is_super: {
+    type: 'boolean',
     title: '是否超级管理',
     required: true,
+    enum: [
+      {
+        label: '是',
+        value: true
+      },
+      {
+        label: '否',
+        value: false
+      }
+    ],
     'x-decorator': 'FormItem',
-    'x-component': 'Input.TextArea'
+    'x-component': 'Radio.Group'
   }
+})
+
+const roleData = ref<AuthRole.RoleItem[]>([])
+
+const getRoleData = () => {
+  AuthRoleApi.page({ pageNum: 1, pageSize: 1000 }).then((res) => {
+    roleData.value = res.data?.rows || []
+    schema.role_id.enum = roleData.value.map((item) => {
+      return {
+        label: item.role_name,
+        value: item.id
+      }
+    })
+  })
 }
 
+onMounted(() => {
+  getRoleData()
+})
+
 const formRef = ref<FormDrwerExpose>()
+const initialValues = ref<Partial<AuthAdmin.adminItem>>()
 const drawerTitle = ref('')
 const openDrawer = (title: string, rowData: Partial<AuthAdmin.adminItem> = {}, isEdit: boolean = false) => {
+  initialValues.value = rowData
+
+  if (isEdit) {
+    // @ts-ignore
+    delete schema.password
+    // @ts-ignore
+    delete schema.confirm_password
+  }
+
   let params = {
     title: title,
     rowData: { ...rowData },

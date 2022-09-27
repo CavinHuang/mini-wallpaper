@@ -8,7 +8,7 @@ import { Response } from "@/core/responce";
 import { AdminAuthMenu } from "@/models/entity/adminAuthMenu";
 import { AdminAuthMenuService } from "../service/adminAuthMenu";
 
-@Controller('/admin-user', { skipPerm: true })
+@Controller('/menus', { skipPerm: true })
 export class AdminAuthMenuController {
 
   @Inject('AdminAuthMenu')

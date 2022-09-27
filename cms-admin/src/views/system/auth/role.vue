@@ -37,7 +37,7 @@ import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
-import { AuthRoleApi, Auth } from '@/api/modules'
+import { AuthRoleApi, AuthRole } from '@/api/modules'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -87,13 +87,13 @@ const columns: Partial<ColumnProps>[] = [
 ]
 
 // 删除信息
-const deleteAccount = async (params: Auth.RoleItem) => {
+const deleteAccount = async (params: AuthRole.RoleItem) => {
   await useHandleData(AuthRoleApi.delete, params.id, `是否确认删除【${params.role_name}】分类？`)
   proTable.value.refresh()
 }
 
 // 切换分类状态
-const changeStatus = async (row: Auth.RoleItem) => {
+const changeStatus = async (row: AuthRole.RoleItem) => {
   await useHandleData(AuthRoleApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.role_name}】分类状态`)
   proTable.value.refresh()
 }
@@ -134,7 +134,7 @@ const schema = {
 const drawerRef = ref<DrawerExpose>()
 const formRef = ref<FormDrwerExpose>()
 const drawerTitle = ref('')
-const openDrawer = (title: string, rowData: Partial<Auth.RoleItem> = {}, isEdit: boolean = false) => {
+const openDrawer = (title: string, rowData: Partial<AuthRole.RoleItem> = {}, isEdit: boolean = false) => {
   let params = {
     title: title,
     rowData: { ...rowData },
@@ -149,5 +149,5 @@ const openDrawer = (title: string, rowData: Partial<Auth.RoleItem> = {}, isEdit:
   formRef.value!.handleOpen()
 }
 
-const formActionSchema = (values: Auth.RoleItem) => {}
+const formActionSchema = (values: AuthRole.RoleItem) => {}
 </script>

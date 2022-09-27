@@ -1,7 +1,7 @@
 import { ReqPage, ResPage } from '../interface'
 import { request } from '@/api'
 
-export namespace Auth {
+export namespace AuthRole {
   export interface RoleItem {
     id: string
     role_name: string

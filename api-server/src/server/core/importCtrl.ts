@@ -4,14 +4,13 @@ import ReaddirRecur from 'fs-readdir-recursive'
 import path from 'path'
 import fs from 'fs'
 import { Container } from '@/core/container/container';
-import {validate} from 'class-validator'
 import { ROUTE_PARAMS_SOURCE, TAGS } from '@/core/constants';
-import router from '../router';
 import { plainToClass } from 'class-transformer';
 import { Server } from '../Server';
 import { initHTTPMares } from './initMiddleware';
 import { appConfig, isDev, dirController, dirSrc, serverConfig } from '@/config';
 import { objectArraySortByAtr } from '@/utils'
+import { validate } from 'class-validator'
 
 const appendExt = isDev ? '.ts' : '.js'
 
@@ -99,11 +98,11 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           await next()
         })
         // 前置中间件
-        for (const mare of maresHTTPBefore) {
-          router[method](fullPath, mare)
-        }
+        // for (const mare of maresHTTPBefore) {
+        //   router[method](fullPath, mare)
+        // }
         // 注册路由
-        router[method](fullPath, async (ctx, next) => {
+        router[method](fullPath, ...maresHTTPBefore, async (ctx, next) => {
           // 请求参数元信息
           const routeParamsMeta = Reflect.getMetadata(TAGS.ROUTE_PARAMS, Ctrl, handler) || []
           // 请求参数类型信息
@@ -132,21 +131,21 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
               const entity = plainToClass(routeParamsTypes[index], name ? params[name] : params)
 
               // 校验请求参数
-              // const errors = await validate(entity)
-              // if(errors.length) {
-              //   throw new Error(Object.values(errors[0].constraints).join(','))
-              // }
+              const errors = await validate(entity)
+              if(errors.length) {
+                throw new Error(Object.values(errors[0].constraints).join(','))
+              }
               return entity
             })
           )));
           ctx.body = data
           await next()
-        })
+        }, ...maresHTTPAfter)
 
         // 后置中间件
-        for (const mare of maresHTTPAfter) {
-          router[method](fullPath, mare)
-        }
+        // for (const mare of maresHTTPAfter) {
+        //   router[method](fullPath, mare)
+        // }
         app.logWarn(`✔ 加载 ~[HTTP接口]~[${method}]~{${moduleConfig.routerPrefix}${fullPath}}`)
       })
     })

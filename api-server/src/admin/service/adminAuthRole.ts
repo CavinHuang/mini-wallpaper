@@ -1,10 +1,11 @@
-import { Inject, Provide } from "@/core/container";
+import { Inject, Service } from "@/core/container";
 import { AdminAuthRole } from "@/models/entity/adminAuthRole";
 import { BaseService } from "@/service/baseService";
 import { Repository } from "typeorm";
 
-@Provide()
+@Service()
 export class AdminAuthRoleService extends BaseService {
-  @Inject('AdminRole')
+  
+  @Inject('AdminAuthRole')
   public repository:Repository<AdminAuthRole>
 }

@@ -3,16 +3,17 @@
  */
 
 import { Pagination } from "@/core";
-import { M } from "@/models";
-import { Repository, DeepPartial, FindOptionsWhere, SelectQueryBuilder, IsNull } from "typeorm";
+import { Repository, DeepPartial, FindOptionsWhere, SelectQueryBuilder, IsNull, getConnection, QueryRunner, EntityTarget } from 'typeorm';
+import { BusinessError } from '../core/error/businessError';
 
 export class BaseService<ModelRepo = Record<string, any>> {
   constructor() {}
 
   public entity: Repository<ModelRepo>;
 
+  public hiddens: string[] = []
+
   public setEntity(repo: Repository<ModelRepo>) {
-    console.log('======')
     this.entity = repo
   }
 
@@ -28,15 +29,19 @@ export class BaseService<ModelRepo = Record<string, any>> {
     { pageNum = 1, pageSize = 10, offset = 0, limit = 15, alias = ''},
     extral?: (query: SelectQueryBuilder<ModelRepo>) => SelectQueryBuilder<ModelRepo>
   ) {
-    let query = this.entity.createQueryBuilder(alias).where({
-      delete_at: IsNull()
-    })
+    try {
+      let query = this.entity.createQueryBuilder(alias).where({
+        delete_at: IsNull()
+      })
 
-    if (extral) {
-      query = extral(query)
+      if (extral) {
+        query = extral(query)
+      }
+      const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit })
+      return result
+    } catch (e) {
+      throw e
     }
-    const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit })
-    return result
   }
 
   /**
@@ -61,7 +66,6 @@ export class BaseService<ModelRepo = Record<string, any>> {
   public create(raw: DeepPartial<ModelRepo>) {
     const model = this.entity
     const data = model.create(raw)
-    console.log("🚀 ~ file: baseService.ts ~ line 25 ~ BaseService<ModelRepo ~ create ~ data", data)
     return model.save(data)
   }
 
@@ -80,15 +84,64 @@ export class BaseService<ModelRepo = Record<string, any>> {
    * @returns 
    */
   public async update(id: number, raw: DeepPartial<ModelRepo>) {
-    const model = this.entity
-    const rawData = await model.findOne({
+    const rawData = await this.entity.findOne({
       where: {
         id
       } as unknown as FindOptionsWhere<ModelRepo>
     })
+    if (!rawData) {
+      return new BusinessError(404, '不存在的记录')
+    }
     console.log("🚀 ~ file: baseService.ts ~ line 63 ~ BaseService<ModelRepo ~ update ~ rawData", rawData)
     const data = Object.assign(rawData, raw)
-    return model.save(data)
+    return await this.entity.save(data)
+  }
+
+  /**
+   * 事务封装
+   * @param commitHandler 
+   * @returns 
+   */
+  public transaction<T = unknown>(commitHandler: (queryRunner?: QueryRunner) => T): Promise<T> {
+    return new Promise(async(resolve, reject) => {
+      // 获取连接并创建新的queryRunner
+      const queryRunner = getConnection().createQueryRunner();
+      try {
+        // 使用我们的新queryRunner建立真正的数据库连
+        await queryRunner.connect();
+        // 开始事务：
+        await queryRunner.startTransaction();
+        let result = true as unknown as T
+        if (commitHandler) {
+          result = await commitHandler(queryRunner)
+        }
+        // 提交事务：
+        await queryRunner.commitTransaction();
+        resolve(result)
+      } catch (error) {
+        // 有错误做出回滚更改
+        await queryRunner.rollbackTransaction();
+        reject(error)
+      }
+    })
+  }
+
+  public saveAll(entity: EntityTarget<unknown>, values: unknown[]) {
+    return new Promise((resolve, reject) => {
+      this.transaction(async () => {
+        const res = await getConnection()
+          .createQueryBuilder()
+          .insert()
+          .into(entity)
+          .values(values)
+          .execute()
+        return res
+      }).then(res => {
+        resolve(res)
+      }).catch(e => {
+        reject(e)
+      })
+    })
   }
 
   public _injectAbleKey = 'repository'

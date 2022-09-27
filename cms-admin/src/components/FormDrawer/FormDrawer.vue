@@ -1,7 +1,7 @@
 <template>
   <div></div>
 </template>
-<script lang="tsx">
+<script lang="jsx">
 import { defineComponent } from 'vue'
 import { FormDrawer } from '@formily/element-plus'
 import FormDrawerItem from './FormDrawerItem.vue'
@@ -22,11 +22,6 @@ export default defineComponent({
     }
   },
   setup(props, { expose }) {
-    const schema = {
-      type: 'object',
-      properties: props.schema
-    }
-
     // drawer框状态
     const drawerVisible = ref(false)
     const drawerData = ref({
@@ -34,6 +29,11 @@ export default defineComponent({
       title: '',
       isEdit: false
     })
+
+    const schema = {
+      type: 'object',
+      properties: props.schema
+    }
 
     const coverType = ref('1')
 

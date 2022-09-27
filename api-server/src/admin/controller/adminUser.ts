@@ -11,9 +11,17 @@ import { AdminUserService } from "../service/adminUser";
 
 @Controller('/admin-user', { skipPerm: true })
 export class AdminUserController {
+  /**
+   * 获取注入的service
+   */
   @Inject()
   protected adminUserService: AdminUserService
 
+  /**
+   * 获取列表
+   * @param param 查询条件 
+   * @returns 
+   */
   @Get('')
   public async list(@Query() { pageNum = 1, pageSize = 10, nickname = '', username = '' }: { pageSize: number, pageNum: number; nickname: string; username: string }) {
     const where: Record<string, string> = {}
@@ -25,43 +33,87 @@ export class AdminUserController {
     if (username) {
       where.username = username
     }
-    try {
-      const result = await this.adminUserService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminUser>) => {
-        query.andWhere(where)
-        return query
-      })
-      return Response.success(result)
-    } catch (error) {
-      console.log(error)
-      throw error
-    }
-    
+    return Response.success(await this.adminUserService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminUser>) => {
+      query.andWhere(where)
+      return query
+    }))
   }
 
+  /**
+   * 获取单个信息
+   * @param id 
+   * @returns 
+   */
   @Get('/:id')
   public async info(@Params('id') id: number) {
     return Response.success(await this.adminUserService.info(id))
   }
 
+  /**
+   * 创建
+   * @param params 
+   * @returns 
+   */
   @Post('')
-  public add(@Body() params: Partial<AdminUser>) {
-    if (this.adminUserService.create(params)) {
+  public async add(@Body() params: Partial<AdminUser> & { confirm_password: string; role_id: number }) {
+    if (params.password !== params.confirm_password) {
+      return Response.error('两次密码不一致')
+    }
+    const { password, slat } = this.adminUserService.genUserPassword(params.password)
+    params.password = password
+    params.slat = slat
+    const result = await this.adminUserService.create(params)
+    const saveRoleDataRes = await this.adminUserService.saveRoleData(result.id, [ params.role_id ])
+    if (result && saveRoleDataRes) {
       return Response.success(true)
     }
     return Response.error('error')
   }
 
+  /**
+   * 更新单个
+   * @param id 
+   * @param params 
+   * @returns 
+   */
   @Put('/:id')
-  public update(@Params() id: number, @Body() params: Partial<AdminUser>) {
-    if (this.adminUserService.update(id, params)) {
+  public async update(@Params('id') id: number, @Body() params: Partial<AdminUser> & { role_id: number }) {
+    const result = await this.adminUserService.update(id, params)
+    const saveRoleDataRes = await this.adminUserService.saveRoleData(id, [ params.role_id ])
+    if (result && saveRoleDataRes) {
       return Response.success(true, '更新成功')
     }
     return Response.error('更新失败，请重试')
   }
 
+  /**
+   * 修改密码
+   * @param params 
+   * @returns 
+   */
+  @Post('/changePwd')
+  public async changePwd(@Body() params: Partial<AdminUser> & { confirm_password: string }) {
+    if (params.password !== params.confirm_password) {
+      return Response.error('两次密码不一致')
+    }
+    const { password, slat } = this.adminUserService.genUserPassword(params.password)
+    params.password = password
+    params.slat = slat
+    if (await this.adminUserService.update(params.id, params)) {
+      return Response.success(true, '更新密码成功')
+    }
+    return Response.error('更新密码失败，请重试')
+  }
+
+  /**
+   * 删除
+   * @param id 
+   * @returns 
+   */
   @Delete('/:id')
-  public delete(@Params() id: number) {
-    if (this.adminUserService.delete(id)) {
+  public async delete(@Params('id') id: number) {
+    const res = await this.adminUserService.deleteData(id)
+    if (res) {
       return Response.success(true, '删除成功')
     }
     return Response.error('删除失败，请重试')
