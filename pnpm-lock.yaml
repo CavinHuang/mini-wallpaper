@@ -1,7 +1,11 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@formily/reactive-vue': ^2.2.5
   vite-plugin-imp: ^2.3.0
+
+dependencies:
+  '@formily/reactive-vue': 2.2.5
 
 devDependencies:
   vite-plugin-imp: 2.3.0
@@ -208,6 +212,25 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
     dev: true
+
+  /@formily/reactive-vue/2.2.5:
+    resolution: {integrity: sha512-cy7TlreLsrG+kFNE9fttvsqmudRdNXek6cb8NxXalJtKFiHs6ogsl9c+nE707Ukxvb1zVmCynFQ4A2sKPsfEEg==}
+    engines: {npm: '>=3.0.0'}
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-beta.1
+      vue: ^2.6.0 || >=3.0.0-rc.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@formily/reactive': 2.2.5
+      vue-demi: 0.13.11
+    dev: false
+
+  /@formily/reactive/2.2.5:
+    resolution: {integrity: sha512-mw7KgTAOqfHM1FJbPla0/LTLddX3K+CFHp6RpDuXC1lHmbt7f3wFmuVbCJQVKbslJEhQp740zrXk5SB0RGHwhw==}
+    engines: {npm: '>=3.0.0'}
+    dev: false
 
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
@@ -486,3 +509,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-demi/0.13.11:
+    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dev: false

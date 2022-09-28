@@ -109,14 +109,7 @@ interface FormDrwerExpose {
   handleOpen: () => void
 }
 
-const menuData = ref<AuthMenu.Item[]>([])
-
-onMounted(async () => {
-  const result = await AuthMenusApi.tree()
-  menuData.value = result.data || []
-})
-
-const schema = {
+const schema = reactive({
   role_name: {
     type: 'string',
     title: '角色名称',
@@ -132,63 +125,20 @@ const schema = {
     'x-component': 'Input'
   },
   role_auth: {
-    type: 'string',
+    type: 'array',
     title: '权限',
-    dataSource: [],
+    default: [],
     required: true,
     'x-decorator': 'FormItem',
     'x-component': 'FormTree',
     'x-component-props': {
-      data: [
-        {
-          id: 1,
-          label: 'Level one 1',
-          children: [
-            {
-              id: 4,
-              label: 'Level two 1-1',
-              children: [
-                {
-                  id: 9,
-                  label: 'Level three 1-1-1'
-                },
-                {
-                  id: 10,
-                  label: 'Level three 1-1-2'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 2,
-          label: 'Level one 2',
-          children: [
-            {
-              id: 5,
-              label: 'Level two 2-1'
-            },
-            {
-              id: 6,
-              label: 'Level two 2-2'
-            }
-          ]
-        },
-        {
-          id: 3,
-          label: 'Level one 3',
-          children: [
-            {
-              id: 7,
-              label: 'Level two 3-1'
-            },
-            {
-              id: 8,
-              label: 'Level two 3-2'
-            }
-          ]
-        }
-      ]
+      data: [] as AuthMenu.Item[],
+      showCheckbox: true,
+      nodeKey: 'id',
+      props: {
+        label: 'menu_name',
+        value: 'id'
+      }
     }
   },
   remark: {
@@ -198,7 +148,12 @@ const schema = {
     'x-decorator': 'FormItem',
     'x-component': 'Input.TextArea'
   }
-}
+})
+
+onMounted(async () => {
+  const result = await AuthMenusApi.tree()
+  schema.role_auth['x-component-props'].data = result.data || []
+})
 
 const drawerRef = ref<DrawerExpose>()
 const formRef = ref<FormDrwerExpose>()

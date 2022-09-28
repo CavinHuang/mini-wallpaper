@@ -5,6 +5,7 @@ specifiers:
   '@formily/core': ^2.2.5
   '@formily/element-plus': 1.0.0-beta.6
   '@formily/reactive': ^2.2.5
+  '@formily/reactive-vue': ^2.2.5
   '@formily/vue': ^2.2.5
   '@types/node': ^17.0.31
   '@typescript-eslint/eslint-plugin': ^5.32.0
@@ -60,6 +61,7 @@ dependencies:
   '@formily/core': 2.2.5
   '@formily/element-plus': 1.0.0-beta.6_j6bzmzd4ujpabbp5objtwxyjp4
   '@formily/reactive': 2.2.5
+  '@formily/reactive-vue': 2.2.5_vue@3.2.37
   '@formily/vue': 2.2.5_j6bzmzd4ujpabbp5objtwxyjp4
   '@vueuse/core': 8.9.4_vue@3.2.37
   axios: 0.27.2
