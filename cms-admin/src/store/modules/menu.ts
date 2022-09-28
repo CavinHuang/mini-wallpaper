@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { MenuState } from '../interface'
 import piniaPersistConfig from '@/config/piniaPersist'
+import { AuthMenu } from '@/api/modules'
 
 // MenuStore
 export const MenuStore = defineStore({
@@ -16,7 +17,7 @@ export const MenuStore = defineStore({
     async setCollapse() {
       this.isCollapse = !this.isCollapse
     },
-    async setMenuList(menuList: Menu.MenuOptions[]) {
+    async setMenuList(menuList: AuthMenu.Item[]) {
       this.menuList = menuList
     }
   },

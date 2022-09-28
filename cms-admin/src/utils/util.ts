@@ -1,4 +1,5 @@
 import { isArray } from '@/utils/is'
+import { AuthMenu } from '@/api/modules'
 
 /**
  * @description 获取localStorage
@@ -118,12 +119,28 @@ export function getTabPane<T, U>(menuList: any[], path: U): T {
  * 使用递归处理路由菜单
  * @param newArr 所有菜单数组
  */
-export function handleRouter(routerList: Menu.MenuOptions[], newArr: string[] = []) {
-  routerList.forEach((item: Menu.MenuOptions) => {
-    typeof item === 'object' && item.path && newArr.push(item.path)
-    item.children && item.children.length && handleRouter(item.children, newArr)
-  })
-  return newArr
+export function handleRouter(routerList: AuthMenu.Item[]): [string[], AuthMenu.Item[]] {
+  const routers: string[] = []
+
+  function filter(routerList: AuthMenu.Item[]) {
+    const _menuData: AuthMenu.Item[] = []
+    routerList.forEach((item) => {
+      if (typeof item === 'object' && item.path && item.auth_type === 1) {
+        routers.push(item.path)
+        const _tmp: AuthMenu.Item = { ...item, children: undefined }
+        if (item.children && item.children.length) {
+          const _itemChildrenMenuData = filter(item.children)
+          _tmp.children = _itemChildrenMenuData.length ? _itemChildrenMenuData : undefined
+        }
+        _menuData.push(_tmp)
+      }
+    })
+    return _menuData
+  }
+
+  const menuData = filter(routerList)
+
+  return [routers, menuData]
 }
 
 /**

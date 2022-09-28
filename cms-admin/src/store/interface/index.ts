@@ -1,3 +1,4 @@
+import { AuthMenu } from '@/api/modules'
 /* themeConfigProp */
 export interface ThemeConfigProp {
   primary: string
@@ -16,7 +17,7 @@ export interface GlobalState {
 /* MenuState */
 export interface MenuState {
   isCollapse: boolean
-  menuList: Menu.MenuOptions[]
+  menuList: AuthMenu.Item[]
 }
 
 /* TabsState */

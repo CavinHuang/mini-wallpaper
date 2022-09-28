@@ -17,9 +17,15 @@
 <script setup lang="ts" name="selectIcon">
 import { ref } from 'vue'
 import * as Icons from '@element-plus/icons-vue'
+import { ElDialog, ElButton, ElInput } from 'element-plus'
 
 // 接收参数
-defineProps<{ iconValue: string }>()
+defineProps({
+  iconValue: {
+    type: String,
+    default: ''
+  }
+})
 
 const customIcons: { [key: string]: any } = Icons
 const dialogVisible = ref(false)

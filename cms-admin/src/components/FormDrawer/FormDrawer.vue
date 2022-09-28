@@ -44,7 +44,7 @@ export default defineComponent({
       drawerVisible.value = true
     }
 
-    const handleOpen = () => {
+    const handleOpen = (dataCallback) => {
       const instance = FormDrawer(props.title, () => <FormDrawerItem schema={schema} />)
       nextTick(() => {
         instance
@@ -53,14 +53,18 @@ export default defineComponent({
           })
           .then(async (values) => {
             console.log('values', values)
+            console.log('iconValue', drawerData)
             try {
               if (!drawerData.value.apiUrl) return
+              if (dataCallback) {
+                values = dataCallback(values)
+              }
               await drawerData.value.apiUrl(values)
               ElMessage.success({ message: `${drawerData.value.title}游戏成功！` })
               drawerData.value.getTableList && drawerData.value.getTableList()
               drawerVisible.value = false
             } catch (error) {
-              console.log(error)
+              console.error(error)
             }
             props.success && props.success(values)
           })

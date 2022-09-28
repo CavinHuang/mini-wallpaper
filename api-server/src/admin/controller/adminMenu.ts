@@ -11,12 +11,14 @@ import { AdminAuthMenuService } from "../service/adminAuthMenu";
 @Controller('/menus', { skipPerm: true })
 export class AdminAuthMenuController {
 
-  @Inject('AdminAuthMenu')
+  @Inject()
   protected adminAuthMenuService: AdminAuthMenuService
 
   @Get('')
-  public info(@Query() { pageNo = 1, pageSize = 10 }: { pageSize: number, pageNo: number }) {
+  public async list(@Query() { keyword = '', hidden }: { keyword?: string, hidden?: boolean }) {
+    const listData = await this.adminAuthMenuService.getTreeList()
 
+    return Response.success(listData)
   }
 
   @Post('')
@@ -28,7 +30,7 @@ export class AdminAuthMenuController {
   }
 
   @Put('/:id')
-  public update(@Params() id: number, @Body() params: Partial<AdminAuthMenu>) {
+  public update(@Params('id') id: number, @Body() params: Partial<AdminAuthMenu>) {
     if (this.adminAuthMenuService.update(id, params)) {
       return Response.success(true, '更新成功')
     }
@@ -36,7 +38,7 @@ export class AdminAuthMenuController {
   }
 
   @Delete('/:id')
-  public delete(@Params() id: number) {
+  public delete(@Params('id') id: number) {
     if (this.adminAuthMenuService.delete(id)) {
       return Response.success(true, '删除成功')
     }

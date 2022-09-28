@@ -1,7 +1,7 @@
 <template>
   <div
     class="menu"
-    :style="{ width: isCollapse ? '65px' : '220px' }"
+    :style="{ width: isCollapse ? '65px' : '200px' }"
     v-loading="loading"
     element-loading-text="Loading..."
     :element-loading-spinner="loadingSvg"
@@ -36,6 +36,7 @@ import { handleRouter } from '@/utils/util'
 import { loadingSvg } from '@/utils/svg'
 import Logo from './components/Logo.vue'
 import SubItem from './components/SubItem.vue'
+import { AuthMenu, AuthMenusApi } from '@/api/modules'
 
 const loading = ref(false)
 
@@ -47,12 +48,12 @@ onMounted(async () => {
   // 获取菜单列表
   loading.value = true
   try {
-    const res = await getMenuList()
+    const res = await AuthMenusApi.tree()
     if (!res.data) return
     // 把路由菜单处理成一维数组（存储到 pinia 中）
-    const dynamicRouter = handleRouter(res.data)
+    const [dynamicRouter, menusData] = handleRouter(res.data)
     authStore.setAuthRouter(dynamicRouter)
-    menuStore.setMenuList(res.data)
+    menuStore.setMenuList(menusData)
   } finally {
     loading.value = false
   }
@@ -60,7 +61,7 @@ onMounted(async () => {
 
 const activeMenu = computed((): string => route.path)
 const isCollapse = computed((): boolean => menuStore.isCollapse)
-const menuList = computed((): Menu.MenuOptions[] => menuStore.menuList)
+const menuList = computed((): AuthMenu.Item[] => menuStore.menuList)
 
 // aside 自适应
 const screenWidth = ref<number>(0)

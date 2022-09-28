@@ -40,6 +40,7 @@
           :label="item.label"
           :width="item.width"
           :fixed="item.fixed"
+          :align="item.align"
         >
         </el-table-column>
         <!-- expand（展开查看详情，请使用作用域插槽） -->
@@ -63,6 +64,7 @@
           :sortable="item.sortable"
           :show-overflow-tooltip="item.prop !== 'operation'"
           :resizable="true"
+          :align="item.align"
           :fixed="item.fixed"
         >
           <!-- 自定义 header (使用组件渲染 tsx 语法) -->
@@ -193,5 +195,5 @@ const openColSetting = () => {
 }
 
 // 暴露给父组件的参数和方法
-defineExpose({ searchParam, refresh: getTableList })
+defineExpose({ searchParam, tableData, refresh: getTableList })
 </script>

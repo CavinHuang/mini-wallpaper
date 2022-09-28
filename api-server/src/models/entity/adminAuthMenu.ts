@@ -84,21 +84,6 @@ export class AdminAuthMenu {
   auth_type: number
 
   @Column({
-    comment: '顶部菜单标示',
-    default: 0,
-    nullable: false
-  })
-  header: string
-
-  @Column({
-    comment: '是否顶部菜单1是0否',
-    type: 'tinyint',
-    default: 0,
-    nullable: false
-  })
-  is_header: number
-
-  @Column({
     comment: '标记角色菜单是否隐藏不显示在侧边栏（1 隐藏 0 显示）',
     type: 'tinyint',
     default: 0,
@@ -112,14 +97,6 @@ export class AdminAuthMenu {
     nullable: false
   })
   unique_auth: string
-
-  @Column({
-    comment: '标记角色菜单是否总是显示在侧边栏（1 永远显示 0 不显示）',
-    type: 'tinyint',
-    default: 0,
-    nullable: false
-  })
-  always_show: number
 
   @Column({
     comment: '标记角色菜单是否被缓存（1 缓存 0 不缓存）',
@@ -137,14 +114,9 @@ export class AdminAuthMenu {
   })
   sort: number
 
-  @Column({
-    comment: '角色说明',
-    nullable: false
-  })
-  remark: string
 
   @Column({
-    comment: '角色菜单状态',
+    comment: '菜单状态',
     type: 'tinyint',
     default: 1
   })
@@ -161,7 +133,7 @@ export class AdminAuthMenu {
   update_at: Date
 
   @Column({
-    comment: '最后操作人'
+    comment: '删除时间'
   })
-  delete_at: number
+  delete_at: Date
 }
