@@ -31,13 +31,14 @@
 </template>
 
 <script setup lang="tsx" name="authRole">
-import { ref, reactive, h } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
-import { AuthRoleApi, AuthRole } from '@/api/modules'
+import { AuthRoleApi, AuthRole, AuthMenu } from '@/api/modules'
+import { AuthMenusApi } from '@/api/modules/authMenu'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -107,6 +108,14 @@ interface FormDrwerExpose {
   acceptParams: (params: any) => void
   handleOpen: () => void
 }
+
+const menuData = ref<AuthMenu.Item[]>([])
+
+onMounted(async () => {
+  const result = await AuthMenusApi.tree()
+  menuData.value = result.data || []
+})
+
 const schema = {
   role_name: {
     type: 'string',
@@ -121,6 +130,66 @@ const schema = {
     required: true,
     'x-decorator': 'FormItem',
     'x-component': 'Input'
+  },
+  role_auth: {
+    type: 'string',
+    title: '权限',
+    dataSource: [],
+    required: true,
+    'x-decorator': 'FormItem',
+    'x-component': 'FormTree',
+    'x-component-props': {
+      data: [
+        {
+          id: 1,
+          label: 'Level one 1',
+          children: [
+            {
+              id: 4,
+              label: 'Level two 1-1',
+              children: [
+                {
+                  id: 9,
+                  label: 'Level three 1-1-1'
+                },
+                {
+                  id: 10,
+                  label: 'Level three 1-1-2'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 2,
+          label: 'Level one 2',
+          children: [
+            {
+              id: 5,
+              label: 'Level two 2-1'
+            },
+            {
+              id: 6,
+              label: 'Level two 2-2'
+            }
+          ]
+        },
+        {
+          id: 3,
+          label: 'Level one 3',
+          children: [
+            {
+              id: 7,
+              label: 'Level two 3-1'
+            },
+            {
+              id: 8,
+              label: 'Level two 3-2'
+            }
+          ]
+        }
+      ]
+    }
   },
   remark: {
     type: 'string',

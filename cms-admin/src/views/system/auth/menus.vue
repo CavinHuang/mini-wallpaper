@@ -256,6 +256,7 @@ const schema = reactive({
   icon: {
     type: 'string',
     title: '图标',
+    default: '',
     'x-decorator': 'FormItem',
     'x-component': 'SelectIcon',
     'x-reactions': {
