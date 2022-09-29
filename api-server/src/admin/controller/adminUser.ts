@@ -27,15 +27,18 @@ export class AdminUserController {
     const where: Record<string, string> = {}
 
     if (nickname) {
-      where.nickname = nickname
+      where['au.nickname'] = nickname
     }
     
     if (username) {
-      where.username = username
+      where['au.username'] = username
     }
-    return Response.success(await this.adminUserService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminUser>) => {
-      query.andWhere(where)
-      return query
+    return Response.success(await this.adminUserService.getPageList(
+      { pageNum, pageSize, alias: 'au' },
+      (query: SelectQueryBuilder<AdminUser>) => {
+        query.leftJoinAndSelect('au.roles', 'r')
+        query.andWhere(where)
+        return query
     }))
   }
 
@@ -62,12 +65,18 @@ export class AdminUserController {
     const { password, slat } = this.adminUserService.genUserPassword(params.password)
     params.password = password
     params.slat = slat
-    const result = await this.adminUserService.create(params)
-    const saveRoleDataRes = await this.adminUserService.saveRoleData(result.id, [ params.role_id ])
-    if (result && saveRoleDataRes) {
+    const saveParams = { ...params, role_auth: [params.role_id], role_id: undefined }
+    const userSaveRes = await this.adminUserService.saveAdminUser(saveParams)
+    if (userSaveRes) {
       return Response.success(true)
     }
-    return Response.error('error')
+    return Response.error('创建失败,请重试')
+    // const result = await this.adminUserService.create(params)
+    // const saveRoleDataRes = await this.adminUserService.saveRoleData(result.id, [ params.role_id ])
+    // if (result && saveRoleDataRes) {
+    //   return Response.success(true)
+    // }
+    // return Response.error('error')
   }
 
   /**
@@ -78,12 +87,12 @@ export class AdminUserController {
    */
   @Put('/:id')
   public async update(@Params('id') id: number, @Body() params: Partial<AdminUser> & { role_id: number }) {
-    const result = await this.adminUserService.update(id, params)
-    const saveRoleDataRes = await this.adminUserService.saveRoleData(id, [ params.role_id ])
-    if (result && saveRoleDataRes) {
-      return Response.success(true, '更新成功')
-    }
-    return Response.error('更新失败，请重试')
+    // const result = await this.adminUserService.update(id, params)
+    // const saveRoleDataRes = await this.adminUserService.saveRoleData(id, [ params.role_id ])
+    // if (result && saveRoleDataRes) {
+    //   return Response.success(true, '更新成功')
+    // }
+    // return Response.error('更新失败，请重试')
   }
 
   /**
@@ -112,7 +121,7 @@ export class AdminUserController {
    */
   @Delete('/:id')
   public async delete(@Params('id') id: number) {
-    const res = await this.adminUserService.deleteData(id)
+    const res = await this.adminUserService.deleteRelationData(id)
     if (res) {
       return Response.success(true, '删除成功')
     }

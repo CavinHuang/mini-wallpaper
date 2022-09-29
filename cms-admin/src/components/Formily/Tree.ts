@@ -24,27 +24,28 @@ export const FormTreeInner = defineComponent({
       type: Object as PropType<Omit<Omit<TreeProps, 'props'>, 'props'>>
     },
     onChange: {
-      type: Function as PropType<(keys: unknown[]) => void>,
+      type: Function as PropType<(keys: unknown) => void>,
       require: true
+    },
+    defaultExpandedKeys: {
+      type: Array
     }
   },
+  emits: ['input'],
   setup(customeProps, { attrs, emit, slots }) {
-    console.log(customeProps, attrs, slots)
     const onCheck = (item: unknown, keys: any) => {
-      console.log(keys, item)
-      if (customeProps.onChange) customeProps.onChange([1, 3])
+      if (customeProps.onChange) {
+        customeProps.onChange(keys.checkedKeys)
+      }
     }
-    const fieldRef = useField()
     return () => {
-      const field = fieldRef.value as any
-      console.log(field)
       return h(
         ElTree,
         {
           props: {
-            ...customeProps,
             ...attrs,
-            defaultExpandedKeys: field.value || []
+            ...{ ...customeProps, onChange: undefined },
+            defaultExpandedKeys: customeProps.defaultExpandedKeys
           },
           on: {
             check: onCheck
@@ -55,9 +56,12 @@ export const FormTreeInner = defineComponent({
     }
   }
 })
+
 export const FormTree = connect(
   FormTreeInner,
   mapProps({
+    dataSource: 'data',
+    value: 'defaultExpandedKeys',
     loading: true
   })
 )

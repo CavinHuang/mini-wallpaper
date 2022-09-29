@@ -20,17 +20,20 @@ export class AdminAuthRoleController {
     const where: Record<string, string> = {}
 
     if (role_name) {
-      where.role_name = role_name
+      where['ar.role_name'] = role_name
     }
-
     
     if (role_code) {
-      where.role_code = role_code
+      where['ar.role_code'] = role_code
     }
-    return Response.success(await this.adminAuthRoleService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminAuthRole>) => {
-      query.andWhere(where)
-      return query
-    }))
+    return Response.success(await this.adminAuthRoleService.getPageList(
+      { pageNum, pageSize, alias: 'ar' },
+      (query) => {
+        query.leftJoinAndSelect('ar.menus', 'm')
+        query.where(where)
+        return query
+      }
+    ))
   }
 
   @Get('/:id')
@@ -39,23 +42,27 @@ export class AdminAuthRoleController {
   }
 
   @Post('')
-  public add(@Body() params: Partial<AdminAuthRole>) {
-    if (this.adminAuthRoleService.create(params)) {
+  public async add(@Body() params: Partial<AdminAuthRole> & { role_auth: number[] }) {
+    const menuSaveRes = await this.adminAuthRoleService.saveRole(params)
+    if (menuSaveRes) {
       return Response.success(true)
     }
-    return Response.error('error')
+    return Response.error('创建失败,请重试')
   }
 
   @Put('/:id')
-  public update(@Params('id') id: number, @Body() params: Partial<AdminAuthRole>) {
-    console.log("🚀 ~ file: adminRole.ts ~ line 51 ~ AdminAuthRoleController ~ update ~ id", id)
-    console.log("🚀 ~ file: adminRole.ts ~ line 51 ~ AdminAuthRoleController ~ update ~ params", params)
-    return this.adminAuthRoleService.update(id, params)
+  public async update(@Params('id') id: number, @Body() params: Partial<AdminAuthRole> & { role_auth: number[] }) {
+    const menuSaveRes = await this.adminAuthRoleService.saveRole({...params, id})
+    if (menuSaveRes) {
+      return Response.success(true, '更新成功')
+    }
+    return Response.error('更新失败，请重试')
   }
 
   @Delete('/:id')
-  public delete(@Params('id') id: number) {
-    if (this.adminAuthRoleService.delete(id)) {
+  public async delete(@Params('id') id: number) {
+    const res = await this.adminAuthRoleService.deleteRelationData(id)
+    if (res) {
       return Response.success(true, '删除成功')
     }
     return Response.error('删除失败，请重试')

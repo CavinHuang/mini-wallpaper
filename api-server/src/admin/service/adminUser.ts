@@ -3,7 +3,8 @@ import { AdminUser } from "@/models/entity/adminUser";
 import { BaseService } from "@/service/baseService";
 import { getConnection, Repository } from "typeorm";
 import bcrypt from 'bcrypt'
-import { AdminAuthRoleUser } from "@/models/entity/adminAuthRoleUser";
+import { AdminAuthRole } from "@/models/entity/adminAuthRole";
+// import { AdminAuthRoleUser } from "@/models/entity/adminAuthRoleUser";
 
 @Service()
 export class AdminUserService extends BaseService {
@@ -11,9 +12,27 @@ export class AdminUserService extends BaseService {
   @Inject('AdminUser')
   public repository:Repository<AdminUser>
 
-  @Inject('AdminAuthRoleUser')
-  public adminAuthRoleUser: Repository<AdminAuthRoleUser>
+  @Inject('AdminAuthRole')
+  public adminAuthRole: Repository<AdminAuthRole>
 
+  /**
+   * 保存权限
+   * @param adminRoleId 
+   * @param menuIds 
+   * @returns 
+   */
+  public async saveAdminUser(params: Partial<AdminUser> & { role_auth: number[] }) {
+    console.log("🚀 ~ file: adminUser.ts ~ line 25 ~ AdminUserService ~ saveAdminUser ~ params", params)
+    const adminUserEntity = await this.repository.create(params)
+    const adminUserEntitySave: AdminUser = { ...adminUserEntity, roles: params.role_auth.map(menuId => this.adminAuthRole.create({ id: menuId })) }
+    return this.repository.save(adminUserEntitySave)
+  }
+
+  public async deleteRelationData(role_id: number) {
+    const roleEntity = await this.repository.create({ id: role_id })
+    return this.repository.remove(roleEntity)
+  }
+  
   /**
    * 创建密码
    * @param pass 
@@ -22,55 +41,9 @@ export class AdminUserService extends BaseService {
   public genUserPassword(pass: string) {
     const slat = bcrypt.genSaltSync(10)
     const password = bcrypt.hashSync(pass, slat)
-
     return {
       slat,
       password
     }
-  }
-
-  /**
-// 清空所有的
-   * 
-   */
-  public clearRoleData(adminUserId: number) {
-    return this.adminAuthRoleUser.delete({
-      user_id: adminUserId
-    })
-  }
-
-  /**
-   * 保存角色问题
-   * @param adminUserId 
-   * @param roleIds 
-   * @returns 
-   */
-  public async saveRoleData(adminUserId: number, roleIds: number[]) {
-    try {
-      const res = await this.transaction(async () => {
-        
-        await this.clearRoleData(adminUserId)
-
-        // 提交所有的
-        const res = await this.saveAll(AdminAuthRoleUser, roleIds.map(roleId => {
-          return {
-            role_id: roleId,
-            user_id: adminUserId
-          }
-        }))
-        return res
-      })
-      return res
-    } catch(e) {
-      return e
-    }
-  }
-
-  public deleteData(id: number) {
-    return this.transaction(async () => {
-      await this.delete(id)
-      await this.clearRoleData(id)
-      return true
-    })
   }
 }
