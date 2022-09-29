@@ -27,15 +27,18 @@ export class AdminUserController {
     const where: Record<string, string> = {}
 
     if (nickname) {
-      where.nickname = nickname
+      where['au.nickname'] = nickname
     }
     
     if (username) {
-      where.username = username
+      where['au.username'] = username
     }
-    return Response.success(await this.adminUserService.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<AdminUser>) => {
-      query.andWhere(where)
-      return query
+    return Response.success(await this.adminUserService.getPageList(
+      { pageNum, pageSize, alias: 'au' },
+      (query: SelectQueryBuilder<AdminUser>) => {
+        query.leftJoinAndSelect('au.roles', 'r')
+        query.andWhere(where)
+        return query
     }))
   }
 
@@ -56,12 +59,18 @@ export class AdminUserController {
    */
   @Post('')
   public async add(@Body() params: Partial<AdminUser> & { confirm_password: string; role_id: number }) {
-    // if (params.password !== params.confirm_password) {
-    //   return Response.error('两次密码不一致')
-    // }
-    // const { password, slat } = this.adminUserService.genUserPassword(params.password)
-    // params.password = password
-    // params.slat = slat
+    if (params.password !== params.confirm_password) {
+      return Response.error('两次密码不一致')
+    }
+    const { password, slat } = this.adminUserService.genUserPassword(params.password)
+    params.password = password
+    params.slat = slat
+    const saveParams = { ...params, role_auth: [params.role_id], role_id: undefined }
+    const userSaveRes = await this.adminUserService.saveAdminUser(saveParams)
+    if (userSaveRes) {
+      return Response.success(true)
+    }
+    return Response.error('创建失败,请重试')
     // const result = await this.adminUserService.create(params)
     // const saveRoleDataRes = await this.adminUserService.saveRoleData(result.id, [ params.role_id ])
     // if (result && saveRoleDataRes) {
@@ -112,7 +121,7 @@ export class AdminUserController {
    */
   @Delete('/:id')
   public async delete(@Params('id') id: number) {
-    const res = await this.adminUserService.deleteData(id)
+    const res = await this.adminUserService.deleteRelationData(id)
     if (res) {
       return Response.success(true, '删除成功')
     }

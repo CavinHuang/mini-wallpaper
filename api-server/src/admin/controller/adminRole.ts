@@ -43,12 +43,11 @@ export class AdminAuthRoleController {
 
   @Post('')
   public async add(@Body() params: Partial<AdminAuthRole> & { role_auth: number[] }) {
-    // const result = await this.adminAuthRoleService.create(params)
     const menuSaveRes = await this.adminAuthRoleService.saveRole(params)
     if (menuSaveRes) {
       return Response.success(true)
     }
-    return Response.error('error')
+    return Response.error('创建失败,请重试')
   }
 
   @Put('/:id')
