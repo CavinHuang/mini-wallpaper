@@ -3,7 +3,7 @@ import { AdminUser } from "@/models/entity/adminUser";
 import { BaseService } from "@/service/baseService";
 import { getConnection, Repository } from "typeorm";
 import bcrypt from 'bcrypt'
-import { AdminAuthRoleUser } from "@/models/entity/adminAuthRoleUser";
+// import { AdminAuthRoleUser } from "@/models/entity/adminAuthRoleUser";
 
 @Service()
 export class AdminUserService extends BaseService {
@@ -11,8 +11,8 @@ export class AdminUserService extends BaseService {
   @Inject('AdminUser')
   public repository:Repository<AdminUser>
 
-  @Inject('AdminAuthRoleUser')
-  public adminAuthRoleUser: Repository<AdminAuthRoleUser>
+  // @Inject('AdminAuthRoleUser')
+  // public adminAuthRoleUser: Repository<AdminAuthRoleUser>
 
   /**
    * 创建密码
@@ -30,13 +30,14 @@ export class AdminUserService extends BaseService {
   }
 
   /**
-// 清空所有的
-   * 
+   * 清空所有的
+   * @param adminUserId 
+   * @returns 
    */
   public clearRoleData(adminUserId: number) {
-    return this.adminAuthRoleUser.delete({
-      user_id: adminUserId
-    })
+    // return this.adminAuthRoleUser.delete({
+    //   user_id: adminUserId
+    // })
   }
 
   /**
@@ -46,24 +47,24 @@ export class AdminUserService extends BaseService {
    * @returns 
    */
   public async saveRoleData(adminUserId: number, roleIds: number[]) {
-    try {
-      const res = await this.transaction(async () => {
+    // try {
+    //   const res = await this.transaction(async () => {
         
-        await this.clearRoleData(adminUserId)
+    //     await this.clearRoleData(adminUserId)
 
-        // 提交所有的
-        const res = await this.saveAll(AdminAuthRoleUser, roleIds.map(roleId => {
-          return {
-            role_id: roleId,
-            user_id: adminUserId
-          }
-        }))
-        return res
-      })
-      return res
-    } catch(e) {
-      return e
-    }
+    //     // 提交所有的
+    //     const res = await this.saveAll(AdminAuthRoleUser, roleIds.map(roleId => {
+    //       return {
+    //         role_id: roleId,
+    //         user_id: adminUserId
+    //       }
+    //     }))
+    //     return res
+    //   })
+    //   return res
+    // } catch(e) {
+    //   return e
+    // }
   }
 
   public deleteData(id: number) {

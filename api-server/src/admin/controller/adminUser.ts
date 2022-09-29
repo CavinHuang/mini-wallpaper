@@ -56,18 +56,18 @@ export class AdminUserController {
    */
   @Post('')
   public async add(@Body() params: Partial<AdminUser> & { confirm_password: string; role_id: number }) {
-    if (params.password !== params.confirm_password) {
-      return Response.error('两次密码不一致')
-    }
-    const { password, slat } = this.adminUserService.genUserPassword(params.password)
-    params.password = password
-    params.slat = slat
-    const result = await this.adminUserService.create(params)
-    const saveRoleDataRes = await this.adminUserService.saveRoleData(result.id, [ params.role_id ])
-    if (result && saveRoleDataRes) {
-      return Response.success(true)
-    }
-    return Response.error('error')
+    // if (params.password !== params.confirm_password) {
+    //   return Response.error('两次密码不一致')
+    // }
+    // const { password, slat } = this.adminUserService.genUserPassword(params.password)
+    // params.password = password
+    // params.slat = slat
+    // const result = await this.adminUserService.create(params)
+    // const saveRoleDataRes = await this.adminUserService.saveRoleData(result.id, [ params.role_id ])
+    // if (result && saveRoleDataRes) {
+    //   return Response.success(true)
+    // }
+    // return Response.error('error')
   }
 
   /**
@@ -78,12 +78,12 @@ export class AdminUserController {
    */
   @Put('/:id')
   public async update(@Params('id') id: number, @Body() params: Partial<AdminUser> & { role_id: number }) {
-    const result = await this.adminUserService.update(id, params)
-    const saveRoleDataRes = await this.adminUserService.saveRoleData(id, [ params.role_id ])
-    if (result && saveRoleDataRes) {
-      return Response.success(true, '更新成功')
-    }
-    return Response.error('更新失败，请重试')
+    // const result = await this.adminUserService.update(id, params)
+    // const saveRoleDataRes = await this.adminUserService.saveRoleData(id, [ params.role_id ])
+    // if (result && saveRoleDataRes) {
+    //   return Response.success(true, '更新成功')
+    // }
+    // return Response.error('更新失败，请重试')
   }
 
   /**

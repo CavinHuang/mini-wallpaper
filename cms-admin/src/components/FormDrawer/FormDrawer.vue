@@ -14,7 +14,7 @@ export default defineComponent({
     success: Function,
     initialValues: {
       type: Object,
-      default: () => ({})
+      default: null
     },
     title: {
       type: String,
@@ -49,7 +49,7 @@ export default defineComponent({
       nextTick(() => {
         instance
           .open({
-            initialValues: props.initialValues
+            initialValues: props.initialValues || drawerData.value.rowData
           })
           .then(async (values) => {
             console.log('values', values)

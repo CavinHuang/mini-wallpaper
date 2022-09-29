@@ -12,55 +12,56 @@ export type TreeProps = typeof ElTree
 
 // export const FormTree = connect(TransformElTree, mapProps({ value: 'data' }), mapReadPretty(PreviewText.input))
 
-export const FormTree = observer(
-  defineComponent({
-    name: 'FormTree',
-    inheritAttrs: false,
-    props: {
-      data: {
-        type: Array,
-        default: () => []
-      },
-      props: {
-        type: Object as PropType<Omit<Omit<TreeProps, 'props'>, 'props'>>
-      },
-      onChange: {
-        type: Function as PropType<(keys: unknown[]) => void>,
-        require: true
-      }
+export const FormTreeInner = defineComponent({
+  name: 'FormTree',
+  inheritAttrs: false,
+  props: {
+    data: {
+      type: Array,
+      default: () => []
     },
-    setup(customeProps, { attrs, emit, slots }) {
-      console.log(customeProps, attrs, slots)
-      const onCheck = (item: unknown, keys: any) => {
-        console.log(keys, item)
-        if (customeProps.onChange) customeProps.onChange([1, 3])
-      }
-      const fieldRef = useField()
-      return () => {
-        const field = fieldRef.value as any
-        console.log(field)
-        return h(
-          ElTree,
-          {
-            props: {
-              ...customeProps,
-              ...attrs,
-              defaultExpandedKeys: field.value || []
-            },
-            on: {
-              check: onCheck
-            }
-          },
-          slots
-        )
+    props: {
+      type: Object as PropType<Omit<Omit<TreeProps, 'props'>, 'props'>>
+    },
+    onChange: {
+      type: Function as PropType<(keys: unknown) => void>,
+      require: true
+    },
+    defaultExpandedKeys: {
+      type: Array
+    }
+  },
+  emits: ['input'],
+  setup(customeProps, { attrs, emit, slots }) {
+    const onCheck = (item: unknown, keys: any) => {
+      if (customeProps.onChange) {
+        customeProps.onChange(keys.checkedKeys)
       }
     }
+    return () => {
+      return h(
+        ElTree,
+        {
+          props: {
+            ...attrs,
+            ...{ ...customeProps, onChange: undefined },
+            defaultExpandedKeys: customeProps.defaultExpandedKeys
+          },
+          on: {
+            check: onCheck
+          }
+        },
+        slots
+      )
+    }
+  }
+})
+
+export const FormTree = connect(
+  FormTreeInner,
+  mapProps({
+    dataSource: 'data',
+    value: 'defaultExpandedKeys',
+    loading: true
   })
 )
-
-// export const FormTree = connect(
-//   FormTreeInner,
-//   mapProps({
-//     loading: true
-//   })
-// )

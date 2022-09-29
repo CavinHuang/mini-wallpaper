@@ -128,13 +128,14 @@ const schema = reactive({
     type: 'array',
     title: '权限',
     default: [],
+    enum: [] as AuthMenu.Item[],
     required: true,
     'x-decorator': 'FormItem',
     'x-component': 'FormTree',
     'x-component-props': {
-      data: [] as AuthMenu.Item[],
       showCheckbox: true,
       nodeKey: 'id',
+      'expand-on-click-node': false,
       props: {
         label: 'menu_name',
         value: 'id'
@@ -144,7 +145,6 @@ const schema = reactive({
   remark: {
     type: 'string',
     title: '角色说明',
-    required: true,
     'x-decorator': 'FormItem',
     'x-component': 'Input.TextArea'
   }
@@ -152,10 +152,9 @@ const schema = reactive({
 
 onMounted(async () => {
   const result = await AuthMenusApi.tree()
-  schema.role_auth['x-component-props'].data = result.data || []
+  schema.role_auth.enum = result.data || []
 })
 
-const drawerRef = ref<DrawerExpose>()
 const formRef = ref<FormDrwerExpose>()
 const drawerTitle = ref('')
 const openDrawer = (title: string, rowData: Partial<AuthRole.RoleItem> = {}, isEdit: boolean = false) => {

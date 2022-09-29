@@ -1,5 +1,7 @@
 import { Repo } from "@/core/decorator";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AdminAuthMenu } from './adminAuthMenu';
+import { AdminUser } from './adminUser';
 @Repo('AdminAuthRole')
 @Entity()
 export class AdminAuthRole {
@@ -29,6 +31,21 @@ export class AdminAuthRole {
     default: 1
   })
   status: number
+
+  @ManyToMany(type => AdminAuthMenu, menu => menu.roles, { createForeignKeyConstraints: false })
+  @JoinTable({
+    name: 'admin_auth_role_menu',
+    joinColumns: [
+      { name: 'role_id' }
+    ],
+    inverseJoinColumns: [
+      { name: 'menu_id' }
+    ]
+  })
+  menus: AdminAuthMenu[]
+
+  @ManyToMany(type => AdminUser, user => user.roles, { cascade: true, createForeignKeyConstraints: false })
+  users: AdminUser[];
 
   @CreateDateColumn({
     comment: '创建时间'
