@@ -2,7 +2,8 @@
  * catgory model
  */
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Resource } from './resource'
 
 @Entity()
 export class Catgory {
@@ -80,12 +81,24 @@ export class Catgory {
   })
   status: number
 
-  @Column({
+  @ManyToMany(type => Resource, r => r.categories, { createForeignKeyConstraints: false })
+  @JoinTable({
+    name: 'resource_with_tag',
+    joinColumns: [
+      { name: 'category_id' }
+    ],
+    inverseJoinColumns: [
+      { name: 'resource_id' }
+    ]
+  })
+  resources: Resource[]
+
+  @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
 
-  @Column({
+  @UpdateDateColumn({
     type: 'datetime'
   })
   update_at: Date

@@ -2,7 +2,9 @@
  * resource model
  */
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Catgory } from './catgory'
+import { ResourceTag } from './resourceTag'
 
 @Entity()
 export class Resource {
@@ -88,6 +90,12 @@ export class Resource {
     comment: '是否删除'
   })
   is_deleted: boolean
+
+  @ManyToMany(type => ResourceTag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
+  roles: ResourceTag[]
+
+  @ManyToMany(type => Catgory, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
+  categories: Catgory[]
 
   @Column({
     type: 'tinyint',
