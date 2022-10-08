@@ -70,7 +70,8 @@ export class Pagination {
    */
   public static async findByPage(
     queryBuilder: SelectQueryBuilder<any>,
-    pageHelper?: { getRayMany?: boolean; offset?: number, limit?: number, pageNum?: number; pageSize?: number }
+    pageHelper?: { getRayMany?: boolean; offset?: number, limit?: number, pageNum?: number; pageSize?: number },
+    resultHandler?: (res: any[]) => any[]
   ): Promise<Pagination> {
     if (!pageHelper) {
       pageHelper = {}
@@ -108,7 +109,9 @@ export class Pagination {
     queryBuilder.limit(_limit)
     queryBuilder.offset(_offset)
 
-    pagination.rows = pageHelper.getRayMany ? await queryBuilder.getRawMany() : await queryBuilder.getMany()
+    const rows = pageHelper.getRayMany ? await queryBuilder.getRawMany() : await queryBuilder.getMany()
+
+    pagination.rows = resultHandler ? resultHandler(rows) : rows
 
     return pagination
   }

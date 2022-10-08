@@ -27,7 +27,8 @@ export class BaseService<ModelRepo = Record<string, any>> {
    */
   public async getPageList(
     { pageNum = 1, pageSize = 10, offset = 0, limit = 15, alias = ''},
-    extral?: (query: SelectQueryBuilder<ModelRepo>) => SelectQueryBuilder<ModelRepo>
+    extral?: (query: SelectQueryBuilder<ModelRepo>) => SelectQueryBuilder<ModelRepo>,
+    resultHandler?: (res: any[]) => any[] 
   ) {
     try {
       let query = this.entity.createQueryBuilder(alias).where({
@@ -37,7 +38,7 @@ export class BaseService<ModelRepo = Record<string, any>> {
       if (extral) {
         query = extral(query)
       }
-      const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit })
+      const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit }, resultHandler)
       return result
     } catch (e) {
       throw e
@@ -74,8 +75,8 @@ export class BaseService<ModelRepo = Record<string, any>> {
    * @param raw 
    * @returns 
    */
-  public delete(id: number) {
-    return this.update(id, { delete_at: new Date() } as any)
+  public delete(id: number, isDelete = false) {
+    return isDelete ? this.entity.delete(id) : this.update(id, { delete_at: new Date() } as any)
   }
 
   /**

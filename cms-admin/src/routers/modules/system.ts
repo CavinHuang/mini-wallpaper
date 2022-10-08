@@ -62,6 +62,28 @@ const homeRouter: Array<RouteRecordRaw> = [
           title: '权限规则',
           key: 'SystemAdminRuleList'
         }
+      },
+      {
+        path: '/system/data_group/index',
+        name: 'SystemDataGroupIndex',
+        component: () => import('@/views/system/dataGroup/index.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '数据字典',
+          key: 'SystemDataGroupIndex'
+        }
+      },
+      {
+        path: '/system/data_group/list/:id',
+        name: 'SystemDataGroupList',
+        component: () => import('@/views/system/dataGroup/list.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '数据字典',
+          key: 'SystemDataGroupList'
+        }
       }
     ]
   }

@@ -18,6 +18,17 @@ const homeRouter: Array<RouteRecordRaw> = [
           title: '资源管理',
           key: 'resourceList'
         }
+      },
+      {
+        path: 'tags',
+        name: 'resourceTags',
+        component: () => import('@/views/resource/tag.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '资源标签管理',
+          key: 'resourceTags'
+        }
       }
     ]
   }

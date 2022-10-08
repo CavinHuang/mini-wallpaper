@@ -22,7 +22,7 @@ const config = {
   withCredentials: true
 }
 
-class RequestHttp {
+export class RequestHttp {
   service: AxiosInstance
   public constructor(config: AxiosRequestConfig) {
     // 实例化axios
