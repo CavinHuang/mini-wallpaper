@@ -125,14 +125,16 @@ export function handleRouter(routerList: AuthMenu.Item[]): [string[], AuthMenu.I
   function filter(routerList: AuthMenu.Item[]) {
     const _menuData: AuthMenu.Item[] = []
     routerList.forEach((item) => {
-      if (typeof item === 'object' && item.path && item.auth_type === 1 && !item.hidden) {
+      if (typeof item === 'object' && item.path && item.auth_type === 1) {
         routers.push(item.path)
-        const _tmp: AuthMenu.Item = { ...item, children: undefined }
-        if (item.children && item.children.length) {
-          const _itemChildrenMenuData = filter(item.children)
-          _tmp.children = _itemChildrenMenuData.length ? _itemChildrenMenuData : undefined
+        if (!item.hidden) {
+          const _tmp: AuthMenu.Item = { ...item, children: undefined }
+          if (item.children && item.children.length) {
+            const _itemChildrenMenuData = filter(item.children)
+            _tmp.children = _itemChildrenMenuData.length ? _itemChildrenMenuData : undefined
+          }
+          _menuData.push(_tmp)
         }
-        _menuData.push(_tmp)
       }
     })
     return _menuData

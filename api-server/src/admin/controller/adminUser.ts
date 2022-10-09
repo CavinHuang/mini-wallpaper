@@ -1,7 +1,6 @@
 /**
  * admin user
  */
-
 import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";

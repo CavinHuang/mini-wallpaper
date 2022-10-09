@@ -2,10 +2,12 @@
  * catgory model
  */
 
+import { Repo } from '@/core/decorator'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
+@Repo('ContentBanner')
 @Entity()
-export class Banner {
+export class ContentBanner {
   @PrimaryGeneratedColumn()
   id: number
 

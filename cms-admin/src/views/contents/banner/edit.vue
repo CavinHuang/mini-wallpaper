@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="banner-position" v-for="item in positons" :key="item.id" @click="navigator('/content/banner/edit')">
+    <div class="banner-position" v-for="item in positons" :key="item.id" @click="navigator('/')">
       <div class="left-content">
         <div class="edit-text">编辑图片</div>
         <div class="position-title">{{ item.position }}</div>

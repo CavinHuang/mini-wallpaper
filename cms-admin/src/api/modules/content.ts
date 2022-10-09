@@ -1,4 +1,9 @@
-import { ReqPage } from '.'
+/**
+ * 内容模块api管理
+ */
+
+import { crudBuilder } from '../apiCreator'
+import { ReqPage } from '../interface'
 
 export namespace Banner {
   export interface Item {
@@ -18,5 +23,14 @@ export namespace Banner {
 
   export interface ReqGetParams extends ReqPage {
     name: string
+  }
+}
+
+const bannerCurd = crudBuilder('/admin/banner')
+
+export const BannerApi = {
+  ...bannerCurd,
+  getPositions: () => {
+    return bannerCurd.http.get<any[]>('/position')
   }
 }

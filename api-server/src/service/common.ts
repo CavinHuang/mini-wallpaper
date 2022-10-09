@@ -1,16 +1,12 @@
 import { redisSet, redisGet } from './../core/redis/index';
-import { BannerService } from './banner';
 import { CatgoryService } from './catgory';
-import { Banner } from './../models/entity/banner';
-import { BusinessError, BUSINESS_ERROR_CODE } from './../core/error/businessError';
-import { M } from "../models";
-import { redisClient } from '../core/redis';
+import { ContentBanner } from '../models/entity/contentBanner';
 import { SiteConfigService } from './siteService';
 import { SiteConfig } from '../models/entity/siteConfig';
 
 export interface IConfig {
   site?: SiteConfig
-  banner?: Banner[]
+  banner?: ContentBanner[]
   [key: string]: any
 }
 
@@ -72,9 +68,9 @@ export class CommonService {
     }
 
     // banner
-    const banners = await (new BannerService).getBannerByAppid(siteConfig.appid)
+    // const banners = await (new BannerService).getBannerByAppid(siteConfig.appid)
 
-    config.banner = banners
+    // config.banner = banners
 
     // 存redis
     redisSet(`${CONFIG_REDIS_KEY}${siteConfig.appid}`, config)

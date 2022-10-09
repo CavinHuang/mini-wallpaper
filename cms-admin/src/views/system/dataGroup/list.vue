@@ -112,7 +112,7 @@ interface FormDrwerExpose {
 
 // 切换状态
 const changeStatus = async (row: SystemGroupData.Item) => {
-  // await useHandleData(AuthMenusApi.update, { i, status: row.status == 1 ? 0 : true }, `切换【${row.title}】状态`)
+  await useHandleData(SystemGroupDataApi.update, { ...row, status: row.status == 1 ? 0 : 1 }, '切换状态')
   proTable.value.refresh()
 }
 

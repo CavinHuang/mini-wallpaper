@@ -36,6 +36,17 @@ const homeRouter: Array<RouteRecordRaw> = [
           title: '轮播图管理',
           key: 'bannerList'
         }
+      },
+      {
+        path: 'edit',
+        name: 'bannerEdit',
+        component: () => import('@/views/contents/banner/edit.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '轮播图编辑',
+          key: 'bannerEdit'
+        }
       }
     ]
   },

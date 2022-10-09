@@ -15,6 +15,11 @@ export class SystemGroupDataService extends BaseService {
   @Inject()
   public systemGroupService: SystemGroupService
 
+  /**
+   * 获取组合数据列表
+   * @param array $where
+   * @return array
+   */
   public async getGroupDataList({ pageNum, pageSize, gid }: CommonType.BasePageParams & { gid: number }, where?: FindOptionsWhere<SystemGroupData>) {
 
     const list = await this.getPageList({ pageNum, pageSize }, (query: SelectQueryBuilder<SystemGroupData>) => {
@@ -57,5 +62,58 @@ export class SystemGroupDataService extends BaseService {
 
     list.type = type
     return list
+  }
+
+  /**
+   * 获取某个配置下的数据重新组合成新的数据返回
+   * @param configName 
+   * @param limit 
+   * @returns 
+   */
+  async getConfigNameValue(configName: string, limit = 0) {
+    const group = await this.systemGroupService.repository.findOne({
+      where: {
+        config_name: configName
+      }
+    })
+    console.log("🚀 ~ file: systemGroupData.ts ~ line 79 ~ SystemGroupDataService ~ getConfigNameValue ~ group", group)
+    const value = await this.getGroupData(group.id, limit)
+    console.log("🚀 ~ file: systemGroupData.ts ~ line 81 ~ SystemGroupDataService ~ getConfigNameValue ~ value", value)
+    const data = []
+
+    value.forEach((item, index) => {
+      data[index] = {}
+      data[index].id = item.id
+      if (item.status) data[index].status = item.status
+      const fields = (() => {
+        try {
+          return JSON.parse(item.value)
+        } catch (e) {
+          return []
+        }
+      })()
+
+      for (let idx in fields) {
+        const field = fields[idx]
+        if (field.type === 'upload') {
+          data[index][idx] = field.value
+        } else {
+          data[index][idx] = field.value
+        }
+      }
+    })
+    return data
+  }
+
+  /**
+   * 
+   * @param gid 查询gid下所有的数据
+   * @param limit 
+   * @returns 
+   */
+  async getGroupData(gid: number, limit: number = 0) {
+    const query = this.repository.createQueryBuilder('').select('*').where({ gid, status: 1 })
+    if (limit) query.limit(limit)
+    return await query.execute()
   }
 }
