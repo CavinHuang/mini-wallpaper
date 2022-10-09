@@ -17,7 +17,6 @@
 <script lang="ts" setup name="banner">
 import { ElIcon } from 'element-plus'
 import { Picture } from '@element-plus/icons-vue'
-
 </script>
 
 <style lang="scss" scoped>

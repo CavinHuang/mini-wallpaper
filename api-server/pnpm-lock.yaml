@@ -26,6 +26,7 @@ specifiers:
   md5: ^2.3.0
   moment: ^2.29.3
   mysql2: ^2.3.3
+  node-cache: ^5.1.2
   nodemon: ^2.0.16
   qiniu: ^7.7.0
   qs: ^6.10.3
@@ -60,6 +61,7 @@ dependencies:
   md5: 2.3.0
   moment: 2.29.4
   mysql2: 2.3.3
+  node-cache: 5.1.2
   qiniu: 7.7.0
   qs: 6.11.0
   redis: 3.1.2
@@ -502,6 +504,11 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+    dev: false
+
+  /clone/2.1.2:
+    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
+    engines: {node: '>=0.8'}
     dev: false
 
   /cluster-key-slot/1.1.0:
@@ -1770,6 +1777,13 @@ packages:
 
   /node-addon-api/3.2.1:
     resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==}
+    dev: false
+
+  /node-cache/5.1.2:
+    resolution: {integrity: sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==}
+    engines: {node: '>= 8.0.0'}
+    dependencies:
+      clone: 2.1.2
     dev: false
 
   /node-fetch/2.6.7:
