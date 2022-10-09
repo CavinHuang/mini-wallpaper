@@ -108,23 +108,35 @@ const schema = {
                       up: {
                         type: 'void',
                         'x-decorator': 'FormItem',
-                        'x-component': 'ArrayItems.MoveUp'
+                        'x-component': 'ArrayItems.MoveUp',
+                        'x-component-props': {
+                          type: 'success',
+                          size: 'large'
+                        }
                       },
                       down: {
                         type: 'void',
                         'x-decorator': 'FormItem',
-                        'x-component': 'ArrayItems.MoveDown'
+                        'x-component': 'ArrayItems.MoveDown',
+                        'x-component-props': {
+                          type: 'primary',
+                          size: 'large'
+                        }
                       },
                       remove: {
                         type: 'void',
                         'x-decorator': 'FormItem',
-                        'x-component': 'ArrayItems.Remove'
+                        'x-component': 'ArrayItems.Remove',
+                        'x-component-props': {
+                          type: 'danger',
+                          size: 'large'
+                        }
                       }
                     }
                   },
                   select: {
                     type: 'string',
-                    title: '下拉框',
+                    title: '',
                     enum: [
                       { label: '选项1', value: 1 },
                       { label: '选项2', value: 2 }
