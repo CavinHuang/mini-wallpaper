@@ -1,1 +1,12 @@
-{"devDependencies":{"vite-plugin-imp":"^2.3.0"},"dependencies":{"@formily/reactive-vue":"^2.2.5"}}
+{
+  "name": "mini-wallpaper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

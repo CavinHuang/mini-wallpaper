@@ -14,10 +14,8 @@ function checkRouterPath(to: RouteLocationNormalized, routerList: string[]) {
   if (!checkResult) {
     routerList.forEach((path) => {
       const index = path.indexOf(':')
-      console.log(path, index)
       if (index > -1) {
         const tmpPath = path.substring(0, index - 1)
-        console.log(tmpPath, index)
         if (to.path.indexOf(tmpPath) > -1) {
           checkResult = true
           return

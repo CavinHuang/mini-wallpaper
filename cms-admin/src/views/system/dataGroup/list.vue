@@ -10,6 +10,7 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
+        <el-button type="primary" :icon="Back" @click="navigator('list')">返回数据组</el-button>
         <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增数据</el-button>
       </template>
       <template #methods="{ row }">
@@ -43,7 +44,7 @@ import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
-import { CirclePlus, Delete, EditPen, View } from '@element-plus/icons-vue'
+import { CirclePlus, Delete, EditPen, Back } from '@element-plus/icons-vue'
 import { SystemGroupDataApi, SystemGroupData } from '@/api/modules'
 import { useRouter, useRoute } from 'vue-router'
 import * as Icons from '@element-plus/icons-vue'
@@ -61,12 +62,13 @@ const initParam = computed(() => ({
   gid: gid.value
 }))
 
-const navigator = (key: string, id: number) => {
+const navigator = (key: string) => {
   switch (key) {
     case 'list':
       router.push({
-        path: '/system/config/system_config_tab/' + id
+        path: '/system/data_group/index'
       })
+      break
   }
 }
 

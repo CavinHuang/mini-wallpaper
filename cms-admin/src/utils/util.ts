@@ -125,7 +125,7 @@ export function handleRouter(routerList: AuthMenu.Item[]): [string[], AuthMenu.I
   function filter(routerList: AuthMenu.Item[]) {
     const _menuData: AuthMenu.Item[] = []
     routerList.forEach((item) => {
-      if (typeof item === 'object' && item.path && item.auth_type === 1) {
+      if (typeof item === 'object' && item.path && item.auth_type === 1 && !item.hidden) {
         routers.push(item.path)
         const _tmp: AuthMenu.Item = { ...item, children: undefined }
         if (item.children && item.children.length) {

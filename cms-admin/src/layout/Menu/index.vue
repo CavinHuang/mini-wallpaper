@@ -52,6 +52,7 @@ onMounted(async () => {
     if (!res.data) return
     // 把路由菜单处理成一维数组（存储到 pinia 中）
     const [dynamicRouter, menusData] = handleRouter(res.data)
+    console.log('🚀 ~ file: index.vue ~ line 55 ~ onMounted ~ menusData', menusData)
     authStore.setAuthRouter(dynamicRouter)
     menuStore.setMenuList(menusData)
   } finally {
