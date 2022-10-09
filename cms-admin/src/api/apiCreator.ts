@@ -57,6 +57,7 @@ export function crudBuilder<T = unknown>(baseRoute: string) {
   }
 
   return {
+    http,
     page,
     info,
     add,

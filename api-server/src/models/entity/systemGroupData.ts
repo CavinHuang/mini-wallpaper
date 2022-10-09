@@ -33,7 +33,7 @@ export class SystemGroupData {
     type: 'tinyint',
     default: 1
   })
-  status: string
+  status: number
 
   @Column({
     comment: '删除时间',

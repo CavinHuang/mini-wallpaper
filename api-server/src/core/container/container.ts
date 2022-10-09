@@ -54,6 +54,8 @@ export class Container {
   private constructor() {}
 }
 
+export const MiniContainer = Container
+
 export function Provide(key?: string): ClassDecorator {
   return (Target) => {
     Container.set(key ?? Target.name, Target as unknown as ClassStruct);

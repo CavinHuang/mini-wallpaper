@@ -1,7 +1,7 @@
 import { UserSignInfoService } from './../../service/userSignInfo';
 import { classToPlain } from 'class-transformer';
 import { Response } from '../../core/responce';
-import { ResourceWithCategory } from '../../models/entity/resourceWithCategory';
+// import { ResourceWithCategory } from '../../models/entity/resourceWithCategory';
 import { redisGet } from '../../core/redis/index';
 import { userService } from '../../service/user';
 import { ControllerParams } from "../../interfaces";
@@ -143,16 +143,16 @@ export class UserLogin {
       const saveRes = await (new ResourceService).saveResource(rawData)
 
       if (saveRes) {
-        const saveRelation = M(ResourceWithCategory)
-        const datas = []
-        typeId.forEach(type => {
-          datas.push({
-            resource_id: saveRes.id,
-            category_id: type
-          })
-        })
-        const res = saveRelation.createQueryBuilder().insert().into(ResourceWithCategory).values(datas).execute()
-        return Response.success(res, Response.successMessage)
+        // const saveRelation = M(ResourceWithCategory)
+        // const datas = []
+        // typeId.forEach(type => {
+        //   datas.push({
+        //     resource_id: saveRes.id,
+        //     category_id: type
+        //   })
+        // })
+        // const res = saveRelation.createQueryBuilder().insert().into(ResourceWithCategory).values(datas).execute()
+        // return Response.success(res, Response.successMessage)
       }
 
     } catch (e) {

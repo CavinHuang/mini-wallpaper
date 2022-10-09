@@ -5,8 +5,6 @@ import { Repository, FindOptionsWhere, SelectQueryBuilder, IsNull } from 'typeor
 import { CommonType } from "@/interfaces/common";
 import { SystemGroup } from '@/models/entity/systemGroup';
 
-type PageParams = CommonType.BasePageParams & { where: FindOptionsWhere<AdminAuthRole> }
-
 @Service()
 export class SystemGroupService extends BaseService {
   
@@ -16,12 +14,13 @@ export class SystemGroupService extends BaseService {
   public async getGroupDataTabHeader(id: number) {
     const info = await this.info(id)
     const fields = JSON.parse(info.fields)
-    const header = [
-      {key: 'id', title: '编号', minWidth: 35}
-    ] as any[]
+    const header = [] as any[]
+
+    console.log(fields)
 
     for (let i = 0; i < fields.length; i ++) {
       const item = fields[i]
+      header[i] = {}
       if (item.type === 'upload' || item.type === 'uploads') {
         header[i].key = item.title
         header[i].minWidth = 60
@@ -35,10 +34,14 @@ export class SystemGroupService extends BaseService {
       }
       header[i].title = item.name
     }
+    header.unshift({key: 'id', title: '编号', width: 80})
     header.push(...[
-      { slot: 'status', title: '是否可用', minWidth: 80},
+      { key: 'status', title: '是否可用', minWidth: 80},
       { key: 'sort', title: '排序', minWidth: 80}
     ])
-    return header
+    return {
+      header,
+      fields
+    }
   }
 }

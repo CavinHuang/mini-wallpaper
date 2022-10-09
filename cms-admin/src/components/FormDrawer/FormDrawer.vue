@@ -2,7 +2,7 @@
   <div></div>
 </template>
 <script lang="jsx">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { FormDrawer } from '@formily/element-plus'
 import FormDrawerItem from './FormDrawerItem.vue'
 import { nextTick, ref } from 'vue'
@@ -30,10 +30,10 @@ export default defineComponent({
       isEdit: false
     })
 
-    const schema = {
+    const schema = computed(() => ({
       type: 'object',
       properties: props.schema
-    }
+    }))
 
     const coverType = ref('1')
 
@@ -45,15 +45,13 @@ export default defineComponent({
     }
 
     const handleOpen = (dataCallback) => {
-      const instance = FormDrawer(props.title, () => <FormDrawerItem schema={schema} />)
+      const instance = FormDrawer(props.title, () => <FormDrawerItem schema={schema.value} />)
       nextTick(() => {
         instance
           .open({
             initialValues: props.initialValues || drawerData.value.rowData
           })
           .then(async (values) => {
-            console.log('values', values)
-            console.log('iconValue', drawerData)
             try {
               if (!drawerData.value.apiUrl) return
               if (dataCallback) {

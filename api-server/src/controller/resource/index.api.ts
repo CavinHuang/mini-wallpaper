@@ -1,6 +1,6 @@
 import { CommonService } from '@/service/common';
 import { SelectQueryBuilder } from 'typeorm';
-import { ResourceWithCategory } from '@/models/entity/resourceWithCategory';
+// import { ResourceWithCategory } from '@/models/entity/resourceWithCategory';
 import { Catgory } from '@/models/entity/catgory';
 import { ResourceService } from '@/service/resource';
 import { ControllerParams } from '@/interfaces/decorator';
@@ -48,8 +48,8 @@ export class ResourceController {
         }
 
         if (typeId) {
-          query = query.innerJoin(ResourceWithCategory, 'rwc', 'r.id = rwc.resource_id').leftJoin(Catgory, 'c', 'rwc.category_id = c.id')
-          .andWhere('c.id = :typeId', { typeId })
+          // query = query.innerJoin(ResourceWithCategory, 'rwc', 'r.id = rwc.resource_id').leftJoin(Catgory, 'c', 'rwc.category_id = c.id')
+          // .andWhere('c.id = :typeId', { typeId })
         }
 
         return query

@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { createForm } from '@formily/core'
-import { FormLayout, FormItem, Cascader, Input, Radio, Select, ArrayItems, Space } from '@formily/element-plus'
+import { FormLayout, FormItem, Cascader, Input, Radio, Select, ArrayItems, Space, InputNumber } from '@formily/element-plus'
 import type { ISchema } from '@formily/vue'
 import { createSchemaField } from '@formily/vue'
 import { SelectIcon } from '@/components/Formily/SelectIcon'
@@ -22,7 +22,8 @@ const { SchemaField } = createSchemaField({
     SelectIcon,
     FormTree,
     ArrayItems,
-    Space
+    Space,
+    InputNumber
   }
 })
 defineProps<{

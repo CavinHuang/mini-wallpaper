@@ -66,6 +66,9 @@ export class Resource {
   })
   vip_price: number
 
+  @ManyToMany(type => ResourceTag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
+  tags: ResourceTag[];
+
   @Column({
     comment: '排序值'
   })

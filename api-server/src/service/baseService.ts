@@ -93,7 +93,6 @@ export class BaseService<ModelRepo = Record<string, any>> {
     if (!rawData) {
       return new BusinessError(404, '不存在的记录')
     }
-    console.log("🚀 ~ file: baseService.ts ~ line 63 ~ BaseService<ModelRepo ~ update ~ rawData", rawData)
     const data = Object.assign(rawData, raw)
     return await this.entity.save(data)
   }

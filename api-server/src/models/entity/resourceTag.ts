@@ -1,12 +1,9 @@
 /**
  * catgory model
  */
-
-import { Repo } from '@/core/decorator'
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Resource } from './resource'
 
-@Repo('ResourceTag')
 @Entity()
 export class ResourceTag {
   @PrimaryGeneratedColumn()
@@ -53,13 +50,19 @@ export class ResourceTag {
   })
   resources: Resource[]
 
-  @Column({
+  @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
 
-  @Column({
+  @UpdateDateColumn({
     type: 'datetime'
   })
   update_at: Date
+
+  @Column({
+    type: 'datetime',
+    nullable: true
+  })
+  delete_at: Date
 }

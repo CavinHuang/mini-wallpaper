@@ -120,7 +120,7 @@
 </template>
 
 <script setup lang="ts" name="proTable">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useTable } from '@/hooks/useTable'
 import { useSelection } from '@/hooks/useSelection'
 import { Refresh, Operation, Search } from '@element-plus/icons-vue'
@@ -166,13 +166,14 @@ const { tableData, pageable, searchParam, initSearchParam, getTableList, search,
   useTable(props.requestApi, props.initParam, props.pagination)
 
 // 表格列配置项处理（添加 isShow 属性，控制显示/隐藏）
-const tableColumns = ref<Partial<ColumnProps>[]>()
-tableColumns.value = props.columns.map((item) => {
-  return {
-    ...item,
-    isShow: true
-  }
-})
+const tableColumns = computed<Partial<ColumnProps>[]>(() =>
+  props.columns.map((item) => {
+    return {
+      ...item,
+      isShow: true
+    }
+  })
+)
 
 // 过滤需要搜索的配置项
 const searchColumns = props.columns.filter((item) => item.search)

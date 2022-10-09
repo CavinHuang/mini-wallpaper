@@ -19,6 +19,7 @@ export class SystemGroupController {
   public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
     return Response.success(await this.systemGroupService.getPageList({ pageNum, pageSize }, undefined, (rows: SystemGroup[]) => {
       return rows.map(item => {
+        console.log(item)
         item.fields = JSON.parse(item.fields)
         return item
       })

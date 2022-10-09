@@ -20,18 +20,14 @@ export class SystemGroupDataController {
   protected systemGroupService: SystemGroupService
 
   @Get('')
-  public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
-    return Response.success(await this.systemGroupDataService.getPageList({ pageNum, pageSize }, undefined, (rows: SystemGroup[]) => {
-      return rows.map(item => {
-        item.fields = JSON.parse(item.fields)
-        return item
-      })
-    }))
+  public async list(@Query() { pageNum = 1, pageSize = 10, gid = 0 }: { pageSize: number, pageNum: number; gid: number}) {
+   const res = await this.systemGroupDataService.getGroupDataList({ pageNum, pageSize, gid })
+   return Response.success(res, Response.successMessage)
   }
 
   @Get('/header/:gid')
   public async headers(@Params('gid') gid: number) {
-    
+    return Response.success(await this.systemGroupService.getGroupDataTabHeader(gid))
   }
 
   @Get('/:id')
@@ -40,24 +36,36 @@ export class SystemGroupDataController {
   }
 
   @Post('')
-  public async add(@Body() params: SystemGroupDto ) {
+  public async add(@Body() params: Record<string, any> ) {
 
-    const validate = ['name', 'type', 'title', 'description']
+    const systemGroupRes = await this.systemGroupService.info(params.gid)
+    const fields = JSON.parse(systemGroupRes.fields)
 
-    for (let i = 0; i < params.fields.length; i++) {
-      const item = params.fields[i]
-      for (let key in item) {
-        if (!item[key] && validate.includes(key)) {
-          return Response.error(`字段${i + 1}：${key}不能为空`)
+    const value = {}
+    for (let key in params) {
+      const param = params[key]
+      for (let i = 0; i < fields.length; i++) {
+        const field = fields[i]
+        if (key === field.title) {
+          value[key] = {}
+          if (param === '') {
+            return Response.error(`${field.name}不能为空`)
+          } else {
+            value[key].type = field.type,
+            value[key].value = param
+          }
         }
       }
     }
 
     const saveData = {
-      ...params,
-      fields: JSON.stringify(params.fields)
+      gid: params.gid,
+      add_time: new Date(),
+      value: JSON.stringify(value),
+      sort: params.sort || 0,
+      status: params.status || 0
     }
-
+    
     const saveRes = await this.systemGroupDataService.create(saveData)
     if (saveRes) {
       return Response.success(saveRes)
@@ -66,32 +74,43 @@ export class SystemGroupDataController {
   }
 
   @Put('/:id')
-  public async update(@Params('id') id: number, @Body() params: SystemGroupDto) {
-    const validate = ['name', 'type', 'title', 'description']
-    for (let i = 0; i < params.fields.length; i++) {
-      const item = params.fields[i]
-      for (let key in item) {
-        if (!item[key] && validate.includes(key)) {
-          return Response.error(`字段${i + 1}：${key}不能为空`)
+  public async update(@Params('id') id: number, @Body() params: Record<string, any>) {
+    const systemGroupRes = await this.systemGroupService.info(params.gid)
+    const fields = JSON.parse(systemGroupRes.fields)
+
+    const value = {}
+    for (let key in params) {
+      const param = params[key]
+      for (let i = 0; i < fields.length; i++) {
+        const field = fields[i]
+        if (key === field.title) {
+          value[key] = {}
+          if (param === '') {
+            return Response.error(`${field.name}不能为空`)
+          } else {
+            value[key].type = field.type,
+            value[key].value = param
+          }
         }
       }
     }
-
+    console.log('value', value)
     const saveData = {
-      ...params,
-      fields: JSON.stringify(params.fields)
+      value: JSON.stringify(value),
+      sort: params.sort || 0,
+      status: params.status || 0
     }
 
-    const saveRes = await this.systemGroupService.create(saveData)
+    const saveRes = await this.systemGroupDataService.update(id, saveData)
     if (saveRes) {
-      return Response.success(true, '更新成功')
+      return Response.success(saveRes, '更新成功')
     }
     return Response.error('更新失败，请重试')
   }
 
   @Delete('/:id')
   public async delete(@Params('id') id: number) {
-    const res = await this.systemGroupService.delete(id, true)
+    const res = await this.systemGroupDataService.delete(id, true)
     if (res) {
       return Response.success(true, '删除成功')
     }
