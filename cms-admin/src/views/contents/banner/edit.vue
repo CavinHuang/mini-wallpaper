@@ -79,15 +79,32 @@ const schema = {
                 properties: {
                   input: {
                     type: 'string',
-                    title: '输入框1',
+                    title: '标题',
+                    require: true,
                     'x-decorator': 'FormItem',
-                    'x-component': 'Input'
+                    'x-component': 'Input',
+                    'x-decorator-props': {
+                      style: {
+                        'padding-left': '10px'
+                      }
+                    },
+                    'x-component-props': {
+                      style: {
+                        width: '300px'
+                      }
+                    }
                   },
                   input2: {
                     type: 'string',
-                    title: '输入框2',
+                    title: '链接',
+                    require: true,
                     'x-decorator': 'FormItem',
-                    'x-component': 'Input'
+                    'x-component': 'Input',
+                    'x-component-props': {
+                      style: {
+                        width: '300px'
+                      }
+                    }
                   }
                 }
               },
@@ -104,6 +121,11 @@ const schema = {
                   space: {
                     type: 'void',
                     'x-component': 'Space',
+                    'x-component-props': {
+                      style: {
+                        paddingLeft: '10px'
+                      }
+                    },
                     properties: {
                       up: {
                         type: 'void',
@@ -145,7 +167,7 @@ const schema = {
                     'x-component': 'Select',
                     'x-component-props': {
                       style: {
-                        width: '250px'
+                        width: '198px'
                       }
                     }
                   }
@@ -158,7 +180,7 @@ const schema = {
       properties: {
         add: {
           type: 'void',
-          title: '添加条目',
+          title: '添加',
           'x-component': 'ArrayItems.Addition'
         }
       }
@@ -185,6 +207,19 @@ getPositions()
 .card {
   display: flex;
   flex-wrap: wrap;
+  ::v-deep {
+    // 表单
+    .formily-element-plus-form-item-feedback-layout-loose {
+      margin-bottom: 10px;
+    }
+    .el-upload.el-upload--picture-card {
+      width: 90px;
+      height: 90px;
+      svg {
+        margin-top: 0 !important;
+      }
+    }
+  }
 }
 .banner-position {
   height: 110px;
