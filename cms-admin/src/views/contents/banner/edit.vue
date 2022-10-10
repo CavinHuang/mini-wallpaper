@@ -15,16 +15,20 @@
 </template>
 
 <script lang="ts" setup name="banner">
-import { ElDivider } from 'element-plus'
-import { Picture } from '@element-plus/icons-vue'
+import { ElDivider, ElIcon } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
 import { BannerApi } from '@/api/modules'
-import { ref } from 'vue'
+import { ref, computed, onMounted, defineComponent, h, Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField } from '@formily/vue'
+import { FormProvider, createSchemaField, useField } from '@formily/vue'
+import { observer } from '@formily/reactive-vue'
 import { Submit, FormItem, Space, Input, Select, DatePicker, ArrayItems, Upload } from '@formily/element-plus'
+import { GlobalStore } from '@/store'
+import { CommonApi } from '../../../api/modules/common'
 
 const router = useRouter()
+const globalStore = GlobalStore()
 const navigator = (path: string) => router.push({ path })
 
 const { SchemaField } = createSchemaField({
@@ -38,136 +42,214 @@ const { SchemaField } = createSchemaField({
     ArrayItems
   }
 })
-
+const uploadUrl = computed(() => globalStore.getAppData('qiniuUploadUrl')?.value)
+const uploadPath = computed(() => globalStore.getAppData('qiniuBannerPath')?.value)
+const qiniuHttpHost = computed(() => globalStore.getAppData('qiniuHttpHost')?.value)
 const form = createForm()
-const schema = {
-  type: 'object',
-  properties: {
-    array: {
-      type: 'array',
-      'x-component': 'ArrayItems',
-      'x-decorator': 'FormItem',
-      title: '',
-      items: {
-        type: 'object',
-        properties: {
-          space: {
-            type: 'void',
-            'x-component': 'Space',
-            properties: {
-              cover: {
-                type: 'array',
-                title: '',
-                'x-decorator': 'FormItem',
-                'x-component': 'Upload',
-                'x-component-props': {
-                  listType: 'picture-card',
-                  multiple: false,
-                  action: 'https://formily-vue.free.beeceptor.com/file'
-                },
-                required: true
-              },
-              space: {
-                type: 'void',
-                'x-component': 'Space',
-                'x-component-props': {
-                  style: {
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }
-                },
-                properties: {
-                  input: {
-                    type: 'string',
-                    title: '标题',
-                    require: true,
-                    'x-decorator': 'FormItem',
-                    'x-component': 'Input',
-                    'x-decorator-props': {
-                      style: {
-                        'padding-left': '10px'
-                      }
+const getKey = (): string => {
+  const randmKey = new Date().getTime() + Math.ceil(Math.random() * 30)
+  return uploadPath.value ? String(uploadPath.value + randmKey) : String(randmKey)
+}
+
+const imageUrl = ref<string[]>([])
+const images = ref<Record<number, string>>({})
+const key = ref(getKey())
+
+const pictureComponent = () =>
+  observer(
+    defineComponent({
+      name: 'PictureComponet',
+      setup() {
+        const fieldRef = useField() as any
+        return {
+          fieldRef
+        }
+      },
+      render() {
+        let imageUrl = ''
+        if (this.fieldRef.value.length && this.fieldRef.value[0].response) {
+          imageUrl = qiniuHttpHost.value + '/' + this.fieldRef.value[0].response.key
+        }
+        return imageUrl
+          ? h('img', { src: imageUrl, class: 'banner-image' })
+          : h(
+              ElIcon,
+              { class: 'banner-uploader-icon' },
+              {
+                default: () => h(Plus)
+              }
+            )
+      }
+    })
+  )
+const token = ref('')
+const onSuccess = () => {
+  key.value = getKey()
+}
+
+const schema = computed(() => {
+  return {
+    type: 'object',
+    properties: {
+      array: {
+        type: 'array',
+        'x-component': 'ArrayItems',
+        'x-decorator': 'FormItem',
+        title: '',
+        items: {
+          type: 'object',
+          properties: {
+            space: {
+              type: 'void',
+              'x-component': 'Space',
+              properties: {
+                cover: {
+                  type: 'array',
+                  title: '',
+                  'x-decorator': 'FormItem',
+                  'x-component': 'Upload',
+                  'x-component-props': {
+                    // listType: 'picture-card',
+                    class: 'banner-uploader',
+                    multiple: false,
+                    action: uploadUrl.value,
+                    showFileList: false,
+                    data: {
+                      key: key.value,
+                      token: token.value
                     },
-                    'x-component-props': {
-                      style: {
-                        width: '300px'
-                      }
+                    onSuccess
+                  },
+                  'x-content': {
+                    default: pictureComponent()
+                  },
+                  required: true
+                },
+                space: {
+                  type: 'void',
+                  'x-component': 'Space',
+                  'x-component-props': {
+                    style: {
+                      display: 'flex',
+                      flexDirection: 'column'
                     }
                   },
-                  input2: {
-                    type: 'string',
-                    title: '链接',
-                    require: true,
-                    'x-decorator': 'FormItem',
-                    'x-component': 'Input',
-                    'x-component-props': {
-                      style: {
-                        width: '300px'
-                      }
-                    }
-                  }
-                }
-              },
-              space2: {
-                type: 'void',
-                'x-component': 'Space',
-                'x-component-props': {
-                  style: {
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }
-                },
-                properties: {
-                  space: {
-                    type: 'void',
-                    'x-component': 'Space',
-                    'x-component-props': {
-                      style: {
-                        paddingLeft: '10px'
+                  properties: {
+                    input: {
+                      type: 'string',
+                      title: '标题',
+                      require: true,
+                      'x-decorator': 'FormItem',
+                      'x-component': 'Input',
+                      'x-decorator-props': {
+                        style: {
+                          'padding-left': '10px'
+                        }
+                      },
+                      'x-component-props': {
+                        style: {
+                          width: '300px'
+                        }
                       }
                     },
-                    properties: {
-                      up: {
-                        type: 'void',
-                        'x-decorator': 'FormItem',
-                        'x-component': 'ArrayItems.MoveUp',
-                        'x-component-props': {
-                          type: 'success',
-                          size: 'large'
+                    input2: {
+                      type: 'string',
+                      title: '链接',
+                      require: true,
+                      'x-decorator': 'FormItem',
+                      'x-component': 'Input',
+                      'x-component-props': {
+                        style: {
+                          width: '300px'
                         }
                       },
-                      down: {
-                        type: 'void',
-                        'x-decorator': 'FormItem',
-                        'x-component': 'ArrayItems.MoveDown',
-                        'x-component-props': {
-                          type: 'primary',
-                          size: 'large'
-                        }
-                      },
-                      remove: {
-                        type: 'void',
-                        'x-decorator': 'FormItem',
-                        'x-component': 'ArrayItems.Remove',
-                        'x-component-props': {
-                          type: 'danger',
-                          size: 'large'
-                        }
+                      'x-reactions': {
+                        // dependencies: ['.input'],
+                        // fulfill: {
+                        //   state: {
+                        //     value: '{{$deps[0]}}'
+                        //   }
+                        // }
                       }
                     }
+                  }
+                },
+                space2: {
+                  type: 'void',
+                  'x-component': 'Space',
+                  'x-component-props': {
+                    style: {
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }
                   },
-                  select: {
-                    type: 'string',
-                    title: '',
-                    enum: [
-                      { label: '选项1', value: 1 },
-                      { label: '选项2', value: 2 }
-                    ],
-                    'x-decorator': 'FormItem',
-                    'x-component': 'Select',
-                    'x-component-props': {
-                      style: {
-                        width: '198px'
+                  properties: {
+                    space: {
+                      type: 'void',
+                      'x-component': 'Space',
+                      'x-component-props': {
+                        style: {
+                          paddingLeft: '10px'
+                        }
+                      },
+                      properties: {
+                        up: {
+                          type: 'void',
+                          'x-decorator': 'FormItem',
+                          'x-component': 'ArrayItems.MoveUp',
+                          'x-component-props': {
+                            type: 'success',
+                            size: 'large'
+                          }
+                        },
+                        down: {
+                          type: 'void',
+                          'x-decorator': 'FormItem',
+                          'x-component': 'ArrayItems.MoveDown',
+                          'x-component-props': {
+                            type: 'primary',
+                            size: 'large'
+                          }
+                        },
+                        remove: {
+                          type: 'void',
+                          'x-decorator': 'FormItem',
+                          'x-component': 'ArrayItems.Remove',
+                          'x-component-props': {
+                            type: 'danger',
+                            size: 'large'
+                          }
+                        }
+                      }
+                    },
+                    linkType: {
+                      type: 'string',
+                      title: '',
+                      enum: [
+                        { label: '#-不跳转', value: '#' },
+                        { label: 'LK-自定义链接', value: 'LK' }
+                      ],
+                      'x-decorator': 'FormItem',
+                      'x-component': 'Select',
+                      'x-component-props': {
+                        style: {
+                          width: '198px'
+                        }
+                      },
+                      'x-reactions': {
+                        fulfill: {
+                          run: `{{$form.setFieldState("array.0.space.space.input2",state=>{state.value = (() => {
+                            switch ($self.value) {
+                              case '#':
+                                return '#'
+                              case 'LK':
+                                return 'http://'
+                            
+                              default:
+                                return '#'
+                            }
+                          })()})}}`
+                        }
                       }
                     }
                   }
@@ -175,18 +257,30 @@ const schema = {
               }
             }
           }
-        }
-      },
-      properties: {
-        add: {
-          type: 'void',
-          title: '添加',
-          'x-component': 'ArrayItems.Addition'
+        },
+        properties: {
+          add: {
+            type: 'void',
+            title: '添加',
+            'x-component': 'ArrayItems.Addition'
+          }
         }
       }
     }
   }
+})
+
+function getQiniuToken() {
+  CommonApi.qiniuToken().then((res) => {
+    if (res.data) {
+      token.value = res.data
+    }
+  })
 }
+
+onMounted(() => {
+  getQiniuToken()
+})
 
 const log = (values: any) => {
   console.log(values)
@@ -207,7 +301,7 @@ getPositions()
 .card {
   display: flex;
   flex-wrap: wrap;
-  ::v-deep {
+  :deep() {
     // 表单
     .formily-element-plus-form-item-feedback-layout-loose {
       margin-bottom: 10px;
@@ -218,6 +312,34 @@ getPositions()
       svg {
         margin-top: 0 !important;
       }
+    }
+    .banner-uploader {
+      width: 90px;
+      height: 90px;
+      .banner-image {
+        width: 90px;
+        height: 90px;
+        display: block;
+      }
+      .el-upload {
+        border: 1px dashed var(--el-border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: var(--el-transition-duration-fast);
+        &:hover {
+          border-color: var(--el-color-primary);
+        }
+      }
+    }
+
+    .el-icon.banner-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 90px;
+      height: 90px;
+      text-align: center;
     }
   }
 }

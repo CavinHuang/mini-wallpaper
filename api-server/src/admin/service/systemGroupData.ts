@@ -26,6 +26,9 @@ export class SystemGroupDataService extends BaseService {
       if (where) {
         query = query.where(where)
       }
+      query.andWhere({
+        gid
+      })
       return query
     }) as any
 
@@ -57,7 +60,6 @@ export class SystemGroupDataService extends BaseService {
           list.rows[i][j] = info.value
         }
       }
-      delete list.rows[i].value
     }
 
     list.type = type

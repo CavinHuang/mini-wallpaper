@@ -26,3 +26,14 @@ declare interface ViteEnv {
   VITE_BUILD_GZIP: boolean
   VITE_REPORT: boolean
 }
+declare interface AppDataItem {
+  title: string
+  key: string
+  label: string
+  value: string
+  desc: string
+}
+
+declare interface Dict {
+  appData: Record<string, AppDataItem>
+}

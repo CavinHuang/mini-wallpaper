@@ -9,8 +9,6 @@ import { GlobalStore } from '@/store'
 
 import router from '@/routers'
 
-const globalStore = GlobalStore()
-
 const axiosCanceler = new AxiosCanceler()
 
 const config = {
@@ -36,11 +34,11 @@ export class RequestHttp {
     this.service.interceptors.request.use(
       (config: AxiosRequestConfig) => {
         // * 将当前请求添加到 pending 中
-        axiosCanceler.addPending(config)
+        // axiosCanceler.addPending(config)
         // * 如果当前请求不需要显示 loading,在api服务中通过指定的第三个参数: { headers: { noLoading: true } }来控制不显示loading，参见loginApi
         config.headers!.noLoading || showFullScreenLoading()
         config.headers!.webType = 'cms-admin'
-        const token: string = globalStore.token
+        const token: string = GlobalStore().token
         return { ...config, headers: { Authorization: `Bearer ${token}`, webType: 'cms-admin' } }
       },
       (error: AxiosError) => {
@@ -56,12 +54,12 @@ export class RequestHttp {
       (response: AxiosResponse) => {
         const { data, config } = response
         // * 在请求结束后，移除本次请求
-        axiosCanceler.removePending(config)
+        // axiosCanceler.removePending(config)
         tryHideFullScreenLoading()
         // * 登陆失效（code == 599）
         if (data.code == ResultEnum.OVERDUE) {
           ElMessage.error(data.message)
-          globalStore.setToken('')
+          GlobalStore().setToken('')
           router.replace({
             path: '/login'
           })

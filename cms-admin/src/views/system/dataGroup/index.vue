@@ -150,7 +150,7 @@ const schema = reactive({
     items: {
       type: 'object',
       properties: {
-        space: {
+        space2: {
           type: 'void',
           'x-component': 'Space',
           properties: {
@@ -207,12 +207,23 @@ const schema = reactive({
               'x-component-props': {
                 placeholder: '字段类型'
               }
+            },
+            remove: {
+              type: 'void',
+              'x-decorator': 'FormItem',
+              'x-decorator-props': {
+                class: 'icon-item'
+              },
+              'x-component': 'ArrayItems.Remove'
+            },
+            sort: {
+              type: 'void',
+              'x-decorator': 'FormItem',
+              'x-decorator-props': {
+                class: 'icon-item'
+              },
+              'x-component': 'ArrayItems.SortHandle'
             }
-          },
-          remove: {
-            type: 'void',
-            'x-decorator': 'FormItem',
-            'x-component': 'ArrayItems.Remove'
           }
         },
         param: {
@@ -296,3 +307,18 @@ const openDrawer = (title: string, rowData: Partial<SystemGroup.Item> = {}, isEd
   })
 }
 </script>
+
+<style lang="scss">
+.icon-item {
+  width: 12px;
+  text-align: center;
+  justify-content: center;
+
+  .formily-element-plus-form-item-control-content-component {
+    min-width: 20px;
+    .el-button--small {
+      padding: 5px;
+    }
+  }
+}
+</style>

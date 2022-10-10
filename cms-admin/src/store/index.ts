@@ -24,9 +24,23 @@ export const GlobalStore = defineStore({
       primary: '#409eff',
       // 是否开启深色模式
       isDark: false
+    },
+    dicts: {
+      appData: {}
     }
   }),
-  getters: {},
+  getters: {
+    getAppData(state) {
+      return (key: string) => {
+        const appData = state.dicts.appData
+        console.log('🚀 ~ file: index.ts ~ line 36 ~ return ~ appData', appData)
+        if (Object.keys(appData).length) {
+          return appData[key]
+        }
+        return null
+      }
+    }
+  },
   actions: {
     // setToken
     setToken(token: string) {
@@ -47,6 +61,10 @@ export const GlobalStore = defineStore({
     // setThemeConfig
     setThemeConfig(themeConfig: ThemeConfigProp) {
       this.themeConfig = themeConfig
+    },
+    // set dict
+    setDicts(dicts: Dict) {
+      this.dicts = dicts
     }
   },
   persist: piniaPersistConfig('GlobalState')

@@ -12,6 +12,7 @@ export interface GlobalState {
   assemblySize: string
   language: string
   themeConfig: ThemeConfigProp
+  dicts: Dict
 }
 
 /* MenuState */
