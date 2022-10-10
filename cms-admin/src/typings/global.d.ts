@@ -37,3 +37,8 @@ declare interface AppDataItem {
 declare interface Dict {
   appData: Record<string, AppDataItem>
 }
+
+declare interface Options {
+  label: string
+  value: string
+}

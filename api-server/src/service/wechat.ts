@@ -5,7 +5,7 @@ import { BaseService } from './baseService'
 import koa2Req from 'koa2-request'
 import md5 from 'md5'
 import { random } from '@/utils'
-import { MiniProgram } from './miniprogram'
+// import { MiniProgram } from './miniprogram'
 import { BusinessError } from '@/core/error/businessError'
 import { BUSINESS_ERROR_CODE } from '@/core/error/businessError'
 
@@ -18,20 +18,24 @@ export class Wechat extends BaseService {
    * 微信code换token
   */
   static async code2session(appid:string, code: string) {
-    const miniProgramInfo = await MiniProgram.getInfoByAppid(appid)
+    // const miniProgramInfo = await MiniProgram.getInfoByAppid(appid)
 
-    const requestUrl = WECHAT_URLS.jscode2session + `?appid=${miniProgramInfo.appid}&secret=${miniProgramInfo.appsecret}&js_code=${code}&grant_type=authorization_code`
+    // const requestUrl = WECHAT_URLS.jscode2session + `?appid=${miniProgramInfo.appid}&secret=${miniProgramInfo.appsecret}&js_code=${code}&grant_type=authorization_code`
 
-    console.log('请求', requestUrl)
+    // console.log('请求', requestUrl)
 
-    const wechatData = await Wechat.sendRequest(requestUrl)
+    // const wechatData = await Wechat.sendRequest(requestUrl)
 
-    if (wechatData.wechatData.errcode) {
-      throw new BusinessError(BUSINESS_ERROR_CODE.WECHAT_CODE_ERROR, '授权不正确')
-    }
+    // if (wechatData.wechatData.errcode) {
+    //   throw new BusinessError(BUSINESS_ERROR_CODE.WECHAT_CODE_ERROR, '授权不正确')
+    // }
 
     // redisClient.set(wechatData.userToken, JSON.stringify(wechatData.wechatData))
-
+    const wechatData = {
+      wechatData: {
+        openid: 'xxxx'
+      }
+    }
     return wechatData
   }
 

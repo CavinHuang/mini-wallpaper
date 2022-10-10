@@ -14,7 +14,7 @@ export function crudBuilder<T = unknown>(baseRoute: string) {
    * @param params
    * @returns
    */
-  function page<P>(params: ReqGetParams<T & P>) {
+  function page<P>(params: ReqGetParams<P>) {
     return http.get<ResHasPage<T>>('', params)
   }
 

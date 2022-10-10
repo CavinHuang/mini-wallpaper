@@ -6,6 +6,11 @@
     <div class="edit-container">
       <FormProvider :form="form">
         <SchemaField :schema="schema" />
+        <ElSelect v-model="appid" style="width: 300px" placeholder="请选择小程序">
+          <ElOption v-for="item in miniPrograms" :key="item.value" :value="item.value" :label="item.label">{{
+            item.label
+          }}</ElOption>
+        </ElSelect>
         <p class="help-block">若要跳转页面，请选择对应的数据或填写跳转的 URL 地址，不跳转请填写 “#” 号占位。</p>
         <ElDivider />
         <Submit @submit="log">提交</Submit>
@@ -15,7 +20,7 @@
 </template>
 
 <script lang="ts" setup name="banner">
-import { ElDivider, ElIcon } from 'element-plus'
+import { ElDivider, ElIcon, ElSelect, ElOption } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { BannerApi } from '@/api/modules'
 import { ref, computed, onMounted, defineComponent, h, Ref } from 'vue'
@@ -26,6 +31,8 @@ import { observer } from '@formily/reactive-vue'
 import { Submit, FormItem, Space, Input, Select, DatePicker, ArrayItems, Upload } from '@formily/element-plus'
 import { GlobalStore } from '@/store'
 import { CommonApi } from '../../../api/modules/common'
+import { MinProgram } from '@/api/interface'
+import { MiniProgramApi } from '@/api/modules'
 
 const router = useRouter()
 const globalStore = GlobalStore()
@@ -51,8 +58,6 @@ const getKey = (): string => {
   return uploadPath.value ? String(uploadPath.value + randmKey) : String(randmKey)
 }
 
-const imageUrl = ref<string[]>([])
-const images = ref<Record<number, string>>({})
 const key = ref(getKey())
 
 const pictureComponent = () =>
@@ -87,6 +92,8 @@ const onSuccess = () => {
   key.value = getKey()
 }
 
+const miniPrograms = ref<Options[]>([])
+const appid = ref('')
 const schema = computed(() => {
   return {
     type: 'object',
@@ -278,8 +285,20 @@ function getQiniuToken() {
   })
 }
 
+function getMiniProgram() {
+  MiniProgramApi.page({ pageSize: 10000, pageNum: 1 }).then((res) => {
+    miniPrograms.value = (res.data?.rows || []).map((item) => {
+      return {
+        label: item.name,
+        value: item.appid
+      }
+    })
+  })
+}
+
 onMounted(() => {
   getQiniuToken()
+  getMiniProgram()
 })
 
 const log = (values: any) => {

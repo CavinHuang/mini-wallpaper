@@ -78,9 +78,7 @@ export class SystemGroupDataService extends BaseService {
         config_name: configName
       }
     })
-    console.log("🚀 ~ file: systemGroupData.ts ~ line 79 ~ SystemGroupDataService ~ getConfigNameValue ~ group", group)
     const value = await this.getGroupData(group.id, limit)
-    console.log("🚀 ~ file: systemGroupData.ts ~ line 81 ~ SystemGroupDataService ~ getConfigNameValue ~ value", value)
     const data = []
 
     value.forEach((item, index) => {

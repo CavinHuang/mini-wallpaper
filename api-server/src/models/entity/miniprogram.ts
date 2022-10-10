@@ -2,8 +2,10 @@
  * user model
  */
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Repo } from '@/core/decorator'
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
+@Repo('MiniProgram')
 @Entity()
 export class MiniProgram {
   @PrimaryGeneratedColumn()
@@ -33,11 +35,19 @@ export class MiniProgram {
   })
   status: number
 
-  @Column()
-  is_deleted: boolean
-
-  @Column({
+  @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
+
+  @UpdateDateColumn({
+    type: 'datetime'
+  })
+  update_at: Date
+
+  @Column({
+    comment: '删除时间',
+    default: null
+  })
+  delete_at: Date
 }
