@@ -1,10 +1,10 @@
 import { Inject, Service } from "@/core/container";
-import { {{name}} } from "@/models/entity/{{name}}";
+import { {{firstUppercase entityName}} } from "@/models/entity/{{entityName}}";
 import { BaseService } from "@/service/baseService";
 import { Repository } from 'typeorm';
 
 @Service()
-export class {{name}}Service extends BaseService {
-  @Inject('{{name}}')
-  public repository:Repository<{{name}}>
+export class {{firstUppercase entityName}}Service extends BaseService {
+  @Inject('{{firstUppercase entityName}}')
+  public repository:Repository<{{firstUppercase entityName}}>
 }

@@ -10,7 +10,8 @@
     "watch": "cross-env NODE_ENV=production nodemon --ext js,ts --exec yarn start",
     "start": "cross-env NODE_ENV=production nodemon --ext js,ts --exec ts-node ./src/app.ts",
     "dev": "cross-env NODE_ENV=development nodemon --watch ./src/* -e ts --exec ts-node -r tsconfig-paths/register ./src/app.ts",
-    "clear:js": "rimraf ./src/**/*.js"
+    "clear:js": "rimraf ./src/**/*.js",
+    "plop": "plop"
   },
   "keywords": [],
   "author": "",
