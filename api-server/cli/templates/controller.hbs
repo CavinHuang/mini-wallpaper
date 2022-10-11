@@ -1,0 +1,45 @@
+/**
+ * {{name}} Controller
+ */
+import { Inject } from "@/core/container";
+import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
+import { Response } from "@/core/responce";
+import { {{name}} } from "@/models/entity/{{name}}";
+import { {{name}}Service } from "../service/{{name}}";
+
+@Controller('/{{routerName}}', { skipPerm: true })
+export class {{name}}Controller {
+
+  @Inject()
+  protected {{name}}Service: {{name}}Service
+
+  @Get('')
+  public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
+    const listData = await this.{{name}}Service.getPageList({ pageNum, pageSize })
+    return Response.success(listData)
+  }
+
+  @Post('')
+  public add(@Body() params: Partial<{{name}}>) {
+    if (this.{{name}}Service.create(params)) {
+      return Response.success(true)
+    }
+    return Response.error('error')
+  }
+
+  @Put('/:id')
+  public update(@Params('id') id: number, @Body() params: Partial<{{name}}>) {
+    if (this.{{name}}Service.update(id, params)) {
+      return Response.success(true, '更新成功')
+    }
+    return Response.error('更新失败，请重试')
+  }
+
+  @Delete('/:id')
+  public delete(@Params('id') id: number) {
+    if (this.{{name}}Service.delete(id)) {
+      return Response.success(true, '删除成功')
+    }
+    return Response.error('删除失败，请重试')
+  }
+}

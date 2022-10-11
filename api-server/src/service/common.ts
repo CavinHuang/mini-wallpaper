@@ -1,5 +1,5 @@
 import { redisSet, redisGet } from './../core/redis/index';
-import { CatgoryService } from './catgory';
+// import { CatgoryService } from './catgory';
 import { ContentBanner } from '../models/entity/contentBanner';
 import { SiteConfigService } from './siteService';
 import { SiteConfig } from '../models/entity/siteConfig';
@@ -24,8 +24,8 @@ export class CommonService {
 
     const siteConfig = siteConfigs[0]
     if (!siteConfig) return false
-    const categoryService = new CatgoryService()
-    const categories = await categoryService.getCategoryByAppid(siteConfig.appid)
+    // const categoryService = new CatgoryService()
+    // const categories = await categoryService.getCategoryByAppid(siteConfig.appid)
 
     const resource_cdn_url = siteConfig.resource_cdn_url
 
@@ -60,12 +60,12 @@ export class CommonService {
 
     config.site = siteConfig
 
-    for (const key in categories) {
-      if (Object.prototype.hasOwnProperty.call(categories, key)) {
-        const element = categories[key];
-        config[key] = element
-      }
-    }
+    // for (const key in categories) {
+    //   if (Object.prototype.hasOwnProperty.call(categories, key)) {
+    //     const element = categories[key];
+    //     config[key] = element
+    //   }
+    // }
 
     // banner
     // const banners = await (new BannerService).getBannerByAppid(siteConfig.appid)
@@ -77,7 +77,7 @@ export class CommonService {
     redisSet(`${CONFIG_VERSION_REDIS_KEY}${siteConfig.appid}`, siteConfig.version)
 
     // category
-    redisSet(`${CONFIG_CATEGORY_REDIS_KEY}${siteConfig.appid}`, categories)
+    // redisSet(`${CONFIG_CATEGORY_REDIS_KEY}${siteConfig.appid}`, categories)
     return true
   }
 

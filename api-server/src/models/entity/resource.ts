@@ -4,7 +4,7 @@
 
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Catgory } from './catgory'
-import { ResourceTag } from './resourceTag'
+import { Tag } from './tag'
 
 @Entity()
 export class Resource {
@@ -66,9 +66,6 @@ export class Resource {
   })
   vip_price: number
 
-  @ManyToMany(type => ResourceTag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
-  tags: ResourceTag[];
-
   @Column({
     comment: '排序值'
   })
@@ -94,8 +91,8 @@ export class Resource {
   })
   is_deleted: boolean
 
-  @ManyToMany(type => ResourceTag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
-  roles: ResourceTag[]
+  @ManyToMany(type => Tag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
+  tags: Tag[];
 
   @ManyToMany(type => Catgory, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
   categories: Catgory[]

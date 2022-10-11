@@ -1,7 +1,6 @@
 <template>
   <div class="table-box">
-    <ProTable ref="proTable" :requestApi="CategoryApi.getList" :initParam="initParam" :columns="columns"
-      :pagination="false">
+    <ProTable ref="proTable" :requestApi="CategoryApi.getList" :initParam="initParam" :columns="columns" :pagination="false">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
         <!-- <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增规则</el-button> -->
@@ -12,8 +11,12 @@
       <template #status="scope">
         <!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所有在外层包一个盒子，点击触发盒子 click 方法 -->
         <div @click="changeStatus(scope.row)">
-          <el-switch :value="scope.row.status" :active-text="scope.row.status === 1 ? '启用' : '禁用'" :active-value="1"
-            :inactive-value="0" />
+          <el-switch
+            :value="scope.row.status"
+            :active-text="scope.row.status === 1 ? '启用' : '禁用'"
+            :active-value="1"
+            :inactive-value="0"
+          />
         </div>
       </template>
       <!-- 表格操作 -->
@@ -28,13 +31,13 @@
 </template>
 
 <script setup lang="tsx" name="adminList">
-import { ref,reactive,h } from 'vue'
+import { ref, reactive, h } from 'vue'
 import { Game } from '@/api/interface'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import UserDrawer from './components/UserDrawer.vue'
-import { CirclePlus,Delete,EditPen,Download,Upload,View,Refresh } from '@element-plus/icons-vue'
+import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
 import { CategoryApi } from '@/api/modules'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
@@ -120,18 +123,18 @@ const columns: Partial<ColumnProps>[] = [
 ]
 
 const getAssetsImage = (cover: string) => {
-  return cover.indexOf('http') > -1 ? cover : new URL('/src/assets/images/game/' + cover,import.meta.url).href
+  return cover.indexOf('http') > -1 ? cover : new URL('/src/assets/images/game/' + cover, import.meta.url).href
 }
 
 // 删除分类信息
 const deleteAccount = async (params: Game.cate) => {
-  await useHandleData(deleteCrawel,{ id: [params.id] },`是否确认删除【${params.name}】分类？`)
+  await useHandleData(deleteCrawel, { id: [params.id] }, `是否确认删除【${params.name}】分类？`)
   proTable.value.refresh()
 }
 
 // 切换分类状态
 const changeStatus = async (row: Game.cate) => {
-  await useHandleData(editGameCate,{ id: row.id,status: row.status == 1 ? 0 : 1 },`切换【${row.name}】分类状态`)
+  await useHandleData(editGameCate, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】分类状态`)
   proTable.value.refresh()
 }
 
@@ -140,7 +143,7 @@ interface DrawerExpose {
   acceptParams: (params: any) => void
 }
 const drawerRef = ref<DrawerExpose>()
-const openDrawer = (title: string,rowData: Partial<Game.cate> = {},isEdit: boolean = false) => {
+const openDrawer = (title: string, rowData: Partial<Game.cate> = {}, isEdit: boolean = false) => {
   let params = {
     title: title,
     rowData: { ...rowData },

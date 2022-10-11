@@ -131,8 +131,8 @@ const columns: Partial<ColumnProps>[] = [
 // selectFilter 数据
 const selectFilterData = [
   {
-    title: '用户状态(单)',
-    key: 'userStatus',
+    title: '所属小程序',
+    key: 'appid',
     options: [
       {
         label: '全部',
@@ -142,53 +142,39 @@ const selectFilterData = [
         label: '在职',
         value: '1',
         icon: 'User'
-      },
-      {
-        label: '待培训',
-        value: '2',
-        icon: 'Bell'
-      },
-      {
-        label: '待上岗',
-        value: '3',
-        icon: 'Clock'
-      },
-      {
-        label: '已离职',
-        value: '4',
-        icon: 'CircleClose'
-      },
-      {
-        label: '已退休',
-        value: '5',
-        icon: 'CircleCheck'
       }
     ]
   },
   {
-    title: '用户角色(多)',
+    title: '所属分类',
     key: 'userRole',
     multiple: true,
     options: [
       {
         label: '全部',
         value: ''
-      },
+      }
+    ]
+  },
+  {
+    title: '关联标签',
+    key: 'userRole',
+    multiple: true,
+    options: [
       {
-        label: '超级管理员',
-        value: '1'
-      },
+        label: '全部',
+        value: ''
+      }
+    ]
+  },
+  {
+    title: '推荐操作',
+    key: 'userRole',
+    multiple: true,
+    options: [
       {
-        label: '公司CEO',
-        value: '2'
-      },
-      {
-        label: '部门主管',
-        value: '3'
-      },
-      {
-        label: '人事经理',
-        value: '4'
+        label: '全部',
+        value: ''
       }
     ]
   }
