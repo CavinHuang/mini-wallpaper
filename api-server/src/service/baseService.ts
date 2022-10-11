@@ -25,15 +25,15 @@ export class BaseService<ModelRepo = Record<string, any>> {
    * @param extralWhere 额外的where条件
    * @returns Promise<Pagination>
    */
-  public async getPageList(
+  public async getPageList<T = unknown>(
     { pageNum = 1, pageSize = 10, offset = 0, limit = 15, alias = ''},
-    extral?: (query: SelectQueryBuilder<ModelRepo>) => SelectQueryBuilder<ModelRepo>,
+    extral?: (query: SelectQueryBuilder<T & ModelRepo>) => SelectQueryBuilder<T & ModelRepo>,
     resultHandler?: (res: any[]) => any[] 
   ) {
     try {
       let query = this.entity.createQueryBuilder(alias).where({
         delete_at: IsNull()
-      })
+      }) as SelectQueryBuilder<T & ModelRepo>
 
       if (extral) {
         query = extral(query)

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="banner-position" v-for="item in positons" :key="item.id" @click="navigator('/content/banner/edit')">
+    <div class="banner-position" v-for="item in positons" :key="item.id" @click="navigator('/content/banner/edit/' + item.id)">
       <div class="left-content">
         <div class="edit-text">编辑图片</div>
         <div class="position-title">{{ item.position }}</div>
@@ -18,11 +18,11 @@
 import { ElIcon } from 'element-plus'
 import { Picture } from '@element-plus/icons-vue'
 import { BannerApi } from '@/api/modules'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const navigator = (path: string) => router.push({ path })
+const navigator = (path: string, query = {}) => router.push({ path, query })
 
 const positons = ref<any[]>([])
 function getPositions() {
@@ -33,7 +33,9 @@ function getPositions() {
   })
 }
 
-getPositions()
+onMounted(() => {
+  getPositions()
+})
 </script>
 
 <style lang="scss" scoped>

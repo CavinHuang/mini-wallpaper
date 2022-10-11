@@ -8,7 +8,12 @@ import { reactive, computed, onMounted, toRefs } from 'vue'
  * @param isPageable 是否有分页(不必传，默认为true)
  * @param tableRef 当前表格的DOM(不必传，默认为“”)
  * */
-export const useTable = (apiUrl: (params: any) => Promise<any>, initParam: any = {}, isPageable: boolean = true) => {
+export const useTable = (
+  apiUrl: (params: any) => Promise<any>,
+  initParam: any = {},
+  isPageable: boolean = true,
+  dataCallBack?: (data: any) => any
+) => {
   const state = reactive<Table.TableStateProps>({
     // 表格数据
     tableData: [],
@@ -60,8 +65,8 @@ export const useTable = (apiUrl: (params: any) => Promise<any>, initParam: any =
       // 更新查询参数
       updatedTotalParam()
       Object.assign(state.totalParam, initParam)
-      const { data } = await apiUrl(state.totalParam)
-      console.log(data, isPageable)
+      let { data } = await apiUrl(state.totalParam)
+      dataCallBack && (data = dataCallBack(data))
       state.tableData = isPageable ? data.rows : data
       // 解构后台返回的分页数据(如果有分页更新分页信息)
       const { pageNum, pageSize, total } = data

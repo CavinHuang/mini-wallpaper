@@ -38,7 +38,7 @@ const homeRouter: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: 'edit',
+        path: 'edit/:pid',
         name: 'bannerEdit',
         component: () => import('@/views/contents/banner/edit.vue'),
         meta: {

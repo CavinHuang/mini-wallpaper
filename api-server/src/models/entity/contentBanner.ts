@@ -3,7 +3,7 @@
  */
 
 import { Repo } from '@/core/decorator'
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Repo('ContentBanner')
 @Entity()
@@ -48,6 +48,12 @@ export class ContentBanner {
   background: string
 
   @Column({
+    length: 20,
+    comment: 'linkType'
+  })
+  linkType: string
+
+  @Column({
     type: 'tinyint',
     default: 1
   })
@@ -59,19 +65,19 @@ export class ContentBanner {
   })
   sort: number
 
-  @Column({
-    type: 'tinyint',
-    default: 0
-  })
-  is_deleted: boolean
-
-  @Column({
+  @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
 
-  @Column({
+  @UpdateDateColumn({
     type: 'datetime'
   })
   update_at: Date
+
+  @Column({
+    type: 'datetime',
+    nullable: true
+  })
+  delete_at: Date
 }

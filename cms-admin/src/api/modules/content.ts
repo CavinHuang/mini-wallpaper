@@ -26,7 +26,7 @@ export namespace Banner {
   }
 }
 
-const bannerCurd = crudBuilder('/admin/banner')
+const bannerCurd = crudBuilder<Banner.Item>('/admin/banner')
 
 export const BannerApi = {
   ...bannerCurd,

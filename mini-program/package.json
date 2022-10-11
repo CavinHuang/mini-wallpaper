@@ -12,5 +12,9 @@
             "uni-app前端模板",
             "uni-app前端项目模板"
         ]
+    },
+    "dependencies": {
+        "mitt": "^3.0.0",
+        "print-js": "^1.6.0"
     }
 }

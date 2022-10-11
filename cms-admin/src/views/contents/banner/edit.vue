@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-title">轮播图编辑</div>
-    <div class="card-subtitle">11</div>
+    <div class="card-subtitle">({{ position && position.position }})</div>
     <ElDivider />
     <div class="edit-container">
       <FormProvider :form="form">
@@ -20,23 +20,25 @@
 </template>
 
 <script lang="ts" setup name="banner">
-import { ElDivider, ElIcon, ElSelect, ElOption } from 'element-plus'
+import { ElDivider, ElIcon, ElSelect, ElOption, ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { BannerApi } from '@/api/modules'
 import { ref, computed, onMounted, defineComponent, h, Ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField, useField } from '@formily/vue'
+import { FormProvider, createSchemaField, useField, Schema } from '@formily/vue'
 import { observer } from '@formily/reactive-vue'
 import { Submit, FormItem, Space, Input, Select, DatePicker, ArrayItems, Upload } from '@formily/element-plus'
 import { GlobalStore } from '@/store'
 import { CommonApi } from '../../../api/modules/common'
-import { MinProgram } from '@/api/interface'
 import { MiniProgramApi } from '@/api/modules'
 
 const router = useRouter()
+const route = useRoute()
 const globalStore = GlobalStore()
 const navigator = (path: string) => router.push({ path })
+
+const id = computed(() => route.params.pid)
 
 const { SchemaField } = createSchemaField({
   components: {
@@ -66,6 +68,7 @@ const pictureComponent = () =>
       name: 'PictureComponet',
       setup() {
         const fieldRef = useField() as any
+        console.log('🚀 ~ file: edit.vue ~ line 71 ~ setup ~ fieldRef', fieldRef)
         return {
           fieldRef
         }
@@ -95,7 +98,7 @@ const onSuccess = () => {
 const miniPrograms = ref<Options[]>([])
 const appid = ref('')
 const schema = computed(() => {
-  return {
+  return new Schema({
     type: 'object',
     properties: {
       array: {
@@ -142,10 +145,10 @@ const schema = computed(() => {
                     }
                   },
                   properties: {
-                    input: {
+                    title: {
                       type: 'string',
                       title: '标题',
-                      require: true,
+                      required: true,
                       'x-decorator': 'FormItem',
                       'x-component': 'Input',
                       'x-decorator-props': {
@@ -159,10 +162,10 @@ const schema = computed(() => {
                         }
                       }
                     },
-                    input2: {
+                    link: {
                       type: 'string',
                       title: '链接',
-                      require: true,
+                      required: true,
                       'x-decorator': 'FormItem',
                       'x-component': 'Input',
                       'x-component-props': {
@@ -245,7 +248,7 @@ const schema = computed(() => {
                       },
                       'x-reactions': {
                         fulfill: {
-                          run: `{{$form.setFieldState("array.0.space.space.input2",state=>{state.value = (() => {
+                          run: `{{$form.setFieldState("array."+ $self.index +".space.space.link",state=>{state.value = (() => {
                             switch ($self.value) {
                               case '#':
                                 return '#'
@@ -274,7 +277,7 @@ const schema = computed(() => {
         }
       }
     }
-  }
+  })
 })
 
 function getQiniuToken() {
@@ -296,24 +299,63 @@ function getMiniProgram() {
   })
 }
 
-onMounted(() => {
-  getQiniuToken()
-  getMiniProgram()
-})
+function getBannerList() {
+  BannerApi.page({ pageNum: 1, pageSize: 1000, position: position.value.positionKey }).then((res) => {
+    console.log(res)
+    const data = res.data?.rows || []
+    // 完善列表初始化数据
+    const values = data.map((item: any) => {
+      item.cover = [
+        {
+          response: {
+            key: item.cover
+          }
+        }
+      ]
+      return item
+    })
+    form.setValues({ array: values })
 
-const log = (values: any) => {
-  console.log(values)
-}
-
-const positons = ref<any[]>([])
-function getPositions() {
-  BannerApi.getPositions().then((res) => {
-    if (res.data) {
-      positons.value = res.data || []
+    // 小程序
+    const item = data.length ? data[0] : null
+    if (item) {
+      appid.value = item.appid
     }
   })
 }
-getPositions()
+
+const positons = ref<any[]>([])
+const position = computed(() => {
+  return positons.value.find((item) => Number(item.id) === Number(id.value))
+})
+async function getPositions() {
+  const res = await BannerApi.getPositions()
+  if (res.data) {
+    positons.value = res.data || []
+  }
+}
+
+onMounted(async () => {
+  await getQiniuToken()
+  await getMiniProgram()
+  await getPositions()
+  getBannerList()
+})
+
+const log = (values: any) => {
+  const data = values.array || []
+  const postData = data.map((item: any) => {
+    item.appid = appid.value
+    item.position = position.value.positionKey
+    item.cover = item.cover[0].response.key
+    return item
+  })
+
+  BannerApi.add(postData).then(() => {
+    ElMessage.success('操作成功')
+    getBannerList()
+  })
+}
 </script>
 
 <style lang="scss" scoped>
