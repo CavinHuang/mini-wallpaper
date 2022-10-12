@@ -1,6 +1,5 @@
 export * from './minProgram'
 export * from './system'
-export * from './resource'
 export * from './authRole'
 export * from './authAdmin'
 export * from './authMenu'

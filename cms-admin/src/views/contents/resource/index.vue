@@ -4,10 +4,10 @@
       <div class="card select-box">
         <SelectFilter :data="selectFilterData" :defaultValues="selectFilterValues" @change="changeSelectFilter" />
       </div>
-      <ProTable ref="proTable" :requestApi="ResourceApi.getList" :initParam="initParam" :columns="columns">
+      <ProTable ref="proTable" :requestApi="ResourceApi.page" :initParam="initParam" :columns="columns">
         <!-- 表格 header 按钮 -->
         <template #tableHeader>
-          <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增用户</el-button>
+          <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增资源</el-button>
         </template>
         <!-- Expand -->
         <!-- 用户状态 slot -->
@@ -29,22 +29,25 @@
           <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
         </template>
       </ProTable>
-      <UserDrawer ref="drawerRef"></UserDrawer>
     </div>
   </div>
+  <FormDrawer :schema="schema" :title="drawerTitle" :initialValues="initialValues" ref="formRef"></FormDrawer>
 </template>
 
-<script setup lang="tsx" name="adminList">
-import { ref, reactive, h } from 'vue'
+<script setup lang="ts" name="resourceList">
+import { ref, reactive, onMounted, computed, ComputedRef } from 'vue'
 import { User } from '@/api/interface'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import SelectFilter from '@/components/SelectFilter/index.vue'
-import UserDrawer from './components/UserDrawer.vue'
-import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
-import { ResourceApi } from '@/api/modules'
+import { CirclePlus, Delete, EditPen, View } from '@element-plus/icons-vue'
+import { MiniProgram, MiniProgramApi, ResourceApi, CategoryApi, Category, TagApi, Tag, Resource } from '@/api/modules'
 import { ElMessage } from 'element-plus'
+import { DataProps } from '@/components/SelectFilter/types'
+import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
+import { genSchema } from './schema'
+import { Observable, from } from 'rxjs'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -55,70 +58,72 @@ const initParam = reactive({})
 // 配置项
 const columns: Partial<ColumnProps>[] = [
   {
-    type: 'selection',
-    width: 80,
-    fixed: 'left'
-  },
-  {
     type: 'index',
     label: '#',
-    width: 80
+    width: 60,
+    fixed: 'left'
   },
   {
     prop: 'appid',
     label: '所属小程序',
-    search: true,
     width: 135
   },
   {
     prop: 'name',
     label: '名称',
-    width: '140',
-    search: true
+    width: 140
   },
   {
     prop: 'info',
-    label: '说明'
+    label: '说明',
+    width: 260
   },
   {
     prop: 'url',
-    label: '链接'
+    label: '链接',
+    width: 240
   },
   {
     prop: 'upload_type',
-    label: '上传类型'
+    label: '上传类型',
+    width: 100
   },
   {
     prop: 'price',
-    label: '价格'
+    label: '价格',
+    width: 80
   },
   {
     prop: 'vip_price',
-    label: '会员价格'
+    label: 'VIP价格',
+    width: 100
   },
   {
     prop: 'is_hot',
-    label: '是否热门'
+    label: '热门',
+    width: 80
   },
   {
     prop: 'is_recommend',
-    label: '是否推荐'
+    label: '推荐',
+    width: 80
   },
   {
     prop: 'sort',
-    label: '排序'
-  },
-  {
-    prop: 'create_at',
-    label: '创建时间',
-    width: 200,
-    sortable: true
+    label: '排序',
+    width: 80
   },
   {
     prop: 'status',
     label: '状态',
     sortable: true,
     width: 160
+  },
+  {
+    prop: 'create_at',
+    label: '创建时间',
+    width: 200,
+    sortable: true
   },
   {
     prop: 'operation',
@@ -128,57 +133,6 @@ const columns: Partial<ColumnProps>[] = [
   }
 ]
 
-// selectFilter 数据
-const selectFilterData = [
-  {
-    title: '所属小程序',
-    key: 'appid',
-    options: [
-      {
-        label: '全部',
-        value: ''
-      },
-      {
-        label: '在职',
-        value: '1',
-        icon: 'User'
-      }
-    ]
-  },
-  {
-    title: '所属分类',
-    key: 'userRole',
-    multiple: true,
-    options: [
-      {
-        label: '全部',
-        value: ''
-      }
-    ]
-  },
-  {
-    title: '关联标签',
-    key: 'userRole',
-    multiple: true,
-    options: [
-      {
-        label: '全部',
-        value: ''
-      }
-    ]
-  },
-  {
-    title: '推荐操作',
-    key: 'userRole',
-    multiple: true,
-    options: [
-      {
-        label: '全部',
-        value: ''
-      }
-    ]
-  }
-]
 // 默认 selectFilter 参数
 const selectFilterValues = ref({ userStatus: '2', userRole: ['1', '3'] })
 const changeSelectFilter = (val: any) => {
@@ -189,15 +143,9 @@ const changeSelectFilter = (val: any) => {
 
 // 删除用户信息
 const deleteAccount = async (params: User.ResUserList) => {
-  await useHandleData(ResourceApi.delete, { id: [params.id] }, `删除【${params.username}】用户`)
+  await useHandleData(ResourceApi.remove, { id: [params.id] }, `删除【${params.username}】用户`)
   proTable.value.refresh()
 }
-
-const data = reactive({
-  id: -1,
-  password: '',
-  confirm_password: ''
-})
 
 // 切换用户状态
 const changeStatus = async (row: User.ResUserList) => {
@@ -205,21 +153,124 @@ const changeStatus = async (row: User.ResUserList) => {
   proTable.value.refresh()
 }
 
-// 打开 drawer(新增、查看、编辑)
-interface DrawerExpose {
-  acceptParams: (params: any) => void
+const miniPrograms = ref<MiniProgram.Item[]>([])
+async function getMiniProgram() {
+  const res = await MiniProgramApi.page({ pageSize: 10000, pageNum: 1 })
+  miniPrograms.value = res.data?.rows || []
 }
-const drawerRef = ref<DrawerExpose>()
-const openDrawer = (title: string, rowData: Partial<User.ResUserList> = {}, isEdit: boolean = false) => {
+
+const categorys = ref<Category.Item[]>([])
+async function getCategory() {
+  const res = await CategoryApi.page({ pageSize: 10000, pageNum: 1, type: 'resource' })
+  categorys.value = res.data?.rows || []
+}
+
+const tags = ref<Tag.Item[]>([])
+async function getTags() {
+  const res = await TagApi.page({ pageSize: 10000, pageNum: 1, type: 'resource' })
+  tags.value = res.data?.rows || []
+}
+
+// selectFilter 数据
+const selectFilterData = computed(() => {
+  return [
+    {
+      title: '所属应用',
+      key: 'appid',
+      options: [
+        {
+          label: '全部',
+          value: ''
+        },
+        ...miniPrograms.value.map((item) => ({ label: item.name, value: item.appid }))
+      ]
+    },
+    {
+      title: '推荐操作',
+      key: 'action',
+      multiple: true,
+      options: [
+        {
+          label: '全部',
+          value: ''
+        },
+        {
+          label: '热门',
+          value: 'is_hot'
+        },
+        {
+          label: '推荐',
+          value: 'is_recommend'
+        }
+      ]
+    },
+    {
+      title: '所属分类',
+      key: 'category',
+      multiple: true,
+      options: [
+        {
+          label: '全部',
+          value: ''
+        },
+        ...categorys.value.map((item) => ({ label: item.short_name, value: item.id }))
+      ]
+    },
+    {
+      title: '关联标签',
+      key: 'tag',
+      multiple: true,
+      options: [
+        {
+          label: '全部',
+          value: ''
+        },
+        ...tags.value.map((item) => ({ label: item.tag_name, value: item.id }))
+      ]
+    }
+  ]
+}) as ComputedRef<DataProps[]>
+
+onMounted(() => {
+  getMiniProgram()
+  getCategory()
+  getTags()
+})
+
+const sub = from(genSchema())
+sub.subscribe((value) => {
+  console.log(value)
+})
+
+// 打开 drawer(新增、查看、编辑)
+interface FormDrwerExpose {
+  acceptParams: (params: any) => void
+  handleOpen: (values: unknown) => Tag.Item
+}
+const formRef = ref<FormDrwerExpose>()
+const initialValues = ref<Partial<Resource.Item>>()
+const drawerTitle = ref('')
+const openDrawer = (title: string, rowData: Partial<Resource.Item> = {}, isEdit: boolean = false) => {
+  initialValues.value = rowData
+  setMiniprograms(miniPrograms.value.map((item) => ({ label: item.name, value: item.appid })))
+  setTags(tags.value.map((item) => ({ label: item.tag_name, value: item.id })))
+  setCategories(categorys.value.map((item) => ({ label: item.name, value: item.id })))
   let params = {
     title: title,
     rowData: { ...rowData },
     isEdit,
     isView: title === '查看' ? true : false,
-    apiUrl: title === '新增' ? ResourceApi.add : title === '编辑' ? ResourceApi.edit : '',
+    apiUrl: title === '新增' ? ResourceApi.add : title === '编辑' ? ResourceApi.update : '',
     getTableList: proTable.value.refresh
   }
-  drawerRef.value!.acceptParams(params)
+  drawerTitle.value = title
+  formRef.value!.acceptParams(params)
+  formRef.value!.handleOpen((values: Resource.Item & { pid: number | number[] }) => {
+    if (Array.isArray(values.pid)) {
+      values.pid = values.pid[values.pid.length - 1]
+    }
+    return values
+  })
 }
 </script>
 

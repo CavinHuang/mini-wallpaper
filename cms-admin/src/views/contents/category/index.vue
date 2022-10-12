@@ -51,7 +51,7 @@ const columns: Partial<ColumnProps>[] = [
   {
     type: 'index',
     label: '#',
-    width: 80
+    width: 60
   },
   {
     prop: 'appid',
@@ -62,23 +62,23 @@ const columns: Partial<ColumnProps>[] = [
   {
     prop: 'type',
     label: '类型',
-    width: 200
+    width: 120
   },
   {
     prop: 'name',
     label: '分类名称',
     search: true,
-    width: 200
+    width: 160
   },
   {
     prop: 'short_name',
     label: '分类简称',
-    width: 200
+    width: 100
   },
   {
     prop: 'keywords',
     label: '关键词',
-    width: 200
+    width: 160
   },
   {
     prop: 'covor',
@@ -87,27 +87,25 @@ const columns: Partial<ColumnProps>[] = [
     width: 100
   },
   {
-    prop: 'create_at',
-    label: '创建时间',
-    width: 210,
-    sortable: true
-  },
-  {
     prop: 'status',
     label: '状态',
     sortable: true,
-    width: 160
+    width: 120
   },
   {
     prop: 'weigh',
     label: '排序',
     sortable: true,
-    width: 160
+    width: 90
+  },
+  {
+    prop: 'create_at',
+    label: '创建时间',
+    sortable: true
   },
   {
     prop: 'operation',
     label: '操作',
-    width: 160,
     fixed: 'right'
   }
 ]

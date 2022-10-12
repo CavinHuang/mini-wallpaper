@@ -68,7 +68,6 @@ const pictureComponent = () =>
       name: 'PictureComponet',
       setup() {
         const fieldRef = useField() as any
-        console.log('🚀 ~ file: edit.vue ~ line 71 ~ setup ~ fieldRef', fieldRef)
         return {
           fieldRef
         }

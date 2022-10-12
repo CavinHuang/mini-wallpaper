@@ -41,7 +41,7 @@ declare interface Dict {
 
 declare interface Options {
   label: string
-  value: string
+  value: string | number
 }
 
 declare interface BaseDictOptions {

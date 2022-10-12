@@ -29,24 +29,13 @@
 <script setup lang="ts" name="selectFilter">
 import { ref, onBeforeMount } from 'vue'
 import { isType } from '@/utils/util'
+import { DataProps, optionsProps } from './types'
 
-interface optionsProps {
-  value: string
-  label: string
-  icon?: string
-}
-
-interface DataProps {
-  title: string
-  key: string
-  multiple?: boolean // 是否为多选
-  options: optionsProps[]
-}
-
-interface FilterProps {
+export interface FilterProps {
   data?: DataProps[] // 选择的列表数据
   defaultValues?: any
 }
+
 const props = withDefaults(defineProps<FilterProps>(), {
   data: () => []
 })

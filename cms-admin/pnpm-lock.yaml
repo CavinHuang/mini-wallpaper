@@ -34,6 +34,7 @@ specifiers:
   qs: ^6.10.3
   rollup: 2.50.0
   rollup-plugin-visualizer: ^5.5.4
+  rxjs: ^7.5.7
   sass: ^1.49.7
   stylelint: ^14.8.5
   stylelint-config-html: ^1.0.0
@@ -77,6 +78,7 @@ dependencies:
   pinia-plugin-persistedstate: 1.6.3_pinia@2.0.17
   print-js: 1.6.0
   qs: 6.11.0
+  rxjs: 7.5.7
   vue: 3.2.37
   vue-i18n: 9.2.2_vue@3.2.37
   vue-router: 4.1.3_vue@3.2.37
@@ -3530,6 +3532,12 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
     dev: true
+
+  /rxjs/7.5.7:
+    resolution: {integrity: sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA==}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}

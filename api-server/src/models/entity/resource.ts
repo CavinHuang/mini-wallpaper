@@ -2,10 +2,12 @@
  * resource model
  */
 
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Repo } from '@/core/decorator'
+import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Category } from './catgory'
 import { Tag } from './tag'
 
+@Repo('Resource')
 @Entity()
 export class Resource {
   @PrimaryGeneratedColumn()
@@ -86,25 +88,25 @@ export class Resource {
   })
   author: number
 
-  @Column({
-    comment: '是否删除'
-  })
-  is_deleted: boolean
-
   @ManyToMany(type => Tag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
   tags: Tag[];
 
   @ManyToMany(type => Category, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
   categories: Category[]
 
-  @Column({
-    type: 'tinyint',
-    default: 1
-  })
-  status: number
-
-  @Column({
+  @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
+
+  @UpdateDateColumn({
+    type: 'datetime'
+  })
+  update_at: Date
+
+  @Column({
+    type: 'datetime',
+    nullable: true
+  })
+  delete_at: Date
 }
