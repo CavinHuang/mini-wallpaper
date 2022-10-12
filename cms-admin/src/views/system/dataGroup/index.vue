@@ -32,6 +32,7 @@
         <el-button type="primary" link :icon="View" @click="navigator('list', scope.row.id)">配置列表</el-button>
         <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
         <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
+        <el-button type="primary" link :icon="CopyDocument" @click="copyRow(scope.row)">复制</el-button>
       </template>
     </ProTable>
     <FormDrawer :schema="schema" :title="drawerTitle" :initialValues="initialValues" ref="formRef"></FormDrawer>
@@ -44,15 +45,13 @@ import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
-import { CirclePlus, Delete, EditPen, View } from '@element-plus/icons-vue'
+import { CirclePlus, Delete, EditPen, View, CopyDocument } from '@element-plus/icons-vue'
 import { SystemGroupApi, SystemGroup } from '@/api/modules'
 import { useRouter } from 'vue-router'
-import * as Icons from '@element-plus/icons-vue'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
 const router = useRouter()
-const customIcons: { [key: string]: any } = Icons
 
 // 如果表格需要初始化请求参数,直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上)
 const initParam = reactive({})
@@ -100,7 +99,7 @@ const columns: Partial<ColumnProps>[] = [
 // 打开 drawer(新增、查看、编辑)
 interface FormDrwerExpose {
   acceptParams: (params: any) => void
-  handleOpen: (values: unknown) => AuthMenu.Item
+  handleOpen: (values: unknown) => SystemGroup.Item
 }
 const schema = reactive({
   name: {
@@ -263,6 +262,14 @@ const changeStatus = async (row: SystemGroup.Item) => {
   proTable.value.refresh()
 }
 
+// 复制一条数据
+const copyRow = async (row: Partial<SystemGroup.Item>) => {
+  delete row.id
+  row.config_name = row.config_name + '_copy'
+  await useHandleData(SystemGroupApi.add, row, `确认复制【${row.name}】信息？`)
+  proTable.value.refresh()
+}
+
 // 删除信息
 const deleteAccount = async (params: SystemGroup.Item) => {
   // if (params.children && params.children.length) {
@@ -275,11 +282,6 @@ const deleteAccount = async (params: SystemGroup.Item) => {
   // }
   await useHandleData(SystemGroupApi.remove, params.id, `是否确认删除【${params.name}】分类？`)
   proTable.value.refresh()
-}
-
-// 打开 drawer(新增、查看、编辑)
-interface DrawerExpose {
-  acceptParams: (params: any) => void
 }
 
 const formRef = ref<FormDrwerExpose>()

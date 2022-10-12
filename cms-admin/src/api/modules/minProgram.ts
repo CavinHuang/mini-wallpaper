@@ -1,8 +1,17 @@
-import { PORT1 } from '@/api/config/servicePort'
-import http from '@/api'
-
-import { MinProgram, ResPage } from '../interface'
 import { crudBuilder } from '../apiCreator'
+import { ReqPage } from '../interface'
+export namespace MiniProgram {
+  export interface Item {
+    name: string
+    appid: string
+    appsecret: string
+    status: number
+  }
+
+  export interface ReqGetParams extends ReqPage {
+    name: string
+  }
+}
 
 /**
  * 小程序api
@@ -29,4 +38,4 @@ import { crudBuilder } from '../apiCreator'
 //   }
 // }
 
-export const MiniProgramApi = crudBuilder<MinProgram.Item>('/admin/mini-program')
+export const MiniProgramApi = crudBuilder<MiniProgram.Item>('/admin/mini-program')

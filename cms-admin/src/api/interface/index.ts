@@ -61,7 +61,6 @@ export namespace User {
 export * from './crawel'
 export * from './game'
 export * from './system'
-export * from './banner'
 export * from './minProgram'
 export * from './category'
 export * from './resource'

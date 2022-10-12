@@ -26,11 +26,32 @@ export namespace Banner {
   }
 }
 
+export namespace Tag {
+  export interface Item {
+    id: number
+    appid: string
+    type: string
+    tag_name: string
+    remark: string
+    sort: number
+    status: number
+  }
+}
+
 const bannerCurd = crudBuilder<Banner.Item>('/admin/banner')
 
 export const BannerApi = {
   ...bannerCurd,
   getPositions: () => {
     return bannerCurd.http.get<any[]>('/position')
+  }
+}
+
+const tagCurd = crudBuilder<Tag.Item>('/admin/tag')
+
+export const TagApi = {
+  ...tagCurd,
+  getType: () => {
+    return tagCurd.http.get<BaseDictOptions[]>('/type')
   }
 }

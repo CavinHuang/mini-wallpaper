@@ -1,6 +1,6 @@
 import { ReqPage } from '.'
 
-export namespace MinProgram {
+export namespace MiniProgram {
   export interface Item {
     name: string
     appid: string

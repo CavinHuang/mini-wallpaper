@@ -5,7 +5,10 @@ import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { Tag } from "@/models/entity/tag";
+import { SystemGroupDataService } from "../service/systemGroupData";
 import { TagService } from "../service/tag";
+
+const typeDataKey = 'tag_type'
 
 @Controller('/tag', { skipPerm: true })
 export class TagController {
@@ -13,10 +16,19 @@ export class TagController {
   @Inject()
   protected tagService: TagService
 
+  @Inject()
+  protected systemGroupDataService: SystemGroupDataService
+
   @Get('')
   public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
     const listData = await this.tagService.getPageList({ pageNum, pageSize })
     return Response.success(listData)
+  }
+
+  @Get('/type')
+  public async getType() {
+    const typeData = await this.systemGroupDataService.getConfigNameValue(typeDataKey)
+    return Response.success(typeData, Response.successMessage)
   }
 
   @Post('')

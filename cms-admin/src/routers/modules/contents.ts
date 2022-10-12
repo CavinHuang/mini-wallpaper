@@ -69,7 +69,7 @@ const homeRouter: Array<RouteRecordRaw> = [
       {
         path: 'tags',
         name: 'resourceTags',
-        component: () => import('@/views/contents/resource/tag.vue'),
+        component: () => import('@/views/contents/tag/index.vue'),
         meta: {
           keepAlive: true,
           requiresAuth: true,

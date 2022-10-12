@@ -43,3 +43,10 @@ declare interface Options {
   label: string
   value: string
 }
+
+declare interface BaseDictOptions {
+  title: string
+  key: string
+  label: string
+  desc: string
+}
