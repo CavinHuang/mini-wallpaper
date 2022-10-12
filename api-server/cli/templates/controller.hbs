@@ -4,24 +4,24 @@
 import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
-import { {{name}} } from "@/models/entity/{{name}}";
-import { {{name}}Service } from "../service/{{name}}";
+{{#if hasService}}import { {{firstUppercase serviceName}} } from "@/models/entity/{{serviceName}}";
+import { {{firstUppercase serviceName}}Service } from "../service/{{name}}";{{/if}}
 
-@Controller('/{{routerName}}', { skipPerm: true })
-export class {{name}}Controller {
-
+@Controller('/{{camelToUnderline name}}', { skipPerm: true })
+export class {{firstUppercase name}}Controller {
+{{#if hasService}}
   @Inject()
-  protected {{name}}Service: {{name}}Service
+  protected {{lowercase serviceName}}Service: {{firstUppercase serviceName}}Service
 
   @Get('')
   public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
-    const listData = await this.{{name}}Service.getPageList({ pageNum, pageSize })
+    const listData = await this.{{lowercase serviceName}}Service.getPageList({ pageNum, pageSize })
     return Response.success(listData)
   }
 
   @Post('')
   public add(@Body() params: Partial<{{name}}>) {
-    if (this.{{name}}Service.create(params)) {
+    if (this.{{lowercase serviceName}}Service.create(params)) {
       return Response.success(true)
     }
     return Response.error('error')
@@ -29,7 +29,7 @@ export class {{name}}Controller {
 
   @Put('/:id')
   public update(@Params('id') id: number, @Body() params: Partial<{{name}}>) {
-    if (this.{{name}}Service.update(id, params)) {
+    if (this.{{lowercase serviceName}}Service.update(id, params)) {
       return Response.success(true, '更新成功')
     }
     return Response.error('更新失败，请重试')
@@ -37,9 +37,15 @@ export class {{name}}Controller {
 
   @Delete('/:id')
   public delete(@Params('id') id: number) {
-    if (this.{{name}}Service.delete(id)) {
+    if (this.{{lowercase serviceName}}Service.delete(id)) {
       return Response.success(true, '删除成功')
     }
     return Response.error('删除失败，请重试')
   }
+{{else}}
+  @Get('')
+  public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
+    return Response.success({ pageNum, pageSize })
+  }
+{{/if}}
 }
