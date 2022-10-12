@@ -5,7 +5,7 @@ import { Inject } from "@/core/container";
 import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
 {{#if hasService}}import { {{firstUppercase serviceName}} } from "@/models/entity/{{serviceName}}";
-import { {{firstUppercase serviceName}}Service } from "../service/{{name}}";{{/if}}
+import { {{firstUppercase serviceName}}Service } from "../service/{{serviceName}}Service";{{/if}}
 
 @Controller('/{{camelToUnderline name}}', { skipPerm: true })
 export class {{firstUppercase name}}Controller {

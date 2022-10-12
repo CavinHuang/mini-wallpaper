@@ -1,9 +1,9 @@
 <template>
   <div class="table-box">
-    <ProTable ref="proTable" :requestApi="CategoryApi.getList" :initParam="initParam" :columns="columns" :pagination="false">
+    <ProTable ref="proTable" :requestApi="CategoryApi.page" :initParam="initParam" :columns="columns" :pagination="true">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <!-- <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增规则</el-button> -->
+        <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增规则</el-button>
       </template>
       <!-- Expand -->
       <template #expand="scope"> {{ scope.row }} </template>
@@ -23,7 +23,7 @@
       <template #operation="scope">
         <el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row, true)">查看</el-button>
         <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row, true)">编辑</el-button>
-        <!-- <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button> -->
+        <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
       </template>
     </ProTable>
     <UserDrawer ref="drawerRef"></UserDrawer>
@@ -49,11 +49,6 @@ const initParam = reactive({})
 // 配置项
 const columns: Partial<ColumnProps>[] = [
   {
-    type: 'selection',
-    width: 80,
-    fixed: 'left'
-  },
-  {
     type: 'index',
     label: '#',
     width: 80
@@ -65,6 +60,11 @@ const columns: Partial<ColumnProps>[] = [
     width: 200
   },
   {
+    prop: 'type',
+    label: '类型',
+    width: 200
+  },
+  {
     prop: 'name',
     label: '分类名称',
     search: true,
@@ -73,16 +73,6 @@ const columns: Partial<ColumnProps>[] = [
   {
     prop: 'short_name',
     label: '分类简称',
-    width: 200
-  },
-  {
-    prop: 'type',
-    label: 'type',
-    width: 200
-  },
-  {
-    prop: 'type_text',
-    label: 'type_text',
     width: 200
   },
   {
@@ -128,13 +118,13 @@ const getAssetsImage = (cover: string) => {
 
 // 删除分类信息
 const deleteAccount = async (params: Game.cate) => {
-  await useHandleData(deleteCrawel, { id: [params.id] }, `是否确认删除【${params.name}】分类？`)
+  await useHandleData(CategoryApi.remove, params.id, `确认删除【${params.name}】分类？`)
   proTable.value.refresh()
 }
 
 // 切换分类状态
 const changeStatus = async (row: Game.cate) => {
-  await useHandleData(editGameCate, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】分类状态`)
+  await useHandleData(CategoryApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】分类状态`)
   proTable.value.refresh()
 }
 
@@ -149,7 +139,7 @@ const openDrawer = (title: string, rowData: Partial<Game.cate> = {}, isEdit: boo
     rowData: { ...rowData },
     isEdit,
     isView: title === '查看' ? true : false,
-    apiUrl: title === '新增' ? addGameCate : title === '编辑' ? editGameCate : '',
+    apiUrl: title === '新增' ? CategoryApi.add : title === '编辑' ? CategoryApi.update : '',
     getTableList: proTable.value.refresh
   }
   drawerRef.value!.acceptParams(params)

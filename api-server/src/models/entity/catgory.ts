@@ -2,11 +2,13 @@
  * catgory model
  */
 
+import { Repo } from '@/core/decorator'
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Resource } from './resource'
 
+@Repo('Category')
 @Entity()
-export class Catgory {
+export class Category {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -64,12 +66,6 @@ export class Catgory {
   weigh: number
 
   @Column({
-    length: 200,
-    comment: 'type_text'
-  })
-  type_text: string
-
-  @Column({
     comment: 'pid',
     default: 0
   })
@@ -93,7 +89,7 @@ export class Catgory {
   })
   resources: Resource[]
 
-  @CreateDateColumn({
+ @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
@@ -102,4 +98,10 @@ export class Catgory {
     type: 'datetime'
   })
   update_at: Date
+
+  @Column({
+    type: 'datetime',
+    nullable: true
+  })
+  delete_at: Date
 }

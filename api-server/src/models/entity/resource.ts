@@ -3,7 +3,7 @@
  */
 
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Catgory } from './catgory'
+import { Category } from './catgory'
 import { Tag } from './tag'
 
 @Entity()
@@ -94,8 +94,8 @@ export class Resource {
   @ManyToMany(type => Tag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
   tags: Tag[];
 
-  @ManyToMany(type => Catgory, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
-  categories: Catgory[]
+  @ManyToMany(type => Category, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
+  categories: Category[]
 
   @Column({
     type: 'tinyint',
