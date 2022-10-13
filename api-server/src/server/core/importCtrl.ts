@@ -11,6 +11,8 @@ import { initHTTPMares } from './initMiddleware';
 import { appConfig, isDev, dirController, dirSrc, serverConfig } from '@/config';
 import { objectArraySortByAtr } from '@/utils'
 import { validate } from 'class-validator'
+import { httpError } from '@/core/error/http'
+import { GuardManager } from '@/core/decorator/guardManager'
 
 const appendExt = isDev ? '.ts' : '.js'
 
@@ -79,6 +81,7 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
     const importResult = await import(filePath)
     Object.keys(importResult).forEach(name => {
       const controllerName = name
+      // controller
       const Ctrl = importResult[name]
       const inst = Container.get(controllerName)
       const routePrefixMeta = Reflect.getMetadata(TAGS.ROUTE_PREFIX, Ctrl);
@@ -109,6 +112,12 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           const routeParamsTypes = Reflect.getMetadata(TAGS.ROUTE_PARAMS_TYPE, inst, handler)
 
           const sortIndexRouteParams = objectArraySortByAtr(routeParamsMeta, 'index')
+
+          const isPassed = await new GuardManager()
+          .runGuard(ctx, Ctrl, method);
+          if (!isPassed) {
+            throw new httpError.ForbiddenError();
+          }
           
           const data = await inst[handler](...(await Promise.all(sortIndexRouteParams.map(
             // 获取参数
