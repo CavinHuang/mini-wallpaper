@@ -47,8 +47,7 @@ import { ElMessage } from 'element-plus'
 import { DataProps } from '@/components/SelectFilter/types'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
 import { genSchema } from './schema'
-import { Observable, from } from 'rxjs'
-
+import { useAsyncState } from '@vueuse/core'
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
 
@@ -237,10 +236,7 @@ onMounted(() => {
   getTags()
 })
 
-const sub = from(genSchema())
-sub.subscribe((value) => {
-  console.log(value)
-})
+const { schema, setCategories, setMiniprograms, setTags } = genSchema()
 
 // 打开 drawer(新增、查看、编辑)
 interface FormDrwerExpose {
@@ -265,10 +261,14 @@ const openDrawer = (title: string, rowData: Partial<Resource.Item> = {}, isEdit:
   }
   drawerTitle.value = title
   formRef.value!.acceptParams(params)
-  formRef.value!.handleOpen((values: Resource.Item & { pid: number | number[] }) => {
-    if (Array.isArray(values.pid)) {
-      values.pid = values.pid[values.pid.length - 1]
-    }
+  formRef.value!.handleOpen((values: Resource.Item & { cover: any[]; cover2: string; urlType: number }) => {
+    values.url =
+      values.urlType === 1
+        ? values.cover.map((item: any) => {
+            return item.response ? item.response.key : ''
+          })
+        : (values.cover2 as any)
+    values.upload_type = 'qiniu'
     return values
   })
 }

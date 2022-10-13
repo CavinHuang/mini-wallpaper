@@ -27,6 +27,7 @@ export const showFullScreenLoading = () => {
 }
 
 export const tryHideFullScreenLoading = () => {
+  endLoading()
   if (needLoadingRequestCount <= 0) return
   needLoadingRequestCount--
   // if (needLoadingRequestCount === 0) {

@@ -3,7 +3,7 @@
  */
 
 import { Repo } from '@/core/decorator'
-import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Category } from './catgory'
 import { Tag } from './tag'
 
@@ -88,10 +88,28 @@ export class Resource {
   })
   author: number
 
-  @ManyToMany(type => Tag, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
+  @ManyToMany(type => Tag, tag => tag.resources, { createForeignKeyConstraints: false })
+  @JoinTable({
+    name: 'resource_with_tag',
+    joinColumns: [
+      { name: 'tag_id' }
+    ],
+    inverseJoinColumns: [
+      { name: 'resource_id' }
+    ]
+  })
   tags: Tag[];
 
-  @ManyToMany(type => Category, tag => tag.resources, { cascade: true, createForeignKeyConstraints: false })
+  @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
+  @JoinTable({
+    name: 'resource_with_category',
+    joinColumns: [
+      { name: 'category_id' }
+    ],
+    inverseJoinColumns: [
+      { name: 'resource_id' }
+    ]
+  })
   categories: Category[]
 
   @CreateDateColumn({

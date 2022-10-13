@@ -4,7 +4,9 @@
     <router-view v-slot="{ Component }" :key="route.path">
       <transition appear name="fade-transform" mode="out-in">
         <keep-alive :include="cacheRouter" v-if="isRouterRefresh">
-          <component :is="Component" :key="route.path" />
+          <div class="page-content-root">
+            <component :is="Component" :key="route.path" />
+          </div>
         </keep-alive>
       </transition>
     </router-view>

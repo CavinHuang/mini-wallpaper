@@ -1,9 +1,9 @@
 import { useQiNIu } from '@/hooks'
 import { reactive, computed } from 'vue'
+import { useAsyncState } from '@vueuse/core'
+import { schemaRequest } from '@/utils/schemaUpload'
 
-export async function genSchema() {
-  const { uploadUrl, qiniuHttpHost, getKey, token } = await useQiNIu()
-  const key = computed(() => getKey())
+export function genSchema() {
   const schema = reactive({
     appid: {
       type: 'string',
@@ -19,7 +19,11 @@ export async function genSchema() {
       required: true,
       enum: [] as any,
       'x-decorator': 'FormItem',
-      'x-component': 'Select'
+      'x-component': 'Checkbox.Group',
+      'x-component-props': {
+        size: 'small',
+        border: true
+      }
     },
     categories: {
       type: 'string',
@@ -49,7 +53,7 @@ export async function genSchema() {
       default: '0',
       required: true,
       'x-decorator': 'FormItem',
-      'x-component': 'Input.TextArea'
+      'x-component': 'Input'
     },
     vip_price: {
       type: 'string',
@@ -57,7 +61,7 @@ export async function genSchema() {
       default: '0',
       required: true,
       'x-decorator': 'FormItem',
-      'x-component': 'Input.TextArea'
+      'x-component': 'Input'
     },
     urlType: {
       type: 'boolean',
@@ -83,12 +87,9 @@ export async function genSchema() {
       'x-decorator': 'FormItem',
       'x-component': 'Upload',
       'x-component-props': {
-        multiple: false,
-        action: uploadUrl.value,
-        data: {
-          key: key.value,
-          token: token
-        }
+        multiple: true,
+        httpRequest: schemaRequest,
+        'list-type': 'picture'
       },
       required: true,
       'x-reactions': [
@@ -105,7 +106,7 @@ export async function genSchema() {
     cover2: {
       type: 'string',
       title: '地址',
-      default: '0',
+      default: 'http://',
       required: true,
       'x-decorator': 'FormItem',
       'x-component': 'Input.TextArea',
@@ -131,6 +132,7 @@ export async function genSchema() {
       'x-component': 'InputNumber'
     }
   })
+
   function setMiniprograms(options: Options[]) {
     schema.appid.enum = options
   }
@@ -142,7 +144,6 @@ export async function genSchema() {
   }
   return {
     schema,
-    qiniuHttpHost,
     setMiniprograms,
     setTags,
     setCategories

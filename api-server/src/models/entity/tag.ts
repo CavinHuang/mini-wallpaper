@@ -46,16 +46,7 @@ export class Tag {
   })
   status: number
 
-  @ManyToMany(type => Resource, r => r.tags, { createForeignKeyConstraints: false })
-  @JoinTable({
-    name: 'resource_with_tag',
-    joinColumns: [
-      { name: 'tag_id' }
-    ],
-    inverseJoinColumns: [
-      { name: 'resource_id' }
-    ]
-  })
+  @ManyToMany(type => Resource, resource => resource.tags, { cascade: true, createForeignKeyConstraints: false })
   resources: Resource[]
 
   @CreateDateColumn({

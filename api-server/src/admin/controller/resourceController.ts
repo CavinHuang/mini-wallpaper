@@ -19,16 +19,16 @@ export class ResourceController {
   }
 
   @Post('')
-  public add(@Body() params: Partial<Resource>) {
-    if (this.resourceService.create(params)) {
+  public add(@Body() params: Partial<Resource> & { url: string | Array<string>; }) {
+    if (this.resourceService.saveResource(params)) {
       return Response.success(true)
     }
     return Response.error('error')
   }
 
   @Put('/:id')
-  public update(@Params('id') id: number, @Body() params: Partial<Resource>) {
-    if (this.resourceService.update(id, params)) {
+  public update(@Params('id') id: number, @Body() params: Partial<Resource> & { url: string | Array<string>; }) {
+    if (this.resourceService.saveResource({id, ...params})) {
       return Response.success(true, '更新成功')
     }
     return Response.error('更新失败，请重试')
