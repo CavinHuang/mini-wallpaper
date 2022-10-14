@@ -13,5 +13,6 @@ export const ROUTE_PARAMS_SOURCE = {
   QUERY: Symbol('QUERY'),
   BODY: Symbol('BODY'),
   PARAMS: Symbol('PARAMS'),
-  ALL_PARAMS: Symbol('ALL_PARAMS')
+  ALL_PARAMS: Symbol('ALL_PARAMS'),
+  HEADERS: Symbol('HEADERS')
 }

@@ -12,6 +12,8 @@ import { initRoute } from './core/importCtrl'
 import { dirController, secret, unlessRoute } from '../config'
 import { typeOrmInit } from '../models'
 import { RequestLog, koaError } from '@/middlewares'
+import { AppContext } from '../interface/application';
+import { Provide } from '@/core/container'
 
 interface Config {
   name: string
@@ -31,6 +33,7 @@ interface Config {
   logger: any
 }
 
+@Provide()
 export class Server {
   public config: Config
   public http2: ((request: Http2ServerRequest, response: Http2ServerResponse) => void) | undefined
@@ -48,9 +51,8 @@ export class Server {
     if (!serverConfig) throw TypeError('缺少 [服务器配置]{serverConfig}')
 
     this.config = serverConfig
-    this.koa = new Koa()
+    this.koa = new Koa<any, AppContext>()
     this.server = this.http2 ? createSecureServer(this.http2) : createServer(this.koa.callback())
-
     this.init()
       .then(() => {
         this.start()
@@ -182,7 +184,7 @@ export class Server {
   }
 
   public async initRouter() {
-    this.koa.use(async (ctx, next) => {
+    this.koa.use(async (ctx: AppContext, next) => {
       ctx.$ = this
       await next()
     })

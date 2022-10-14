@@ -1,5 +1,6 @@
 import { isObject } from '@/utils';
 import 'reflect-metadata'
+import { APPLICATION_CONTEXT_KEY } from '../decorator/constant';
 
 type ClassStruct<T = any> = (new (...args: any[]) => T ) | any;
 type ServiceKey<T = any> = string | ClassStruct<T> | Function;
@@ -73,4 +74,35 @@ export function Inject(key?: string): PropertyDecorator {
       key ?? Reflect.getMetadata('design:type', target, propertyKey)
     );
   };
+}
+
+/**
+ * binding getter method for decorator
+ *
+ * @param prop
+ * @param instance
+ * @param getterHandler
+ */
+function defineGetterPropertyValue(prop, instance, getterHandler) {
+    if (prop && getterHandler) {
+      if (prop.propertyName) {
+        Object.defineProperty(instance, prop.propertyName, {
+          get: () => {
+            // getterHandler(prop.propertyName, prop.metadata ?? {}, instance)
+          },
+          configurable: true, // 继承对象有可能会有相同属性，这里需要配置成 true
+          enumerable: true,
+        });
+      }
+    }
+  }
+
+export function Context() {
+  return (target, propertyKey) => {
+    const data = Container.get(APPLICATION_CONTEXT_KEY)
+    Container.propertyRegistry.set(
+      `${target.constructor.name}:${String(propertyKey)}`,
+      data
+    );
+  }
 }

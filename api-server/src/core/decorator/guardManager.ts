@@ -50,13 +50,14 @@ export class GuardManager<
       methodName
     );
     if (methodGuardList) {
-      // for (const Guard of methodGuardList) {
-      //   const guard = await ctx.requestContext.getAsync<IGuard<any>>(Guard);
-      //   const isPassed = await guard.canActivate(ctx, supplierClz, methodName);
-      //   if (!isPassed) {
-      //     return false;
-      //   }
-      // }
+      for (const Guard of methodGuardList) {
+        const isPassed = await (async() => {
+          return (new Guard).canActivate(ctx, supplierClz, methodName)
+        })()
+        if (!isPassed) {
+          return false;
+        }
+      }
     }
     return true;
   }

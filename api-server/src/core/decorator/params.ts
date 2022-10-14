@@ -24,3 +24,4 @@ export const Query = register(ROUTE_PARAMS_SOURCE.QUERY)
 export const Body = register(ROUTE_PARAMS_SOURCE.BODY)
 export const AllParams = register(ROUTE_PARAMS_SOURCE.ALL_PARAMS)
 export const Req = Query
+export const Headers = register(ROUTE_PARAMS_SOURCE.HEADERS)

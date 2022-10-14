@@ -86,12 +86,12 @@ export class AdminUserController {
    */
   @Put('/:id')
   public async update(@Params('id') id: number, @Body() params: Partial<AdminUser> & { role_id: number }) {
-    // const result = await this.adminUserService.update(id, params)
-    // const saveRoleDataRes = await this.adminUserService.saveRoleData(id, [ params.role_id ])
-    // if (result && saveRoleDataRes) {
-    //   return Response.success(true, '更新成功')
-    // }
-    // return Response.error('更新失败，请重试')
+    const saveParams = { ...params, role_auth: [params.role_id], role_id: undefined }
+    const userSaveRes = await this.adminUserService.saveAdminUser(saveParams)
+    if (userSaveRes) {
+      return Response.success(true, '更新成功')
+    }
+    return Response.error('更新失败，请重试')
   }
 
   /**

@@ -100,10 +100,7 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           }
           await next()
         })
-        // 前置中间件
-        // for (const mare of maresHTTPBefore) {
-        //   router[method](fullPath, mare)
-        // }
+        
         // 注册路由
         router[method](fullPath, ...maresHTTPBefore, async (ctx, next) => {
           // 请求参数元信息
@@ -151,10 +148,6 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           await next()
         }, ...maresHTTPAfter)
 
-        // 后置中间件
-        // for (const mare of maresHTTPAfter) {
-        //   router[method](fullPath, mare)
-        // }
         app.logWarn(`✔ 加载 ~[HTTP接口]~[${method}]~{${moduleConfig.routerPrefix}${fullPath}}`)
       })
     })
