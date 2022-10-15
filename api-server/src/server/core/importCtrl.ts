@@ -132,6 +132,12 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
                   break
                 case ROUTE_PARAMS_SOURCE.ALL_PARAMS:
                   params = { ...ctx.query, ...ctx.request.body, ...ctx.params}
+                  break
+                case ROUTE_PARAMS_SOURCE.CONTEXT:
+                  params = ctx
+                  break
+                case ROUTE_PARAMS_SOURCE.HEADER:
+                  params = ctx.header
               }
               // 普通对象转为 DTO 的实例对象
               const entity = plainToClass(routeParamsTypes[index], name ? params[name] : params)
