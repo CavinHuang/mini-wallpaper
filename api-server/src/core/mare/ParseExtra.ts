@@ -1,5 +1,5 @@
 const initMareParseExtra = () => {
-  return async (ctx, next) => {
+  return async function ParseExtra(ctx, next) {
     const raw = ctx.raw || (ctx.raw = {})
 
     raw._files = ctx.files

@@ -3,7 +3,7 @@ import Joi from 'joi'
 import { Response } from '../responce';
 
 export default function initCommentService() {
-  return async function (ctx: any, next: any ) {
+  return async function initCommentServiceHandler(ctx: any, next: any ) {
     const commonService = new CommonService()
     const headerAppid = ctx.headers.appid
     const webType = ctx.headers.webtype

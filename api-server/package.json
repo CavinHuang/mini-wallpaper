@@ -21,6 +21,7 @@
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "deepmerge": "^4.2.2",
     "dotenv": "^16.0.1",
     "fs-readdir-recursive": "^1.1.0",
     "glob": "^8.0.3",

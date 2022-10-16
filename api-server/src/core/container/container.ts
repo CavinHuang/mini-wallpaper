@@ -75,34 +75,3 @@ export function Inject(key?: string): PropertyDecorator {
     );
   };
 }
-
-/**
- * binding getter method for decorator
- *
- * @param prop
- * @param instance
- * @param getterHandler
- */
-function defineGetterPropertyValue(prop, instance, getterHandler) {
-    if (prop && getterHandler) {
-      if (prop.propertyName) {
-        Object.defineProperty(instance, prop.propertyName, {
-          get: () => {
-            // getterHandler(prop.propertyName, prop.metadata ?? {}, instance)
-          },
-          configurable: true, // 继承对象有可能会有相同属性，这里需要配置成 true
-          enumerable: true,
-        });
-      }
-    }
-  }
-
-export function Context() {
-  return (target, propertyKey) => {
-    const data = Container.get(APPLICATION_CONTEXT_KEY)
-    Container.propertyRegistry.set(
-      `${target.constructor.name}:${String(propertyKey)}`,
-      data
-    );
-  }
-}

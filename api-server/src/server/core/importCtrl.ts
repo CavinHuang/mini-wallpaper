@@ -13,10 +13,27 @@ import { objectArraySortByAtr } from '@/utils'
 import { validate } from 'class-validator'
 import { httpError } from '@/core/error/http'
 import { GuardManager } from '@/core/decorator/guardManager'
+import deepmerge from 'deepmerge'
 
 const appendExt = isDev ? '.ts' : '.js'
 
 const defaultController = 'controller'
+
+const combineMerge = (target, source, options) => {
+  const destination = target.slice()
+
+  source.forEach((item, index) => {
+      if (typeof destination[index] === 'undefined') {
+          destination[index] = options.cloneUnlessOtherwiseSpecified(item, options)
+      } else if (options.isMergeableObject(item)) {
+          destination[index] = deepmerge(target[index], item, options)
+      } else if (target.indexOf(item) === -1) {
+          destination.push(item)
+      }
+  })
+  return destination
+}
+
 function initModules() {
   const { modules, controller } = appConfig
   const modulesFiles = {}
@@ -51,18 +68,33 @@ const filterHandler = (modulesFiles: Record<string, string[]>) => {
 function initModuleConfig(module: string) {
   const modulePath = path.join(dirSrc, module)
   const configPath = path.join(modulePath, 'config.json')
-  const { controller } = appConfig
+  const { controller, moduleConfig } = appConfig
 
+  const currentModuleConfig = Object.prototype.hasOwnProperty.call(moduleConfig, module) ? moduleConfig[module] : {}
   const defaultConfig = {
     "module": module,
     controller: controller[module] || 'controller',
-    "routerPrefix": "/" + module
+    "routerPrefix": "/" + module,
+    middlewares: {
+      before: [],
+      after: []
+    }
   }
   let config = {}
   if (fs.existsSync(configPath)) {
-    config = JSON.stringify(fs.readFileSync(configPath))
+    config = JSON.parse(fs.readFileSync(configPath).toString())
   }
-  return Object.assign({}, defaultConfig, config)
+  if (currentModuleConfig.middlewares) {
+    const _middlewares = {}
+    for (const positon in currentModuleConfig.middlewares) {
+      if (Object.prototype.hasOwnProperty.call(currentModuleConfig.middlewares, positon)) {
+        const element = currentModuleConfig.middlewares[positon];
+        _middlewares[positon] = element.map(handler => handler())
+      }
+    }
+    config = deepmerge(config, { middlewares: _middlewares }, { arrayMerge: combineMerge })
+  }
+  return deepmerge( defaultConfig, config, { arrayMerge: combineMerge })
 }
 
 async function mountedRouter(app: Server, module: string, filesApp: string[], maresHTTPBefore: any[], maresHTTPAfter: any[]) {
@@ -100,9 +132,9 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           }
           await next()
         })
-        
         // 注册路由
-        router[method](fullPath, ...maresHTTPBefore, async (ctx, next) => {
+        const beforeMiddlewares = [...maresHTTPBefore, ...moduleConfig.middlewares.before].filter(item => item)
+        router[method](fullPath, ...beforeMiddlewares, async (ctx, next) => {
           // 请求参数元信息
           const routeParamsMeta = Reflect.getMetadata(TAGS.ROUTE_PARAMS, Ctrl, handler) || []
           // 请求参数类型信息
@@ -138,6 +170,7 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
                   break
                 case ROUTE_PARAMS_SOURCE.HEADER:
                   params = ctx.header
+                  break
               }
               // 普通对象转为 DTO 的实例对象
               const entity = plainToClass(routeParamsTypes[index], name ? params[name] : params)
@@ -152,7 +185,7 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           )));
           ctx.body = data
           await next()
-        }, ...maresHTTPAfter)
+        }, ...[...maresHTTPAfter, ...moduleConfig.middlewares.after])
 
         app.logWarn(`✔ 加载 ~[HTTP接口]~[${method}]~{${moduleConfig.routerPrefix}${fullPath}}`)
       })

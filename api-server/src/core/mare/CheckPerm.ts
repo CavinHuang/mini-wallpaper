@@ -2,7 +2,7 @@ import CR from 'crypto'
 import { crypto } from '../../config'
 
 const initMareCheckPerm = () => {
-  return async (ctx_, next) => {
+  return async function CheckPerm(ctx_, next) {
     const ctx = ctx_
     const raw = ctx.raw
 

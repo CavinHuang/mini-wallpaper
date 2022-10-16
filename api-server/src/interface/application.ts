@@ -5,5 +5,6 @@ export type AppRequest = Request & { body: Record<string, any> }
 
 export type AppContext = Context & { 
   request: AppRequest
+  user: any
   $: Server
 }

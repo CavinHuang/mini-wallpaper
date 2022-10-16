@@ -1,4 +1,7 @@
 {
   "module": "admin",
-  "routerPrefix": "/admin"
+  "routerPrefix": "/admin",
+  "whiteRouter": [
+    "/admin/index/index"
+  ]
 }
