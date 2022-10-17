@@ -70,12 +70,6 @@ export class AdminUserController {
       return Response.success(true)
     }
     return Response.error('创建失败,请重试')
-    // const result = await this.adminUserService.create(params)
-    // const saveRoleDataRes = await this.adminUserService.saveRoleData(result.id, [ params.role_id ])
-    // if (result && saveRoleDataRes) {
-    //   return Response.success(true)
-    // }
-    // return Response.error('error')
   }
 
   /**

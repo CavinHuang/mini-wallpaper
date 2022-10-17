@@ -46,4 +46,15 @@ export class AdminUserService extends BaseService {
       password
     }
   }
+
+  /**
+   * 校验密码
+   * @param user 
+   * @param password 
+   * @returns 
+   */
+  public validatePassword(user: AdminUser, password: string) {
+    console.log(user.password, password)
+    return user && bcrypt.compareSync(password, user.password)
+  }
 }

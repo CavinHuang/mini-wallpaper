@@ -69,14 +69,16 @@ const login = (formEl: FormInstance | undefined) => {
           password: loginForm.password
         }
         const res = await loginApi(requestLoginForm)
+        console.log(res)
         // * 存储 token
-        globalStore.setToken(res.data!.token)
+        globalStore.setToken(res.data)
         // * 登录成功之后清除上个账号的 menulist 和 tabs 数据
         menuStore.setMenuList([])
         tabStore.closeMultipleTab()
 
         ElMessage.success('登录成功！')
-        router.push({ name: 'home' })
+        console.log('111')
+        router.push({ path: '/home' })
       } finally {
         loading.value = false
       }

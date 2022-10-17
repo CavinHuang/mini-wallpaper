@@ -3,7 +3,7 @@
  */
 
 import { Pagination } from "@/core";
-import { Repository, DeepPartial, FindOptionsWhere, SelectQueryBuilder, IsNull, getConnection, QueryRunner, EntityTarget } from 'typeorm';
+import { Repository, DeepPartial, FindOptionsWhere, SelectQueryBuilder, IsNull, getConnection, QueryRunner, EntityTarget, FindOptionsSelect } from 'typeorm';
 import { BusinessError } from '../core/error/businessError';
 
 export class BaseService<ModelRepo = Record<string, any>> {
@@ -51,11 +51,19 @@ export class BaseService<ModelRepo = Record<string, any>> {
    * @returns 
    */
   public info(id: number) {
+    return this.getInfo({ id })
+  }
+
+  public getInfo<T = unknown>(where: FindOptionsWhere<T>, extra?: {
+    select?: FindOptionsSelect<T>
+  }) {
+    const extraOptions = extra && extra.select ? { select: extra.select } : {} as any
     return this.entity.findOne({
       where: {
-        id,
+        ...where,
         delete_at: IsNull()
-      } as unknown as FindOptionsWhere<ModelRepo>
+      } as unknown as FindOptionsWhere<ModelRepo & T>,
+      ...extraOptions
     })
   }
   

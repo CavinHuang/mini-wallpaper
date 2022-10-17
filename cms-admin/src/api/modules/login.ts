@@ -1,15 +1,18 @@
 import { Login } from '@/api/interface/index'
 import { PORT1, PORT2 } from '@/api/config/servicePort'
 
-import http from '@/api'
+import { request } from '@/api'
+
+const http = request({
+  baseURL: '/admin'
+})
 
 /**
  * @name 登录模块
  */
 // * 用户登录接口
 export const loginApi = (params: Login.ReqLoginForm) => {
-  // return http.post<Login.ResLogin>(PORT1 + `/login`, params, { headers: { noLoading: true } });
-  return http.post<Login.ResLogin>(PORT2 + '/login', params)
+  return http.post<string>('/login', params)
 }
 
 // * 获取按钮权限
