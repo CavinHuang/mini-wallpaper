@@ -40,7 +40,7 @@ export class Category {
     length: 200,
     comment: 'covor'
   })
-  covor: string
+  cover: string
 
   @Column({
     length: 200,
@@ -63,7 +63,7 @@ export class Category {
   @Column({
     comment: 'weigh'
   })
-  weigh: number
+  sort: number
 
   @Column({
     comment: 'pid',

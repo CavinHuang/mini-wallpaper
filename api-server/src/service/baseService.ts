@@ -26,7 +26,7 @@ export class BaseService<ModelRepo = Record<string, any>> {
    * @returns Promise<Pagination>
    */
   public async getPageList<T = unknown>(
-    { pageNum = 1, pageSize = 10, offset = 0, limit = 15, alias = ''},
+    { pageNum, pageSize, offset, limit, alias = ''}: { pageNum?: number; pageSize?: number; offset?: number; limit?: number; alias?: string },
     extral?: (query: SelectQueryBuilder<T & ModelRepo>) => SelectQueryBuilder<T & ModelRepo>,
     resultHandler?: (res: any[]) => any[] 
   ) {

@@ -6,16 +6,29 @@ import { Body, Controller, Delete, Get, Params, Post, Put, Query } from "@/core/
 import { Response } from "@/core/responce";
 import { Category } from "@/models/entity/catgory";
 import { CatgoryService } from "../service/catgoryService";
+import { SystemGroupDataService } from "../service/systemGroupData";
+
+const typeDataKey = 'category_type'
 
 @Controller('/category', { skipPerm: true })
 export class CategoryController {
   @Inject()
   protected catgoryService: CatgoryService
 
+  
+  @Inject()
+  protected systemGroupDataService: SystemGroupDataService
+
   @Get('')
   public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
     const listData = await this.catgoryService.getPageList({ pageNum, pageSize })
     return Response.success(listData)
+  }
+
+  @Get('/type')
+  public async getType() {
+    const typeData = await this.systemGroupDataService.getConfigNameValue(typeDataKey)
+    return Response.success(typeData, Response.successMessage)
   }
 
   @Post('')

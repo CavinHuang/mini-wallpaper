@@ -35,8 +35,7 @@ import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import { CirclePlus, Delete, EditPen, View } from '@element-plus/icons-vue'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
-import { TagApi, Tag, MiniProgram } from '@/api/modules'
-import { MiniProgramApi } from '../../../api/modules/minProgram'
+import { TagApi, Tag, MiniProgram, MiniProgramApi } from '@/api/modules'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()

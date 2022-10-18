@@ -45,7 +45,7 @@ export namespace Category {
     type: string
     name: string
     short_name: string
-    covor: string
+    cover: string
     keywords: string
     url: string
     description: string

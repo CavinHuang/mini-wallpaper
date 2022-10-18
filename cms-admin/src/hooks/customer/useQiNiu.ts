@@ -30,3 +30,10 @@ export async function useQiNIu() {
     token: await getQiniuToken()
   }
 }
+
+export const qiniuResourceUrl = (key: string) => {
+  const globalStore = GlobalStore()
+  const qiniuHttpHost = computed(() => globalStore.getAppData('qiniuHttpHost')?.value)
+
+  return qiniuHttpHost.value + '/' + key
+}
