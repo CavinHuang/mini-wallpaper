@@ -88,6 +88,12 @@ export class Resource {
   })
   author: number
 
+  @Column({
+    comment: '状态',
+    default: 1
+  })
+  status: number
+
   @ManyToMany(type => Tag, tag => tag.resources, { createForeignKeyConstraints: false })
   @JoinTable({
     name: 'resource_with_tag',

@@ -29,7 +29,6 @@ const deleteFile = (keys = [], bucket = 'cavin-static') => {
       qiniu.rs.deleteOp(bucket, key),
     )
   })
-  console.log(deleteOperations)
   return new Promise((resolve,reject) => {
     bucketManager.batch(deleteOperations, function(err, respBody, respInfo) {
       if (err) {

@@ -3,6 +3,7 @@
   "routerPrefix": "/admin",
   "whiteRouter": [
     "/admin/index/index",
-    "/admin/login"
+    "/admin/login",
+    "/admin/resource"
   ]
 }

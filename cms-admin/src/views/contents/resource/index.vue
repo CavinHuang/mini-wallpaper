@@ -9,7 +9,13 @@
         <template #tableHeader>
           <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增资源</el-button>
         </template>
-        <!-- Expand -->
+        <template #url="{ row }">
+          <el-image
+            class="table-wall-image"
+            v-if="row.thumb_url.indexOf('/') > -1"
+            :src="row.thumb_url.indexOf('http') > -1 ? row.thumb_url : qiniuResourceUrl(row.thumb_url)"
+          />
+        </template>
         <!-- 用户状态 slot -->
         <template #status="scope">
           <!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所有在外层包一个盒子，点击触发盒子 click 方法 -->
@@ -47,7 +53,8 @@ import { ElMessage } from 'element-plus'
 import { DataProps } from '@/components/SelectFilter/types'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
 import { genSchema } from './schema'
-import { useAsyncState } from '@vueuse/core'
+import { qiniuResourceUrl } from '@/hooks/customer'
+
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
 

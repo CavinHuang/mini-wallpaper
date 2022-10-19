@@ -46,7 +46,7 @@ const initParam = reactive({})
 // 配置项
 const columns: Partial<ColumnProps>[] = [
   {
-    type: 'index',
+    prop: 'id',
     label: '#',
     width: 80
   },

@@ -1,5 +1,6 @@
 const Axios = require('axios')
 const { sign } = require('./util')
+const { transform, saveResource, sleep } = require('../qiniu')
 
 const clientSecret = 'zMSsJN+oJZgn0IPYopvz9Q=='
 const apiUrl = 'https://api.bspapp.com/client'
@@ -68,6 +69,102 @@ const clientInfo = {
   "LOCALE": "zh-Hans"
 }
 
+const tagMap = [
+    {
+        "id": 16,
+        "name": "赛博"
+    },
+    {
+        "id": 17,
+        "name": "聊天背景"
+    },
+    {
+        "id": 2,
+        "name": "美女"
+    },
+    {
+        "id": 3,
+        "name": "风景"
+    },
+    {
+        "id": 8,
+        "name": "小清新"
+    },
+    {
+        "id": 9,
+        "name": "动漫"
+    },
+    {
+        "id": 10,
+        "name": "沙雕"
+    },
+    {
+        "id": 11,
+        "name": "王者荣耀"
+    },
+    {
+        "id": 12,
+        "name": "日系动漫"
+    },
+    {
+        "id": 13,
+        "name": "和平精英"
+    },
+    {
+        "id": 14,
+        "name": "风景"
+    },
+    {
+        "id": 15,
+        "name": "景深"
+    }
+]
+
+const category = 114
+const commonTag = 18
+
+
+async function sqlBuild(item) {
+  const { name, tags, images } = item
+  const res = await Promise.allSettled(images.map(img => transform(img)))
+  const keys = []
+  const errorUrls = []
+
+  res.forEach((item, index) => {
+    if (item.status === 'fulfilled') {
+      keys[index] = item.value 
+    } else {
+      keys[index] = undefined
+      errorUrls.push(images[index])
+    }
+  })
+  
+  // let sql = "INSERT INTO `resource` (`appid`, `type` `name`, `info`, `url`, `thumb_url`, `upload_ ype`, `price`, `vip_pr ce`, `sort`, `is_hot`, `is_recom end`, `author`, `create_at`, `update_at`) VALUES ('wx123004cdf793dff7', 'image', '" + name + "', '"+ keys.join(';') +"', '"+ keys[0] +"', 'qiniu', '0', '0', 1, 0, 0, '', '2022-10-19 09:05:41.648519', '2022-10-19 09:05:41.648519');"
+
+  const getTagId = () => {
+    return tagMap.filter(_tag => {
+      return tags.indexOf(_tag.name) > -1 || name.indexOf(_tag.name) > -1
+    })
+  }
+  const allTag = getTagId()
+  const _tags = allTag.length ? allTag.map(item => item.id) : [commonTag]
+  const postData = {
+    "tags": _tags,
+    "price": "0",
+    "vip_price": "0",
+    "urlType": 1,
+    "appid": "wx123004cdf793dff7",
+    "categories": 114,
+    "name": name,
+    "info": name,
+    "sort": 1,
+    "url": keys,
+    "upload_type": "qiniu",
+    type: 'image'
+  }
+  await saveResource(postData)
+}
+
 function buildParams(functionTarget, params = {}) {
   const data = {
     functionTarget,
@@ -126,14 +223,36 @@ async function request(functionTarget, params, needToken = true) {
   })
 }
 
-function getList() {
+function getList(pageIndex = 2) {
   const params = {
-    search: '221012',
-    pageIndex: 1,
+    // search: '221012',
+    filter: {
+      status: 1,
+
+    },
+    order: {
+      name: 'time',
+      type: 'desc'
+    },
+    pageIndex,
     pageSize: 5
   }
-  request('query_list', params, true).then(res => {
-    console.log(res.data.data)
+  request('query_list', params, true).then(async(res) => {
+    console.log(JSON.stringify(res.data.data))
+    const data = res.data.data.data || []
+
+    for (let i = 0; i < data.length; i++) {
+      await sqlBuild(data[i])
+      await sleep(2)
+    }
+
+    if (res.data.data.hasMore) {
+      pageIndex++
+      await sleep(2)
+      getList(pageIndex)
+      console.log('下一页', pageIndex)
+    }
+
   }).catch(e => {
     console.log(e) 
   })
