@@ -54,6 +54,9 @@ import { DataProps } from '@/components/SelectFilter/types'
 import FormDrawer from '@/components/FormDrawer/FormDrawer.vue'
 import { genSchema } from './schema'
 import { qiniuResourceUrl } from '@/hooks/customer'
+import { GlobalStore } from '@/store'
+
+const globalStore = GlobalStore()
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -87,7 +90,7 @@ const columns: Partial<ColumnProps>[] = [
   {
     prop: 'url',
     label: '链接',
-    width: 240
+    width: 120
   },
   {
     prop: 'upload_type',
@@ -123,7 +126,7 @@ const columns: Partial<ColumnProps>[] = [
     prop: 'status',
     label: '状态',
     sortable: true,
-    width: 160
+    width: 100
   },
   {
     prop: 'create_at',
@@ -155,7 +158,7 @@ const deleteAccount = async (params: User.ResUserList) => {
 
 // 切换用户状态
 const changeStatus = async (row: User.ResUserList) => {
-  await useHandleData(changeUserStatus, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.username}】用户状态`)
+  await useHandleData(ResourceApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.username}】状态`)
   proTable.value.refresh()
 }
 
@@ -250,14 +253,37 @@ interface FormDrwerExpose {
   acceptParams: (params: any) => void
   handleOpen: (values: unknown) => Tag.Item
 }
+const qiniuHttpHost = computed(() => globalStore.getAppData('qiniuHttpHost')?.value)
+
 const formRef = ref<FormDrwerExpose>()
 const initialValues = ref<Partial<Resource.Item>>()
 const drawerTitle = ref('')
-const openDrawer = (title: string, rowData: Partial<Resource.Item> = {}, isEdit: boolean = false) => {
+const openDrawer = (
+  title: string,
+  rowData: Partial<Resource.Item> & { cover?: any[]; cover2?: string; urlType?: number } = {},
+  isEdit: boolean = false
+) => {
   initialValues.value = rowData
   setMiniprograms(miniPrograms.value.map((item) => ({ label: item.name, value: item.appid })))
   setTags(tags.value.map((item) => ({ label: item.tag_name, value: item.id })))
   setCategories(categorys.value.map((item) => ({ label: item.name, value: item.id })))
+
+  rowData.tags = rowData.tags!.map((item) => item.id) as any
+  rowData.categories = rowData.categories![0].id as any
+  if (rowData.thumb_url?.includes('http')) {
+    rowData.cover2 = rowData.url!.join('\r\n')
+    rowData.urlType = 2
+  } else {
+    rowData.cover = rowData.url!.map((item) => {
+      return {
+        name: 'xxxx',
+        url: qiniuResourceUrl(item)
+      }
+    })
+    rowData.urlType = 1
+    // setFileList(rowData.cover)
+  }
+  console.log('🚀 ~ file: index.vue ~ line 280 ~ rowData', rowData)
   let params = {
     title: title,
     rowData: { ...rowData },
@@ -272,7 +298,7 @@ const openDrawer = (title: string, rowData: Partial<Resource.Item> = {}, isEdit:
     values.url =
       values.urlType === 1
         ? values.cover.map((item: any) => {
-            return item.response ? item.response.key : ''
+            return item.name ? item.url.replace(qiniuHttpHost.value, '') : item.response ? item.response.key : ''
           })
         : (values.cover2 as any)
     values.upload_type = 'qiniu'

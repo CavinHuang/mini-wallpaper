@@ -14,7 +14,11 @@ export class ResourceController {
 
   @Get('')
   public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
-    const listData = await this.resourceService.getPageList({ pageNum, pageSize })
+    const listData = await this.resourceService.getPageList({ pageNum, pageSize, alias: 'r' }, (query) => {
+      query.leftJoinAndSelect('r.categories', 'rc')
+      query.leftJoinAndSelect('r.tags', 'rt')
+      return query
+    })
     return Response.success(listData)
   }
 

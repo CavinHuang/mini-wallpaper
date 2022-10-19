@@ -69,7 +69,9 @@ export namespace Resource {
     type: string
     name: string
     info: string
-    url: string
+    url: string[]
+    tags: Tag.Item[]
+    categories: Category.Item[]
     thumb_url: string
     upload_type: string
     price: number

@@ -65,7 +65,7 @@ export function genSchema() {
     },
     urlType: {
       type: 'boolean',
-      title: '',
+      title: '上传方式',
       required: true,
       default: 1,
       enum: [
@@ -88,7 +88,7 @@ export function genSchema() {
       'x-component': 'Upload',
       'x-component-props': {
         multiple: true,
-        httpRequest: schemaRequest,
+        httpRequest: schemaRequest(),
         'list-type': 'picture'
       },
       required: true,

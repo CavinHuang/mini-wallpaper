@@ -16,13 +16,13 @@ import {
   Select,
   ArrayItems,
   Space,
-  Upload,
   InputNumber
 } from '@formily/element-plus'
 import type { ISchema } from '@formily/vue'
 import { createSchemaField } from '@formily/vue'
 import { SelectIcon } from '@/components/Formily/SelectIcon'
 import { FormTree } from '../Formily/Tree'
+import Upload from '../Formily/upload'
 
 const { SchemaField } = createSchemaField({
   components: {

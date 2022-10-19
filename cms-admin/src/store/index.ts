@@ -46,7 +46,6 @@ export const GlobalStore = defineStore({
     getAppData(state) {
       return (key: string) => {
         const appData = state.dicts.appData
-        console.log('🚀 ~ file: index.ts ~ line 36 ~ return ~ appData', appData)
         if (Object.keys(appData).length) {
           return appData[key]
         }

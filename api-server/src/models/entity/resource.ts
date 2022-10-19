@@ -6,6 +6,7 @@ import { Repo } from '@/core/decorator'
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Category } from './catgory'
 import { Tag } from './tag'
+import { ArrayStringTransformer } from '../transformer/arrayString';
 
 @Repo('Resource')
 @Entity()
@@ -39,7 +40,8 @@ export class Resource {
 
   @Column({
     length: 500,
-    comment: '资源的地址'
+    comment: '资源的地址',
+    transformer: new ArrayStringTransformer('')
   })
   url: string
 

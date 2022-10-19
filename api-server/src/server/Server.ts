@@ -156,7 +156,7 @@ export class Server {
     //   })
     // )
 
-    koa.use(Cors())
+    // koa.use(Cors())
 
     // hsts请求头
     // koa.use(

@@ -1,9 +1,6 @@
 import { ElTree } from 'element-plus'
-import { transformComponent } from '@formily/element-plus/lib/__builtins__'
-import { connect, h, mapProps, mapReadPretty, useField } from '@formily/vue'
-import { PreviewText } from '@formily/element-plus'
+import { connect, h, mapProps } from '@formily/vue'
 import { defineComponent, PropType } from 'vue'
-import { observer } from '@formily/reactive-vue'
 export type TreeProps = typeof ElTree
 
 // const TransformElTree = transformComponent<TreeProps>(ElTree, {
