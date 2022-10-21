@@ -7,4 +7,6 @@ import { MiniProgram } from '@/models/entity/miniprogram';
 export class MiniProgramService extends BaseService {
   @Inject('MiniProgram')
   public repository:Repository<MiniProgram>
+
+  public async 
 }

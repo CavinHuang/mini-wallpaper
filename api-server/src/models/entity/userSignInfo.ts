@@ -2,8 +2,10 @@
  * user model
  */
 
+import { Repo } from '@/core/decorator'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
+@Repo('UserSignInfo')
 @Entity()
 export class UserSignInfo {
   @PrimaryGeneratedColumn()
@@ -17,7 +19,26 @@ export class UserSignInfo {
   uid: number
 
   @Column({
-    comment: '最后签到的时间'
+    comment: '本轮签到几天',
+    default: 0
+  })
+  sign_this_max: number
+
+  @Column({
+    comment: '最大签到天数',
+    default: 0
+  })
+  sign_max: number
+
+  @Column({
+    comment: '总签到天数',
+    default: 0
+  })
+  sign_num: number
+
+  @Column({
+    comment: '最后签到的时间',
+    nullable: true
   })
   last_sign_date: Date
 

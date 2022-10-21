@@ -7,6 +7,7 @@ import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGenerat
 import { Category } from './catgory'
 import { Tag } from './tag'
 import { ArrayStringTransformer } from '../transformer/arrayString';
+import { ResourceLikeLog } from './resourceLikeLog';
 
 @Repo('Resource')
 @Entity()
@@ -107,6 +108,18 @@ export class Resource {
     ]
   })
   tags: Tag[];
+
+  @ManyToMany(type => ResourceLikeLog, tag => tag.resources, { createForeignKeyConstraints: false })
+  @JoinTable({
+    name: 'resource_with_like_log',
+    joinColumns: [
+      { name: 'log_id' }
+    ],
+    inverseJoinColumns: [
+      { name: 'resource_id' }
+    ]
+  })
+  likes: Tag[];
 
   @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
   @JoinTable({

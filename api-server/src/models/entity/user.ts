@@ -2,24 +2,16 @@
  * user model
  */
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Exclude } from 'class-transformer';
+import { UserProfile } from './userProfile';
+import { Repo } from '@/core/decorator';
+
+@Repo('User')
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number
-
-  @Column({
-    length: 200,
-    comment: '小程序appid，用于区分小程序'
-  })
-  appid: string
-
-  @Column({
-    length: 200,
-    comment: '小程序用户openid'
-  })
-  openid: string
 
   @Column({
     comment: '父级pid',
@@ -31,14 +23,14 @@ export class User {
   @Column({
     comment: '所属组',
     type: 'int',
-    default: 1
+    default: 0
   })
   group_id: number
 
   @Column({
     comment: '所属角色',
     type: 'int',
-    default: 1
+    default: 0
   })
   role: number
 
@@ -51,83 +43,35 @@ export class User {
   @Exclude()
   @Column({
     length: 200,
-    comment: '用户密码'
+    comment: '用户密码',
+    nullable: true
   })
   password: string
 
   @Exclude()
   @Column({
     length: 200,
-    comment: '加密盐'
+    comment: '加密盐',
+    nullable: true
   })
   salt: string
 
   @Column({
     length: 200,
-    comment: '用户手机号'
+    comment: '用户手机号',
+    nullable: true
   })
   mobile: string
 
   @Column({
-    comment: '积分'
+    comment: '积分',
+    default: 0
   })
   score: number
 
-  @Column({
-    comment: '本轮签到几天'
-  })
-  sign_this_max: number
-
-  @Column({
-    comment: '最大签到天数'
-  })
-  sign_max: number
-
-  @Column({
-    comment: '总签到天数'
-  })
-  sign_num: number
-
-  @Column({
-    comment: '最后签到的时间'
-  })
-  last_sign_date: Date
-
-  @Column({
-    length: 200,
-    comment: '用户昵称'
-  })
-  nickname: string
-
-  @Column({
-    length: 500,
-    comment: '用户头像'
-  })
-  avatar: string
-
-  @Column({
-    type: 'tinyint',
-    comment: '性别   0 男  1  女  2 人妖'
-  })
-  gender: number
-
-  @Column({
-    length: 40,
-    comment: '所在国家'
-  })
-  country: string
-
-  @Column({
-    length: 40,
-    comment: '省份'
-  })
-  province: string
-
-  @Column({
-    length: 40,
-    comment: '城市'
-  })
-  city: string
+  @OneToOne(() => UserProfile)
+  @JoinColumn()
+  profile: UserProfile
 
   @Column({
     type: 'tinyint',
