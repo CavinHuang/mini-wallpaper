@@ -2,10 +2,12 @@
  * user model
  */
 
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Exclude } from 'class-transformer';
 import { UserProfile } from './userProfile';
 import { Repo } from '@/core/decorator';
+import { Resource } from './resource';
+import { UserCreator } from './userCreator';
 
 @Repo('User')
 @Entity()
@@ -79,8 +81,38 @@ export class User {
   })
   status: number
 
-  @Column({
+  /**
+   * 投稿记录
+   */
+  @OneToMany(type => Resource, res => res.user, { createForeignKeyConstraints: false })
+  @JoinTable({
+    name: 'user_contributions',
+    joinColumns: [
+      { name: 'user_id' }
+    ],
+    inverseJoinColumns: [
+      { name: 'resource_id' }
+    ]
+  })
+  contributions: Resource[]
+
+  @OneToOne(() => UserCreator)
+  @JoinColumn()
+  creator: UserCreator
+
+  @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
+
+  @UpdateDateColumn({
+    type: 'datetime'
+  })
+  update_at: Date
+
+  @Column({
+    type: 'datetime',
+    nullable: true
+  })
+  delete_at: Date
 }

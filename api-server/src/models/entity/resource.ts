@@ -3,11 +3,12 @@
  */
 
 import { Repo } from '@/core/decorator'
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Category } from './catgory'
 import { Tag } from './tag'
 import { ArrayStringTransformer } from '../transformer/arrayString';
 import { ResourceLikeLog } from './resourceLikeLog';
+import { User } from './user';
 
 @Repo('Resource')
 @Entity()
@@ -120,6 +121,9 @@ export class Resource {
     ]
   })
   likes: Tag[];
+
+  @ManyToOne(type => User, user => user.contributions)
+  user: User
 
   @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
   @JoinTable({
