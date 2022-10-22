@@ -28,6 +28,7 @@ export class Wechat extends BaseService {
     const requestUrl = WECHAT_URLS.jscode2session + `?appid=${miniProgramInfo.appid}&secret=${miniProgramInfo.appsecret}&js_code=${code}&grant_type=authorization_code`
     console.log('请求', requestUrl)
     const wechatData = await Wechat.sendRequest(requestUrl)
+    console.log("🚀 ~ file: wechat.ts ~ line 31 ~ Wechat ~ code2session ~ wechatData", wechatData)
 
     if (wechatData.wechatData.errcode) {
       throw new BusinessError(BUSINESS_ERROR_CODE.WECHAT_CODE_ERROR, '授权不正确')

@@ -40,4 +40,31 @@ export class UserService extends BaseService {
 
     return await this.repository.save(user)
   }
+
+  public async getUserInfoByOpenId(openId: string) {
+    return await this.getInfoByQueryBuilder<User>((query)=>{
+      query.leftJoinAndSelect("user.profile", "profile")
+      query.where({
+        'profile.openid': openId
+      })
+      return query
+    }, 'user')
+  }
+
+  public async updateUserInfo(params: Partial<User & UserProfile>) {
+    const user = await this.getUserInfoByOpenId(params.openid)
+    const userProfile = this.userProfile.create({
+      appid: params.appid,
+      openid: params.openid,
+      nickname: params.nickname || '',
+      avatar: params.avatar || '',
+      gender: params.gender || 2,
+      country: params.country || '',
+      province: params.province || '',
+      city: params.city || ''
+    })
+
+    user.profile = userProfile
+    return await this.repository.save(user)
+  }
 }

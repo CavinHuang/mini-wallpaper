@@ -66,6 +66,22 @@ export class BaseService<ModelRepo = Record<string, any>> {
       ...extraOptions
     })
   }
+
+  /**
+   * 通过query查询
+   * @param extral
+   * @param alias 
+   * @returns 
+   */
+  public async getInfoByQueryBuilder<T = unknown>(extral?: (query: SelectQueryBuilder<T & ModelRepo>) => SelectQueryBuilder<T & ModelRepo>, alias = '') {
+    let query = this.entity.createQueryBuilder(alias).where({
+      delete_at: IsNull()
+    }) as SelectQueryBuilder<T & ModelRepo>
+    if (extral) {
+      query = extral(query)
+    }
+    return await query.getOne()
+  }
   
   /**
    * 创建
