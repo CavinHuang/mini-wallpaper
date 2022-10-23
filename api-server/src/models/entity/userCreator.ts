@@ -1,5 +1,7 @@
+import { Repo } from "@/core/decorator";
 import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
+@Repo('UserCreator')
 @Entity()
 export class UserCreator {
   @PrimaryGeneratedColumn()
@@ -11,7 +13,9 @@ export class UserCreator {
   @Column()
   code: string
 
-  @Column()
+  @Column({
+    comment: '1 审核中， 2 审核通过，3 审核不通过'
+  })
   status: number
 
   @Column()

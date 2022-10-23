@@ -1,6 +1,8 @@
 const Axios = require('axios')
 const { sign } = require('./util')
 const { transform, saveResource, sleep } = require('../qiniu')
+const path = require('path')
+const fs = require('fs')
 
 const clientSecret = 'zMSsJN+oJZgn0IPYopvz9Q=='
 const apiUrl = 'https://api.bspapp.com/client'
@@ -222,8 +224,25 @@ async function request(functionTarget, params, needToken = true) {
     }
   })
 }
+let cache = []
+const cacheFilePath = path.resolve(__dirname, 'cache.txt')
 
-function getList(pageIndex = 2) {
+if (fs.existsSync(cacheFilePath)) {
+  cache = (() => {
+    try {
+      return JSON.parse(fs.readFileSync(cacheFilePath).toString())
+    } catch (e) {
+      return []
+    }
+  })()
+}
+
+function cacheFile() {
+  fs.writeFileSync(cacheFilePath, JSON.stringify(cache, null, 2))
+}
+
+
+function getList(pageIndex = 1) {
   const params = {
     // search: '221012',
     filter: {
@@ -238,19 +257,22 @@ function getList(pageIndex = 2) {
     pageSize: 5
   }
   request('query_list', params, true).then(async(res) => {
-    console.log(JSON.stringify(res.data.data))
     const data = res.data.data.data || []
 
     for (let i = 0; i < data.length; i++) {
-      await sqlBuild(data[i])
-      await sleep(2)
+      if (cache.includes(data[i]._id)) continue
+      cache.push(data[i]._id)
+      // await sqlBuild(data[i])
+      // await sleep(2)
     }
 
     if (res.data.data.hasMore) {
       pageIndex++
-      await sleep(2)
+      // await sleep(2)
       getList(pageIndex)
       console.log('下一页', pageIndex)
+    } else {
+      cacheFile()
     }
 
   }).catch(e => {
