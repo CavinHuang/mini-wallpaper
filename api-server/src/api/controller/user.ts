@@ -1,5 +1,5 @@
 import { Inject } from "@/core/container";
-import { Controller, Get, Header, Query } from "@/core/decorator";
+import { Body, Controller, Get, Header, Post, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { User } from "@/models/entity/user";
 import { UserService } from "@/service/userService";
@@ -14,21 +14,24 @@ export class UserController {
   private wechatService: Wechat
 
   @Get('/openId')
-  public async getUserOpenId(@Query() code: string, @Header() appId: string) {
+  public async getUserOpenId(@Query('code') code: string, @Header('appid') appId: string) {
     const openIdRes = await this.wechatService.code2session(appId, code)
+    let openId = openIdRes.openid
     const userRes = await this.userService.getInfoByQueryBuilder<User>((query)=>{
-      query.leftJoinAndSelect("user.profile", "profile")
-      query.where({
-        'profile.openid': openIdRes.openId
-      })
+      query = query.leftJoinAndSelect('user.profile', 'profile').where('profile.openid = :openId', { openId })
       return query
     }, 'user')
 
     if (!userRes) {
-      const userInfo = await this.userService.doRegister({ openid: openIdRes.openId })
-      return Response.success(userInfo, 'register')
+      const userInfo = await this.userService.doRegister({ openid: openIdRes.openid, appid: appId })
+      return Response.success({userInfo, loginInfo: openIdRes, needUpdate: true}, 'register')
     }
-    return Response.success(userRes, Response.successMessage)
+    return Response.success({ useInfo: userRes, loginInfo: openIdRes, needUpdate: false }, Response.successMessage)
+  }
+
+  @Post('/updateInfo')
+  public async updateUserInfo(@Body() params: any) {
+    return Response.success(await this.userService.updateUserInfo({...params.userInfo, openid: params.openid}), Response.successMessage)
   }
 
 }

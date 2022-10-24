@@ -9,7 +9,7 @@ import { plainToClass } from 'class-transformer';
 import { Server } from '../Server';
 import { initHTTPMares } from './initMiddleware';
 import { appConfig, isDev, dirController, dirSrc, serverConfig } from '@/config';
-import { objectArraySortByAtr } from '@/utils'
+import { isClass, objectArraySortByAtr } from '@/utils'
 import { validate } from 'class-validator'
 import { httpError } from '@/core/error/http'
 import { GuardManager } from '@/core/decorator/guardManager'
@@ -152,18 +152,23 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
             // 获取参数
             async ({name, type, index}, idx) => {
               let params
+              let needValidate = false
               switch(type) {
                 case ROUTE_PARAMS_SOURCE.QUERY:
                   params = ctx.query
+                  needValidate = true
                   break
                 case ROUTE_PARAMS_SOURCE.BODY:
                   params = ctx.request.body
+                  needValidate = true
                   break
                 case ROUTE_PARAMS_SOURCE.PARAMS:
                   params = ctx.params
+                  needValidate = true
                   break
                 case ROUTE_PARAMS_SOURCE.ALL_PARAMS:
                   params = { ...ctx.query, ...ctx.request.body, ...ctx.params}
+                  needValidate = true
                   break
                 case ROUTE_PARAMS_SOURCE.CONTEXT:
                   params = ctx
@@ -174,11 +179,14 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
               }
               // 普通对象转为 DTO 的实例对象
               const entity = plainToClass(routeParamsTypes[index], name ? params[name] : params)
+              console.log("🚀 ~ file: importCtrl.ts ~ line 182 ~ entity", entity)
 
               // 校验请求参数
-              const errors = await validate(entity)
-              if(errors.length) {
-                throw new Error(Object.values(errors[0].constraints).join(','))
+              if (needValidate && isClass(entity)) {
+                const errors = await validate(entity)
+                if(errors.length) {
+                  throw new Error(Object.values(errors[0].constraints).join(','))
+                }
               }
               return entity
             })

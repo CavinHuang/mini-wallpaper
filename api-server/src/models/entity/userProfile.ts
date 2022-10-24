@@ -3,7 +3,8 @@
  */
 
 import { Repo } from '@/core/decorator'
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { User } from './user';
 
 @Repo('UserProfile')
 @Entity()
@@ -64,4 +65,7 @@ export class UserProfile {
     default: ''
   })
   city: string
+
+  @OneToOne(type => User, (user: User) => user.profile)
+  user:User
 }

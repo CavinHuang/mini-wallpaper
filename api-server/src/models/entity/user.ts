@@ -30,6 +30,12 @@ export class User {
   group_id: number
 
   @Column({
+    comment: '用户VIP等级',
+    default: 0
+  })
+  vip_level: number
+
+  @Column({
     comment: '所属角色',
     type: 'int',
     default: 0
@@ -71,7 +77,9 @@ export class User {
   })
   score: number
 
-  @OneToOne(() => UserProfile)
+  @OneToOne(() => UserProfile, profile => profile.user, {
+    cascade: true
+  })
   @JoinColumn()
   profile: UserProfile
 
