@@ -3,11 +3,11 @@
  */
 
 import { Repo } from '@/core/decorator'
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Category } from './catgory'
 import { Tag } from './tag'
 import { ArrayStringTransformer } from '../transformer/arrayString';
-import { ResourceLikeLog } from './resourceLikeLog';
+import { LikeLog } from './likeLog';
 import { User } from './user';
 
 @Repo('Resource')
@@ -73,6 +73,16 @@ export class Resource {
   vip_price: number
 
   @Column({
+    comment: '点赞数',
+  })
+  like_num: number
+
+  @Column({
+    comment: '下载数',
+  })
+  download_num: number
+
+  @Column({
     comment: '排序值'
   })
   sort: number
@@ -110,17 +120,8 @@ export class Resource {
   })
   tags: Tag[];
 
-  @ManyToMany(type => ResourceLikeLog, tag => tag.resources, { createForeignKeyConstraints: false })
-  @JoinTable({
-    name: 'resource_with_like_log',
-    joinColumns: [
-      { name: 'log_id' }
-    ],
-    inverseJoinColumns: [
-      { name: 'resource_id' }
-    ]
-  })
-  likes: Tag[];
+  @OneToMany(type => LikeLog, tag => tag.resources, { createForeignKeyConstraints: false })
+  likes: LikeLog[];
 
   @ManyToOne(type => User, user => user.contributions)
   user: User

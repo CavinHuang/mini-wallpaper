@@ -8,6 +8,7 @@ import { UserProfile } from './userProfile';
 import { Repo } from '@/core/decorator';
 import { Resource } from './resource';
 import { UserCreator } from './userCreator';
+import { LikeLog } from './likeLog';
 
 @Repo('User')
 @Entity()
@@ -107,6 +108,9 @@ export class User {
   @OneToOne(() => UserCreator)
   @JoinColumn()
   creator: UserCreator
+
+  @OneToOne(type => LikeLog, (likeLog) => likeLog.user)
+  likes:User
 
   @CreateDateColumn({
     type: 'datetime'

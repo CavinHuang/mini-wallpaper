@@ -73,7 +73,7 @@ export class BaseService<ModelRepo = Record<string, any>> {
    * @param alias 
    * @returns 
    */
-  public async getInfoByQueryBuilder<T = unknown>(extral?: (query: SelectQueryBuilder<T & ModelRepo>) => SelectQueryBuilder<T & ModelRepo>, alias = '') {
+  public async getInfoByQueryBuilder<T = unknown>(extral?: (query: SelectQueryBuilder<T & ModelRepo>) => SelectQueryBuilder<T & ModelRepo>, alias?) {
     let query = this.entity.createQueryBuilder(alias).where({
       delete_at: IsNull()
     }) as SelectQueryBuilder<T & ModelRepo>

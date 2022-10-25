@@ -3,9 +3,12 @@ import { BannerService } from "@/admin/service/bannerService";
 import { ResourceService } from "@/admin/service/resourceService";
 import { TagService } from "@/admin/service/tag";
 import { Inject } from "@/core/container";
-import { Controller, Get, Params, Query } from "@/core/decorator";
+import { Body, Controller, Get, Params, Post, Query, Req } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { Resource } from "@/models/entity/resource";
+import { LikeLogService } from '../../service/likeLogService';
+import { ResourceOrderService } from '@/service/resourceOrderService';
+import { UserCollectionService } from '../../service/userCollectionService';
 
 @Controller('/content', { skipPerm: true })
 export class ContentController {
@@ -18,6 +21,15 @@ export class ContentController {
 
   @Inject()
   private resourceService: ResourceService
+
+  @Inject()
+  private likeLogService: LikeLogService
+
+  @Inject()
+  private resourceOrderService: ResourceOrderService
+
+  @Inject()
+  private userCollectionService: UserCollectionService
 
   @Get('/banner')
   public async bannerList(@Query() { position = '', pageNum = 1, pageSize = 1000 }: { position?: string; pageNum?: number; pageSize?: number }) {
@@ -79,7 +91,45 @@ export class ContentController {
   }
 
   @Get('/wallpaper/:id')
-  public async resiurce(@Params('id') id: number) {
-    return Response.success(await this.resourceService.info(id), Response.successMessage)
+  public async resiurce(@Params('id') id: number, @Req('userId') userId: number) {
+    const resource = await this.resourceService.getInfoByQueryBuilder<Resource>((query) => {
+      query.leftJoinAndSelect('resource.likes','like')
+      query.leftJoinAndSelect('like.user','user')
+      query.where({
+        id
+      })
+      return query
+    }, 'resource')
+    let isLike = false
+    for (let i = 0; i < resource.likes.length; i++) {
+      if (resource.likes[i].user.id === userId) {
+        isLike = true
+        break
+      }
+    }
+    const collection = await this.userCollectionService.getInfo({
+      user: { id: userId }
+    })
+
+    let isCollection = false
+    if (collection) {
+      isCollection = true
+    }
+    return Response.success({...resource, isLike, isCollection}, Response.successMessage)
+  }
+
+  @Post('/wallpaper/like')
+  public async resourceLike(@Body() params: { rid: number; userId: number }) {
+    return Response.success(await this.likeLogService.saveLike(params))
+  }
+
+  @Post('/wallpaper/download')
+  public async resourceDownload(@Body() params: { rid: number; userId: number }) {
+    return Response.success(await this.resourceOrderService.saveOrder(params), Response.successMessage)
+  }
+
+  @Post('/wallpaper/collect')
+  public async resourceCollection(@Body() params: { rid: number; userId: number }) {
+    return Response.success(await this.userCollectionService.saveCollection(params), Response.successMessage)
   }
 }
