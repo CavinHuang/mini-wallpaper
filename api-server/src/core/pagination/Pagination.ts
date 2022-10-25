@@ -77,41 +77,61 @@ export class Pagination {
       pageHelper = {}
     }
     const pagination = new Pagination()
-    if (queryBuilder.getSql().includes('GROUP BY')) {
-      const sql = queryBuilder.getSql()
-      const selectFields = sql.slice(sql.indexOf('SELECT ') + 7, sql.indexOf(' FROM'))
-      const countSql = sql.replace(selectFields, '1')
-      const execSql = sql.includes('ORDER BY') ? countSql.substring(0, countSql.indexOf('ORDER BY')) : countSql
-      const params = Object.values(queryBuilder.getParameters())
-      const _params = []
-      params.forEach((item) => {
-        if (Array.isArray(item)) {
-          _params.push(...item)
-        } else {
-          _params.push(item)
-        }
-      })
-      pagination._total = +(await getManager().query(`select count(1) as cnt from (${execSql.toString()}) a`, _params))[0].cnt
-    } else {
-      pagination._total = await queryBuilder.getCount()
+    if (pageHelper.getRayMany) {
+      if (queryBuilder.getSql().includes('GROUP BY')) {
+        const sql = queryBuilder.getSql()
+        const selectFields = sql.slice(sql.indexOf('SELECT ') + 7, sql.indexOf(' FROM'))
+        const countSql = sql.replace(selectFields, '1')
+        const execSql = sql.includes('ORDER BY') ? countSql.substring(0, countSql.indexOf('ORDER BY')) : countSql
+        const params = Object.values(queryBuilder.getParameters())
+        const _params = []
+        params.forEach((item) => {
+          if (Array.isArray(item)) {
+            _params.push(...item)
+          } else {
+            _params.push(item)
+          }
+        })
+        pagination._total = +(await getManager().query(`select count(1) as cnt from (${execSql.toString()}) a`, _params))[0].cnt
+      } else {
+        pagination._total = await queryBuilder.getCount()
+      }
+      pagination._pageSize = pageHelper.pageSize && pageHelper.pageSize > 0 ? +pageHelper.pageSize : 10
+      pagination._totalPage = Math.ceil(pagination._total / pagination._pageSize)
     }
-    pagination._pageSize = pageHelper.pageSize && pageHelper.pageSize > 0 ? +pageHelper.pageSize : 10
-    pagination._totalPage = Math.ceil(pagination._total / pagination._pageSize)
 
     const pageNum = pageHelper.pageNum && pageHelper.pageNum > 0 ? +pageHelper.pageNum : 1
-    pagination._pageNum = pageNum < pagination._totalPage ? +pageNum : +pagination._totalPage
 
-    const _limit = pageHelper.limit ? pageHelper.limit : pagination._pageSize
-    const _offset = pageHelper.offset ? pageHelper.offset : Number((pagination._pageNum - 1) * pagination._pageSize)
 
-    pagination.offset = _offset
-    pagination.limit = _limit
-    queryBuilder.limit(_limit)
-    queryBuilder.offset(_offset)
+    if (pageHelper.getRayMany) {
+      const _limit = pageHelper.limit ? pageHelper.limit : pagination._pageSize
+      const _offset = pageHelper.offset ? pageHelper.offset : Number((pagination._pageNum - 1) * pagination._pageSize)
+      pagination.offset = _offset
+      pagination.limit = _limit
+      queryBuilder.limit(_limit)
+      queryBuilder.offset(_offset)
+      const rows = await queryBuilder.getRawMany()
+      pagination.rows = rows
+      pagination._pageNum = pageNum < pagination._totalPage ? +pageNum : +pagination._totalPage
 
-    const rows = pageHelper.getRayMany ? await queryBuilder.getRawMany() : await queryBuilder.getMany()
-
-    pagination.rows = resultHandler ? resultHandler(rows) : rows
+    } else {
+      pagination._pageSize = pageHelper.pageSize && pageHelper.pageSize > 0 ? +pageHelper.pageSize : 10
+      const _limit = pageHelper.limit ? pageHelper.limit : pageHelper.pageSize
+      const _offset = pageHelper.offset ? pageHelper.offset : Number((pageNum - 1) * pageHelper.pageSize)
+      pagination.offset = _offset
+      pagination.limit = _limit
+      queryBuilder.skip(_offset)
+      queryBuilder.take(_limit)
+      console.log(queryBuilder.getSql())
+      const [ list, count ] = await queryBuilder.getManyAndCount()
+      pagination._total = count
+      console.log("🚀 ~ file: Pagination.ts ~ line 127 ~ Pagination ~ count", count)
+      pagination._totalPage = Math.ceil(pagination._total / pagination._pageSize)
+      pagination.rows = list
+      pagination._pageNum = pageNum < pagination._totalPage ? +pageNum : +pagination._totalPage
+    }
+    
+    pagination.rows = resultHandler ? resultHandler(pagination.rows) : pagination.rows
 
     return pagination
   }

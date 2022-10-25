@@ -14,9 +14,32 @@ export class ResourceController {
 
   @Get('')
   public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
+    console.log('+++++', pageNum, pageSize)
     const listData = await this.resourceService.getPageList({ pageNum, pageSize, alias: 'r' }, (query) => {
+    //    .andWhere(qb => {
+    //     const subQuery = qb.subQuery().from('person_group', 'person_group')
+    //       .select('person_group.personId')
+    //       .where('contact_group.groupId = :groupId')
+    //       .getQuery();
+    //     return 'person.id in ' + subQuery;
+    // })
+      // query.andWhere(qb => {
+      //   const subQuery = qb.subQuery().from('resource_with_tag', 'rt')
+      //                                                               .select('rt.resource_id')
+      //                                                               .getQuery()
+      //   return `r.id in ${subQuery}`
+      // })
+
+      // query.andWhere(qb => {
+      //   const subQuery = qb.subQuery().from('resource_with_category', 'rc')
+      //                                                               .select('rc.resource_id')
+      //                                                               .getQuery()
+      //   return `r.id in ${subQuery}`
+      // })
       query.leftJoinAndSelect('r.categories', 'rc')
       query.leftJoinAndSelect('r.tags', 'rt')
+      query.orderBy('r.create_at', 'DESC')
+      query.addOrderBy('r.id', 'DESC')
       return query
     })
     return Response.success(listData)

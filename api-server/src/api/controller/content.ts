@@ -87,7 +87,6 @@ export class ContentController {
       if (isRecommend) {
         where['is_recommend'] = isRecommend
       }
-
       
       query.leftJoinAndSelect('r.tags', 'rt')
       query.leftJoinAndSelect('r.categories', 'rc')
@@ -108,6 +107,9 @@ export class ContentController {
       if (Number(categoryId)) {
         query.andWhere(`rc.id=:categoryId`, { categoryId })
       }
+
+      query.orderBy('r.create_at', 'DESC')
+      query.addOrderBy('r.id', 'DESC')
 
       return query
     })
