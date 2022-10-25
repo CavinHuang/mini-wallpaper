@@ -247,7 +247,6 @@ function getList(pageIndex = 1) {
     // search: '221012',
     filter: {
       status: 1,
-
     },
     order: {
       name: 'time',
@@ -259,16 +258,20 @@ function getList(pageIndex = 1) {
   request('query_list', params, true).then(async(res) => {
     const data = res.data.data.data || []
 
+    let isCache = false
     for (let i = 0; i < data.length; i++) {
-      if (cache.includes(data[i]._id)) continue
+      if (cache.includes(data[i]._id)) {
+        isCache = true
+        continue
+      }
       cache.push(data[i]._id)
-      // await sqlBuild(data[i])
-      // await sleep(2)
+      await sqlBuild(data[i])
+      await sleep(2)
     }
 
-    if (res.data.data.hasMore) {
+    if (res.data.data.hasMore && !isCache) {
       pageIndex++
-      // await sleep(2)
+      await sleep(2)
       getList(pageIndex)
       console.log('下一页', pageIndex)
     } else {

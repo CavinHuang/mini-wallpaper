@@ -3,12 +3,13 @@ import { BannerService } from "@/admin/service/bannerService";
 import { ResourceService } from "@/admin/service/resourceService";
 import { TagService } from "@/admin/service/tag";
 import { Inject } from "@/core/container";
-import { Body, Controller, Get, Params, Post, Query, Req } from "@/core/decorator";
+import { Body, Controller, Get, Header, Params, Post, Query, Req } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { Resource } from "@/models/entity/resource";
 import { LikeLogService } from '../../service/likeLogService';
 import { ResourceOrderService } from '@/service/resourceOrderService';
 import { UserCollectionService } from '../../service/userCollectionService';
+import { CatgoryService } from '@/admin/service/catgoryService';
 
 @Controller('/content', { skipPerm: true })
 export class ContentController {
@@ -18,6 +19,9 @@ export class ContentController {
 
   @Inject()
   private tagService: TagService
+
+    @Inject()
+  private categoryService: CatgoryService
 
   @Inject()
   private resourceService: ResourceService
@@ -50,15 +54,29 @@ export class ContentController {
     return Response.success(res.rows || [], Response.successMessage)
   }
 
+  @Get('/categories')
+  public async cateList
+  (
+    @Query() { pageNum = 1, pageSize = 10, type }: { pageSize: number, pageNum: number; type?: string },
+    @Header('appid') appid: string
+  ) {
+    const listData = await this.categoryService.getPageList({ pageNum, pageSize }, (query) => {
+
+      if (type) {
+        query.where({
+          type,
+          appid
+        })
+      }
+      return query
+    })
+    return Response.success(listData.rows || [], Response.successMessage)
+  }
+
   @Get('/wallpaper')
   public async resourceList(@Query() { tagId = 0, categoryId = 0, isHot = false, isRecommend = false, search = '', pageNum = 1, pageSize = 15 }: { tagId: number; categoryId: number; isHot: boolean; isRecommend: boolean; search: string; pageNum?: number; pageSize?: number }) {
     
     const res = await this.resourceService.getPageList({ pageNum, pageSize, alias: 'r' }, (query: SelectQueryBuilder<Resource>) => {
-      let tagWhere
-      let cateWhere
-
-      if (tagId) tagWhere = `rt.id=${tagId}`
-      if (categoryId) cateWhere = `rc.id=${categoryId}`
 
       const where = {}
 
@@ -71,8 +89,8 @@ export class ContentController {
       }
 
       
-      query.leftJoinAndSelect('r.tags', 'rt', tagWhere)
-      query.leftJoinAndSelect('r.categories', 'rc', cateWhere)
+      query.leftJoinAndSelect('r.tags', 'rt')
+      query.leftJoinAndSelect('r.categories', 'rc')
       query.where(where)
 
       if (search) {
@@ -82,6 +100,13 @@ export class ContentController {
                    .orWhere('rt.tag_name LIKE :name', { name: search })
                    .orWhere('rc.name LIKE :name', { name: search })
         })
+      }
+
+      if (Number(tagId)) {
+        query.andWhere(`rt.id=:tagId`, { tagId })
+      }
+      if (Number(categoryId)) {
+        query.andWhere(`rc.id=:categoryId`, { categoryId })
       }
 
       return query

@@ -16,7 +16,7 @@
             :src="row.thumb_url.indexOf('http') > -1 ? row.thumb_url : qiniuResourceUrl(row.thumb_url)"
           />
         </template>
-        <!-- 用户状态 slot -->
+        <!-- 状态 slot -->
         <template #status="scope">
           <!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所有在外层包一个盒子，点击触发盒子 click 方法 -->
           <div @click="changeStatus(scope.row)">
@@ -42,7 +42,6 @@
 
 <script setup lang="ts" name="resourceList">
 import { ref, reactive, onMounted, computed, ComputedRef } from 'vue'
-import { User } from '@/api/interface'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
@@ -137,7 +136,7 @@ const columns: Partial<ColumnProps>[] = [
   {
     prop: 'operation',
     label: '操作',
-    width: 320,
+    width: 240,
     fixed: 'right'
   }
 ]
@@ -150,15 +149,15 @@ const changeSelectFilter = (val: any) => {
   selectFilterValues.value = val
 }
 
-// 删除用户信息
-const deleteAccount = async (params: User.ResUserList) => {
-  await useHandleData(ResourceApi.remove, { id: [params.id] }, `删除【${params.username}】用户`)
+// 删除信息
+const deleteAccount = async (params: Resource.Item) => {
+  await useHandleData(ResourceApi.remove, params.id, `删除【${params.name}】`)
   proTable.value.refresh()
 }
 
-// 切换用户状态
-const changeStatus = async (row: User.ResUserList) => {
-  await useHandleData(ResourceApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.username}】状态`)
+// 切换状态
+const changeStatus = async (row: Resource.Item) => {
+  await useHandleData(ResourceApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】状态`)
   proTable.value.refresh()
 }
 
