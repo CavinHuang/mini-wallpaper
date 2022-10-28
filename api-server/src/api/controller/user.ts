@@ -18,7 +18,9 @@ export class UserController {
     const openIdRes = await this.wechatService.code2session(appId, code)
     let openId = openIdRes.openid
     const userRes = await this.userService.getInfoByQueryBuilder<User>((query)=>{
-      query = query.leftJoinAndSelect('user.profile', 'profile').where('profile.openid = :openId', { openId })
+      query.leftJoinAndSelect('user.profile', 'profile')
+           .leftJoinAndSelect('user.creator', 'creator')
+           .where('profile.openid = :openId', { openId })
       return query
     }, 'user')
 

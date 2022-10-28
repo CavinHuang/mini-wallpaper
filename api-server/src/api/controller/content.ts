@@ -57,7 +57,7 @@ export class ContentController {
   @Get('/categories')
   public async cateList
   (
-    @Query() { pageNum = 1, pageSize = 10, type }: { pageSize: number, pageNum: number; type?: string },
+    @Query() { pageNum = 1, pageSize = 1000, type }: { pageSize: number, pageNum: number; type?: string },
     @Header('appid') appid: string
   ) {
     const listData = await this.categoryService.getPageList({ pageNum, pageSize }, (query) => {
@@ -81,11 +81,11 @@ export class ContentController {
       const where = {}
 
       if (isHot) {
-        where['is_hot'] = isHot
+        where['is_hot'] = 1
       }
 
       if (isRecommend) {
-        where['is_recommend'] = isRecommend
+        where['is_recommend'] = 1
       }
       
       query.leftJoinAndSelect('r.tags', 'rt')
