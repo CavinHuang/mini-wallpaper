@@ -14,6 +14,7 @@ import { validate } from 'class-validator'
 import { httpError } from '@/core/error/http'
 import { GuardManager } from '@/core/decorator/guardManager'
 import deepmerge from 'deepmerge'
+import { isObject } from '../../utils/is';
 
 const appendExt = isDev ? '.ts' : '.js'
 
@@ -179,10 +180,10 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
               }
               // 普通对象转为 DTO 的实例对象
               const entity = plainToClass(routeParamsTypes[index], name ? params[name] : params)
-              console.log("🚀 ~ file: importCtrl.ts ~ line 182 ~ entity", entity)
 
+              console.log('需要校验', type, params, entity, needValidate, isObject(entity), isClass(entity))
               // 校验请求参数
-              if (needValidate && isClass(entity)) {
+              if (needValidate && isObject(entity)) {
                 const errors = await validate(entity)
                 if(errors.length) {
                   throw new Error(Object.values(errors[0].constraints).join(','))

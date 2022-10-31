@@ -105,8 +105,7 @@ export class User {
   })
   contributions: Resource[]
 
-  @OneToOne(() => UserCreator)
-  @JoinColumn()
+  @OneToOne(() => UserCreator, creator => creator.user)
   creator: UserCreator
 
   @OneToOne(type => LikeLog, (likeLog) => likeLog.user)

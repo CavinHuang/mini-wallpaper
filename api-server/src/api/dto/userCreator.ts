@@ -1,7 +1,7 @@
-import { IsArray, IsString } from "class-validator";
+import { IsString, IsEmpty, IsNotEmpty } from "class-validator";
 
-export class UserCreatorApply {
-  @IsString({
+export class UserCreatorApplyDto {
+  @IsNotEmpty({
     message: '缺少必要的参数user_id'
   })
   user_id: number
@@ -9,5 +9,8 @@ export class UserCreatorApply {
   @IsString({
     message: '请输入您的口令'
   })
-  computed: string
+  @IsNotEmpty({
+    message: '口令不能为空'
+  })
+  code: string
 }

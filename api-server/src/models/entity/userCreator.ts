@@ -1,5 +1,6 @@
 import { Repo } from "@/core/decorator";
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "./user";
 
 @Repo('UserCreator')
 @Entity()
@@ -7,8 +8,11 @@ export class UserCreator {
   @PrimaryGeneratedColumn()
   id: number
 
-  @PrimaryColumn()
-  user_id: number
+  @OneToOne(type => User, user => user.creator, { cascade: true, createForeignKeyConstraints: false })
+  @JoinColumn({
+    name: 'user_id'
+  })
+  user: User
 
   @Column()
   code: string

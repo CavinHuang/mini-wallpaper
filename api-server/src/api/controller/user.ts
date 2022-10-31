@@ -1,5 +1,5 @@
 import { Inject } from "@/core/container";
-import { Body, Controller, Get, Header, Post, Query } from "@/core/decorator";
+import { Body, Controller, Get, Header, Params, Post, Query } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { User } from "@/models/entity/user";
 import { UserService } from "@/service/userService";
@@ -29,6 +29,18 @@ export class UserController {
       return Response.success({userInfo, loginInfo: openIdRes, needUpdate: true}, 'register')
     }
     return Response.success({ useInfo: userRes, loginInfo: openIdRes, needUpdate: false }, Response.successMessage)
+  }
+
+  @Get('/info/:id')
+  public async getUserInfo(@Params('id') id: number) {
+    const userRes = await this.userService.getInfoByQueryBuilder<User>((query)=>{
+      query.leftJoinAndSelect('user.profile', 'profile')
+           .leftJoinAndSelect('user.creator', 'creator')
+           .where('user.id = :id', { id })
+      return query
+    }, 'user')
+
+    return Response.success(userRes, Response.successMessage)
   }
 
   @Post('/updateInfo')
