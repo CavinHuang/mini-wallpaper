@@ -90,26 +90,8 @@ export class User {
   })
   status: number
 
-  /**
-   * 投稿记录
-   */
-  @OneToMany(type => Resource, res => res.user, { createForeignKeyConstraints: false })
-  @JoinTable({
-    name: 'user_contributions',
-    joinColumns: [
-      { name: 'user_id' }
-    ],
-    inverseJoinColumns: [
-      { name: 'resource_id' }
-    ]
-  })
-  contributions: Resource[]
-
   @OneToOne(() => UserCreator, creator => creator.user)
   creator: UserCreator
-
-  @OneToOne(type => LikeLog, (likeLog) => likeLog.user)
-  likes:User
 
   @CreateDateColumn({
     type: 'datetime'

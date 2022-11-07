@@ -46,7 +46,7 @@ export class ResourceController {
   }
 
   @Post('')
-  public add(@Body() params: Partial<Resource> & { url: string | Array<string>; }) {
+  public add(@Body() params: Partial<Resource> & { url: Array<string>; }) {
     if (this.resourceService.saveResource(params)) {
       return Response.success(true)
     }

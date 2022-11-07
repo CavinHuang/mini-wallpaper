@@ -8,7 +8,6 @@ import { Category } from './catgory'
 import { Tag } from './tag'
 import { ArrayStringTransformer } from '../transformer/arrayString';
 import { LikeLog } from './likeLog';
-import { User } from './user';
 
 @Repo('Resource')
 @Entity()
@@ -41,11 +40,11 @@ export class Resource {
   info: string
 
   @Column({
-    length: 500,
+    type: 'text',
     comment: '资源的地址',
-    transformer: new ArrayStringTransformer('')
+    transformer: new ArrayStringTransformer([])
   })
-  url: string
+  url: string[]
 
   @Column({
     length: 500,
@@ -103,7 +102,7 @@ export class Resource {
   author: number
 
   @Column({
-    comment: '状态',
+    comment: '状态 1 投稿成功 2 审核通过 3 驳回',
     default: 1
   })
   status: number
@@ -122,9 +121,6 @@ export class Resource {
 
   @OneToMany(type => LikeLog, tag => tag.resources, { createForeignKeyConstraints: false })
   likes: LikeLog[];
-
-  @ManyToOne(type => User, user => user.contributions)
-  user: User
 
   @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
   @JoinTable({

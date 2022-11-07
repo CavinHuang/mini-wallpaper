@@ -2,13 +2,13 @@
  * catgory model
  */
 import { Repo } from '@/core/decorator'
-import { CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Resource } from './resource'
 import { User } from './user';
 
-@Repo('LikeLog')
+@Repo('UserContribution')
 @Entity()
-export class LikeLog {
+export class UserContribution {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -18,11 +18,20 @@ export class LikeLog {
   })
   user: User
 
-  @ManyToOne(type => Resource, resource => resource.likes, { cascade: true, createForeignKeyConstraints: false })
+  @OneToOne(type => Resource, { cascade: true, createForeignKeyConstraints: false })
+  @JoinColumn({
+    name: 'resource_id'
+  })
   resources: Resource
 
   @CreateDateColumn({
     type: 'datetime'
   })
   create_at: Date
+  
+  @Column({
+    type: 'datetime',
+    nullable: true
+  })
+  delete_at: Date
 }

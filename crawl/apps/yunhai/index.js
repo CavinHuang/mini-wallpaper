@@ -160,7 +160,7 @@ async function sqlBuild(item) {
     "name": name,
     "info": name,
     "sort": 1,
-    "url": keys,
+    "url": keys.filter(url => url),
     "upload_type": "qiniu",
     type: 'image'
   }

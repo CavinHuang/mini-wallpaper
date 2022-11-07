@@ -12,8 +12,10 @@ export class ResourceOrder {
   @PrimaryGeneratedColumn()
   id: number
 
-  @OneToOne(type => User, user => user.likes, { cascade: true, createForeignKeyConstraints: false })
-  @JoinColumn()
+  @OneToOne(type => User, { cascade: true, createForeignKeyConstraints: false })
+  @JoinColumn({
+    name: 'user_id'
+  })
   user: User
 
   @ManyToOne(type => Resource, resource => resource.likes, { cascade: true, createForeignKeyConstraints: false })

@@ -17,14 +17,14 @@ export class ResourceService extends BaseService {
   public category: Repository<Category>
 
   public async saveResource(row: Partial<Resource> & { url: string | Array<string>; }) {
-    let url: string = ''
+    let url: string[] = []
     let thumb_url = ''
     if (Array.isArray(row.url)) {
-      url = row.url.join(';')
       thumb_url = row.url[0]
-    } else if (row.url.indexOf('\n')) {
-      const arr = row.url.replace(/\r\n/g, '\n').split('\n')
-      url = arr.join(';')
+      url = row.url
+    } else if ((row.url as string).indexOf('\n')) {
+      const arr = (row.url as string).replace(/\r\n/g, '\n').split('\n')
+      url = arr
       thumb_url = arr[0]
     } else {
       url = row.url
