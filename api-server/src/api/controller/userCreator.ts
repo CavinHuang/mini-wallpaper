@@ -1,3 +1,4 @@
+import { UserContribution } from '@/models/entity/userContribution';
 import { Inject } from "@/core/container";
 import { Body, Controller, Get, Params, Post, Put, Query } from "@/core/decorator";
 import { BusinessError } from "@/core/error/businessError";
@@ -57,5 +58,31 @@ export class UserCreatorController {
       return query
     })
     return Response.success(res, Response.successMessage)
+  }
+
+  @Get('/search')
+  public async searchByCode(@Query() params: { code: string }) {
+    const res = await this.userCreatorService.getInfo<UserCreator>({
+      code: params.code
+    })
+
+    if (!res) {
+      throw new BusinessError(BUSINESS_ERROR_CODE.NOT_FOUND, '没有这样的星荐官')
+    }
+    return Response.success(res, Response.successMessage)
+  }
+
+  @Put('/toTop/:id')
+  public async toTop(@Params('id') id: number, @Query('is_top') is_top: number ) {
+    console.log("🚀 ~ file: userCreator.ts ~ line 77 ~ UserCreatorController ~ toTop ~ is_top", is_top)
+    const contribution = await this.UserContributionService.getInfoByQueryBuilder( (query) => {
+      query.leftJoinAndSelect('c.resources', 'cr')
+      return query
+    }, 'c')
+
+    contribution.resources.is_top = Number(is_top)
+    console.log("🚀 ~ file: userCreator.ts ~ line 83 ~ UserCreatorController ~ toTop ~ is_top", is_top)
+
+    return Response.success(await this.UserContributionService.repository.save(contribution), Response.successMessage)
   }
 }

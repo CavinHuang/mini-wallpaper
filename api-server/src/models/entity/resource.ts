@@ -97,6 +97,13 @@ export class Resource {
   is_recommend: boolean
 
   @Column({
+    comment: '是否被置顶',
+    default: 0,
+    type: 'tinyint'
+  })
+  is_top: boolean
+
+  @Column({
     comment: '作者id'
   })
   author: number
