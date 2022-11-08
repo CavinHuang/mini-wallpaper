@@ -87,7 +87,7 @@ export class ContentController {
       if (isRecommend) {
         where['is_recommend'] = 1
       }
-      
+      where['status'] = 2
       query.leftJoinAndSelect('r.tags', 'rt')
       query.leftJoinAndSelect('r.categories', 'rc')
       query.where(where)

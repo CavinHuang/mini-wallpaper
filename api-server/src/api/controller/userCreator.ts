@@ -45,7 +45,7 @@ export class UserCreatorController {
   }
 
   @Get('/contribution/list')
-  public async getList(@Query() { user_id, pageNum = 1, pageSize = 15 }: { user_id: number; pageNum?: number; pageSize?: number }) {
+  public async getList(@Query() { user_id, pageNum = 1, pageSize = 15, isTop = 0, status = 'pass' }: { user_id: number; pageNum?: number; pageSize?: number, isTop?: number, status?: 'pass' | 'all' | 'noPass' }) {
     if (!user_id) return Response.error('缺少必要参数')
     const res = await this.UserContributionService.getPageList({ pageNum, pageSize, alias: 'c' }, (query) => {
       query.leftJoinAndSelect('c.resources', 'cr')
@@ -53,8 +53,16 @@ export class UserCreatorController {
       query.leftJoinAndSelect('c.user', 'cu')
       query.leftJoinAndSelect('cu.profile', 'cup')
       query.where('c.user=:user', { user: user_id })
+      let state = status === 'pass' ? 2 : status === 'noPass' ? 3 : -1
+      if (state !== -1) {
+        query.where('cr.status=:status', { status: state })
+      }
+      console.log("🚀 ~ file: userCreator.ts ~ line 57 ~ UserCreatorController ~ res ~ isTop", isTop)
       query.orderBy('c.create_at', 'DESC')
       query.addOrderBy('c.id', 'DESC')
+      if (Number(isTop) === 1) {
+        query.orderBy('cr.is_top', 'DESC')
+      }
       return query
     })
     return Response.success(res, Response.successMessage)
@@ -69,6 +77,18 @@ export class UserCreatorController {
     if (!res) {
       throw new BusinessError(BUSINESS_ERROR_CODE.NOT_FOUND, '没有这样的星荐官')
     }
+    return Response.success(res, Response.successMessage)
+  }
+
+  @Get('/info/:id')
+  public async getInfo(@Params('id') id: number) {
+    const res = await this.userCreatorService.getInfoByQueryBuilder<UserCreator>((query) => {
+      query.leftJoinAndSelect('uc.user', 'ucu')
+      query.leftJoinAndSelect('ucu.profile', 'ucup')
+      query.where('uc.status=:status AND uc.id=:id', { status: 2, id })
+      return query
+    }, 'uc')
+
     return Response.success(res, Response.successMessage)
   }
 
