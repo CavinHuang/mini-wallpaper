@@ -104,6 +104,7 @@ export class Pagination {
 
 
     if (pageHelper.getRayMany) {
+      pagination._pageNum = pageNum < pagination._totalPage ? +pageNum : +pagination._totalPage
       const _limit = pageHelper.limit ? pageHelper.limit : pagination._pageSize
       const _offset = pageHelper.offset ? pageHelper.offset : Number((pagination._pageNum - 1) * pagination._pageSize)
       pagination.offset = _offset
@@ -112,8 +113,6 @@ export class Pagination {
       queryBuilder.offset(_offset)
       const rows = await queryBuilder.getRawMany()
       pagination.rows = rows
-      pagination._pageNum = pageNum < pagination._totalPage ? +pageNum : +pagination._totalPage
-
     } else {
       pagination._pageSize = pageHelper.pageSize && pageHelper.pageSize > 0 ? +pageHelper.pageSize : 10
       const _limit = pageHelper.limit ? pageHelper.limit : pageHelper.pageSize

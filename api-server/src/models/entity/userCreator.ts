@@ -1,6 +1,7 @@
 import { Repo } from "@/core/decorator";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./user";
+import { UserContribution } from './userContribution';
 
 @Repo('UserCreator')
 @Entity()

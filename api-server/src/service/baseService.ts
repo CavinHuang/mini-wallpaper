@@ -26,7 +26,7 @@ export class BaseService<ModelRepo = Record<string, any>> {
    * @returns Promise<Pagination>
    */
   public async getPageList<T = unknown>(
-    { pageNum, pageSize, offset, limit, alias = ''}: { pageNum?: number; pageSize?: number; offset?: number; limit?: number; alias?: string },
+    { pageNum, pageSize, offset, limit, alias = '', getRayMany = false }: { pageNum?: number; pageSize?: number; offset?: number; limit?: number; alias?: string; getRayMany?: boolean },
     extral?: (query: SelectQueryBuilder<T & ModelRepo>) => SelectQueryBuilder<T & ModelRepo>,
     resultHandler?: (res: any[]) => any[] 
   ) {
@@ -38,7 +38,7 @@ export class BaseService<ModelRepo = Record<string, any>> {
       if (extral) {
         query = extral(query)
       }
-      const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit }, resultHandler)
+      const result = await Pagination.findByPage(query, { pageNum, pageSize, offset, limit, getRayMany }, resultHandler)
       return result
     } catch (e) {
       throw e

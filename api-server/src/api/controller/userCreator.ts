@@ -34,6 +34,19 @@ export class UserCreatorController {
     return Response.success(await this.userCreatorService.apply(params))
   }
 
+  @Get('/list')
+  public async getCreatorList(@Query() { pageNum = 1, pageSize = 15 }: { pageNum?: number; pageSize?: number }) {
+    const res = await this.userCreatorService.getPageList({ pageNum, pageSize, alias: 'uc' }, (query) => {
+      query.leftJoinAndSelect('uc.user', 'ucu')
+      query.leftJoinAndSelect('ucu.profile', 'ucup')
+      query.leftJoinAndMapMany('uc.contribution', UserContribution, 'uct', 'uct.user_id=ucu.id')
+      query.leftJoinAndSelect('uct.resources', 'ucr')
+      return query
+    })
+
+    return Response.success(res, Response.successMessage)
+  }
+
   @Put('/:id')
   public async updateInfo(@Params('id') id: number, @Body() params: Partial<UserCreator> ) {
     return Response.success(await this.userCreatorService.update(id, params))
