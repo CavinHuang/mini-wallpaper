@@ -38,14 +38,15 @@ onMounted(() => {
 
 // 获取按钮权限列表
 const getAuthButtonsList = async () => {
-  const { data } = await getAuthButtons()
-  data && authStore.setAuthButtons(data)
+  const res = await getAuthButtons()
+  if (!res || !res.data) return
+  res.data && authStore.setAuthButtons(res.data)
 }
 
 // 获取菜单列表中
 const getMenuList = async () => {
   const res = await AuthMenusApi.tree()
-  if (!res.data) return
+  if (!res || !res.data) return
   // 把路由菜单处理成一维数组（存储到 pinia 中）
   const [dynamicRouter, menusData] = handleRouter(res.data)
   authStore.setAuthRouter(dynamicRouter)

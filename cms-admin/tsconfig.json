@@ -30,6 +30,6 @@
 		// 跳过库检查，解决打包失败
 		"skipLibCheck": true
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts"],
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts", "src/routers/modules/demo.ts1", "src/routers/modules/menu.ts1"],
 	"exclude": ["node_modules", "dist", "**/*.js"]
 }

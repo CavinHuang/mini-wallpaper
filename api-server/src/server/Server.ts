@@ -55,7 +55,7 @@ export class Server {
     this.server = this.http2 ? createSecureServer(this.http2) : createServer(this.koa.callback())
     this.init()
       .then(() => {
-        this.start()
+        return this.start()
       })
       .catch((e) => {
         this.logError('运行错误', e)

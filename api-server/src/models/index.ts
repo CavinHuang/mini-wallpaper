@@ -16,8 +16,8 @@ export async function typeOrmInit(logInfo: any, callback?: any) {
     entities: [__dirname + `/entity/*.${fileExt}`],
     migrations: [__dirname + '/migration/*.${fileExt}'],
     subscribers: [__dirname + '/subscriber/*.${fileExt}'],
-    synchronize: true,
-    logging: true
+    synchronize: false,
+    logging: false
   })
     .then((connection) => {
       // 这里可以写实体操作相关的代码

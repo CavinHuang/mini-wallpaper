@@ -9,7 +9,7 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 import eslintPlugin from 'vite-plugin-eslint'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import importToCDN from 'vite-plugin-cdn-import'
-import vitePluginImp from 'vite-plugin-imp'
+// import vitePluginImp from 'vite-plugin-imp'
 // import AutoImport from "unplugin-auto-import/vite";
 // import Components from "unplugin-vue-components/vite";
 // import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
@@ -122,7 +122,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         ]
       }),
       // * 是否生成包预览
-      viteEnv.VITE_REPORT && visualizer(),
+      // viteEnv.VITE_REPORT && visualizer(),
       // * gzip compress
       viteEnv.VITE_BUILD_GZIP &&
         viteCompression({
