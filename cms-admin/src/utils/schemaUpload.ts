@@ -9,7 +9,7 @@ import { useAsyncState } from '@vueuse/core'
  * 文件上传自行处理上传
  * @param upload
  */
-export async function schemaRequest(prefixKey = 'resource/wallpaper') {
+export function schemaRequest(prefixKey = 'resource/wallpaper') {
   return async (upload: UploadRequestOptions) => {
     const { state, execute } = useAsyncState(
       useQiNIu(prefixKey),

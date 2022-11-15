@@ -24,6 +24,7 @@ export const pictureComponent = () =>
         if (this.fieldRef.value.length && this.fieldRef.value[0].response) {
           imageUrl = (this.qiniuHttpHost || '') + '/' + this.fieldRef.value[0].response.key
         }
+        console.log('🚀 ~ file: imageUploaderShow.ts ~ line 26 ~ render ~ imageUrl', imageUrl)
         return imageUrl
           ? h('img', { src: imageUrl, class: 'banner-image' })
           : h(

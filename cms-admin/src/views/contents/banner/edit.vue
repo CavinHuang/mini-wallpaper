@@ -91,6 +91,7 @@ const pictureComponent = () =>
   )
 const token = ref('')
 const onSuccess = () => {
+  console.log('susscess', key)
   key.value = getKey()
 }
 

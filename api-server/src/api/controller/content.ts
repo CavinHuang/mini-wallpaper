@@ -74,17 +74,17 @@ export class ContentController {
   }
 
   @Get('/wallpaper')
-  public async resourceList(@Query() { tagId = 0, categoryId = 0, isHot = false, isRecommend = false, search = '', pageNum = 1, pageSize = 15 }: { tagId: number; categoryId: number; isHot: boolean; isRecommend: boolean; search: string; pageNum?: number; pageSize?: number }) {
+  public async resourceList(@Query() { tagId = 0, categoryId = 0, isHot = 'false', isRecommend = 'false', search = '', pageNum = 1, pageSize = 15 }: { tagId: number; categoryId: number; isHot: string; isRecommend: string; search: string; pageNum?: number; pageSize?: number }) {
     
     const res = await this.resourceService.getPageList({ pageNum, pageSize, alias: 'r' }, (query: SelectQueryBuilder<Resource>) => {
 
       const where = {}
 
-      if (isHot) {
+      if (isHot === 'true') {
         where['is_hot'] = 1
       }
 
-      if (isRecommend) {
+      if (isRecommend === 'true') {
         where['is_recommend'] = 1
       }
       where['status'] = 2

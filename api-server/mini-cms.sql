@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 14/11/2022 17:38:21
+ Date: 15/11/2022 10:20:39
 */
 
 SET NAMES utf8mb4;
@@ -90,7 +90,7 @@ INSERT INTO `admin_auth_menu` VALUES (40, 25, 0, 1, 0, 1, 1, '2022-09-28 15:41:1
 INSERT INTO `admin_auth_menu` VALUES (41, 25, 0, 1, 0, 1, 1, '2022-09-28 15:41:56.770384', '2022-11-14 07:20:25.187000', 1, 2, '0000-00-00 00:00:00', '', '', '', '', '[]', '', '');
 INSERT INTO `admin_auth_menu` VALUES (42, 25, 0, 1, 0, 1, 1, '2022-09-28 15:51:48.889459', '2022-11-14 07:20:25.187000', 1, 2, '0000-00-00 00:00:00', '', '', '', '', '[]', '', '');
 INSERT INTO `admin_auth_menu` VALUES (43, 30, 0, 1, 0, 1, 1, '2022-10-08 15:21:55.173410', '2022-11-14 15:42:24.000000', 1, 1, '0000-00-00 00:00:00', '数据字典', '/system/data_group/list/:id', '', '', '[]', '', 'SystemDataGroupList');
-INSERT INTO `admin_auth_menu` VALUES (44, 13, 0, 0, 0, 1, 1, '2022-10-09 17:24:57.323134', '2022-11-14 15:47:26.000000', 1, 1, '0000-00-00 00:00:00', '轮播图编辑', '/content/category/edit/:pid', '', '', '[]', '', 'bannerEdit');
+INSERT INTO `admin_auth_menu` VALUES (44, 13, 0, 1, 0, 1, 1, '2022-10-09 17:24:57.323134', '2022-11-15 08:56:43.000000', 1, 1, '0000-00-00 00:00:00', '轮播图编辑', '/content/banner/edit/:pid', '', '', '[]', '', 'bannerEdit');
 
 -- ----------------------------
 -- Table structure for admin_auth_role
@@ -230,16 +230,16 @@ CREATE TABLE `category`  (
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES (8, 'wx123004cdf793dff7', 56, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (9, 'wx123004cdf793dff7', 55, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (10, 'wx123004cdf793dff7', 53, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (11, 'wx123004cdf793dff7', 52, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (12, 'wx123004cdf793dff7', 52, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (13, 'wx123004cdf793dff7', 51, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (15, 'wx123004cdf793dff7', 50, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (16, 'wx123004cdf793dff7', 49, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (17, 'wx123004cdf793dff7', 48, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (18, 'wx123004cdf793dff7', 51, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
+INSERT INTO `category` VALUES (8, 'wx123004cdf793dff7', 56, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:32:26.000000', NULL, 'resource', '美女', '美女', 'category/content/1668475930654', '', '', '美女');
+INSERT INTO `category` VALUES (9, 'wx123004cdf793dff7', 55, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:33:51.000000', NULL, 'resource', '风景', '风景', 'category/content/1668476022891', '', '', '风景');
+INSERT INTO `category` VALUES (10, 'wx123004cdf793dff7', 53, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:34:13.000000', NULL, 'resource', '明星', '明星', 'category/content/1668476048415', '', '', '明星');
+INSERT INTO `category` VALUES (11, 'wx123004cdf793dff7', 52, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:34:58.000000', NULL, 'resource', '动漫', '动漫', 'category/content/1668476066326', '', '', '动漫');
+INSERT INTO `category` VALUES (12, 'wx123004cdf793dff7', 52, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:34:51.000000', NULL, 'resource', '游戏', '游戏', 'category/content/1668476089190', '', '', '游戏');
+INSERT INTO `category` VALUES (13, 'wx123004cdf793dff7', 51, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:35:20.000000', NULL, 'resource', '星空', '星空', 'category/content/1668476117256', '', '', '星空');
+INSERT INTO `category` VALUES (15, 'wx123004cdf793dff7', 50, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:36:37.000000', NULL, 'resource', '海景', '海景', 'category/content/1668476193429', '', '', '海景');
+INSERT INTO `category` VALUES (16, 'wx123004cdf793dff7', 49, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:37:54.000000', NULL, 'resource', '静物', '静物', 'category/content/1668476271305', '', '', '静物');
+INSERT INTO `category` VALUES (17, 'wx123004cdf793dff7', 48, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:38:21.000000', NULL, 'resource', '萌宠', '萌宠', 'category/content/1668476298794', '', '', '萌宠');
+INSERT INTO `category` VALUES (18, 'wx123004cdf793dff7', 51, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-15 09:40:49.000000', NULL, 'resource', '街景', '街景', 'category/content/1668476442402', '', '', '街景');
 INSERT INTO `category` VALUES (98, 'wx123004cdf793dff7', 500, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
 INSERT INTO `category` VALUES (99, 'wx123004cdf793dff7', 497, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
 INSERT INTO `category` VALUES (100, 'wx123004cdf793dff7', 498, 0, 1, '0000-00-00 00:00:00.000000', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
@@ -252,7 +252,7 @@ INSERT INTO `category` VALUES (110, 'wx123004cdf793dff7', 501, 0, 1, '2022-10-18
 INSERT INTO `category` VALUES (111, 'wx123004cdf793dff7', 502, 0, 1, '2022-10-18 15:37:36.067095', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
 INSERT INTO `category` VALUES (112, 'wx123004cdf793dff7', 503, 0, 1, '2022-10-18 15:38:14.447398', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
 INSERT INTO `category` VALUES (113, 'wx123004cdf793dff7', 504, 0, 1, '2022-10-18 15:38:45.135341', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
-INSERT INTO `category` VALUES (114, 'wx123004cdf793dff7', 1, 0, 1, '2022-10-19 09:01:35.597189', '2022-11-14 07:21:14.720591', NULL, '', '', '', '', '', '', '');
+INSERT INTO `category` VALUES (114, 'wx123004cdf793dff7', 1, 0, 1, '2022-10-19 09:01:35.597189', '2022-11-15 10:07:17.000000', NULL, 'resource', '通用', '通用', 'category/content/1668478029845', '', '', '通用');
 
 -- ----------------------------
 -- Table structure for content_banner
@@ -278,9 +278,9 @@ CREATE TABLE `content_banner`  (
 -- ----------------------------
 -- Records of content_banner
 -- ----------------------------
-INSERT INTO `content_banner` VALUES (9, 'wx123004cdf793dff7', 1, 1, '2022-10-21 11:12:01.917828', '2022-11-14 07:21:25.132533', NULL, '#', '', '', '', '', '');
-INSERT INTO `content_banner` VALUES (10, 'wx123004cdf793dff7', 1, 1, '2022-10-21 11:12:01.940464', '2022-11-14 07:21:25.132533', NULL, '', '', '', '', '', '');
-INSERT INTO `content_banner` VALUES (11, 'wx123004cdf793dff7', 1, 1, '2022-10-21 11:12:01.965569', '2022-11-14 07:21:25.132533', NULL, '', '', '', '', '', '');
+INSERT INTO `content_banner` VALUES (9, 'wx123004cdf793dff7', 1, 1, '2022-10-21 11:12:01.917828', '2022-11-15 09:10:45.327729', NULL, '#', 'HomeTop', 'banner/1668474156230', '#', '立即升级星荐官', '');
+INSERT INTO `content_banner` VALUES (10, 'wx123004cdf793dff7', 1, 1, '2022-10-21 11:12:01.940464', '2022-11-15 09:10:45.346219', NULL, '#', 'HomeTop', 'banner/1668474170439', '#', '精美壁纸等你下载', '');
+INSERT INTO `content_banner` VALUES (11, 'wx123004cdf793dff7', 1, 1, '2022-10-21 11:12:01.965569', '2022-11-15 09:10:45.363588', NULL, '#', 'HomeTop', 'banner/1668474295201', '#', '做任务获得海量金币', '');
 
 -- ----------------------------
 -- Table structure for like_log
@@ -318,7 +318,7 @@ CREATE TABLE `mini_program`  (
 -- Records of mini_program
 -- ----------------------------
 INSERT INTO `mini_program` VALUES (1, 'wxf84a60c327db82a4', 1, '2022-07-29 14:47:42.000000', '2022-11-14 07:21:34.662871', NULL, '', '');
-INSERT INTO `mini_program` VALUES (2, 'wx123004cdf793dff7', 1, '2022-08-05 00:21:17.000000', '2022-11-14 16:58:16.867831', NULL, '星图部落', '');
+INSERT INTO `mini_program` VALUES (2, 'wx123004cdf793dff7', 1, '2022-08-05 00:21:17.000000', '2022-11-15 09:22:42.181676', NULL, '星图部落', '423bb535f214dcfaf9a922531fbe2ec2');
 
 -- ----------------------------
 -- Table structure for resource
@@ -796,7 +796,7 @@ CREATE TABLE `system_group_data`  (
 -- ----------------------------
 -- Records of system_group_data
 -- ----------------------------
-INSERT INTO `system_group_data` VALUES (2, 4, '2022-10-09 10:57:08.157000', 222, 1, NULL, '{\"position\":{\"type\":\"input\",\"value\":\"HomeBanner\"},\"remark\":{\"type\":\"input\",\"value\":\"首页顶部\"}}');
+INSERT INTO `system_group_data` VALUES (2, 4, '2022-10-09 10:57:08.157000', 222, 1, NULL, '{\"position\":{\"type\":\"input\",\"value\":\"HomeTop\"},\"remark\":{\"type\":\"input\",\"value\":\"首页顶部\"}}');
 INSERT INTO `system_group_data` VALUES (3, 8, '2022-10-10 09:58:22.969000', 1, 1, NULL, '{\"value\":{\"type\":\"input\",\"value\":\"https://up-z2.qiniup.com\"},\"title\":{\"type\":\"input\",\"value\":\"七牛云上传URL\"},\"key\":{\"type\":\"input\",\"value\":\"qiniuUploadUrl\"},\"label\":{\"type\":\"input\",\"value\":\"七牛云上传URL\"},\"desc\":{\"type\":\"input\",\"value\":\"七牛云上传URL\"}}');
 INSERT INTO `system_group_data` VALUES (4, 8, '2022-10-10 10:54:45.177000', 1, 1, NULL, '{\"value\":{\"type\":\"input\",\"value\":\"banner/\"},\"title\":{\"type\":\"input\",\"value\":\"banner上传前缀\"},\"key\":{\"type\":\"input\",\"value\":\"qiniuBannerPath\"},\"label\":{\"type\":\"input\",\"value\":\"banner上传前缀\"},\"desc\":{\"type\":\"input\",\"value\":\"banner上传前缀\"}}');
 INSERT INTO `system_group_data` VALUES (5, 8, '2022-10-10 12:03:31.862000', 2, 1, NULL, '{\"value\":{\"type\":\"input\",\"value\":\"http://img.zukmb.cn/\"},\"title\":{\"type\":\"input\",\"value\":\"七牛cdn地址\"},\"key\":{\"type\":\"input\",\"value\":\"qiniuHttpHost\"},\"label\":{\"type\":\"input\",\"value\":\"七牛cdn地址\"},\"desc\":{\"type\":\"input\",\"value\":\"七牛cdn地址\"}}');
@@ -903,7 +903,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (37, '2022-10-24 14:21:19.709338', 1, 0, 0, '', 0, 0, NULL, 21, '2022-10-24 14:21:19.709338', NULL, 0, NULL, NULL);
+INSERT INTO `user` VALUES (38, '2022-11-15 09:22:48.183017', 1, 0, 0, '', 0, 0, NULL, 22, '2022-11-15 09:22:48.183017', NULL, 0, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_collection
@@ -958,7 +958,7 @@ CREATE TABLE `user_creator`  (
 -- ----------------------------
 -- Records of user_creator
 -- ----------------------------
-INSERT INTO `user_creator` VALUES (2, 2, '2022-10-31 15:34:36.660061', '2022-11-14 17:28:03.302055', NULL, 37, '1122', '');
+INSERT INTO `user_creator` VALUES (4, 1, '2022-11-15 10:06:26.214913', '2022-11-15 10:06:26.214913', NULL, 38, '1122', '哈哈哈');
 
 -- ----------------------------
 -- Table structure for user_profile
@@ -980,7 +980,7 @@ CREATE TABLE `user_profile`  (
 -- ----------------------------
 -- Records of user_profile
 -- ----------------------------
-INSERT INTO `user_profile` VALUES (21, 0, 'wx123004cdf793dff7', 'ow-i35QFy0IZVSE_WFSqM2Ib6g-I', '', '', '', '', '');
+INSERT INTO `user_profile` VALUES (22, 0, 'wx123004cdf793dff7', 'ow-i35QFy0IZVSE_WFSqM2Ib6g-I', '独立的法西ᯤ⁶ᴳ', 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eq1mZDClBxTjUbHOPYtRDzeiareWGDDybJD959mPibI9llfib28O5He3De13vB0zXjMJwcRic26rpkK5Q/132', '', '', '');
 
 -- ----------------------------
 -- Table structure for user_sign_info

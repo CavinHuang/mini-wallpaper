@@ -123,6 +123,10 @@ const columns: Partial<ColumnProps>[] = [
   }
 ]
 
+function onSuccess(e: any) {
+  console.log(e)
+}
+
 const schema = reactive({
   appid: {
     type: 'string',
@@ -194,10 +198,11 @@ const schema = reactive({
     'x-decorator': 'FormItem',
     'x-component': 'Upload',
     'x-component-props': {
-      httpRequest: schemaRequest,
+      httpRequest: schemaRequest('category/content/'),
       class: 'banner-uploader',
       multiple: false,
-      showFileList: false
+      showFileList: false,
+      onSuccess
     },
     required: true,
     'x-content': {
