@@ -19,3 +19,5 @@ __exportStar(require("./log"), exports);
 __exportStar(require("./server"), exports);
 __exportStar(require("./crypto"), exports);
 __exportStar(require("./global"), exports);
+__exportStar(require("./database"), exports);
+__exportStar(require("./app"), exports);

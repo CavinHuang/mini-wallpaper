@@ -1,6 +1,6 @@
 import { isDev } from '../../config/path';
 import KoaRouter from 'koa-router'
-import { join, parse, sep, basename, posix, resolve } from 'path'
+import { join, parse, sep, basename, posix } from 'path'
 import ReaddirRecur from 'fs-readdir-recursive'
 import { Server } from '../Server'
 import { initHTTPMares } from './initMiddleware'
@@ -21,7 +21,7 @@ function getMethods<T = any>(value: Type<T>) {
 const initRouterHandler = async (server: Server, pathAPP: string) => {
   const router: any = new KoaRouter()
   const methodsRouter = router.methods.map((m) => m.toLowerCase())
-  const [maresHTTPBefore, maresHTTPAfter] = await initHTTPMares(server)
+  const [maresHTTPBefore, maresHTTPAfter] = await initHTTPMares()
 
   const initRoute = async (pathAPP) => {
     const filesAPP = ReaddirRecur(pathAPP)

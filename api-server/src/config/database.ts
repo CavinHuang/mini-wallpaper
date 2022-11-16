@@ -1,5 +1,6 @@
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD } = process.env
-
+const REDIS_HOST = process.env.REDIS_HOST || '175.178.179.97'
+const REDIS_PORT = process.env.REDIS_PORT || 6379
 console.log('DB_HOST', DB_HOST)
 console.log('DB_PORT', DB_PORT)
 console.log('DB_USERNAME', DB_USERNAME)
@@ -19,7 +20,7 @@ export const redis: {
   port: number,
   pass?: string
 } = {
-  host: '127.0.0.1',
-  port: 6379
+  host: REDIS_HOST,
+  port: Number(REDIS_PORT)
     // pass: 'wangmiao11111'
 }

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const moment_1 = __importDefault(require("moment"));
-const initMareParseCookies = ($) => {
+const initMareParseCookies = () => {
     return async (ctx, next) => {
         const cookiesAdd = ctx.body?._cookiesAdd;
         if (cookiesAdd) {

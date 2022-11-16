@@ -8,16 +8,12 @@ const path_1 = require("./path");
 const path_2 = require("path");
 const crypto_1 = require("./crypto");
 const utils_1 = require("../utils");
-// import initRoute from './core/initRoute'
-const ParseExtra_1 = __importDefault(require("../core/mare/ParseExtra"));
-const CheckPerm_1 = __importDefault(require("../core/mare/CheckPerm"));
-const ParseCookies_1 = __importDefault(require("../core/mare/ParseCookies"));
-const ResultParser_1 = __importDefault(require("../core/mare/ResultParser"));
+const mare_1 = require("@/core/mare");
 const parseRaw_1 = __importDefault(require("../server/mare/parseRaw"));
 // const { faces, folds } = initRoute(dirController)
 exports.server = {
     host: '0.0.0.0',
-    port: 10088
+    port: 10089
 };
 exports.name = 'GameApi';
 exports.facePrefix = '/api';
@@ -33,8 +29,8 @@ exports.wock = {
 exports.serverConfig = {
     favicon: (0, path_2.resolve)(path_1.dirPublic, 'favicon.ico'),
     middleware: {
-        before: [parseRaw_1.default, ParseExtra_1.default, CheckPerm_1.default],
-        after: [ParseCookies_1.default, ResultParser_1.default]
+        before: [parseRaw_1.default, mare_1.InitComonService, mare_1.ParseExtra, mare_1.CheckPerm],
+        after: [mare_1.ParseCookies, mare_1.ResultParser]
     },
     name: exports.name,
     server: exports.server,

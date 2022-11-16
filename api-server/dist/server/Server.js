@@ -1,4 +1,13 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -7,16 +16,16 @@ exports.Server = void 0;
 const koa_1 = __importDefault(require("koa"));
 const koa_body_1 = __importDefault(require("koa-body"));
 const koa_static_1 = __importDefault(require("koa-static"));
-const koa_jwt_1 = __importDefault(require("koa-jwt"));
-const cors_1 = __importDefault(require("@koa/cors"));
 const koa_helmet_1 = __importDefault(require("koa-helmet")); // 网络安全
 const http_1 = require("http");
 const http2_1 = require("http2");
 const path_1 = __importDefault(require("path"));
-const initRouter_1 = __importDefault(require("./core/initRouter"));
+const importCtrl_1 = require("./core/importCtrl");
 const config_1 = require("../config");
 const models_1 = require("../models");
-class Server {
+const middlewares_1 = require("@/middlewares");
+const container_1 = require("@/core/container");
+let Server = class Server {
     config;
     http2;
     server;
@@ -36,7 +45,7 @@ class Server {
         this.server = this.http2 ? (0, http2_1.createSecureServer)(this.http2) : (0, http_1.createServer)(this.koa.callback());
         this.init()
             .then(() => {
-            this.start();
+            return this.start();
         })
             .catch((e) => {
             this.logError('运行错误', e);
@@ -48,6 +57,7 @@ class Server {
             await (0, models_1.typeOrmInit)(this.logInfo);
             this.initApp();
             await this.initRouter();
+            await (0, importCtrl_1.initRoute)(config_1.dirController, this);
         }
         catch (e) {
             this.logError('运行错误', e);
@@ -79,22 +89,20 @@ class Server {
      */
     initApp() {
         const koa = this.koa;
-        koa.use(function (ctx, next) {
-            return next().catch((err) => {
-                console.log(err);
-                if (401 == err.status) {
-                    ctx.status = 401;
-                    ctx.body = { code: 401, message: '您还没有登录，请先登录！' };
-                }
-                else if (404 === err.status) {
-                    ctx.status = 404;
-                    ctx.body = { code: 404, message: '您访问的路径不存在' };
-                }
-                else {
-                    throw err;
-                }
-            });
-        });
+        // koa.use(function (ctx, next) {
+        //   return next().catch((err) => {
+        //     console.log(err)
+        //     if (401 == err.status) {
+        //       ctx.status = 401
+        //       ctx.body = { code: 401, message: '您还没有登录，请先登录！' }
+        //     } else if (404 === err.status) {
+        //       ctx.status = 404
+        //       ctx.body = { code: 404, message: '您访问的路径不存在' }
+        //     } else {
+        //       throw err
+        //     }
+        //   })
+        // })
         koa.use(async (ctx, next) => {
             ctx.set('Access-Control-Allow-Origin', '*');
             ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
@@ -107,14 +115,17 @@ class Server {
             }
         });
         koa.use((0, koa_body_1.default)());
+        koa.use((0, middlewares_1.RequestLog)());
         koa.use((0, koa_static_1.default)(path_1.default.resolve(__dirname, '../../static')));
         // koa.use(httpProxy())
-        koa.use((0, koa_jwt_1.default)({
-            secret: config_1.secret
-        }).unless({
-            path: config_1.unlessRoute
-        }));
-        koa.use((0, cors_1.default)());
+        // koa.use(
+        //   jwt({
+        //     secret
+        //   }).unless({
+        //     path: unlessRoute
+        //   })
+        // )
+        // koa.use(Cors())
         // hsts请求头
         // koa.use(
         //   Helmet.contentSecurityPolicy({
@@ -137,9 +148,13 @@ class Server {
         koa.use(koa_helmet_1.default.permittedCrossDomainPolicies());
         koa.use(koa_helmet_1.default.referrerPolicy());
         koa.use(koa_helmet_1.default.xssFilter());
+        koa.use((0, middlewares_1.koaError)());
     }
     async initRouter() {
-        await (0, initRouter_1.default)(this, config_1.dirController);
+        this.koa.use(async (ctx, next) => {
+            ctx.$ = this;
+            await next();
+        });
     }
     /** 加载日志函数 */
     initLogger() {
@@ -211,5 +226,9 @@ class Server {
                         : (...params) => csl.log(this.nameLog, ...params);
         }
     }
-}
+};
+Server = __decorate([
+    (0, container_1.Provide)(),
+    __metadata("design:paramtypes", [Object])
+], Server);
 exports.Server = Server;

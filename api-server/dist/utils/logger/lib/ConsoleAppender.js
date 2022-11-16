@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log_update_1 = __importDefault(require("log-update"));
 const LogUpdateSymbol_1 = __importDefault(require("./LogUpdateSymbol"));
 const LogDoneSymbol_1 = __importDefault(require("./LogDoneSymbol"));
-// eslint-disable-next-line no-console
 const consoleLog = console.log.bind(console);
-// eslint-disable-next-line no-console
 const consoleError = console.error.bind(console);
 const configureConsole = function (config) {
     return function (event) {

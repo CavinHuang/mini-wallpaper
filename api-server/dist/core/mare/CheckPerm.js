@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto_1 = __importDefault(require("crypto"));
 const config_1 = require("../../config");
-const initMareCheckPerm = ($) => {
-    return async (ctx_, next) => {
+const initMareCheckPerm = () => {
+    return async function CheckPerm(ctx_, next) {
         const ctx = ctx_;
         const raw = ctx.raw;
         if (ctx.rout?.option?.skipPerm) {
@@ -14,7 +14,10 @@ const initMareCheckPerm = ($) => {
         }
         const token = raw.token?.trim();
         if (!token) {
-            ctx.body = '拒绝访问。缺少登录信息';
+            ctx.body = {
+                code: 403,
+                message: '拒绝访问。缺少登录信息'
+            };
             return (ctx.status = 403);
         }
         let ipToken;

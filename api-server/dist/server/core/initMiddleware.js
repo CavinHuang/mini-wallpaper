@@ -24,9 +24,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initHTTPMares = void 0;
+const server_1 = require("../../config/server");
 /** 加载中间件 */
-async function initHTTPMares($) {
-    const { config: { middleware }, logWarn } = $;
+async function initHTTPMares() {
+    const { middleware, logger } = server_1.serverConfig;
     const maresBefore = [];
     const maresAfter = [];
     for (const initerMare_ of middleware?.before ?? []) {
@@ -35,10 +36,10 @@ async function initHTTPMares($) {
             if (typeof initerMare_ == 'string') {
                 initerMare = (await Promise.resolve().then(() => __importStar(require(`./lib/mare/${initerMare_}.ts`)))).default;
             }
-            maresBefore.push(await initerMare($));
+            maresBefore.push(await initerMare());
         }
         catch (error) {
-            logWarn('加载~[HTTP接口前置中间件]', error);
+            logger.warn('加载~[HTTP接口前置中间件]', error);
         }
     }
     for (const initerMare_ of middleware?.after ?? []) {
@@ -47,10 +48,10 @@ async function initHTTPMares($) {
             if (typeof initerMare_ == 'string') {
                 initerMare = (await Promise.resolve().then(() => __importStar(require(`./lib/mare/${initerMare_}.js`)))).default;
             }
-            maresAfter.push(await initerMare($));
+            maresAfter.push(await initerMare());
         }
         catch (error) {
-            logWarn('加载~[HTTP接口后置中间件]', error);
+            logger.warn('加载~[HTTP接口后置中间件]', error);
         }
     }
     return [maresBefore, maresAfter];

@@ -32,10 +32,16 @@ const path_2 = require("path");
 const fs_readdir_recursive_1 = __importDefault(require("fs-readdir-recursive"));
 const initMiddleware_1 = require("./initMiddleware");
 const appendExt = path_1.isDev ? '.api.ts' : '.api.js';
+function getMethods(value) {
+    const ctx = new value();
+    const prototype = Object.getPrototypeOf(ctx);
+    const methods = Reflect.ownKeys(prototype);
+    return methods.filter((method) => method.startsWith('_'));
+}
 const initRouterHandler = async (server, pathAPP) => {
     const router = new koa_router_1.default();
     const methodsRouter = router.methods.map((m) => m.toLowerCase());
-    const [maresHTTPBefore, maresHTTPAfter] = await (0, initMiddleware_1.initHTTPMares)(server);
+    const [maresHTTPBefore, maresHTTPAfter] = await (0, initMiddleware_1.initHTTPMares)();
     const initRoute = async (pathAPP) => {
         const filesAPP = (0, fs_readdir_recursive_1.default)(pathAPP);
         const face = [];
