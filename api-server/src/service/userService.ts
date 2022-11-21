@@ -19,9 +19,19 @@ export class UserService extends BaseService {
    * @returns 
    */
   public async doRegister(params: Partial<User & UserProfile>) {
+    let pid = params.pid || 0
+    if (params.pid) {
+      const res = await this.repository.findOne({
+        where: {
+          id: pid
+        }
+      })
+      if (!res) pid = 0
+    }
+
     const user = this.repository.create({
       username: '',
-      pid: params.pid || 0,
+      pid: pid,
       status: 1
     })
 

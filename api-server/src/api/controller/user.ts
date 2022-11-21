@@ -14,7 +14,7 @@ export class UserController {
   private wechatService: Wechat
 
   @Get('/openId')
-  public async getUserOpenId(@Query('code') code: string, @Header('appid') appId: string) {
+  public async getUserOpenId(@Query('code') code: string, @Query('sharedId') sharedId: string, @Header('appid') appId: string) {
     const openIdRes = await this.wechatService.code2session(appId, code)
     let openId = openIdRes.openid
     const userRes = await this.userService.getInfoByQueryBuilder<User>((query)=>{
@@ -25,7 +25,7 @@ export class UserController {
     }, 'user')
 
     if (!userRes) {
-      const userInfo = await this.userService.doRegister({ openid: openIdRes.openid, appid: appId })
+      const userInfo = await this.userService.doRegister({ openid: openIdRes.openid, pid: Number(sharedId) || 0, appid: appId })
       return Response.success({userInfo, loginInfo: openIdRes, needUpdate: true}, 'register')
     }
     return Response.success({ useInfo: userRes, loginInfo: openIdRes, needUpdate: false }, Response.successMessage)

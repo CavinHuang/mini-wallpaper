@@ -84,7 +84,8 @@ export class UserCreatorController {
   @Get('/search')
   public async searchByCode(@Query() params: { code: string }) {
     const res = await this.userCreatorService.getInfo<UserCreator>({
-      code: params.code
+      code: params.code,
+      status: 2
     })
 
     if (!res) {
