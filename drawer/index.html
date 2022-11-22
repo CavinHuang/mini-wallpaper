@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: transparent;
+}
+.box {
+  position: relative;
+  width: 300px;
+  height: 600px;
+  background: #666;
+  border-radius: 50px;
+  opacity: 1;
+  margin: 12px;
+}
+.box::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: #000;
+  border-radius: 48px;
+}
+.box .inner {
+  position: absolute;
+  inset: 3px;
+  background: url('https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3f6c1f4d91e64c8584a770696b211e1a~tplv-k3u1fbpfcp-watermark.image');
+  background-size: cover;
+  background-position: center;
+  border-radius: 48px;
+  border: 10px solid #000;
+  display: flex;
+  justify-content: center;
+  /* opacity: 0; */
+  transition: 0.3s;
+}
+.box .inner .island-popup {
+  position: absolute;
+  top: 10px;
+  width: 90px;
+  height: 25px;
+  background: #000;
+  border-radius: 20px;
+  transition: 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.box .inner .island-popup:hover {
+  width: 200px;
+  height: 25px;
+}
+.box .inner .island-popup:hover p {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition-delay: 0.25s;
+}
+.box .inner .island-popup:hover .action {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition-delay: 0.25s;
+}
+.box .inner .island-popup.active {
+  width: 260px;
+  height: 60px;
+  border-radius: 50px;
+}
+.box .inner .island-popup.active p {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition-delay: 0.25s;
+}
+.box .inner .island-popup.active .action {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition-delay: 0.25s;
+  top: 12px;
+}
+.box .inner .island-popup .content {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px;
+  line-height: 25px;
+}
+.box .inner .island-popup .content p {
+  color: #fff;
+  font-size: 0.6em;
+  cursor: default;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+}
+.box .inner .island-popup .content .details {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.box .inner .island-popup .content .details .imgBx {
+  position: relative;
+  width: 0;
+  height: 0;
+  background: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: 0.5s;
+}
+.box .inner .island-popup .content .details .imgBx img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.box .inner .island-popup .action {
+  position: relative;
+  top: 5px;
+  color: #fff;
+  display: flex;
+  gap: 12px;
+  transition: 0.5s;
+  visibility: hidden;
+  opacity: 0;
+}
+.box .inner .island-popup .action ion-icon.red {
+  color: #fd443b;
+  transform: rotate(135deg);
+  cursor: pointer;
+  transition: 0.5s;
+}
+.box .inner .island-popup .action ion-icon.green {
+  color: #31d059;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.box .inner .island-popup.active ion-icon.red {
+  background-color: #fd443b;
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px #fd443b;
+  margin-right: 12px;
+}
+.box .inner .island-popup.active ion-icon.green {
+  background-color: #31d059;
+  color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px #31d059;
+  margin-right: 8px;
+}
+.box .inner .island-popup.active .details .imgBx {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+}
+.box:hover .inner {
+  opacity: 1;
+}
+.box .btn {
+  position: absolute;
+  top: 110px;
+  left: -2px;
+  width: 3px;
+  height: 26px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background: radial-gradient(#ccc, #666, #222);
+  z-index: 10;
+}
+.box .btn.btn2 {
+  top: 160px;
+  height: 40px;
+}
+.box .btn.btn3 {
+  top: 220px;
+  height: 40px;
+}
+.box .rightSldeBtn {
+  position: absolute;
+  top: 170px;
+  right: -2px;
+  width: 3px;
+  height: 70px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background: radial-gradient(#ccc, #666, #222);
+  z-index: 10;
+}
+  </style>
+  <script src="https://unpkg.com/html-to-image@1.10.8/dist/html-to-image.js"></script>
+</head>
+<body>
+  <div class="box" id="container">
+	<div class="inner" style="background-image: url('{{backgroundImage}}')">
+		<div class="island-popup">
+			<div class="content">
+				<div class="details">
+					<div class="imgBx">
+						<img src="https://p3-passport.byteimg.com/img/user-avatar/7e4a7c01e7022917f7242419f19a6c03~100x100.awebp" />
+					</div>
+					<p>优弧</p>
+				</div>
+				<div class="action">
+					<ion-icon name="call" class="red"></ion-icon>
+					<ion-icon name="call" class="green"></ion-icon>
+				</div>
+			</div>
+		</div>
+	</div>
+	<i class="btn btn1"></i>
+	<i class="btn btn2"></i>
+	<i class="btn btn3"></i>
+	<i class="rightSldeBtn"></i>
+</div>
+<script>
+  let popup = document.querySelector('.island-popup');
+  popup.onclick = function () {
+    popup.classList.toggle('active');
+  };
+
+  const s = document.createElement('script');
+  s.src = 'https://unpkg.com/ionicons@5.0.0/dist/ionicons.js';
+  document.body.appendChild(s);
+
+  var node = document.getElementById('container');
+  htmlToImage.toPng(node)
+  .then(function (dataUrl) {
+    var img = new Image();
+    img.src = dataUrl;
+    document.body.appendChild(img);
+  })
+  .catch(function (error) {
+    console.error('oops, something went wrong!', error);
+  });
+</script>
+</body>
+</html>

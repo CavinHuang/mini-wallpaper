@@ -159,4 +159,17 @@ export class ContentController {
   public async resourceCollection(@Body() params: { rid: number; userId: number }) {
     return Response.success(await this.userCollectionService.saveCollection(params), Response.successMessage)
   }
+
+  @Get('/wallpaper_latest')
+  public async latestWallpaper() {
+    const res = await this.resourceService.getInfoByQueryBuilder<Resource>((query) => {
+      query.where({
+        status: 2
+      })
+      query.orderBy('create_at', 'DESC')
+      return query
+    })
+
+    return Response.success(res, Response.successMessage)
+  }
 }
