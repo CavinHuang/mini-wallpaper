@@ -111,6 +111,7 @@ getLatest().then(res => {
       imageRes.forEach(item => {
         compose(item.image1, item.image2, item.filePath)
       })
+      console.log("分享链接", `pages/Pictures/recommend?share_user_id=38&id=${data.id}`)
     })
   }
 })
