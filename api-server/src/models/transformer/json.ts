@@ -1,5 +1,5 @@
+import { isNullOrUndefined } from "@/utils";
 import { ValueTransformer } from "typeorm";
-import { isNullOrUndefined } from "./utils";
 
 /**
  * parse json string to javascript object.
