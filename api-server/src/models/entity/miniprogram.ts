@@ -4,6 +4,7 @@
 
 import { Repo } from '@/core/decorator'
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { JsonTransformer } from '../transformer/json'
 
 @Repo('MiniProgram')
 @Entity()
@@ -28,6 +29,23 @@ export class MiniProgram {
     comment: '小程序appSecret'
   })
   appsecret: string
+
+  @Column({
+    length: 20,
+    comment: '顶部导航栏颜色'
+  })
+  navigationBarBackgroundColor: string
+
+  @Column({
+    comment: '小程序底部导航栏配置',
+    type: 'longtext',
+    transformer: new JsonTransformer([])
+  })
+  tabbar: Array<{
+    title: string
+    activeIcon: string
+    inactiveIcon: string
+  }>
 
   @Column({
     type: 'tinyint',

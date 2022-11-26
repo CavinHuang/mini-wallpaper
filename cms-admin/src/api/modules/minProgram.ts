@@ -2,6 +2,7 @@ import { crudBuilder } from '../apiCreator'
 import { ReqPage } from '../interface'
 export namespace MiniProgram {
   export interface Item {
+    id: number
     name: string
     appid: string
     appsecret: string

@@ -11,7 +11,8 @@
     "start": "cross-env NODE_ENV=development nodemon --ext js,ts --exec ts-node -r tsconfig-paths/register ./src/app.ts",
     "dev":   "cross-env NODE_ENV=development nodemon --watch ./src/* -e ts --exec ts-node -r tsconfig-paths/register ./src/app.ts",
     "clear:js": "rimraf ./src/**/*.js",
-    "plop": "plop"
+    "plop": "plop",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run"
   },
   "keywords": [],
   "author": "",

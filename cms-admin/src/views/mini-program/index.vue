@@ -6,13 +6,15 @@
         <!-- <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增规则</el-button> -->
       </template>
       <!-- Expand -->
-      <template #expand="scope"> {{ scope.row }} </template>
+      <template #navigationBarBackgroundColor="scope">
+        <el-color-picker v-model="scope.row.navigationBarBackgroundColor" @change="updateColor($event, scope.row)" />
+      </template>
       <!-- 分类状态 slot -->
       <template #status="scope">
         <!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所有在外层包一个盒子，点击触发盒子 click 方法 -->
         <div @click="changeStatus(scope.row)">
           <el-switch
-            :value="scope.row.status"
+            :model-value="scope.row.status"
             :active-text="scope.row.status === 1 ? '启用' : '禁用'"
             :active-value="1"
             :inactive-value="0"
@@ -23,6 +25,7 @@
       <template #operation="scope">
         <el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row, true)">查看</el-button>
         <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row, true)">编辑</el-button>
+        <el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row, true)">配置底部导航栏</el-button>
         <!-- <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button> -->
       </template>
     </ProTable>
@@ -38,7 +41,7 @@ import { useHandleData } from '@/hooks/useHandleData'
 import ProTable from '@/components/ProTable/index.vue'
 import UserDrawer from './components/Drawer.vue'
 import { EditPen, View } from '@element-plus/icons-vue'
-import { MiniProgramApi } from '@/api/modules'
+import { MiniProgramApi, MiniProgram } from '@/api/modules'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -72,6 +75,10 @@ const columns: Partial<ColumnProps>[] = [
     label: 'appsecret'
   },
   {
+    prop: 'navigationBarBackgroundColor',
+    label: '顶部导航栏主色'
+  },
+  {
     prop: 'create_at',
     label: '创建时间',
     width: 210,
@@ -86,20 +93,28 @@ const columns: Partial<ColumnProps>[] = [
   {
     prop: 'operation',
     label: '操作',
-    width: 160,
     fixed: 'right'
   }
 ]
 
 // 删除分类信息
-const deleteAccount = async (params: Game.cate) => {
+const deleteAccount = async (params: MiniProgram.Item) => {
   await useHandleData(MiniProgramApi.remove, params.id, `是否确认删除【${params.name}】？`)
   proTable.value.refresh()
 }
 
 // 切换分类状态
-const changeStatus = async (row: Game.cate) => {
+const changeStatus = async (row: MiniProgram.Item) => {
   await useHandleData(MiniProgramApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】状态`)
+  proTable.value.refresh()
+}
+
+const updateColor = async (color: string, row: MiniProgram.Item) => {
+  await useHandleData(
+    MiniProgramApi.update,
+    { id: row.id, navigationBarBackgroundColor: color },
+    `更新【${row.name}的顶部导航栏颜色`
+  )
   proTable.value.refresh()
 }
 
