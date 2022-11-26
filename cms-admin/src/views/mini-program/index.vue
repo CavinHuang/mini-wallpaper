@@ -1,6 +1,6 @@
 <template>
   <div class="table-box">
-    <ProTable ref="proTable" :requestApi="MiniProgramApi.getList" :initParam="initParam" :columns="columns">
+    <ProTable ref="proTable" :requestApi="MiniProgramApi.page" :initParam="initParam" :columns="columns">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
         <!-- <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增规则</el-button> -->
@@ -93,13 +93,13 @@ const columns: Partial<ColumnProps>[] = [
 
 // 删除分类信息
 const deleteAccount = async (params: Game.cate) => {
-  await useHandleData(MiniProgramApi.delete, { id: [params.id] }, `是否确认删除【${params.name}】？`)
+  await useHandleData(MiniProgramApi.remove, params.id, `是否确认删除【${params.name}】？`)
   proTable.value.refresh()
 }
 
 // 切换分类状态
 const changeStatus = async (row: Game.cate) => {
-  await useHandleData(MiniProgramApi.edit, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】状态`)
+  await useHandleData(MiniProgramApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.name}】状态`)
   proTable.value.refresh()
 }
 
@@ -114,7 +114,7 @@ const openDrawer = (title: string, rowData: Partial<Game.cate> = {}, isEdit: boo
     rowData: { ...rowData },
     isEdit,
     isView: title === '查看' ? true : false,
-    apiUrl: title === '新增' ? MiniProgramApi.add : title === '编辑' ? MiniProgramApi.edit : '',
+    apiUrl: title === '新增' ? MiniProgramApi.add : title === '编辑' ? MiniProgramApi.update : '',
     getTableList: proTable.value.refresh
   }
   drawerRef.value!.acceptParams(params)

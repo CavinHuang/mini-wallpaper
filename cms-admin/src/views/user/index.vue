@@ -1,9 +1,9 @@
 <template>
   <div class="table-box">
-    <ProTable ref="proTable" :requestApi="getUserList" :initParam="initParam" :columns="columns">
+    <ProTable ref="proTable" :requestApi="UserApi.page" :initParam="initParam" :columns="columns">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增用户</el-button>
+        <!-- <el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增用户</el-button> -->
         <!-- <el-button type="primary" :icon="Upload" plain @click="batchAdd">批量添加用户</el-button> -->
         <!-- <el-button type="primary" :icon="Download" plain @click="downloadFile">导出用户数据</el-button> -->
         <!-- <el-button type="danger" :icon="Delete" plain :disabled="!scope.isSelected" @click="batchDelete(scope.ids)">
@@ -17,7 +17,7 @@
         <!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所有在外层包一个盒子，点击触发盒子 click 方法 -->
         <div @click="changeStatus(scope.row)">
           <el-switch
-            :value="scope.row.status"
+            :model-value="scope.row.status"
             :active-text="scope.row.status === 1 ? '启用' : '禁用'"
             :active-value="1"
             :inactive-value="0"
@@ -40,7 +40,7 @@
 <script setup lang="tsx" name="adminList">
 import { ref, reactive, h } from 'vue'
 import { genderType } from '@/utils/serviceDict'
-import { ElInput, ElFormItem } from 'element-plus'
+import { ElInput, ElFormItem, ElMessage } from 'element-plus'
 import { User } from '@/api/interface'
 import { ColumnProps } from '@/components/ProTable/interface'
 import { useHandleData } from '@/hooks/useHandleData'
@@ -49,16 +49,7 @@ import ProTable from '@/components/ProTable/index.vue'
 import ImportExcel from '@/components/ImportExcel/index.vue'
 import UserDrawer from './components/UserDrawer.vue'
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from '@element-plus/icons-vue'
-import {
-  getUserList,
-  deleteUser,
-  editUser,
-  addUser,
-  resetUserPassWord,
-  exportUserInfo,
-  BatchAddUser,
-  changeUserStatus
-} from '@/api/modules/user'
+import { UserApi } from '@/api/modules'
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref()
@@ -156,13 +147,7 @@ const columns: Partial<ColumnProps>[] = [
 
 // 删除用户信息
 const deleteAccount = async (params: User.ResUserList) => {
-  await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.username}】用户`)
-  proTable.value.refresh()
-}
-
-// 批量删除用户信息
-const batchDelete = async (id: string[]) => {
-  await useHandleData(deleteUser, { id }, '删除所选用户信息')
+  await useHandleData(UserApi.delete, params.id, `删除【${params.username}】用户`)
   proTable.value.refresh()
 }
 
@@ -175,8 +160,9 @@ const data = reactive({
 // 重置用户密码
 const resetPass = async (params: User.ResUserList) => {
   data.id = Number(params.id)
+  return ElMessage.info('不能操作')
   await useHandleData(
-    resetUserPassWord,
+    UserApi.update,
     data,
     '重置密码',
     h('div', { class: 'reset-password-container' }, [
@@ -219,13 +205,8 @@ const resetPass = async (params: User.ResUserList) => {
 
 // 切换用户状态
 const changeStatus = async (row: User.ResUserList) => {
-  await useHandleData(changeUserStatus, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.username}】用户状态`)
+  await useHandleData(UserApi.update, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.username}】用户状态`)
   proTable.value.refresh()
-}
-
-// 导出用户列表
-const downloadFile = async () => {
-  useDownload(exportUserInfo, '用户列表', proTable.value.searchParam)
 }
 
 // 批量添加用户
@@ -233,15 +214,6 @@ interface DialogExpose {
   acceptParams: (params: any) => void
 }
 const dialogRef = ref<DialogExpose>()
-const batchAdd = () => {
-  let params = {
-    title: '用户',
-    tempUrl: exportUserInfo,
-    importUrl: BatchAddUser,
-    getTableList: proTable.value.refresh
-  }
-  dialogRef.value!.acceptParams(params)
-}
 
 // 打开 drawer(新增、查看、编辑)
 interface DrawerExpose {
@@ -254,7 +226,7 @@ const openDrawer = (title: string, rowData: Partial<User.ResUserList> = {}, isEd
     rowData: { ...rowData },
     isEdit,
     isView: title === '查看' ? true : false,
-    apiUrl: title === '新增' ? addUser : title === '编辑' ? editUser : '',
+    apiUrl: title === '新增' ? UserApi.add : title === '编辑' ? UserApi.update : '',
     getTableList: proTable.value.refresh
   }
   drawerRef.value!.acceptParams(params)

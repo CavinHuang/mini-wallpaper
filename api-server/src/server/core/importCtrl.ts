@@ -140,6 +140,7 @@ async function mountedRouter(app: Server, module: string, filesApp: string[], ma
           const routeParamsMeta = Reflect.getMetadata(TAGS.ROUTE_PARAMS, Ctrl, handler) || []
           // 请求参数类型信息
           const routeParamsTypes = Reflect.getMetadata(TAGS.ROUTE_PARAMS_TYPE, inst, handler)
+          console.log("🚀 ~ file: importCtrl.ts ~ line 143 ~ router[method] ~ routeParamsTypes", routeParamsTypes)
 
           const sortIndexRouteParams = objectArraySortByAtr(routeParamsMeta, 'index')
 

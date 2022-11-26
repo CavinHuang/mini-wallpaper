@@ -1,49 +1,88 @@
-import { ResPage, User } from '@/api/interface/index'
-import { ContentTypeEnum } from '@/enums/httpEnum'
-import { PORT1 } from '@/api/config/servicePort'
+import { ReqPage, ResPage } from '../interface'
+import { request } from '@/api'
 
-import http from '@/api'
-
-/**
- * @name 用户管理模块
- */
-// * 获取用户列表
-export const getUserList = (params: User.ReqGetUserParams) => {
-  return http.post<ResPage<User.ResUserList>>('/user/list', params)
+export namespace User {
+  export interface Profile {
+    nickname: string
+    avatar: string
+    gender: number
+    country: string
+    province: string
+    city: string
+    id: number
+    appid: string
+    openid: string
+  }
+  export interface Item {
+    id: number
+    pid: number
+    profile: Profile
+    vip_level: number
+    score: number
+  }
+  export interface Creator {
+    id: number
+    user_id: number
+    code: string
+    status: number
+    remark: number
+    user: Item
+  }
+  export interface ReqGetParams extends ReqPage {
+    username?: string
+    nickname?: string
+  }
 }
 
-// * 新增用户
-export const addUser = (params: { id: string }) => {
-  return http.post(PORT1 + '/user/create', params)
-}
+const http = request({
+  baseURL: '/admin'
+})
 
-// * 批量添加用户
-export const BatchAddUser = (params: any) => {
-  // 其实 headers 中的 Content-Type 可以不写，请求可以自动判断，这里为了演示，写了一下
-  return http.post(PORT1 + '/user/import', params, { headers: { 'Content-Type': ContentTypeEnum.FORM_DATA } })
-}
+export class UserApi {
+  /**
+   * 获取列表
+   * @param params
+   * @returns
+   */
+  public static page(params: User.ReqGetParams) {
+    return http.get<ResPage<User.Item>>('/user', params)
+  }
 
-// * 编辑用户
-export const editUser = (params: { id: string }) => {
-  return http.post(PORT1 + '/user/update', params)
-}
+  /**
+   * 获取单个角色的信息
+   * @param id
+   * @returns
+   */
+  public static info(id: number) {
+    return http.get<User.Item>(`/user/${id}`)
+  }
 
-// * 删除用户
-export const deleteUser = (params: { id: string[] }) => {
-  return http.post(PORT1 + '/user/delete', params)
-}
+  /**
+   * 增加角色
+   * @param postData
+   * @returns
+   */
+  static add(postData: Partial<User.Item>) {
+    return http.post('/user', postData)
+  }
 
-// * 切换用户状态
-export const changeUserStatus = (params: { id: string; status: number }) => {
-  return http.post(PORT1 + '/user/change', params)
-}
+  /**
+   * 更新角色
+   * @param id
+   * @param postData
+   * @returns
+   */
+  static update(postData: Partial<User.Item>) {
+    return http.put(`/user/${postData.id}`, postData)
+  }
 
-// * 重置用户密码
-export const resetUserPassWord = (params: { id: string }) => {
-  return http.post(PORT1 + '/user/rest_password', params)
-}
-
-// * 导出用户数据
-export const exportUserInfo = (params: User.ReqGetUserParams) => {
-  return http.post<BlobPart>(PORT1 + '/user/export', params, { responseType: 'blob' })
+  /**
+   * 更新角色
+   * @param id
+   * @param postData
+   * @returns
+   */
+  static delete(id: number) {
+    return http.delete(`/user/${id}`)
+  }
 }
