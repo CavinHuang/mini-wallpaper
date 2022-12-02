@@ -7,6 +7,7 @@ export class CreatePost1669977085571 implements MigrationInterface {
         name: 'posts',
         columns: [
           { name: 'id', isGenerated: true, type: 'int', isPrimary: true, generationStrategy: 'increment' },
+          { name: 'user_id', type: 'int', default: null, isPrimary: true },
           { name: 'title', type: 'varchar', length: '500', comment: '文章标题' },
           { name: 'excerpt', type: 'text', comment: '文章摘要' },
           { name: 'comment_count', type: 'int', length: '10', comment: '评论条数'},
@@ -24,7 +25,6 @@ export class CreatePost1669977085571 implements MigrationInterface {
           { name: 'direct_link', type: 'text', default: '', comment: '跳转的链接' },
           { name: 'content', type: 'longtext', default: '', comment: '文章内容' },
           { name: 'badge', type: 'varchar', default: '', comment: '文章热点标识' },
-          { name: 'cate_id', type: 'int', default: null, comment: '文章分类' },
           { name: 'status', type: 'tinyint', default: 1, comment: '文章状态：0 未审核 1 通过 2 驳回 3 下架' },
           { name: 'create_at', type: 'datetime', default: '', comment: '文章创建时间' },
           { name: 'update_at', type: 'datetime', default: '', comment: '文章最后修改时间' },
