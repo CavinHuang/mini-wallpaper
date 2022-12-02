@@ -6,8 +6,8 @@ export class CreatePostsWithTags1669980345908 implements MigrationInterface {
       await queryRunner.createTable(new Table({
         name: 'post_with_tags',
         columns: [
-          { name: 'post_id', type: 'int', isPrimary: true },
-          { name: 'tag_id', type: 'int', isPrimary: true }
+          { name: 'post_id', type: 'int' },
+          { name: 'tag_id', type: 'int' }
         ]
       }))
     }

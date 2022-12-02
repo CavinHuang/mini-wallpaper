@@ -44,7 +44,7 @@ export const typeOrmConfig = () => {
     synchronize: false,
     logging: true,
     cli: {
-      migrationsDir: path.join(__dirname, `../models/migration`),
+      migrationsDir: 'src/models/migration',
     }
   }
 }
