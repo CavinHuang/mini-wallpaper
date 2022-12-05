@@ -4,6 +4,7 @@
 import { Repo } from '@/core/decorator'
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Resource } from './resource'
+import { Posts } from './Posts';
 
 @Repo('Tag')
 @Entity()
@@ -48,6 +49,9 @@ export class Tag {
 
   @ManyToMany(type => Resource, resource => resource.tags, { cascade: true, createForeignKeyConstraints: false })
   resources: Resource[]
+
+  @ManyToMany(type => Posts, post => post.tags, { cascade: true, createForeignKeyConstraints: false })
+  posts: Posts[]
 
   @CreateDateColumn({
     type: 'datetime'

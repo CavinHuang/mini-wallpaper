@@ -12,11 +12,11 @@
     "dev": "cross-env NODE_ENV=development nodemon --watch ./src/* -e ts --exec ts-node -r tsconfig-paths/register ./src/app.ts",
     "clear:js": "rimraf ./src/**/*.js",
     "plop": "plop",
-    "pre1111typeorm": "rimraf ormconfig.json && ts-node -r tsconfig-paths/register initOrmConfig.ts",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -d ormconfig.ts",
-    "migration:create": "cross-var ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -- migration:create ./src/models/migration/$npm_config_name",
-    "migration:generate": "npm run typeorm -- migration:generate ./src/models/migration/$npm_config_name",
-    "migration:run": "npm run typeorm -- migration:run"
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:create": "cross-var npm run typeorm -- migration:create ./src/models/migration/$npm_config_name",
+    "migration:run": "npm run typeorm -- migration:run -d ormconfig.ts",
+    "migration:generate": "cross-var npm run typeorm -- migration:generate src/models/migration -d ormconfig.ts -p --dr --ch",
+    "generate:entity": "npx typeorm-model-generator -h localhost -d test1 -p 3306 -u test1 -x cMne3SPiXjnjAr8W -e mysql -o entities --noConfig true --ce pascal"
   },
   "keywords": [],
   "author": "",

@@ -22,12 +22,12 @@ export class CreatePost1669977085571 implements MigrationInterface {
           { name: 'switch_jili', type: 'tinyint', default: 0, comment: '是否需要查看激励广告' },
           { name: 'switch_password', type: 'tinyint', default: 0, comment: '是否需要密码' },
           { name: 'direct_link_switch', type: 'tinyint', default: 0, comment: '是否开启跳转' },
-          { name: 'direct_link', type: 'text', default: '', comment: '跳转的链接' },
-          { name: 'content', type: 'longtext', default: '', comment: '文章内容' },
-          { name: 'badge', type: 'varchar', default: '', comment: '文章热点标识' },
+          { name: 'direct_link', type: 'text', default: null, comment: '跳转的链接' },
+          { name: 'content', type: 'longtext', default: "''", comment: '文章内容' },
+          { name: 'badge', type: 'varchar', default: "''", comment: '文章热点标识' },
           { name: 'status', type: 'tinyint', default: 1, comment: '文章状态：0 未审核 1 通过 2 驳回 3 下架' },
-          { name: 'create_at', type: 'datetime', default: '', comment: '文章创建时间' },
-          { name: 'update_at', type: 'datetime', default: '', comment: '文章最后修改时间' },
+          { name: 'create_at', type: 'datetime', default: null, comment: '文章创建时间' },
+          { name: 'update_at', type: 'datetime', default: null, comment: '文章最后修改时间' },
           { name: 'delete_at', type: 'datetime', default: null, comment: '文章删除时间' },
         ]
       }))

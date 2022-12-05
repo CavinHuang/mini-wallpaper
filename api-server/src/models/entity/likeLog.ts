@@ -2,7 +2,7 @@
  * catgory model
  */
 import { Repo } from '@/core/decorator'
-import { CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Resource } from './resource'
 import { User } from './user';
 
@@ -18,8 +18,15 @@ export class LikeLog {
   })
   user: User
 
-  @ManyToOne(type => Resource, resource => resource.likes, { cascade: true, createForeignKeyConstraints: false })
-  resources: Resource
+  @Column({
+    comment: '类型关联的id'
+  })
+  relation_id: number
+
+  @Column({
+    comment: '类型: resource'
+  })
+  type: 'post' | 'resource'
 
   @CreateDateColumn({
     type: 'datetime'

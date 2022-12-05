@@ -18,11 +18,13 @@ export class UserCollection {
   })
   user: User
 
-  @OneToOne(type => Resource, { cascade: true, createForeignKeyConstraints: false })
-  resources: Resource
+  @Column({
+    comment: '类型关联的id'
+  })
+  relation_id: number
 
   @Column({
-    comment: '类型: resource'
+    comment: '类型: resource post'
   })
   type: string
 

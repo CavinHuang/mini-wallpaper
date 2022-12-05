@@ -1,7 +1,7 @@
 import path from 'path' 
 import { isDev } from "./path"
-const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD } = process.env
-const REDIS_HOST = process.env.REDIS_HOST || '175.178.179.97'
+const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env
+const REDIS_HOST = process.env.REDIS_HOST || '127.0.0.1 '
 const REDIS_PORT = process.env.REDIS_PORT || 6379
 
 console.log('DB_HOST', DB_HOST)
@@ -17,7 +17,7 @@ export const database = {
   port: Number(DB_PORT),
   username: DB_USERNAME,
   password: DB_PASSWORD,
-  database: 'mini-cms'
+  database: DB_NAME
 } as const
 
 export const redis: {

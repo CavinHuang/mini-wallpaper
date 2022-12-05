@@ -16,7 +16,7 @@ export default new DataSource({
   "subscribers": [
     "src/models/subscribers/*.ts"
   ],
-  migrationsRun: false,
+  migrationsRun: true,
   "synchronize": false,
   "logging": true,
   migrationsTableName: 'history'
