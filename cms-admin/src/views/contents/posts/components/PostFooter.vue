@@ -1,54 +1,52 @@
 <template>
   <div class="post-setting-container">
-    <el-form-item label="封面图">
-      <el-radio-group v-model="form.resource">
-        <el-radio label="单图" />
-        <el-radio label="三图" />
-      </el-radio-group>
-      <div class="poster-container"></div>
-    </el-form-item>
-    <el-form :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%" />
-        </el-col>
-        <el-col :span="2" class="text-center">
-          <span class="text-gray-500">-</span>
-        </el-col>
-        <el-col :span="11">
-          <el-time-picker v-model="form.date2" placeholder="Pick a time" style="width: 100%" />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type" />
-          <el-checkbox label="Promotion activities" name="type" />
-          <el-checkbox label="Offline activities" name="type" />
-          <el-checkbox label="Simple brand exposure" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input v-model="form.desc" type="textarea" />
-      </el-form-item>
-    </el-form>
+    <div class="post-setting-content">
+      <el-form :model="form" label-width="160px">
+        <el-form-item label="封面图">
+          <el-radio-group v-model="thumbCount">
+            <el-radio label="单图" />
+            <el-radio label="三图" />
+          </el-radio-group>
+          <div class="poster-container"></div>
+        </el-form-item>
+        <el-form-item label="是否显示顶部图片">
+          <el-switch v-model="form.show_header" />
+        </el-form-item>
+        <el-form-item label="评论开关">
+          <el-switch v-model="form.switch_comment" />
+        </el-form-item>
+        <el-form-item label="访问积分">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-switch v-model="form.switch_score" />
+            </el-col>
+            <el-col :span="18"> <el-input v-if="form.switch_score" v-model="form.require_score" /></el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="访问密码">
+          <el-row :gutter="20">
+            <el-col :span="6"> <el-switch v-model="form.switch_password" /></el-col>
+            <el-col :span="18"> <el-input v-if="form.switch_password" v-model="form.password" /></el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="跳转链接">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-switch v-model="form.direct_link_switch" />
+            </el-col>
+            <el-col :span="18"> <el-input v-if="form.direct_link_switch" v-model="form.direct_link" /></el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="需要激励广告">
+          <el-switch v-model="form.switch_jili" />
+        </el-form-item>
+        <el-form-item label="热点标签">
+          <el-row :gutter="20">
+            <el-col :span="24"> <el-input v-model="form.badge" placeholder="请输入标签，比如：热门; 药材" /></el-col>
+          </el-row>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -56,15 +54,36 @@
 import { reactive, ref } from 'vue'
 
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: ''
+  show_header: true,
+  switch_comment: true,
+  require_score: 0,
+  switch_score: false,
+  switch_jili: false,
+  switch_password: false,
+  password: '',
+  direct_link_switch: false,
+  direct_link: '',
+  badge: '',
+  content: '',
+  title: '',
+  excerpt: '',
+  thumbnail: [] as string[]
 })
+
+const thumbCount = ref(3)
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.post-setting-container {
+  background-color: #f6f8f9;
+  padding-bottom: 40px;
+  .post-setting-content {
+    width: 850px;
+    margin: 0 auto 20px auto;
+    background-color: #fff;
+    padding: 20px 50px 50px 50px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 3px 8px rgb(215 220 233 / 50%);
+  }
+}
+</style>
