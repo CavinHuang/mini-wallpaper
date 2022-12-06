@@ -12,6 +12,8 @@ import WangEditor from '@/components/WangEditor/index.vue'
 import PostSetting from './components/PostFooter.vue'
 
 const content = ref('')
+
+
 </script>
 
 <style lang="scss" scoped></style>

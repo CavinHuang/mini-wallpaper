@@ -9,6 +9,20 @@
           </el-radio-group>
           <div class="poster-container"></div>
         </el-form-item>
+        <el-form-item label="关联分类" prop="type">
+          <el-checkbox-group v-model="form.cates">
+            <el-checkbox border v-for="cate in categorys" :key="cate.id" :value="cate.id" :label="cate.short_name">
+              {{ cate.name }}
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="关联标签" prop="type">
+          <el-checkbox-group v-model="form.tags">
+            <el-checkbox border v-for="tag in tags" :key="tag.id" :value="tag.id" :label="tag.tag_name">
+              {{ tag.tag_name }}
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
         <el-form-item label="是否显示顶部图片">
           <el-switch v-model="form.show_header" />
         </el-form-item>
@@ -40,7 +54,7 @@
         <el-form-item label="需要激励广告">
           <el-switch v-model="form.switch_jili" />
         </el-form-item>
-        <el-form-item label="热点标签">
+        <el-form-item label="热点标识">
           <el-row :gutter="20">
             <el-col :span="24"> <el-input v-model="form.badge" placeholder="请输入标签，比如：热门; 药材" /></el-col>
           </el-row>
@@ -51,7 +65,9 @@
 </template>
 
 <script lang="ts" setup name="PostFooter">
-import { reactive, ref } from 'vue'
+import { Category, CategoryApi, MiniProgram, MiniProgramApi, Tag, TagApi } from '@/api/modules'
+import { ca } from 'element-plus/es/locale';
+import { onMounted, reactive, ref } from 'vue'
 
 const form = reactive({
   show_header: true,
@@ -67,10 +83,36 @@ const form = reactive({
   content: '',
   title: '',
   excerpt: '',
-  thumbnail: [] as string[]
+  thumbnail: [] as string[],
+  cates: [] as Category.Item[],
+  tags: [] as Tag.Item[]
 })
 
 const thumbCount = ref(3)
+
+const miniPrograms = ref<MiniProgram.Item[]>([])
+async function getMiniProgram() {
+  const res = await MiniProgramApi.page({ pageSize: 10000, pageNum: 1 })
+  miniPrograms.value = res.data?.rows || []
+}
+
+const categorys = ref<Category.Item[]>([])
+async function getCategory() {
+  const res = await CategoryApi.page({ pageSize: 10000, pageNum: 1, type: 'post' })
+  categorys.value = res.data?.rows || []
+}
+
+const tags = ref<Tag.Item[]>([])
+async function getTags() {
+  const res = await TagApi.page({ pageSize: 10000, pageNum: 1, type: 'post' })
+  tags.value = res.data?.rows || []
+}
+
+onMounted(async () => {
+  await getMiniProgram()
+  await getCategory()
+  await getTags()
+})
 </script>
 
 <style lang="scss" scoped>
