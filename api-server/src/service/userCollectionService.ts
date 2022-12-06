@@ -31,7 +31,7 @@ export class UserCollectionService extends BaseService {
     })
 
     data.user = user
-    data.resources = resource
+    // data.resources = resource
 
     return await this.repository.save(data)
   }

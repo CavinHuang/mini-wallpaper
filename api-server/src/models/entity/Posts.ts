@@ -126,7 +126,7 @@ export class Posts {
   })
   tags: Tag[];
 
-  @OneToMany(type => LikeLog, tag => tag.resources, { createForeignKeyConstraints: false })
+  @OneToMany(type => LikeLog, tag => tag.relation_id, { createForeignKeyConstraints: false })
   likes: LikeLog[];
 
   @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
@@ -142,11 +142,11 @@ export class Posts {
   categories: Category[]
 
   @Column("datetime", { name: "create_at", comment: "文章创建时间" })
-  create_at: Date;
+  createAt: Date;
 
   @Column("datetime", { name: "update_at", comment: "文章最后修改时间" })
-  update_at: Date;
+  updateAt: Date;
 
   @Column("datetime", { name: "delete_at", comment: "文章删除时间" })
-  delete_at: Date;
+  deleteAt: Date;
 }

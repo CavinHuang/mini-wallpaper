@@ -4,7 +4,7 @@
 import { Repo } from '@/core/decorator'
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Resource } from './resource'
-import { Posts } from './Posts';
+import { Posts } from './posts';
 
 @Repo('Tag')
 @Entity()

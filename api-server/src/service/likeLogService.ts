@@ -16,9 +16,9 @@ export class LikeLogService extends BaseService {
   public async saveLike(params: { rid: number; userId: number }) {
     const likeLog = await this.repository.findOne({
       where: {
-        resources: {
-          id: params.rid
-        },
+        // resources: {
+        //   id: params.rid
+        // },
         user: {
           id: params.userId
         }

@@ -78,6 +78,35 @@ const homeRouter: Array<RouteRecordRaw> = [
         }
       }
     ]
+  },
+  {
+    path: '/posts',
+    component: Layout,
+    redirect: '/posts/list',
+    children: [
+      {
+        path: 'list',
+        name: 'PostList',
+        component: () => import('@/views/contents/posts/index.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '文章管理',
+          key: 'PostList'
+        }
+      },
+      {
+        path: 'edit',
+        name: 'PostEdit',
+        component: () => import('@/views/contents/posts/edit.vue'),
+        meta: {
+          keepAlive: true,
+          requiresAuth: true,
+          title: '文章编辑',
+          key: 'PostEdit'
+        }
+      }
+    ]
   }
 ]
 

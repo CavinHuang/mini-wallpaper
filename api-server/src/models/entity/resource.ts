@@ -126,7 +126,7 @@ export class Resource {
   })
   tags: Tag[];
 
-  @OneToMany(type => LikeLog, tag => tag.resources, { createForeignKeyConstraints: false })
+  @OneToMany(type => LikeLog, tag => tag.relation_id, { createForeignKeyConstraints: false })
   likes: LikeLog[];
 
   @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
