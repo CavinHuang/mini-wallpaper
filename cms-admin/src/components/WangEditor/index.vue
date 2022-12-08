@@ -8,7 +8,7 @@
     <div id="content">
       <div id="editor-container">
         <div id="title-container">
-          <input placeholder="Page title..." />
+          <input placeholder="请输入文章标题" />
         </div>
         <div id="editor-text-area">
           <Editor

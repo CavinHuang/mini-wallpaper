@@ -4,21 +4,54 @@
       <el-form :model="form" label-width="160px">
         <el-form-item label="封面图">
           <el-radio-group v-model="thumbCount">
-            <el-radio label="单图" />
-            <el-radio label="三图" />
+            <el-radio :label="1" :value="1">单图</el-radio>
+            <el-radio :label="3" :value="3">三图</el-radio>
           </el-radio-group>
-          <div class="poster-container"></div>
+          <draggable
+            class="poster-container"
+            v-model="thumnails"
+            tag="transition-group"
+            :component-data="{
+              tag: 'ul',
+              type: 'transition-group',
+              name: !drag ? 'flip-list' : null
+            }"
+            v-bind="dragOptions"
+            @start="drag = true"
+            @end="drag = false"
+            item-key="id"
+          >
+            <template #item="{ element }">
+              <li class="thumb-item">
+                <img :src="element" alt="" />
+              </li>
+            </template>
+          </draggable>
         </el-form-item>
         <el-form-item label="关联分类" prop="type">
           <el-checkbox-group v-model="form.cates">
-            <el-checkbox border v-for="cate in categorys" :key="cate.id" :value="cate.id" :label="cate.short_name">
+            <el-checkbox
+              v-for="cate in categorys"
+              border
+              :key="cate.id"
+              :value="cate.id"
+              :label="cate.short_name"
+              style="margin-bottom: 10px"
+            >
               {{ cate.name }}
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="关联标签" prop="type">
           <el-checkbox-group v-model="form.tags">
-            <el-checkbox border v-for="tag in tags" :key="tag.id" :value="tag.id" :label="tag.tag_name">
+            <el-checkbox
+              border
+              v-for="tag in tags"
+              :key="tag.id"
+              :value="tag.id"
+              :label="tag.tag_name"
+              style="margin-bottom: 10px"
+            >
               {{ tag.tag_name }}
             </el-checkbox>
           </el-checkbox-group>
@@ -65,9 +98,9 @@
 </template>
 
 <script lang="ts" setup name="PostFooter">
+import { onMounted, reactive, ref, watch } from 'vue'
 import { Category, CategoryApi, MiniProgram, MiniProgramApi, Tag, TagApi } from '@/api/modules'
-import { ca } from 'element-plus/es/locale';
-import { onMounted, reactive, ref } from 'vue'
+import draggable from 'vuedraggable'
 
 const form = reactive({
   show_header: true,
@@ -88,7 +121,25 @@ const form = reactive({
   tags: [] as Tag.Item[]
 })
 
-const thumbCount = ref(3)
+const thumbCount = ref(1)
+const allThumbs = ref([])
+const thumnails = ref<string[]>([])
+const drag = ref(false)
+const dragOptions = reactive({
+  animation: 200,
+  group: 'description',
+  disabled: false,
+  ghostClass: 'ghost'
+})
+watch(
+  thumbCount,
+  (val) => {
+    const _thumb = allThumbs.value.slice(0, val)
+    thumnails.value = _thumb.length >= val ? _thumb : [..._thumb, ...new Array(val - _thumb.length).fill('')]
+    console.log('🚀 ~ file: PostFooter.vue:137 ~ watch ~ thumnails', thumnails)
+  },
+  { immediate: true }
+)
 
 const miniPrograms = ref<MiniProgram.Item[]>([])
 async function getMiniProgram() {
@@ -118,14 +169,32 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .post-setting-container {
   background-color: #f6f8f9;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   .post-setting-content {
     width: 850px;
-    margin: 0 auto 20px auto;
+    margin: 0 auto;
     background-color: #fff;
-    padding: 20px 50px 50px 50px;
+    padding: 20px 50px;
     border: 1px solid #e8e8e8;
     box-shadow: 0 3px 8px rgb(215 220 233 / 50%);
+  }
+  .poster-container {
+    width: 100%;
+    padding-left: 0;
+    li {
+      list-style: none;
+    }
+    .thumb-item {
+      width: 180px;
+      height: 120px;
+      margin-right: 14px;
+      vertical-align: bottom;
+      border: 1px solid #e9ecf3;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+    }
   }
 }
 </style>
