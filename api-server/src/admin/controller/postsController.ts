@@ -20,7 +20,7 @@ export class PostsController {
 
   @Post('')
   public add(@Body() params: Partial<Posts>) {
-    if (this.postsService.create(params)) {
+    if (this.postsService.savePost(params)) {
       return Response.success(true)
     }
     return Response.error('error')

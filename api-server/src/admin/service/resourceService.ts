@@ -38,9 +38,6 @@ export class ResourceService extends BaseService {
       tags: (row.tags as unknown as number[]).map((item: number) => this.tag.create({ id: item })),
       categories: [this.category.create({ id: row.categories as unknown as number })]
     }
-
-    console.log(saveData)
-
     return await this.repository.save(saveData)
   }
 }

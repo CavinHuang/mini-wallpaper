@@ -1,5 +1,6 @@
 import { Repo } from "@/core/decorator";
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ArrayStringTransformer } from "../transformer/arrayString";
 import { Category } from "./catgory";
 import { LikeLog } from "./likeLog";
 import { Tag } from "./tag";
@@ -9,6 +10,9 @@ import { Tag } from "./tag";
 export class Posts {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
+
+  @Column("varchar", { name: "appid", comment: "小程序appid", length: 128 })
+  appid: string;
 
   @Column("int", { primary: true, name: "user_id" })
   userId: number;
@@ -22,7 +26,7 @@ export class Posts {
   @Column("int", { name: "comment_count", comment: "评论条数" })
   commentCount: number;
 
-  @Column("longtext", { name: "thumbnail", comment: "缩略图的组合" })
+  @Column("longtext", { name: "thumbnail", comment: "缩略图的组合", transformer: new ArrayStringTransformer([]) })
   thumbnail: string;
 
   @Column("tinyint", {
@@ -30,7 +34,7 @@ export class Posts {
     comment: "是否显示顶部图片",
     default: () => "'1'",
   })
-  showHeader: number;
+  showHeader: boolean;
 
   @Column("int", { name: "views", comment: "访问量", default: () => "'0'" })
   views: number;
@@ -50,7 +54,7 @@ export class Posts {
     comment: "评论开关",
     default: () => "'1'",
   })
-  switchComment: number;
+  switchComment: boolean;
 
   @Column("decimal", {
     name: "require_score",
@@ -66,28 +70,28 @@ export class Posts {
     comment: "是否需要积分",
     default: () => "'0'",
   })
-  switchScore: number;
+  switchScore: boolean;
 
   @Column("tinyint", {
     name: "switch_jili",
     comment: "是否需要查看激励广告",
-    default: () => "'0'",
+    default: () => 0,
   })
   switchJili: number;
 
   @Column("tinyint", {
     name: "switch_password",
     comment: "是否需要密码",
-    default: () => "'0'",
+    default: () => 0,
   })
   switchPassword: number;
 
   @Column("tinyint", {
     name: "direct_link_switch",
     comment: "是否开启跳转",
-    default: () => "'0'",
+    default: () => 0,
   })
-  directLinkSwitch: number;
+  directLinkSwitch: boolean;
 
   @Column("text", { name: "direct_link", comment: "跳转的链接" })
   directLink: string;
