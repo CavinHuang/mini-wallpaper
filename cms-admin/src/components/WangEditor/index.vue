@@ -8,7 +8,7 @@
     <div id="content">
       <div id="editor-container">
         <div id="title-container">
-          <input placeholder="请输入文章标题" />
+          <input placeholder="请输入文章标题" v-model="editTitle" />
         </div>
         <div id="editor-text-area">
           <Editor
@@ -55,6 +55,8 @@ interface RichEditorProps {
   mode?: 'default' | 'simple' // 富文本模式 ==> 非必传（默认为 default）
   hideToolBar?: boolean // 是否隐藏工具栏 ==> 非必传（默认为false）
   disabled?: boolean // 是否禁用编辑器 ==> 非必传（默认为false）
+  content: string
+  title: string
 }
 const props = withDefaults(defineProps<RichEditorProps>(), {
   toolbarConfig: () => {
@@ -71,7 +73,9 @@ const props = withDefaults(defineProps<RichEditorProps>(), {
   height: '500px',
   mode: 'default',
   hideToolBar: false,
-  disabled: false
+  disabled: false,
+  content: '',
+  title: ''
 })
 // 判断当前富文本编辑器是否禁用
 if (props.disabled) nextTick(() => editorRef.value.disable())
@@ -79,6 +83,7 @@ if (props.disabled) nextTick(() => editorRef.value.disable())
 type EmitProps = {
   (e: 'update:value', val: string): void
   (e: 'check-validate'): void
+  (e: 'update:title', title: string): void
 }
 const emit = defineEmits<EmitProps>()
 const valueHtml = computed({
@@ -89,6 +94,14 @@ const valueHtml = computed({
     // 防止富文本内容为空时，校验失败
     if (editorRef.value.isEmpty()) val = ''
     emit('update:value', val)
+  }
+})
+const editTitle = computed({
+  get() {
+    return props.title
+  },
+  set(val: string) {
+    emit('update:title', val)
   }
 })
 /**
@@ -155,4 +168,5 @@ defineExpose({
 
 <style scoped lang="scss">
 @import './index.scss';
+import { string } from 'joi';
 </style>
