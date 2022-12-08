@@ -15,11 +15,11 @@ export namespace Post {
     showHeader: boolean
     switchComment: boolean
     switchScore: boolean
-    requireScore: number
+    requireScore: string
     switchPassword: boolean
-    password: number
+    password: string
     directLinkSwitch: boolean
-    directLink: number
+    directLink: string
     switchJili: boolean
     content: string
     badge: string
@@ -32,6 +32,6 @@ export namespace Post {
 }
 const postCurd = crudBuilder<Post.Item>('/admin/post')
 
-export const ResourceApi = {
+export const PostApi = {
   ...postCurd
 }

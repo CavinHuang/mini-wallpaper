@@ -1,7 +1,7 @@
 <template>
   <div class="post-setting-container">
     <div class="post-setting-content">
-      <el-form :model="form" label-width="160px">
+      <el-form :model="form" :rules="rules" label-width="160px" ref="ruleFormRef">
         <el-form-item label="封面图">
           <el-radio-group v-model="thumbCount">
             <el-radio :label="1" :value="1">单图</el-radio>
@@ -28,8 +28,15 @@
             </template>
           </draggable>
         </el-form-item>
-        <el-form-item label="关联分类" prop="type">
-          <el-checkbox-group v-model="form.cates">
+        <el-form-item label="热点标识">
+          <el-row :gutter="20">
+            <el-col :span="24">
+              <el-input type="textarea" v-model="form.excerpt" placeholder="请输入摘要" />
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="关联分类" prop="categories">
+          <el-checkbox-group v-model="form.categories">
             <el-checkbox
               v-for="cate in categorys"
               border
@@ -42,7 +49,7 @@
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="关联标签" prop="type">
+        <el-form-item label="关联标签" prop="tags">
           <el-checkbox-group v-model="form.tags">
             <el-checkbox
               border
@@ -62,7 +69,7 @@
         <el-form-item label="评论开关">
           <el-switch v-model="form.switch_comment" />
         </el-form-item>
-        <el-form-item label="访问积分">
+        <el-form-item label="访问积分" prop="require_score">
           <el-row :gutter="20">
             <el-col :span="6">
               <el-switch v-model="form.switch_score" />
@@ -70,13 +77,13 @@
             <el-col :span="18"> <el-input v-if="form.switch_score" v-model="form.require_score" /></el-col>
           </el-row>
         </el-form-item>
-        <el-form-item label="访问密码">
+        <el-form-item label="访问密码" prop="password">
           <el-row :gutter="20">
             <el-col :span="6"> <el-switch v-model="form.switch_password" /></el-col>
             <el-col :span="18"> <el-input v-if="form.switch_password" v-model="form.password" /></el-col>
           </el-row>
         </el-form-item>
-        <el-form-item label="跳转链接">
+        <el-form-item label="跳转链接" prop="direct_link">
           <el-row :gutter="20">
             <el-col :span="6">
               <el-switch v-model="form.direct_link_switch" />
@@ -101,7 +108,9 @@
 import { onMounted, reactive, ref, watch } from 'vue'
 import { Category, CategoryApi, MiniProgram, MiniProgramApi, Tag, TagApi } from '@/api/modules'
 import draggable from 'vuedraggable'
+import type { FormInstance, FormRules } from 'element-plus'
 
+const ruleFormRef = ref<FormInstance>()
 const form = reactive({
   show_header: true,
   switch_comment: true,
@@ -117,10 +126,43 @@ const form = reactive({
   title: '',
   excerpt: '',
   thumbnail: [] as string[],
-  cates: [] as Category.Item[],
+  categories: [] as Category.Item[],
   tags: [] as Tag.Item[]
 })
 
+const validateSecondParam = (field: keyof typeof form) => (rule: any, value: any, callback: any) => {
+  if (form[field] === true) {
+    if (value === '' || isNaN(Number(value))) {
+      callback(new Error('请输入一个数值'))
+    } else {
+      callback()
+    }
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive<FormRules>({
+  categories: [
+    {
+      type: 'array',
+      required: true,
+      message: '请至少选择一个分类',
+      trigger: 'change'
+    }
+  ],
+  tags: [
+    {
+      type: 'array',
+      required: true,
+      message: '请至少选择一个标签',
+      trigger: 'change'
+    }
+  ],
+  require_score: [{ validator: validateSecondParam('switch_score'), trigger: 'blur' }],
+  password: [{ validator: validateSecondParam('switch_password'), trigger: 'blur' }],
+  direct_link: [{ validator: validateSecondParam('direct_link_switch'), trigger: 'blur' }]
+})
 const thumbCount = ref(1)
 const allThumbs = ref([])
 const thumnails = ref<string[]>([])
@@ -163,6 +205,20 @@ onMounted(async () => {
   await getMiniProgram()
   await getCategory()
   await getTags()
+})
+
+const validateForm = (): Promise<typeof form> => {
+  return new Promise((resolve, reject) => {
+    if (!ruleFormRef.value) reject('没有这样的表单')
+    ruleFormRef.value?.validate((valid) => {
+      if (valid) resolve(form)
+      else reject('表单提交失败')
+    })
+  })
+}
+
+defineExpose({
+  validateForm
 })
 </script>
 
