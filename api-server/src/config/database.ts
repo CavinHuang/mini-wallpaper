@@ -3,6 +3,7 @@ import { isDev } from "./path"
 const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env
 const REDIS_HOST = process.env.REDIS_HOST || '127.0.0.1 '
 const REDIS_PORT = process.env.REDIS_PORT || 6379
+import {  } from 'typeorm'
 
 console.log('DB_HOST', DB_HOST)
 console.log('DB_PORT', DB_PORT)
@@ -12,7 +13,7 @@ console.log('DB_PASSWORD', DB_PASSWORD)
 const fileExt = isDev ? 'ts' : 'js'
 
 export const database = {
-  type: 'mysql',
+  type: 'mariadb', //'mysql',
   host: DB_HOST,
   port: Number(DB_PORT),
   username: DB_USERNAME,
@@ -41,7 +42,7 @@ export const typeOrmConfig = () => {
     entities: [path.join(__dirname, `../models/entity/*.${fileExt}`)],
     migrations: [path.join(__dirname, `../models/migration/*.${fileExt}`)],
     subscribers: [path.join(__dirname, `../models/subscriber/*.${fileExt}`)],
-    synchronize: false,
+    synchronize: true,
     logging: true,
     cli: {
       migrationsDir: 'src/models/migration',

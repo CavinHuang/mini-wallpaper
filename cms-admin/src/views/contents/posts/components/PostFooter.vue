@@ -28,12 +28,8 @@
             </template>
           </draggable>
         </el-form-item>
-        <el-form-item label="热点标识">
-          <el-row :gutter="20">
-            <el-col :span="24">
-              <el-input type="textarea" v-model="form.excerpt" placeholder="请输入摘要" />
-            </el-col>
-          </el-row>
+        <el-form-item label="摘要">
+          <el-input type="textarea" :row="5" v-model="form.excerpt" placeholder="请输入摘要" />
         </el-form-item>
         <el-form-item label="关联分类" prop="categories">
           <el-checkbox-group v-model="form.categories">
@@ -42,7 +38,7 @@
               border
               :key="cate.id"
               :value="cate.id"
-              :label="cate.short_name"
+              :label="cate.id"
               style="margin-bottom: 10px"
             >
               {{ cate.name }}
@@ -51,48 +47,41 @@
         </el-form-item>
         <el-form-item label="关联标签" prop="tags">
           <el-checkbox-group v-model="form.tags">
-            <el-checkbox
-              border
-              v-for="tag in tags"
-              :key="tag.id"
-              :value="tag.id"
-              :label="tag.tag_name"
-              style="margin-bottom: 10px"
-            >
+            <el-checkbox border v-for="tag in tags" :key="tag.id" :value="tag.id" :label="tag.id" style="margin-bottom: 10px">
               {{ tag.tag_name }}
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="是否显示顶部图片">
-          <el-switch v-model="form.show_header" />
+          <el-switch v-model="form.showHeader" />
         </el-form-item>
         <el-form-item label="评论开关">
-          <el-switch v-model="form.switch_comment" />
+          <el-switch v-model="form.switchComment" />
         </el-form-item>
         <el-form-item label="访问积分" prop="require_score">
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-switch v-model="form.switch_score" />
+              <el-switch v-model="form.switchScore" />
             </el-col>
-            <el-col :span="18"> <el-input v-if="form.switch_score" v-model="form.require_score" /></el-col>
+            <el-col :span="18"> <el-input v-if="form.switchScore" v-model="form.requireScore" /></el-col>
           </el-row>
         </el-form-item>
         <el-form-item label="访问密码" prop="password">
           <el-row :gutter="20">
-            <el-col :span="6"> <el-switch v-model="form.switch_password" /></el-col>
-            <el-col :span="18"> <el-input v-if="form.switch_password" v-model="form.password" /></el-col>
+            <el-col :span="6"> <el-switch v-model="form.switchPassword" /></el-col>
+            <el-col :span="18"> <el-input v-if="form.switchPassword" v-model="form.password" /></el-col>
           </el-row>
         </el-form-item>
         <el-form-item label="跳转链接" prop="direct_link">
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-switch v-model="form.direct_link_switch" />
+              <el-switch v-model="form.directLinkSwitch" />
             </el-col>
-            <el-col :span="18"> <el-input v-if="form.direct_link_switch" v-model="form.direct_link" /></el-col>
+            <el-col :span="18"> <el-input v-if="form.directLinkSwitch" v-model="form.directLink" /></el-col>
           </el-row>
         </el-form-item>
         <el-form-item label="需要激励广告">
-          <el-switch v-model="form.switch_jili" />
+          <el-switch v-model="form.switchJili" />
         </el-form-item>
         <el-form-item label="热点标识">
           <el-row :gutter="20">
@@ -112,22 +101,23 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 const ruleFormRef = ref<FormInstance>()
 const form = reactive({
-  show_header: true,
-  switch_comment: true,
-  require_score: 0,
-  switch_score: false,
-  switch_jili: false,
-  switch_password: false,
+  showHeader: true,
+  switchComment: true,
+  requireScore: 0,
+  switchScore: false,
+  switchJili: false,
+  switchPassword: false,
   password: '',
-  direct_link_switch: false,
-  direct_link: '',
+  directLinkSwitch: false,
+  directLink: '',
   badge: '',
   content: '',
   title: '',
   excerpt: '',
   thumbnail: [] as string[],
   categories: [] as Category.Item[],
-  tags: [] as Tag.Item[]
+  tags: [] as Tag.Item[],
+  appid: ''
 })
 
 const validateSecondParam = (field: keyof typeof form) => (rule: any, value: any, callback: any) => {
@@ -159,9 +149,9 @@ const rules = reactive<FormRules>({
       trigger: 'change'
     }
   ],
-  require_score: [{ validator: validateSecondParam('switch_score'), trigger: 'blur' }],
-  password: [{ validator: validateSecondParam('switch_password'), trigger: 'blur' }],
-  direct_link: [{ validator: validateSecondParam('direct_link_switch'), trigger: 'blur' }]
+  require_score: [{ validator: validateSecondParam('switchScore'), trigger: 'blur' }],
+  password: [{ validator: validateSecondParam('switchPassword'), trigger: 'blur' }],
+  direct_link: [{ validator: validateSecondParam('directLinkSwitch'), trigger: 'blur' }]
 })
 const thumbCount = ref(1)
 const allThumbs = ref([])
@@ -173,6 +163,7 @@ const dragOptions = reactive({
   disabled: false,
   ghostClass: 'ghost'
 })
+
 watch(
   thumbCount,
   (val) => {
@@ -211,6 +202,8 @@ const validateForm = (): Promise<typeof form> => {
   return new Promise((resolve, reject) => {
     if (!ruleFormRef.value) reject('没有这样的表单')
     ruleFormRef.value?.validate((valid) => {
+      const cate = categorys.value.find((item) => item.id === form.categories[0].id)
+      form.appid = cate ? cate.appid : ''
       if (valid) resolve(form)
       else reject('表单提交失败')
     })

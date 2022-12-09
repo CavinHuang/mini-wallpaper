@@ -30,7 +30,7 @@ export namespace Post {
     name: string
   }
 }
-const postCurd = crudBuilder<Post.Item>('/admin/post')
+const postCurd = crudBuilder<Post.Item>('/admin/posts')
 
 export const PostApi = {
   ...postCurd

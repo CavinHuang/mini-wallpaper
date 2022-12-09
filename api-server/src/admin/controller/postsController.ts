@@ -19,8 +19,8 @@ export class PostsController {
   }
 
   @Post('')
-  public add(@Body() params: Partial<Posts>) {
-    if (this.postsService.savePost(params)) {
+  public async add(@Body() params: Partial<Posts>) {
+    if (await this.postsService.savePost(params)) {
       return Response.success(true)
     }
     return Response.error('error')

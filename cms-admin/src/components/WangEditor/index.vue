@@ -168,5 +168,4 @@ defineExpose({
 
 <style scoped lang="scss">
 @import './index.scss';
-import { string } from 'joi';
 </style>

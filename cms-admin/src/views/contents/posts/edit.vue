@@ -20,7 +20,7 @@ import { ref } from 'vue'
 import WangEditor from '@/components/WangEditor/index.vue'
 import PostSetting from './components/PostFooter.vue'
 import { PostApi } from '@/api/modules'
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
 
 type PostSetting = InstanceType<typeof PostSetting>
 
@@ -30,6 +30,14 @@ const fontCount = ref(0)
 const postSetting = ref<PostSetting>()
 
 const onSubmit = () => {
+  if (title.value === '') {
+    ElMessage.error('请输入文章标题')
+    return false
+  }
+  if (content.value === '') {
+    ElMessage.error('请输入文章内容')
+    return false
+  }
   postSetting.value?.validateForm().then(async (formData) => {
     console.log(formData)
     await PostApi.add({ ...formData, title: title.value, content: content.value })

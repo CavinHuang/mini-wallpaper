@@ -1,20 +1,17 @@
 import { Repo } from "@/core/decorator";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ArrayStringTransformer } from "../transformer/arrayString";
 import { Category } from "./catgory";
 import { LikeLog } from "./likeLog";
 import { Tag } from "./tag";
 
 @Repo('Posts')
-@Entity("posts")
+@Entity('posts')
 export class Posts {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
-  @Column("varchar", { name: "appid", comment: "小程序appid", length: 128 })
-  appid: string;
-
-  @Column("int", { primary: true, name: "user_id" })
+  @Column("int", { name: "user_id" })
   userId: number;
 
   @Column("varchar", { name: "title", comment: "文章标题", length: 500 })
@@ -23,18 +20,18 @@ export class Posts {
   @Column("text", { name: "excerpt", comment: "文章摘要" })
   excerpt: string;
 
-  @Column("int", { name: "comment_count", comment: "评论条数" })
+  @Column("int", { name: "comment_count", comment: "评论条数", default: () => "'0'" })
   commentCount: number;
 
   @Column("longtext", { name: "thumbnail", comment: "缩略图的组合", transformer: new ArrayStringTransformer([]) })
-  thumbnail: string;
+  thumbnail: string[];
 
   @Column("tinyint", {
     name: "show_header",
     comment: "是否显示顶部图片",
     default: () => "'1'",
   })
-  showHeader: boolean;
+  showHeader: number;
 
   @Column("int", { name: "views", comment: "访问量", default: () => "'0'" })
   views: number;
@@ -54,7 +51,7 @@ export class Posts {
     comment: "评论开关",
     default: () => "'1'",
   })
-  switchComment: boolean;
+  switchComment: number;
 
   @Column("decimal", {
     name: "require_score",
@@ -70,28 +67,28 @@ export class Posts {
     comment: "是否需要积分",
     default: () => "'0'",
   })
-  switchScore: boolean;
+  switchScore: number;
 
   @Column("tinyint", {
     name: "switch_jili",
     comment: "是否需要查看激励广告",
-    default: () => 0,
+    default: () => "'0'",
   })
   switchJili: number;
 
   @Column("tinyint", {
     name: "switch_password",
     comment: "是否需要密码",
-    default: () => 0,
+    default: () => "'0'",
   })
   switchPassword: number;
 
   @Column("tinyint", {
     name: "direct_link_switch",
     comment: "是否开启跳转",
-    default: () => 0,
+    default: () => "'0'",
   })
-  directLinkSwitch: boolean;
+  directLinkSwitch: number;
 
   @Column("text", { name: "direct_link", comment: "跳转的链接" })
   directLink: string;
@@ -118,9 +115,18 @@ export class Posts {
   })
   status: number;
 
-  @ManyToMany(type => Tag, tag => tag.posts, { createForeignKeyConstraints: false })
+  @CreateDateColumn({ name: "create_at", comment: "文章创建时间", nullable: true })
+  createAt: Date;
+
+  @UpdateDateColumn({ name: "update_at", comment: "文章最后修改时间", nullable: true })
+  updateAt: Date;
+
+  @DeleteDateColumn({ name: "delete_at", comment: "文章删除时间", nullable: true })
+  deleteAt: Date;
+
+  @ManyToMany(() => Tag, tag => tag.posts)
   @JoinTable({
-    name: 'post_with_tags',
+    name: 'posts_with_tags',
     joinColumns: [
       { name: 'post_id' }
     ],
@@ -130,12 +136,12 @@ export class Posts {
   })
   tags: Tag[];
 
-  @OneToMany(type => LikeLog, tag => tag.relation_id, { createForeignKeyConstraints: false })
-  likes: LikeLog[];
+  // @OneToMany(type => LikeLog, tag => tag.relation_id, { createForeignKeyConstraints: false })
+  // likes: LikeLog[];
 
-  @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
+  @ManyToMany(type => Category, cate => cate.posts)
   @JoinTable({
-    name: 'post_with_cates',
+    name: 'posts_with_cates',
     joinColumns: [
       { name: 'post_id' }
     ],
@@ -144,13 +150,4 @@ export class Posts {
     ]
   })
   categories: Category[]
-
-  @Column("datetime", { name: "create_at", comment: "文章创建时间" })
-  createAt: Date;
-
-  @Column("datetime", { name: "update_at", comment: "文章最后修改时间" })
-  updateAt: Date;
-
-  @Column("datetime", { name: "delete_at", comment: "文章删除时间" })
-  deleteAt: Date;
 }

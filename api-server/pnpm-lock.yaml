@@ -41,7 +41,7 @@ specifiers:
   streamroller: ^3.1.1
   ts-node: ^10.7.0
   tsconfig-paths: ^4.0.0
-  typeorm: ^0.3.6
+  typeorm: ^0.3.11
   typescript: ^4.7.3
 
 dependencies:
@@ -75,7 +75,7 @@ dependencies:
   redis: 3.1.2
   reflect-metadata: 0.1.13
   streamroller: 3.1.2
-  typeorm: 0.3.7_i5nxljdmins2g5s2r7b6qgg5ga
+  typeorm: 0.3.11_i5nxljdmins2g5s2r7b6qgg5ga
 
 devDependencies:
   '@types/koa': 2.13.5
@@ -4396,14 +4396,14 @@ packages:
       mime-types: 2.1.35
     dev: false
 
-  /typeorm/0.3.7_i5nxljdmins2g5s2r7b6qgg5ga:
-    resolution: {integrity: sha512-MsPJeP6Zuwfe64c++l80+VRqpGEGxf0CkztIEnehQ+CMmQPSHjOnFbFxwBuZ2jiLqZTjLk2ZqQdVF0RmvxNF3Q==}
+  /typeorm/0.3.11_i5nxljdmins2g5s2r7b6qgg5ga:
+    resolution: {integrity: sha512-pzdOyWbVuz/z8Ww6gqvBW4nylsM0KLdUCDExr2gR20/x1khGSVxQkjNV/3YqliG90jrWzrknYbYscpk8yxFJVg==}
     engines: {node: '>= 12.9.0'}
     hasBin: true
     peerDependencies:
       '@google-cloud/spanner': ^5.18.0
       '@sap/hana-client': ^2.12.25
-      better-sqlite3: ^7.1.2
+      better-sqlite3: ^7.1.2 || ^8.0.0
       hdb-pool: ^0.1.6
       ioredis: ^5.0.4
       mongodb: ^3.6.0
