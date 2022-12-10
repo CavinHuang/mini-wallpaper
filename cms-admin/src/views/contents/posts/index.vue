@@ -27,23 +27,16 @@
 </template>
 
 <script lang="ts" setup name="PostIndex">
-import { Category, CategoryApi, MiniProgram, MiniProgramApi, Tag, TagApi } from '@/api/modules'
+import { Category, CategoryApi, MiniProgram, MiniProgramApi, Tag, TagApi, Post, PostApi } from '@/api/modules'
 import SelectFilter from '@/components/SelectFilter/index.vue'
 import { DataProps } from '@/components/SelectFilter/types'
 import { ElMessage } from 'element-plus'
-import { computed, ComputedRef, ref } from 'vue'
+import { computed, ComputedRef, ref, reactive, onActivated, onMounted } from 'vue'
 import PostItem from './components/PostItem.vue'
 import { CirclePlus } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const pageInfo = ref({
-  pageNum: 1,
-  pageSize: 10,
-  total: 0
-})
-
-const handleCurrentChange = (pageNo: number) => {}
 
 const miniPrograms = ref<MiniProgram.Item[]>([])
 async function getMiniProgram() {
@@ -139,6 +132,30 @@ const editPost = () => {
     }
   })
 }
+
+const pageInfo = ref({
+  pageNum: 1,
+  pageSize: 10,
+  total: 0
+})
+const postData = ref<Post.Item[]>([])
+const fetchPost = () => {
+  const params = {
+    pageNum: pageInfo.value.pageNum,
+    pageSize: pageInfo.value.pageSize
+  }
+  PostApi.page(params).then((res) => {
+    postData.value = res.data?.rows || []
+    pageInfo.value.total = res.data?.total || 0
+  })
+}
+const handleCurrentChange = (pageNo: number) => {
+  pageInfo.value.pageNum = pageNo
+  fetchPost()
+}
+onMounted(() => {
+  fetchPost()
+})
 </script>
 
 <style lang="scss" scoped>
