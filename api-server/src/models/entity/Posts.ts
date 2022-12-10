@@ -122,7 +122,7 @@ export class Posts {
   updateAt: Date;
 
   @DeleteDateColumn({ name: "delete_at", comment: "文章删除时间", nullable: true })
-  deleteAt: Date;
+  delete_at: Date;
 
   @ManyToMany(() => Tag, tag => tag.posts)
   @JoinTable({

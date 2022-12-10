@@ -16,7 +16,8 @@ export class PostsController {
   public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
     const listData = await this.postsService.getPageList({ pageNum, pageSize, alias: 'p' }, (query) => {
       query.leftJoinAndSelect('p.categories', 'pc')
-      query.orderBy('p.create_at', 'DESC')
+      query.leftJoinAndSelect('p.tags', 'pt')
+      query.orderBy('p.createAt', 'DESC')
       query.addOrderBy('p.id', 'DESC')
       return query
     })

@@ -10,7 +10,11 @@ export namespace Post {
     title: string
     excerpt: string
     thumbnail: string[]
+    likes: number
+    favorites: number
+    commentCount: number
     tags: Tag.Item[]
+    views: number
     categories: Category.Item[]
     showHeader: boolean
     switchComment: boolean
