@@ -10,7 +10,7 @@
         <el-button type="primary" :icon="CirclePlus" @click="editPost">新增文章</el-button>
       </div>
 
-      <PostItem />
+      <PostItem v-for="post in postData" :key="post.id" :post="post" />
 
       <div class="page-footer" style="display: flex; justify-content: flex-end; margin-top: 12px">
         <el-pagination
