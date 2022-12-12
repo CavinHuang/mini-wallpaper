@@ -53,35 +53,78 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="是否显示顶部图片">
-          <el-switch v-model="form.showHeader" />
+          <el-switch
+            :active-icon="Check"
+            :inactive-icon="Close"
+            v-model="form.showHeader"
+            :active-value="1"
+            :inactive-value="0"
+            inline-prompt
+          />
         </el-form-item>
         <el-form-item label="评论开关">
-          <el-switch v-model="form.switchComment" />
+          <el-switch
+            :active-icon="Check"
+            :inactive-icon="Close"
+            v-model="form.switchComment"
+            :active-value="1"
+            inline-prompt
+            :inactive-value="0"
+          />
         </el-form-item>
         <el-form-item label="访问积分" prop="require_score">
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-switch v-model="form.switchScore" />
+              <el-switch
+                :active-icon="Check"
+                :inactive-icon="Close"
+                v-model="form.switchScore"
+                :active-value="1"
+                inline-prompt
+                :inactive-value="0"
+              />
             </el-col>
             <el-col :span="18"> <el-input v-if="form.switchScore" v-model="form.requireScore" /></el-col>
           </el-row>
         </el-form-item>
         <el-form-item label="访问密码" prop="password">
           <el-row :gutter="20">
-            <el-col :span="6"> <el-switch v-model="form.switchPassword" /></el-col>
+            <el-col :span="6">
+              <el-switch
+                :active-icon="Check"
+                :inactive-icon="Close"
+                v-model="form.switchPassword"
+                :active-value="1"
+                inline-prompt
+                :inactive-value="0"
+            /></el-col>
             <el-col :span="18"> <el-input v-if="form.switchPassword" v-model="form.password" /></el-col>
           </el-row>
         </el-form-item>
         <el-form-item label="跳转链接" prop="direct_link">
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-switch v-model="form.directLinkSwitch" />
+              <el-switch
+                :active-icon="Check"
+                :inactive-icon="Close"
+                v-model="form.directLinkSwitch"
+                :active-value="1"
+                inline-prompt
+                :inactive-value="0"
+              />
             </el-col>
             <el-col :span="18"> <el-input v-if="form.directLinkSwitch" v-model="form.directLink" /></el-col>
           </el-row>
         </el-form-item>
         <el-form-item label="需要激励广告">
-          <el-switch v-model="form.switchJili" />
+          <el-switch
+            :active-icon="Check"
+            :inactive-icon="Close"
+            v-model="form.switchJili"
+            :active-value="1"
+            inline-prompt
+            :inactive-value="0"
+          />
         </el-form-item>
         <el-form-item label="热点标识">
           <el-row :gutter="20">
@@ -95,9 +138,14 @@
 
 <script lang="ts" setup name="PostFooter">
 import { onMounted, reactive, ref, watch } from 'vue'
-import { Category, CategoryApi, MiniProgram, MiniProgramApi, Tag, TagApi } from '@/api/modules'
+import { Category, CategoryApi, MiniProgram, MiniProgramApi, Post, Tag, TagApi } from '@/api/modules'
 import draggable from 'vuedraggable'
 import type { FormInstance, FormRules } from 'element-plus'
+import { Check, Close } from '@element-plus/icons-vue'
+
+const props = defineProps<{
+  post: Post.Item
+}>()
 
 const ruleFormRef = ref<FormInstance>()
 const form = reactive({
@@ -163,6 +211,18 @@ const dragOptions = reactive({
   disabled: false,
   ghostClass: 'ghost'
 })
+
+watch(
+  props.post,
+  (value) => {
+    console.log(value)
+    const tags = value.tags ? value.tags.map((item) => item.id) : []
+    const categories = value.categories ? value.categories.map((item) => item.id) : []
+    Object.assign(form, { ...value, tags, categories })
+    console.log(form)
+  },
+  { immediate: true, deep: true }
+)
 
 watch(
   thumbCount,

@@ -24,6 +24,16 @@ export class PostsController {
     return Response.success(listData)
   }
 
+  @Get('/:id')
+  public async getInfo(@Params('id') id: number) {
+    return Response.success(await this.postsService.getInfoByQueryBuilder<Posts>((query) => {
+      query.leftJoinAndSelect('p.categories', 'pc')
+      query.leftJoinAndSelect('p.tags', 'pt')
+      query.where('p.id=:id', { id })
+      return query
+    }, 'p'), '查询成功')
+  }
+
   @Post('')
   public async add(@Body() params: Partial<Posts>) {
     if (await this.postsService.savePost(params)) {

@@ -48,14 +48,13 @@ const handleCreated = (editor: any) => {
 }
 // 接收父组件参数，并设置默认值
 interface RichEditorProps {
-  value: string // 富文本值 ==> 必传
   toolbarConfig?: Partial<IToolbarConfig> // 工具栏配置 ==> 非必传（默认为空）
   editorConfig?: Partial<IEditorConfig> // 编辑器配置 ==> 非必传（默认为空）
   height?: string // 富文本高度 ==> 非必传（默认为 500px）
   mode?: 'default' | 'simple' // 富文本模式 ==> 非必传（默认为 default）
   hideToolBar?: boolean // 是否隐藏工具栏 ==> 非必传（默认为false）
   disabled?: boolean // 是否禁用编辑器 ==> 非必传（默认为false）
-  content: string
+  content: string // 富文本值 ==> 必传
   title: string
 }
 const props = withDefaults(defineProps<RichEditorProps>(), {
@@ -81,19 +80,19 @@ const props = withDefaults(defineProps<RichEditorProps>(), {
 if (props.disabled) nextTick(() => editorRef.value.disable())
 // 富文本的内容监听，触发父组件改变，实现双向数据绑定
 type EmitProps = {
-  (e: 'update:value', val: string): void
+  (e: 'update:content', val: string): void
   (e: 'check-validate'): void
   (e: 'update:title', title: string): void
 }
 const emit = defineEmits<EmitProps>()
 const valueHtml = computed({
   get() {
-    return props.value
+    return props.content
   },
   set(val: string) {
     // 防止富文本内容为空时，校验失败
     if (editorRef.value.isEmpty()) val = ''
-    emit('update:value', val)
+    emit('update:content', val)
   }
 })
 const editTitle = computed({

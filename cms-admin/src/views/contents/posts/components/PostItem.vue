@@ -89,7 +89,9 @@
             <span class="article-action-btn" data-urlkey="内容管理-内容加热-按钮PV/UV">查看</span>
           </div>
           <span class="drawer-button"><span>查看评论</span></span>
-          <span class="drawer-button"><span data-urlkey="内容管理-详细数据点击" class="article-action-btn">编辑</span></span>
+          <span class="drawer-button" @click="edit()">
+            <span data-urlkey="内容管理-详细数据点击" class="article-action-btn">编辑</span>
+          </span>
           <span class="drawer-button"><span data-urlkey="内容管理-详细数据点击" class="article-action-btn">删除</span></span>
         </div>
       </div>
@@ -99,10 +101,22 @@
 
 <script lang="ts" setup name="PostItem">
 import { Post } from '@/api/modules'
+import { useRouter } from 'vue-router'
 
-defineProps<{
+const props = defineProps<{
   post: Post.Item
 }>()
+
+const router = useRouter()
+
+const edit = () => {
+  router.push({
+    path: '/posts/edit',
+    query: {
+      id: props.post.id
+    }
+  })
+}
 </script>
 
 <style lang="scss" scoped>

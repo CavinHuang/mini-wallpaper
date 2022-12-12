@@ -27,7 +27,7 @@ function checkRouterPath(to: RouteLocationNormalized, routerList: string[]) {
 }
 
 // * 路由拦截 beforeEach
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   NProgress.start()
   // * 在跳转路由之前，清除所有的请求
   axiosCanceler.removeAllPending()
@@ -53,8 +53,8 @@ router.beforeEach((to, from, next) => {
   const routerList = dynamicRouter.concat(staticRouter)
 
   // * 如果访问的地址没有在路由表中重定向到403页面
-  console.log(routerList, to.path)
-  if (checkRouterPath(to, routerList)) return next()
+  console.log(routerList, to.path, to)
+  if (checkRouterPath(to, routerList)) return await next()
   next({
     path: '/403'
   })

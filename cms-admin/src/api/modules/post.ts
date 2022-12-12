@@ -19,7 +19,7 @@ export namespace Post {
     showHeader: boolean
     switchComment: boolean
     switchScore: boolean
-    requireScore: string
+    requireScore: number
     switchPassword: boolean
     password: string
     directLinkSwitch: boolean

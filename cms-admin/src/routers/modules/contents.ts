@@ -85,7 +85,7 @@ const homeRouter: Array<RouteRecordRaw> = [
     redirect: '/posts/list',
     children: [
       {
-        path: 'list',
+        path: '/posts/list',
         name: 'PostList',
         component: () => import('@/views/contents/posts/index.vue'),
         meta: {
@@ -96,7 +96,7 @@ const homeRouter: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: 'edit',
+        path: '/posts/edit',
         name: 'PostEdit',
         component: () => import('@/views/contents/posts/edit.vue'),
         meta: {

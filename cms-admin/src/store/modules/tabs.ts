@@ -26,7 +26,7 @@ export const TabsStore = defineStore({
         this.tabsMenuList.push(tabInfo)
       }
       this.setTabsMenuValue(tabItem.path)
-      router.push(tabItem.path)
+      router.push(tabItem)
     },
     // Remove Tabs
     async removeTabs(tabPath: string) {
@@ -38,7 +38,7 @@ export const TabsStore = defineStore({
           const nextTab = tabsMenuList[index + 1] || tabsMenuList[index - 1]
           if (!nextTab) return
           tabsMenuValue = nextTab.path
-          router.push(nextTab.path)
+          router.push(nextTab)
         })
       }
       this.tabsMenuValue = tabsMenuValue
@@ -47,7 +47,7 @@ export const TabsStore = defineStore({
     // Change Tabs
     async changeTabs(tabItem: TabPaneProps) {
       this.tabsMenuList.forEach((item) => {
-        if (item.title === tabItem.label) router.push(item.path)
+        if (item.title === tabItem.label) router.push(item)
       })
     },
     // Set TabsMenuValue
