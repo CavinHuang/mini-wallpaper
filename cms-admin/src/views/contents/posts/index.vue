@@ -10,7 +10,7 @@
         <el-button type="primary" :icon="CirclePlus" @click="editPost">新增文章</el-button>
       </div>
 
-      <PostItem v-for="post in postData" :key="post.id" :post="post" />
+      <PostItem v-for="post in postData" :key="post.id" :post="post" @delete-row="deleteRow" />
 
       <div class="page-footer" style="display: flex; justify-content: flex-end; margin-top: 12px">
         <el-pagination
@@ -35,6 +35,7 @@ import { computed, ComputedRef, ref, reactive, onActivated, onMounted } from 'vu
 import PostItem from './components/PostItem.vue'
 import { CirclePlus } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import { useHandleData } from '@/hooks/useHandleData'
 
 const router = useRouter()
 
@@ -153,8 +154,16 @@ const handleCurrentChange = (pageNo: number) => {
   pageInfo.value.pageNum = pageNo
   fetchPost()
 }
+// 删除用户信息
+const deleteRow = async (params: Post.Item) => {
+  await useHandleData(PostApi.remove, params.id, `删除【${params.title}】文章`)
+  await fetchPost()
+}
 onMounted(() => {
   fetchPost()
+})
+onActivated(() => {
+  console.log('onActivated')
 })
 </script>
 

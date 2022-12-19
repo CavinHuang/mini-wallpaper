@@ -92,7 +92,9 @@
           <span class="drawer-button" @click="edit()">
             <span data-urlkey="内容管理-详细数据点击" class="article-action-btn">编辑</span>
           </span>
-          <span class="drawer-button"><span data-urlkey="内容管理-详细数据点击" class="article-action-btn">删除</span></span>
+          <span class="drawer-button" @click="deleteRow">
+            <span data-urlkey="内容管理-详细数据点击" class="article-action-btn">删除</span>
+          </span>
         </div>
       </div>
     </div>
@@ -108,7 +110,9 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
-
+const emit = defineEmits<{
+  (event: 'deleteRow', row: Post.Item): void
+}>()
 const edit = () => {
   router.push({
     path: '/posts/edit',
@@ -116,6 +120,10 @@ const edit = () => {
       id: props.post.id
     }
   })
+}
+
+const deleteRow = () => {
+  emit('deleteRow', props.post)
 }
 </script>
 

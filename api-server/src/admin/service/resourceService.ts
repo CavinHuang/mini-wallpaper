@@ -4,6 +4,7 @@ import { BaseService } from "@/service/baseService";
 import { Repository } from 'typeorm';
 import { Tag } from "@/models/entity/tag";
 import { Category } from "@/models/entity/catgory";
+import { random } from "@/utils";
 
 @Service()
 export class ResourceService extends BaseService {
@@ -31,10 +32,13 @@ export class ResourceService extends BaseService {
       thumb_url = row.url
     }
 
-    const saveData = {
+    const saveData: Partial<Resource> = {
       ...row,
       url,
       thumb_url,
+      like_num: random(100, 3000),
+      download_num: random(60, 4000),
+      status: row.status ?? 2,
       tags: (row.tags as unknown as number[]).map((item: number) => this.tag.create({ id: item })),
       categories: [this.category.create({ id: row.categories as unknown as number })]
     }

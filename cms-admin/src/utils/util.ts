@@ -217,3 +217,44 @@ export function filterEnum(callValue: any, enumData: any, searchProps?: { [key: 
   if (type == 'tag') return filterData?.tagType ? filterData.tagType : ''
   return filterData ? filterData[label] : '--'
 }
+
+/**
+ * 生成uuid
+ * @returns
+ */
+export function uuid() {
+  let s: any[] = []
+  let hexDigits = '0123456789abcdef'
+  for (let i = 0; i < 36; i++) {
+    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+  }
+  s[14] = '4' // bits 12-15 of the time_hi_and_version field to 0010
+  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1) // bits 6-7 of the clock_seq_hi_and_reserved to 01
+  s[8] = s[13] = s[18] = s[23] = '-'
+
+  let uuid = s.join('')
+  return uuid
+}
+
+/**
+ * 从html中找出所有的img
+ * @param htmlStr
+ * @returns
+ */
+export function findAllImg(htmlStr: string) {
+  // 获取所有匹配的img元素
+  // 这里只关心拿到<img>的整个标签，所以用非贪婪模式找到最近的关闭标签 >
+  const imgStrs = htmlStr.match(/<img.*?>/g)
+
+  // 获取每个img url
+  if (imgStrs) {
+    let urls = imgStrs
+      .map((url) => {
+        const res = url.match(/\ssrc=['"](.*?)['"]/)
+        return res ? res[1] : null
+      })
+      .filter((item) => item)
+    return urls as string[]
+  }
+  return []
+}

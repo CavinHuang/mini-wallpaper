@@ -1,6 +1,6 @@
 <template>
   <div class="card edit-wrapper">
-    <WangEditor height="400px" v-model:content="content" v-model:title="postData.title" />
+    <WangEditor height="400px" v-model:content="content" v-model:title="title" />
     <PostSetting ref="postSetting" :post="postData" />
     <el-footer class="submit-bar">
       <div class="submit-bar-content flx-center">
@@ -78,6 +78,9 @@ const onSubmit = () => {
       await PostApi.add({ ...formData, title: title.value, content: content.value, id })
       ElMessage.success('文章添加成功')
     }
+    router.push({
+      path: '/posts/list'
+    })
   })
 }
 </script>

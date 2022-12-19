@@ -6,10 +6,12 @@ import { Inject } from "@/core/container";
 import { Body, Controller, Get, Header, Params, Post, Query, Req } from "@/core/decorator";
 import { Response } from "@/core/responce";
 import { Resource } from "@/models/entity/resource";
-import { LikeLogService } from '../../service/likeLogService';
+import { LikeLogService } from '@/service/likeLogService';
 import { ResourceOrderService } from '@/service/resourceOrderService';
-import { UserCollectionService } from '../../service/userCollectionService';
+import { UserCollectionService } from '@/service/userCollectionService';
 import { CatgoryService } from '@/admin/service/catgoryService';
+import { ResourceLikeLog } from '@/models/entity/resourceLikeLog';
+import { User } from '@/models/entity/user';
 
 @Controller('/content', { skipPerm: true })
 export class ContentController {
@@ -20,7 +22,7 @@ export class ContentController {
   @Inject()
   private tagService: TagService
 
-    @Inject()
+  @Inject()
   private categoryService: CatgoryService
 
   @Inject()
@@ -122,9 +124,7 @@ export class ContentController {
     const resource = await this.resourceService.getInfoByQueryBuilder<Resource>((query) => {
       query.leftJoinAndSelect('resource.likes','like')
       query.leftJoinAndSelect('like.user','user')
-      query.where({
-        id
-      })
+      query.where({ id })
       return query
     }, 'resource')
     let isLike = false

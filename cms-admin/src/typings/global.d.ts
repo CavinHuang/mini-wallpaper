@@ -1,7 +1,10 @@
+import { LocationQuery } from 'vue-router'
+
 // * Menu
 declare namespace Menu {
   interface MenuOptions {
     path: string
+    fullpath?: string
     title: string
     icon?: string
     isLink?: string
@@ -10,6 +13,7 @@ declare namespace Menu {
     meta?: {
       hidden?: boolean
     }
+    query?: LocationQuery
     children?: MenuOptions[]
   }
 }

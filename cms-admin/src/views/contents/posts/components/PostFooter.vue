@@ -10,7 +10,6 @@
           <draggable
             class="poster-container"
             v-model="thumnails"
-            tag="transition-group"
             :component-data="{
               tag: 'ul',
               type: 'transition-group',
@@ -22,8 +21,8 @@
             item-key="id"
           >
             <template #item="{ element }">
-              <li class="thumb-item">
-                <img :src="element" alt="" />
+              <li class="thumb-item" @click="selectPreviewImage(element)">
+                <el-image :src="element.src" fit="cover" alt="" />
               </li>
             </template>
           </draggable>
@@ -134,14 +133,28 @@
       </el-form>
     </div>
   </div>
+  <el-dialog v-model="previewImageVisible" title="选择封面图">
+    <div class="preview-image">
+      <el-image
+        class="image-item"
+        v-for="(image, index) in previewImage"
+        :key="'image' + index"
+        :src="image"
+        :class="{ active: selectedImages.includes(image) }"
+        @click="selectImage(index)"
+      ></el-image>
+    </div>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup name="PostFooter">
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch, computed } from 'vue'
 import { Category, CategoryApi, MiniProgram, MiniProgramApi, Post, Tag, TagApi } from '@/api/modules'
 import draggable from 'vuedraggable'
 import type { FormInstance, FormRules } from 'element-plus'
 import { Check, Close } from '@element-plus/icons-vue'
+import { findAllImg } from '@/utils/util'
+import { uuid } from '@/utils/util'
 
 const props = defineProps<{
   post: Post.Item
@@ -203,7 +216,7 @@ const rules = reactive<FormRules>({
 })
 const thumbCount = ref(1)
 const allThumbs = ref([])
-const thumnails = ref<string[]>([])
+const thumnails = ref<{ id: string; src: string }[]>([])
 const drag = ref(false)
 const dragOptions = reactive({
   animation: 200,
@@ -233,6 +246,39 @@ watch(
   },
   { immediate: true }
 )
+
+const previewImageVisible = ref(false)
+const previewImage = computed(() => {
+  const images = findAllImg(props.post.content)
+  return images
+})
+const selectPreviewImage = (image: string) => {
+  previewImageVisible.value = true
+}
+const selectedImages = ref<string[]>([])
+const selectImage = (index: number) => {
+  const img = previewImage.value[index]
+  if (thumbCount.value >= 1) {
+    for (let i = 0; i < thumnails.value.length; i++) {
+      const item = thumnails.value[i]
+      if (!item) {
+        thumnails.value[i] = {
+          id: uuid(),
+          src: img
+        }
+        break
+      } else {
+        thumnails.value[i] = {
+          id: uuid(),
+          src: img
+        }
+        break
+      }
+    }
+  }
+  selectedImages.value.push(img)
+  previewImageVisible.value = true
+}
 
 const miniPrograms = ref<MiniProgram.Item[]>([])
 async function getMiniProgram() {
@@ -303,6 +349,20 @@ defineExpose({
       cursor: pointer;
       display: inline-block;
       position: relative;
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.preview-image {
+  display: flex;
+  flex-wrap: wrap;
+  .image-item {
+    width: 300px;
+    border: 1px solid #dedede;
+    &.active {
+      border: 1px solid green;
     }
   }
 }

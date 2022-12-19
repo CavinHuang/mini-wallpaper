@@ -7,7 +7,7 @@
           :key="item.path"
           :path="item.path"
           :label="item.title"
-          :name="item.path"
+          :name="item.fullPath || item.path"
           :closable="item.close"
         >
           <template #label>
@@ -37,6 +37,7 @@ const tabsMenuValue = computed({
     return tabStore.tabsMenuValue
   },
   set: (val) => {
+    console.log('🚀 ~ file: index.vue:40 ~ val', val)
     tabStore.setTabsMenuValue(val)
   }
 })
@@ -51,6 +52,7 @@ watch(
       ...route,
       title: route.meta.title as string,
       path: route.path,
+      query: route.query,
       close: true
     }
     tabStore.addTabs(params)
@@ -62,6 +64,7 @@ watch(
 
 // Tab Click
 const tabClick = (tabItem: TabsPaneContext) => {
+  console.log('🚀 ~ file: index.vue:66 ~ tabClick ~ tabItem', tabItem)
   let path = tabItem.props.name as string
   router.push(path)
 }

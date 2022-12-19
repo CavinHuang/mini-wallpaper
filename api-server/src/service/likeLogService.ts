@@ -1,14 +1,14 @@
 import { Inject, Provide } from "@/core/container";
 import { BusinessError, BUSINESS_ERROR_CODE } from "@/core/error/businessError";
-import { LikeLog } from "@/models/entity/likeLog";
+import { ResourceLikeLog } from "@/models/entity/resourceLikeLog";
 import { Resource } from "@/models/entity/resource";
 import { BaseService } from "@/service/baseService";
 import { Repository } from 'typeorm';
 
 @Provide()
 export class LikeLogService extends BaseService {
-  @Inject('LikeLog')
-  public repository:Repository<LikeLog>
+  @Inject('ResourceLikeLog')
+  public repository:Repository<ResourceLikeLog>
 
   @Inject('Resource')
   public resource: Repository<Resource>

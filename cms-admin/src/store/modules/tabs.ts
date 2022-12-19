@@ -20,17 +20,20 @@ export const TabsStore = defineStore({
       const tabInfo: Menu.MenuOptions = {
         title: tabItem.title,
         path: tabItem.path,
-        close: tabItem.close
+        close: tabItem.close,
+        ...tabItem
       }
       if (this.tabsMenuList.every((item) => item.path !== tabItem.path)) {
         this.tabsMenuList.push(tabInfo)
       }
-      this.setTabsMenuValue(tabItem.path)
+      this.setTabsMenuValue(tabItem.fullPath)
       router.push(tabItem)
     },
     // Remove Tabs
     async removeTabs(tabPath: string) {
+      console.log('🚀 ~ file: tabs.ts:34 ~ removeTabs ~ tabPath', tabPath)
       let tabsMenuValue = this.tabsMenuValue
+      console.log('🚀 ~ file: tabs.ts:36 ~ removeTabs ~ tabsMenuValue', tabsMenuValue)
       const tabsMenuList = this.tabsMenuList
       if (tabsMenuValue === tabPath) {
         tabsMenuList.forEach((item, index) => {

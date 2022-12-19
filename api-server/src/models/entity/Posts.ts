@@ -2,7 +2,7 @@ import { Repo } from "@/core/decorator";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ArrayStringTransformer } from "../transformer/arrayString";
 import { Category } from "./catgory";
-import { LikeLog } from "./likeLog";
+import { PostsLikeLog } from "./postLikeLog";
 import { Tag } from "./tag";
 
 @Repo('Posts')
@@ -138,6 +138,8 @@ export class Posts {
 
   // @OneToMany(type => LikeLog, tag => tag.relation_id, { createForeignKeyConstraints: false })
   // likes: LikeLog[];
+  @OneToMany(type => PostsLikeLog, like => like.posts, { createForeignKeyConstraints: false })
+  likes: PostsLikeLog[];
 
   @ManyToMany(type => Category, cate => cate.posts)
   @JoinTable({

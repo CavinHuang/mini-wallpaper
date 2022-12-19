@@ -1,9 +1,9 @@
 import path from 'path' 
+import { DataSourceOptions } from 'typeorm'
 import { isDev } from "./path"
-const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env
+const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_TYPE } = process.env
 const REDIS_HOST = process.env.REDIS_HOST || '127.0.0.1 '
 const REDIS_PORT = process.env.REDIS_PORT || 6379
-import {  } from 'typeorm'
 
 console.log('DB_HOST', DB_HOST)
 console.log('DB_PORT', DB_PORT)
@@ -13,7 +13,7 @@ console.log('DB_PASSWORD', DB_PASSWORD)
 const fileExt = isDev ? 'ts' : 'js'
 
 export const database = {
-  type: 'mariadb', //'mysql',
+  type: DB_TYPE, // 'mysql',
   host: DB_HOST,
   port: Number(DB_PORT),
   username: DB_USERNAME,

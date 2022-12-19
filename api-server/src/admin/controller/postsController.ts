@@ -44,7 +44,7 @@ export class PostsController {
 
   @Put('/:id')
   public update(@Params('id') id: number, @Body() params: Partial<Posts>) {
-    if (this.postsService.update(id, params)) {
+    if (this.postsService.savePost({id, ...params})) {
       return Response.success(true, '更新成功')
     }
     return Response.error('更新失败，请重试')

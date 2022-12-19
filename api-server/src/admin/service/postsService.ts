@@ -22,15 +22,12 @@ export class PostsService extends BaseService {
       ...params,
       userId: params.userId ?? 0,
       coummentCount: 0
-    } // await this.repository.create(params)
+    }
     
     saveInstance.tags = (params.tags as unknown as number[]).map((item: number) => this.tag.create({ id: item }))
     saveInstance.categories = (params.categories as unknown as number[]).map(item => {
       return this.category.create({ id: item })
     })
-
-    console.log(saveInstance)
-
     return await this.repository.save(saveInstance)
   }
 }

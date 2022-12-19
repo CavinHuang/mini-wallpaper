@@ -6,9 +6,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, On
 import { Exclude } from 'class-transformer';
 import { UserProfile } from './userProfile';
 import { Repo } from '@/core/decorator';
-import { Resource } from './resource';
 import { UserCreator } from './userCreator';
-import { LikeLog } from './likeLog';
 
 @Repo('User')
 @Entity()

@@ -6,7 +6,7 @@ const fileExt = isDev ? 'ts' : 'js'
 
 export async function typeOrmInit(logInfo: any, callback?: any) {
   logInfo('开始初始化数据库')
-  return await createConnection(typeOrmConfig())
+  return await createConnection(typeOrmConfig() as any)
     .then((connection) => {
       // 这里可以写实体操作相关的代码
       callback && callback(connection)

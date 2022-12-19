@@ -7,7 +7,7 @@ import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, One
 import { Category } from './catgory'
 import { Tag } from './tag'
 import { ArrayStringTransformer } from '../transformer/arrayString';
-import { LikeLog } from './likeLog';
+import { ResourceLikeLog } from './resourceLikeLog';
 
 @Repo('Resource')
 @Entity()
@@ -126,8 +126,8 @@ export class Resource {
   })
   tags: Tag[];
 
-  @OneToMany(type => LikeLog, tag => tag.relation_id, { createForeignKeyConstraints: false })
-  likes: LikeLog[];
+  @OneToMany(type => ResourceLikeLog, like => like.resources, { createForeignKeyConstraints: false })
+  likes: ResourceLikeLog[];
 
   @ManyToMany(type => Category, cate => cate.resources, { createForeignKeyConstraints: false })
   @JoinTable({
