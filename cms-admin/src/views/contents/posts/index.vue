@@ -47,13 +47,13 @@ async function getMiniProgram() {
 
 const categorys = ref<Category.Item[]>([])
 async function getCategory() {
-  const res = await CategoryApi.page({ pageSize: 10000, pageNum: 1, type: 'resource' })
+  const res = await CategoryApi.page({ pageSize: 10000, pageNum: 1, type: 'post' })
   categorys.value = res.data?.rows || []
 }
 
 const tags = ref<Tag.Item[]>([])
 async function getTags() {
-  const res = await TagApi.page({ pageSize: 10000, pageNum: 1, type: 'resource' })
+  const res = await TagApi.page({ pageSize: 10000, pageNum: 1, type: 'post' })
   tags.value = res.data?.rows || []
 }
 
@@ -123,6 +123,7 @@ const changeSelectFilter = (val: any) => {
   ElMessage.success('请注意查看请求参数变化 🤔')
   val.userStatus = val.userStatus.join('')
   selectFilterValues.value = val
+  fetchPost()
 }
 
 const editPost = () => {
@@ -159,7 +160,10 @@ const deleteRow = async (params: Post.Item) => {
   await useHandleData(PostApi.remove, params.id, `删除【${params.title}】文章`)
   await fetchPost()
 }
-onMounted(() => {
+onMounted(async () => {
+  await getCategory()
+  await getMiniProgram()
+  await getTags()
   fetchPost()
 })
 onActivated(() => {

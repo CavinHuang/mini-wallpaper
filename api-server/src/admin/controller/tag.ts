@@ -20,8 +20,16 @@ export class TagController {
   protected systemGroupDataService: SystemGroupDataService
 
   @Get('')
-  public async list(@Query() { pageNum = 1, pageSize = 10 }: { pageSize: number, pageNum: number; }) {
-    const listData = await this.tagService.getPageList({ pageNum, pageSize })
+  public async list(@Query() { pageNum = 1, pageSize = 10, type }: { pageSize: number, pageNum: number; type?: string }) {
+    const listData = await this.tagService.getPageList({ pageNum, pageSize }, (query) => {
+
+      if (type) {
+        query.where({
+          type
+        })
+      }
+      return query
+    })
     return Response.success(listData)
   }
 

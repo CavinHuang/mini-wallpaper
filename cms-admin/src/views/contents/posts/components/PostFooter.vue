@@ -310,6 +310,7 @@ const validateForm = (): Promise<typeof form> => {
     ruleFormRef.value?.validate((valid) => {
       const cate = categorys.value.find((item) => item.id === form.categories[0].id)
       form.appid = cate ? cate.appid : ''
+      form.thumbnail = thumnails.value.map((item) => item.src)
       if (valid) resolve(form)
       else reject('表单提交失败')
     })

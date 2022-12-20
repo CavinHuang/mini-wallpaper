@@ -1,7 +1,7 @@
 <template>
   <div class="article-item">
     <a class="cover-image" href="javascript:void();" target="_blank" rel="noopener noreferrer" v-if="post.thumbnail.length">
-      <img :src="post.thumbnail[0]" alt="" />
+      <el-image :src="post.thumbnail[0]" alt="" />
       <div class="icon news"></div
     ></a>
     <div class="article-info">
